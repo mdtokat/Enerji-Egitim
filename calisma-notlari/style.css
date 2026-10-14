@@ -1,0 +1,32 @@
+@page { size: A4; margin: 16mm 14mm 16mm 14mm; }
+* { box-sizing: border-box; }
+body { font-family: "DejaVu Sans", "Liberation Sans", sans-serif; font-size: 9.6pt; line-height: 1.42; color: #1a1a1a; }
+h1 { font-size: 19pt; color: #fff; background: #1f4e79; padding: 10px 14px; margin: 0 0 12px; break-before: page; border-radius: 4px; }
+h2 { font-size: 13.5pt; color: #1f4e79; border-bottom: 2px solid #1f4e79; padding-bottom: 3px; margin: 18px 0 8px; break-after: avoid; }
+h2 .kaynak { font-size: 8pt; color: #777; font-weight: normal; float: right; margin-top: 6px; }
+h3 { font-size: 11pt; color: #2e75b6; margin: 12px 0 5px; break-after: avoid; }
+h4 { font-size: 10pt; color: #333; margin: 9px 0 4px; break-after: avoid; }
+p { margin: 4px 0 6px; }
+ul, ol { margin: 3px 0 7px; padding-left: 20px; }
+li { margin: 1.5px 0; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 8.6pt; break-inside: avoid; }
+th, td { border: 1px solid #9db3c8; padding: 3px 5px; vertical-align: top; text-align: left; }
+th { background: #dce8f4; }
+.formul { background: #f4f4f4; border-left: 4px solid #7f7f7f; padding: 6px 10px; margin: 6px 0 8px; font-family: "DejaVu Sans Mono", monospace; font-size: 9pt; break-inside: avoid; white-space: pre-wrap; }
+.mm { background: #fff8e1; border: 1px solid #f2c200; border-left: 5px solid #f2a900; padding: 6px 10px; margin: 7px 0 9px; break-inside: avoid; border-radius: 3px; }
+.mm::before { content: "Makine mühendisi gözüyle: "; font-weight: bold; color: #9a6b00; }
+.onemli { background: #fdecea; border-left: 5px solid #c0392b; padding: 6px 10px; margin: 7px 0 9px; break-inside: avoid; border-radius: 3px; }
+.onemli::before { content: "Sınav için akılda tut: "; font-weight: bold; color: #c0392b; }
+.ornek { background: #eaf5ea; border-left: 5px solid #2e8b57; padding: 6px 10px; margin: 7px 0 9px; break-inside: avoid; border-radius: 3px; }
+.ornek::before { content: "Notlardaki örnek: "; font-weight: bold; color: #2e7d32; }
+.kapak { text-align: center; padding-top: 70mm; break-after: page; }
+.kapak h1 { break-before: auto; background: none; color: #1f4e79; font-size: 28pt; }
+.kapak .alt { font-size: 13pt; color: #444; }
+.icindekiler { columns: 2; column-gap: 16px; font-size: 8.8pt; }
+.icindekiler .b1 { font-weight: bold; color: #1f4e79; margin-top: 6px; break-after: avoid; }
+.icindekiler .b2 { padding-left: 12px; }
+.toc-baslik { font-size: 16pt; color: #1f4e79; margin: 0 0 8px; }
+.icindekiler li { margin: 3px 0; }
+.iki { columns: 2; column-gap: 18px; }
+.k { font-size: 8pt; color: #666; }
+b, strong { color: #000; }
