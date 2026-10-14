@@ -1,0 +1,35 @@
+<h2>3.4 Pompa Teknolojisi ve Pompalarda Enerji Verimliliği <span class="kaynak">1_25.pdf</span></h2>
+<p class="k">Mekanik bir konu olduğu için kısa tutuldu; sınavda çıkabilecek sayılar ve formüller eksiksiz.</p>
+<ul>
+<li><b>Pompa:</b> aldığı mekanik enerjiyi sıkıştırılamayan akışkana hidrolik enerji olarak veren makine.</li>
+<li>Pompalar dünya elektrik tüketiminin <b>%20</b>'si; iyi tasarım ve uygun pompa ile <b>%30</b> azalma mümkün.</li>
+<li>Yaygın uygulama: ileride ihtiyaç olur diye <b>debi %25, basma yüksekliği %10</b> artırılarak sipariş → pompa en iyi verim noktasından uzakta çalışır, vana kısılır, verimsizlik.</li>
+<li><b>Ömür boyu maliyet:</b> satın alma ≈ <b>%3</b> (%3,6), bakım %6,6, <b>enerji ≈ %90</b> (%89,8).</li>
+<li><b>Enerji akışı (elektrik %100):</b> motor kaybı %12, bağlantı elemanı %2, pompa kaybı %24, vana vb. %9, borular %11 → <b>faydalı enerji %42</b>.</li>
+<li><b>Hacimsel (pozitif yer değiştirmeli):</b> hacmin daraltılmasıyla basınç; dişli, diyaframlı, peristaltik, paletli, pistonlu, lob tipi.</li>
+<li><b>Santrifüj:</b> gövde + kanatlı çark; sıvı merkezden eksenel girer, merkezkaç kuvvetle spiral gövdeye fırlatılır; kanatlar dönme yönüne ters kıvrık. Basıncı düşük; çark çapı basınçla doğru orantılı → yüksek basınç için <b>çok kademeli</b> pompalar (sabit debi, yüksek basınç). Ana parçalar: çark (kinetik enerjiyi aktarır), gövde (kinetik enerjiyi basma yüksekliğine çevirir), mil, salmastra (sızdırmazlık). Çark tipleri: yandan kanallı, radyal, 3D radyal, karışık akışlı (yarı eksenel), eksenel.</li>
+<li><b>Islak rotorlu:</b> tüm dönen elemanlar akışkan içinde; akışkan yatakları yağlar ve soğutur; sessiz; sızdırmazlık rotor kılıfıyla, sızdırmazlık elemanı yok, bakım gerektirmez. <b>Kuru rotorlu:</b> akışkan-motor teması yok; kaplin veya yekpare mil; rulmanlar dışarıdan yağlanır; fanla soğutma; salmastra (yumuşak/mekanik) gerekir; devre bağlı sesli; bakım gerektirir.</li>
+<li><b>Sistem eğrisi:</b> H = H<sub>statik</sub> + H<sub>dinamik</sub>; statik kısım debiden bağımsız (kot farkı veya basınçlı tanka basılıyorsa basınç farkı); dinamik kısım sürtünme kayıpları, <b>debinin karesiyle</b> değişir. Pompa eğrisi ile sistem eğrisinin kesişimi = çalışma noktası. Basma yüksekliği tesisat dirençlerini karşılamalı.</li>
+</ul>
+<div class="formul">H = ( hd − hs + Vd²/2 − Vs²/2 + hm ) / g          V = Q / (π D²/4)
+Lt (teorik güç) = (Q/60) × (H/60) × λ / 102   [kW]   (Q: m³/h, H: m, λ: yoğunluk kg/m³)
+η = Lt / L × 100 (%)      (L: ölçülen güç)
+Birimler: 10 m = 1 kg/cm² = 0,098 MPa = 98 kPa;  0,1 MPa = 100 kPa = 10,2 m;  1 atü = 0,1013 MPa = 101,3 kPa;  λ(10 °C) = 999,6 kg/m³</div>
+<div class="ornek">Q = 30 m³/h, Pd = 289 kPa, Ps = −8 kPa, hm = 0, emiş Ø80 mm, çıkış Ø50 mm, L = 4,98 kW.<br>
+Vs = 1,66 m/s; Vd = 4,25 m/s; H = (289 − (−8) + (4,25²/2 − 1,66²/2) + 0) / 9,8 = <b>31,09 m</b>; Lt = (30/60)(31,09/60)(999,6/102) = <b>2,53 kW</b>; η = 2,53/4,98 = <b>%50,87</b>.</div>
+<h3>Değişken debi yöntemleri</h3>
+<p>Kesintili çalıştırma; depo seviye kontrollü çalıştırma; paralel pompalar (çalışan pompa sayısını değiştirme); çıkış vanasını kısma (sistem eğrisini değiştirme); by-pass hattı (akışkanın bir kısmını depoya geri basma); <b>frekans invertörü / değişken hız sürücüsü (VSD)</b>.</p>
+<ul>
+<li>VSD ile devir değiştirerek “1 pompadan çok sayıda pompa” elde edilir; verim genelde değişmez ama santrifüjde <b>nominal debinin %60 altına</b> inilirse çarktaki akış düzeni bozulur, titreşim artar, verim düşer.</li>
+<li>Vana kısma: debi %50'ye indirildiğinde çalışma noktası pompa eğrisi üzerinde sola kayar, basma yüksekliği artar (H1 → H2), güç düşüşü sınırlı. VSD ile aynı debi düşüşünde basma yüksekliği de düşer → aradaki fark “enerji tasarrufu bölgesi”.</li>
+</ul>
+<div class="formul">Benzeşim (afinite) kanunları:  Q1/Q2 = n1/n2 = f1/f2;   H1/H2 = (n1/n2)²;   P1/P2 = (n1/n2)³</div>
+<h3>Santrifüj pompalarda enerji tasarrufu</h3>
+<ul>
+<li>Debi ve basma yüksekliğinde emniyet payları büyük tutulmamalı; şartnamelerde gereksiz sınırlamalarla en verimli pompanın seçimi engellenmemeli.</li>
+<li>Değişken kapasitede pompa sayısı artırılıp <b>paralel çalışma</b>; yüksek devirli pompalar genelde daha verimli.</li>
+<li>Değişken devirli pompa özellikle <b>statik basma yüksekliği küçük</b> sistemlerde tasarruf sağlar.</li>
+<li>Küçük de olsa ilk alımda verim dikkate alınmalı; büyük seçilmiş pompaların düşük kapasitede çalışmasından kaçınılmalı; geniş aralıkta çalışacak pompanın maksimum verim bölgesi geniş olmalı.</li>
+<li>Eskiyen pompaların iç yüzey kaplaması ve revizyonu verimde <b>%1–2</b> artış.</li>
+<li>Sistem maksimum kapasiteye göre seçilmeli ama zamanın çoğunda hangi kapasitede çalışacağı bilinmeli; boru çapı buna göre (maksimumda kısa süre çalışacaksa büyük çapa gerek yok).</li>
+</ul>

@@ -1,0 +1,61 @@
+<h2>2.3 Ölçü Aletleri ve Ölçüm Teknikleri <span class="kaynak">1_9.pdf</span></h2>
+<ul>
+<li>Enerji taramasının en önemli kısmı: tesisin tamamı ve/veya ünitelerindeki ekipman için doğru <b>enerji ve malzeme denkliklerinin (balanslarının)</b> hazırlanması; bunlar olmadan tasarruf potansiyelinin kantitatif analizi hemen hemen olanaksız.</li>
+<li>Çoğu tesiste gerekli sabit ölçüm cihazı yok veya doğrulukları bilinmiyor → <b>portatif ölçüm cihazları</b> taramanın en önemli kısmı; sabit cihazların doğruluğu da bunlarla kontrol edilir.</li>
+<li><b>En sık yapılan ölçümler:</b> sıcaklıklar (ortam, akışkanlar, yüzeyler); gaz/sıvı/katı debileri veya akış hızları; basınçlar (ocak içi vakum/çekiş dahil); baca gazı sıcaklığı ve bileşimi (O₂, CO…); bağıl nem (kurutucu giriş-çıkış havası); elektrik (gerilim, akım, güç, güç faktörü); aydınlatma şiddeti; devir sayısı/çizgisel hız; iletkenlik.</li>
+</ul>
+<h3>Sıcaklık</h3>
+<table>
+<tr><th>Cihaz</th><th>Notlardaki bilgi</th></tr>
+<tr><td>Alkollü cam termometre</td><td>Düşük sıcaklıklar</td></tr>
+<tr><td>Cıvalı cam termometre</td><td><b>300 °C'ye kadar</b></td></tr>
+<tr><td>Azot dolu mekanik termometre</td><td>Sıcaklık ↑ → azot basıncı ↑ → körük/yay genleşir → mekanik gösterge; gösterge ve hazne ayrı (uzaktan okuma) tipleri var</td></tr>
+<tr><td>Elektronik termometre + termokapl</td><td><b>1100 °C'ye kadar</b>; kayıt imkânı. Termokapl: ölçüm noktası – bağlantı terminali – bağlantı (kompanzasyon) kabloları – referans noktası/ölçüm cihazı. Parçalar: kapak, bağlantı terminali, terminal koruyucu, eleman ve izolatör, koruyucu kılıf</td></tr>
+<tr><td><b>Platin rezistans (PRT)</b></td><td><b>−200 ile +850 °C</b>, çok iyi doğruluk; termokapldan farklı olarak <b>özel kablo gerekmez</b>; direnç ölçümüne dayanır. <b>PT100: 0 °C'de 100 Ω, 100 °C'de 138,4 Ω</b></td></tr>
+<tr><td><b>İnfrared pirometre</b></td><td>Hareketli (çimento döner fırını) veya yaklaşılamayan yerler; filtreyle ergimiş cam/bakır; <b>3000 °C'ye kadar</b> olanlar var ama hassasiyet için ≈ <b>600 °C'ye kadar</b> kullanmak daha uygun</td></tr>
+</table>
+<ul>
+<li>Akışkan sıcaklığı genellikle boruya açılan bir <b>cep (termowell)</b> içine hazne sokularak ölçülür (hazne cebin dibine kadar inmeli).</li>
+<li>Hat üzerindeki termometre doğru mu? Kontrol örneği: <b>5 bar (gösterge) doymuş buhar ≈ 159 °C</b> olmalı.</li>
+<li>Termokapl tipleri (JIS C 1602): <b>B</b> %70Pt-%30Rh / %94Pt-%6Rh; <b>R</b> %87Pt-%13Rh / %100Pt; <b>S</b> %90Pt-%10Rh / %100Pt; <b>K</b> Chromel (%90Ni-%10Cr) / Alumel (%95Ni-%2Mn-%2Al); <b>E</b> Chromel / Constantan (%55Cu-%45Ni); <b>J</b> %99,5 demir / Constantan; <b>T</b> %100 bakır / Constantan; <b>N</b> Nicrosil / Nisil. Termokapl doğruluğu ≈ %0,1 (tam skala); dolgulu sistemler %0,5–2; direnç (nikel %0,25, platin %0,15); radyasyon (optik %1–2).</li>
+<li><b>Duvar U değeri:</b> özel cihazla duvar ortalama sıcaklığı, iç ve dış ortam sıcaklıkları ölçülerek hesaplanır (ısı akısı sensörü + iç/dış sıcaklık sensörleri + veri kaydedici; ISO uygunluğu için asgari ölçüm süresi 72 saat).</li>
+</ul>
+<h3>Debi / akış hızı</h3>
+<ul>
+<li><b>Katı:</b> yürüyen bant / bant kantarı; yoksa belli sürede taşınan madde kapta toplanıp tartılır ve zamana oranlanır; bant çalışma süresi kaydedilirse toplam miktar hesaplanır.</li>
+<li><b>Sıvı – sabit:</b> sıvı sayaçları (pervanenin dönme hızı), <b>rotametre</b> (dikey cam boruda şamandıra; ağırlık = kaldırma kuvveti olduğu noktada sabitlenir, hız skaladan okunur), <b>orifis</b> (plakanın iki yanındaki basınç farkı). <b>Portatif:</b> <b>ultrasonik akışölçer</b> — kapalı hatlarda temiz sıvılar; hat tamamen dolu ve akışkan temiz (taneciksiz) olmalı; kirli sıvılar için benzer prensipli (Doppler) cihazlar var.</li>
+<li>Ultrasonik montaj düz boru mesafeleri: 90° dirsek: memba ≥ 10D, mansap ≥ 5D; T: memba ≥ 50D, mansap ≥ 10D; vana: memba ≥ 30D, mansap ≥ 10D; pompa: ≥ 50D.</li>
+<li><b>Gaz – düşük basınçlı</b> (sıcak hava, baca gazı, yanma havası; kazan/fırın/kurutucu denklikleri için): <b>pitot tüpü + portatif basınç ölçer</b>, <b>sıcak telli anemometre</b> (kanal içine sokulur), <b>pervaneli anemometre</b> (fan emiş ağzı veya baca/egzoz çıkış ağzına tutulur; davlumbazlı tipleri var).</li>
+<li><b>Gaz – yüksek basınçlı:</b> sabit debimetreler; buhar ve gazda standart <b>orifis plakası</b>, daha pahalı seçenek <b>Gilflo metre</b>.</li>
+</ul>
+<div class="formul">Pitot tüpü:  Pt = Ps + Pv   →   Pv = Pt − Ps   (manometre toplam ile statik basınç farkını = hız basıncını gösterir)
+Ölçüm noktaları: daire kesitli bacalarda eşit alanlı halkaların merkezleri (0,316R; 0,548R; 0,707R; 0,837R; 0,949R);
+dikdörtgen kesitlerde 16–64 adet eşit alanın orta noktaları</div>
+<div class="mm">Pv = ½ρV² → V = √(2·Pv/ρ). Kesitte birden çok noktada ölçüp ortalama hız × kesit alanı = debi. Bu tam olarak akışkanlar mekaniğindeki Bernoulli uygulaması; tek fark sahada baca gazı yoğunluğunu sıcaklığa göre düzeltmeniz gerekmesi.</div>
+<h3>Basınç</h3>
+<p>Hava kanallarında portatif manometre; yüksek basınçlarda emniyet için sabit cihazlar — yaygın olarak <b>Bourdon tüplü manometre</b>. Dijital basınç sensörleri de kullanılır.</p>
+<h3>Bağıl nem</h3>
+<ul>
+<li>Higrometre/nem ölçerler; en bilinen: <b>kuru ve yaş termometreli sallamalı nem ölçer (sling psychrometer)</b>.</li>
+<li><b>Kuru termometre sıcaklığı:</b> standart termometreyle ölçülen hava sıcaklığı. <b>Yaş termometre sıcaklığı:</b> haznesine ıslak bez/fitil sarılı termometre; buharlaşmanın soğutma etkisi nedeniyle daha düşük okur; iki sıcaklık farkı nem miktarıyla ilişkili → psikrometrik diyagram (10–120 °C).</li>
+<li>Elektronik nem ölçerler: sıcaklık + bağıl nem birlikte; dezavantaj: hassas prob, tozdan etkilenme, zaman zaman kalibrasyon.</li>
+<li>Tekstil ram (gerdirmeli kurutucu) bacası gibi yerlerde: sallamalı nem ölçere benzer şekilde <b>elektronik termometre + iki uzun termokapl</b> (biri ıslatılmış) ile ölçülür.</li>
+</ul>
+<h3>Elektriksel ölçümler</h3>
+<p>Pano gösterge/sayaçları fabrika genelini ya da birden çok ekipmanı gösterir; tek makine veya çok parametre için portatif cihazlar: <b>pens ampermetre, enerji analizörü, harmonik analizörü</b> (3 faz akım pensleri + gerilim krokodilleri).</p>
+<h3>Baca gazı analizi</h3>
+<ul>
+<li>Yanmanın tam olup olmadığı, eksik/fazla hava ve kayıpları hesaplamak için. <b>Yanma verimi için baca gazında O₂, CO ve sıcaklık</b> ölçülmeli; yakma sistemi yorumu için <b>is/kurum yoğunluğu</b>.</li>
+<li><b>Sıvı çözeltili kimyasal analiz:</b> <b>Orsat</b> ve <b>Fyrite</b> cihazları — O₂ <b>pirogallol</b>, CO₂ <b>potasyum hidroksit</b> çözeltisinde emilir, hacim azalmasından % bulunur.</li>
+<li><b>Elektronik analizörler:</b> portatif, <b>elektrokimyasal hücreler</b> ile analiz; kimyasal yöntemlerin yerini büyük ölçüde almıştır.</li>
+<li><b>İs/kurum yoğunluğu ölçüm seti:</b> emiş pompası, delik tapaları, kurum karşılaştırma cetveli, delik delme aparatı, filtre kâğıtları, metal prob, kitapçık, kauçuk hortum.</li>
+</ul>
+<h3>Diğer ölçümler</h3>
+<ul>
+<li><b>Aydınlık seviyesi (lüksmetre):</b> yeterli aydınlatma ve aşırı aydınlatmanın azaltılması için ölçülüp standart tablolarla karşılaştırılır.</li>
+<li><b>Devir sayısı (takometre, temaslı/optik):</b> motor, bant, pompa, aspiratör, baca gazı fanı gereğinden yüksek devirde mi?</li>
+<li><b>İletkenlik:</b> kazan suyu iletkenliği → <b>blöf miktarı</b>, blöf gerekliliği ve zamanı. Aralarında <b>1 cm</b> olan iki platin elektrot arası direnç ölçülür: <b>µS = 10⁶ / direnç (Ω)</b>; 1 cm'den farklı problarda prob üzerinde yazan düzeltme katsayısı kullanılır. Otomatik blöf: iletkenlik sensörü + blöf vanası kontrolörü (+ blöf ısı geri kazanımı).</li>
+<li><b>Ses seviyesi (desibelmetre):</b> gürültü kirliliği; ayrıca tüm makineler dururken <b>basınçlı hava kaçaklarının</b> yerini belirlemede.</li>
+<li><b>Termal kamera:</b> ısı kaçakları, yalıtım, dönen makine yatakları; elektrik panoları ve kablolarda aşırı yük nedeniyle ısınma, gevşek bağlantı.</li>
+<li><b>Hava kaçağı yer belirleme:</b> ultrasonik kaçak dedektörleri.</li>
+</ul>

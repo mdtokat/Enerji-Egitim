@@ -1,0 +1,42 @@
+<h2>4.8 Kojenerasyon (Bileşik Isı Güç) Sistemleri <span class="kaynak">1_15.pdf</span></h2>
+<ul>
+<li><b>Kojenerasyon:</b> doğal gaz, kömür, biyogaz, yenilenebilir vb. bir yakıttan <b>elektrik ve ısının (buhar, sıcak su) birlikte</b> üretilmesi.</li>
+<li><b>Tipler:</b> buhar türbinli; gaz türbinli; içten yanmalı motorlu; kombine çevrimli (gaz + buhar türbinli); Organik Rankine Çevrimli; yakıt hücreli; <b>mikro kojenerasyon (&lt; 100 kWe)</b>.</li>
+<li><b>Neden?</b> elektrik ve ısının aynı tesiste üretimi; daha yüksek dönüşüm verimiyle enerji tasarrufu; tüketim yerinde üretimle <b>iletim ve dağıtım kayıplarının azalması</b>; üretimde esneklik; CO₂ emisyonu verimle orantılı düşer; santral ve iletim altyapısı dikkate alınınca <b>ilk yatırım daha düşük</b>.</li>
+<li>Uygulama haritası: <b>gaz motoru</b> küçük ölçek ve mahal ısıtma; <b>gaz türbini</b> büyük ölçek ve proses ısısı. Gaz/buhar türbininde sıcak gaz/buhar kanatları döndürür; gaz motorunda yanan yakıt pistonları hareket ettirir.</li>
+</ul>
+<div class="ornek"><b>Birincil enerji kazancı:</b> kojenerasyon (elektrik verimi %35, ısıl verim %50) 100 birim yakıtla 35 elektrik + 50 ısı üretir. Ayrı üretimde: 35 elektrik için %43 verimli santrale <b>81</b>, 50 ısı için %95 verimli kazana <b>53</b> → toplam <b>134</b>. Kazanç = (134 − 100)/134 = <b>%25</b>.</div>
+<div class="mm">Kojenerasyonun özü: bir ısı makinesi (motor/türbin) yakıtın ≈ %35–40'ını işe çevirir; geri kalan “atık ısı”yı (baca gazı, ceket suyu, yağ, intercooler) çöpe atmak yerine prosese/ısıtmaya verir. Toplam verim ≈ %80–90'a çıkar. Motor tarafını zaten biliyorsunuz; sınav açısından kritik olan verim hesabı, birincil enerji kazancı ve mevzuattaki verim belgesi kriterleri.</div>
+<h3>Isı nereden geliyor? (gaz motoru)</h3>
+<ol><li><b>Baca gazı</b></li><li><b>HT devresi:</b> ceket suyu soğutma, yağlama soğutma, turboşarj aftercooler 1. kademe</li><li><b>LT devresi:</b> turboşarj aftercooler 2. kademe</li></ol>
+<p>Soğutma devreleri: jacket water (+ air charger), lube oil + air charger, radyatör devresi. Isı değiştirici (eşanjör): plakalı ve borulu.</p>
+<div class="formul">Q = ṁ × cp × Δt      (Δt = t2 − t1)</div>
+<div class="ornek"><b>Baca gazından:</b> Q = 4.524 kg/h × 1,09 kJ/kgK × (443 − 150) / 3600 = <b>401 kW</b> (baca gazı: hacimce CO₂ %8, O₂ %10, N₂ %77, H₂O %5; 443 °C'de cp 1,1288, 150 °C'de 1,0514 → ortalama 1,0901 kJ/kgK).<br>
+<b>Soğutma suyundan:</b> Q = 39 m³/h × 1,03 (yoğunluk; ≈1.025 kg/m³) × 3,75 kJ/kgK × (90 − 78) / 3600 = <b>500 kW</b> (%35 etilen glikol).<br>
+<b>Verim:</b> ısı 500 + 401 = 901 kW; elektrik 454 kW; toplam 1.355 kW; giriş 1.500 kW → <b>η = 1.355/1.500 = %90</b>.<br>
+<b>Ekonomi</b> (doğal gaz 1,6 TL/Sm³ – BOTAŞ Kasım 2019; elektrik 0,68 TL/kWh – tek terimli OG, Ekim 2019; 4.000 h/yıl):<br>
+Harcanan gaz = 1.500 kW × 4.000 h × 860 / 8.250 = <b>625.455 m³</b> → 1.000.728 TL.<br>
+Üretilen ısının gaz karşılığı = 901 × 4.000 × 860 / (8.250 × 0,9) = <b>417.432 m³</b> → 667.891 TL (fark 208.023 m³ = 332.837 TL).<br>
+Elektrik = 454 × 4.000 = 1.816.000 kWh × 0,68 = <b>1.234.880 TL</b>. Gelir toplamı 1.902.771 TL − gider 1.000.728 TL = <b>kâr 902.043 TL</b>.</div>
+<h3>Diğer teknolojiler</h3>
+<ul>
+<li><b>Organik Rankine Çevrimi (ORC):</b> atık ısıdan elektrik + ısı; 1 düşük basınç sıvı → (pompa) 2 yüksek basınç sıvı → (evaporatör) 3 yüksek basınçlı buhar → (genleşme makinesi + jeneratör) 4 düşük basınçlı buhar → (kondenser) 1.</li>
+<li><b>Küçük ölçeğe doğru:</b> sanayi, sera, hastane, otel, ofis, apartman/site, bir ev.</li>
+<li><b>Yakıt pilli mikro kojenerasyon:</b> anotta H₂, katotta O₂, elektrolit, su ve ısı çıkışı. ene.field projesi (sistem verimi %95'e, elektrik verimi %60'a kadar). Örnek 1: elektrik <b>0,7 kW</b>, ısıl güç yoğuşma ünitesiyle <b>25 kW</b>'a kadar; ev enerji giderlerini <b>%20–40</b>, CO₂'yi geleneksele göre <b>%50</b> azaltabilir. Örnek 2: elektrik <b>3 kW</b>, ısıl <b>30 kW</b>.</li>
+<li><b>Trijenerasyon:</b> elektrik + ısı + soğutma. Motor atık ısısıyla buhar (8 barg doymuş) üretilip <b>absorpsiyonlu chiller</b> ile 7 °C soğuk su; merkezi ısı eşanjörü, yağlama yağı eşanjörü, soğutma kulesi.</li>
+<li><b>Absorpsiyonlu soğutucu:</b> ısıyı kullanarak soğutma üreten ekipman; kojenerasyon atık ısısıyla sıcak su/buhar → soğuk su; kışın ısıtma, yazın atık ısının atmosfere atılmasını önleme. Bileşenler: generatör, kondenser, genleşme valfi, evaporatör, absorber. <b>LiBr çevrimi: absorbent LiBr, soğutucu H₂O</b>; <b>NH₃ çevrimi: absorbent H₂O, soğutucu NH₃</b>. <b>COP ≈ 0,7</b>.</li>
+<li><b>Absorpsiyonlu avantajları:</b> az hareketli parça → az arıza, az bakım; düşük gürültü; düşük enerji maliyeti (elektrikli gruba göre çok daha az elektrik); kompresör ve gaz yok → gaz kaçağı yok, çevre kirletme etkisi “0”.</li>
+<li>Trijenerasyon uygulama alanları: hastaneler, AVM'ler, oteller, kampüsler, toplu konut alanları.</li>
+</ul>
+<h3>Mevzuat – lisanssız üretim ve verim belgesi</h3>
+<ul>
+<li><b>02.10.2013, RG 28783</b> Lisanssız Elektrik Üretimi Yönetmeliği: Bakanlıkça belirlenen verim kriterlerini sağlayan kojenerasyon tesisleri <b>şirket kurma ve lisans muafiyetinden</b> yararlanabilir.</li>
+<li><b>18.09.2014, RG 29123</b> Kojenerasyon ve Mikrokojenerasyon Tesislerinin Verimliliğinin Hesaplanmasına İlişkin Usul ve Esaslar Tebliği → kriterler; <b>Yenilenebilir Enerji Genel Müdürlüğü</b> verim belgesi düzenler.</li>
+<li>Süreç: YEGM'den <b>verim belgesi</b> → bölgesel dağıtım şirketinden <b>çağrı mektubu</b> (başvurudan sonra 20 gün) → bağlantı anlaşması (90 gün) → <b>TEDAŞ proje onayı</b> → tesisin <b>2 yıl</b> içinde kurulması → TEDAŞ geçici kabul → sistem kullanım anlaşması. Dağıtım şirketi belgeleri: Ek-1 başvuru formu, tapu/kira belgesi, tek hat şeması, kojenerasyon için toplam verimlilik belgesi, başvuru ücreti dekontu.</li>
+<li>Bakanlığın görevleri: verimlilik belgelerinin düzenlenmesi; atık ısıdan elektrik üreten tesislerin “yüksek verimli kojenerasyon” kapsamına girip girmediğinin değerlendirilmesi.</li>
+</ul>
+<div class="onemli"><b>İçten yanmalı motorlu sistemler için verim belgesi kriterleri:</b> 1) Elektrik enerjisi / üretilen ısı enerjisi oranı <b>≤ 1,5</b>; 2) Verim <b>η ≥ 0,75</b>; 3) Birincil enerji kaynağında <b>en az %10</b> tasarruf.</div>
+<ul>
+<li><b>Uygulamada sıkıntılar:</b> yetersiz fizibilite; ekonomik dalgalanmalar (doğal gaz, döviz kuru); kamu açısından ihale yasası, kontrollük hizmetleri. Fizibilitede <b>bakım maliyeti ve yağ değişimi</b> unutulmamalı.</li>
+<li><b>Kötü uygulamalar:</b> gaz hattının gensete girişte yüksek kotta çalışma alanını engellemesi; genset panosunun alternatöre en yakın noktada olması (havalandırmayı engeller, pano ısınır); gürültü önleyici önlem olmaması; her gensetin gaz tüketimini ayrı ölçen sistem bulunmaması.</li>
+</ul>

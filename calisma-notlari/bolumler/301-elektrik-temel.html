@@ -1,0 +1,25 @@
+<h2>3.1 Elektrik Enerjisinde Temel Kavramlar <span class="kaynak">1_6.pdf</span></h2>
+<ul>
+<li><b>Elektrik akımı:</b> elektron akışı; bir noktadan birim zamanda geçen yük miktarı: <b>I = Q / t</b>. 1 saniyede 1 Coulomb geçerse akım 1 Amper. (Örnek: 5 s'de 2 C → I = 0,4 A.)</li>
+<li><b>İletken:</b> valans yörüngesinde <b>4'ten az</b> elektron. <b>Yalıtkan:</b> <b>8 ve daha fazla</b> (cam, kauçuk, pamuk, yağ, hava). <b>Yarı iletken:</b> <b>4</b> elektron (silisyum, germanyum).</li>
+<li>Akım çeşitleri: <b>doğru akım</b> (düzgün DC, değişken DC) ve <b>alternatif akım</b>.</li>
+<li><b>Doğru akım (DC, Direct Current):</b> zamanla yönü ve şiddeti değişmeyen akım. Kaynaklar: <b>pil</b> (kimyasal → elektrik), <b>akümülatör</b> (kimyasal yolla), <b>dinamo</b> (hareket → elektrik), <b>doğrultmaç</b> (AC → DC), <b>güneş pili</b>. Kullanım: haberleşme, radyo/TV gibi elektronik cihazlar, redresörlü kaynak makineleri, elektroliz ve maden kaplama, elektrikli taşıtlar (tren, tramvay, metro), elektromıknatıslar, DC motorlar.</li>
+<li><b>Alternatif akım (AA/AC):</b> zamana bağlı olarak yönü ve şiddeti değişen akım (santral, jeneratör, rüzgâr türbini, güneş paneli + inverter). Tanımlar: anlık değer, periyot (T), tepeden tepeye değer (Ep-p), maksimum değer (Em).</li>
+<li><b>Etkin (efektif) değer:</b> maksimum değer alınsa büyük hata olur (periyotta sadece 2 kez anlık ulaşılır), ortalama değer sıfırdır. Bir dirençte aynı sürede aynı ısıyı üreten DC değerine eşittir: <b>I<sub>etkin</sub> = I<sub>m</sub>/√2 = 0,707 I<sub>m</sub></b> (örn. tepe 170 V ≈ 120 V etkin).</li>
+<li><b>AC'nin DC'ye üstünlükleri:</b> üretimi daha kolay ve ekonomik; AC jeneratörlerinin verimi daha yüksek; <b>transformatörle yükseltilip düşürülebilir</b> → uzak mesafeye daha az kayıpla iletim; asenkron motorlar daha basit yapılı, arıza olasılığı daha az.</li>
+<li><b>Elektromanyetizma:</b> iletkenden akım geçirilerek elde edilen manyetik alan (diğer yol doğal mıknatıs).</li>
+<li><b>Gerilim:</b> yüklerin ayrılmasıyla iki nokta arasında oluşan potansiyel farkı; akımı oluşturan güç; mutlaka <b>iki nokta arasında</b> tanımlanır. <b>1 V = 1 J/C</b>. Benzetmeler: gerilim ~ basınç, akım ~ su akışı, sünger ~ direnç; ya da gerilim ~ yerçekimi, akım ~ bilyenin hızı, viskozite ~ direnç.</li>
+<li><b>Enerji:</b> iş yapabilme yeteneği; <b>W = P·t</b> (Ws veya J); Enerji (Wh) = Güç (W) × Zaman (h); kWh = W × h / 1000.<br><span class="k">Örnek: 60 W lamba 1 yıl sürekli → 60 × 24 × 365 / 1000 = <b>525,60 kWh</b>.</span></li>
+<li><b>Verim:</b> çıkış gücü / giriş gücü: η = P<sub>çıkış</sub> / (P<sub>çıkış</sub> + P<sub>kayıp</sub>) × 100. Seri bağlı sistemlerde <b>η<sub>T</sub> = η₁ × η₂ × … × η<sub>n</sub></b>.<br><span class="k">Örnek: motor %90, dişli kutusu %70 → η<sub>T</sub> = 0,63; giriş 1200 W ise pompaya giden güç = 756 W.</span></li>
+</ul>
+<h3>Güç</h3>
+<div class="formul">DC:  P = V · I
+AC (ortalama / aktif güç):  P = V · I · cos φ   [W]      cos φ = güç faktörü
+Reaktif güç:                Q = V · I · sin φ   [VAr]
+Görünür güç:                S = V · I           [VA]      S = √(P² + Q²)    (güç üçgeni: P = S cos θ, Q = S sin θ)</div>
+<ul>
+<li>Saf bobinli veya saf kondansatörlü devrede gücün ortalama değeri <b>sıfır</b> (kaynaktan net enerji çekmez); bunlarda V·I'ya <b>reaktif güç</b> denir.</li>
+<li>Aktif gücü <b>dirençler</b>, reaktif gücü <b>endüktif ve kapasitif reaktanslar</b> çeker; ikisi birlikteyse V·I = görünür güç (vektörel toplam).</li>
+</ul>
+<div class="ornek">Generatör 600 V, 120 kVA nominal. (a) Saf dirençli yük: P = 120 kW, Q = 0 → S = 120 kVA, I = 200 A — sorun yok. (b) Aynı 120 kW aktif yük + Q<sub>L</sub> = 160 kVAr → S = √(120² + 160²) = <b>200 kVA</b>, I = <b>333 A</b> → generatör aşırı yüklenip yanar (“Poof!”).</div>
+<div class="mm">Reaktif güç, motor ve trafoların manyetik alanını kurmak için şebeke ile yük arasında “gidip gelen” enerjidir — iş yapmaz ama hatlardan akım olarak geçer. Bir pompanın by-pass hattında dönen su gibi düşünün: pompa (generatör) onu da basmak zorunda, borular (kablolar) onu da taşıyor, ama faydalı iş yok. Bu yüzden cos φ düştükçe aynı kW için akım ve kayıplar artar; çözüm kompanzasyondur (3.3).</div>

@@ -1,0 +1,41 @@
+<h2>5.1 Soğutma Sistemleri, Atık Isı Geri Kazanımı, Isı Pompası <span class="kaynak">1_17.pdf</span></h2>
+<h3>Standart (buhar sıkıştırmalı) soğutma çevrimi</h3>
+<ul>
+<li>1 → 2 <b>kompresör</b>: düşük basınç-düşük sıcaklık buhar → basınç artışı, ısınma → yüksek basınç-yüksek sıcaklık buhar.</li>
+<li>2 → 3 <b>kondenser</b>: yoğuşma, dış ortama enerji verme → yüksek basınç sıvı.</li>
+<li>3 → 4 <b>genleşme (expansion) valfi</b>: basınç düşmesi → düşük basınç-düşük sıcaklık, az buhar + çok sıvı.</li>
+<li>4 → 1 <b>evaporatör</b>: buharlaşma, dış ortamdan (soğutulan yerden) enerji alma.</li>
+<li>Termostatik genleşme valfi: kapiler tüp, bulb (phial), diyafram, yay; evaporatör çıkışındaki <b>kızgınlık (superheat) sensörü</b> ile çalışır.</li>
+</ul>
+<table>
+<tr><th colspan="4">Soğutucu akışkan örneği: R22 (Freon 22) — çevreye duyarlı değil, yalnızca temel özellikleri göstermek için; günümüzde çevreye duyarlı akışkanlar kullanılır</th></tr>
+<tr><td>Formül</td><td>CHClF₂</td><td>Yoğuşma basıncı (30 °C)</td><td>12,2</td></tr>
+<tr><td>Molekül ağırlığı</td><td>86,5</td><td>Soğutma etkisi</td><td>38,8 kcal/kg</td></tr>
+<tr><td>Kaynama noktası</td><td>−40,8 °C</td><td>Özgül hacim</td><td>0,077 m³/kg</td></tr>
+<tr><td>Buharlaşma basıncı (15 °C)</td><td>3,02</td><td>COP</td><td>4,7</td></tr>
+</table>
+<div class="formul">Enerji dengesi:  Qc (ortama atılan ısı) = Qe (alınan ısı) + Pc (tüketilen güç)
+COP standart = Kazanç / Tüketim = Alınan ısı / Tüketilen güç = Qe / Pc
+COP Carnot   = Qe / Pc ≈ Te / (Tc − Te)        (mutlak sıcaklıklar)</div>
+<div class="mm">Carnot COP'sinden çıkan pratik ders: evaporasyon sıcaklığını (Te) yükseltmek ve kondenzasyon sıcaklığını (Tc) düşürmek COP'yi artırır. Örneğin Te = 0 °C (273 K), Tc = 40 °C (313 K) için teorik COP = 273/40 ≈ 6,8; Tc 35 °C'ye inerse 273/35 ≈ 7,8. Kondenserin temiz tutulması ve soğutma suyunun soğuk olması bu yüzden önemlidir.</div>
+<h3>Chiller sistemleri</h3>
+<ul>
+<li><b>Su soğutmalı kondenserli chiller:</b> kompresör, evaporatör, genleşme valfi, likit tankı, kondenser, <b>soğutma kulesi</b>, soğuk-sıcak su tankı, pompalar. Soğutma kulesi suyu <b>açık çevrim</b> (~35 °C → ~29,4 °C); soğutulmuş su <b>kapalı çevrim</b> (~10 °C dönüş → ~4,4 °C gidiş) hava hazırlama ünitesine. Zincir: hava fanı (binaya soğuk hava) → soğutulmuş su pompası → kompresör (ılık gaz/soğuk sıvı soğutucu) → kondenser pompası → soğutma kulesi fanı (buharlaşma, atmosfere sıcak hava).</li>
+<li><b>Hava soğutmalı kondenserli chiller:</b> kondenser fanla havayla soğutulur, soğutma kulesi yok.</li>
+<li><b>Absorpsiyonlu chiller:</b> soğutulmuş su üretmek için <b>termal enerji</b> kullanır; su yüksek özgül ısı ve buharlaşma gizli ısısıyla iyi bir soğutucudur. Su 1 atm'de (29,92 inHg) 100 °C'de kaynar; basınç azalınca kaynama sıcaklığı düşer → iç basınçlar <b>0,1 atm'den 0,01 atm'nin altına</b> kadar (kondenser bölümü 0,1 atm, evaporatör-absorber 0,01 atm). Bu sayede ~6,5 °C (44 °F) soğuk su üretilir.</li>
+<li><b>Tek kademeli dolaylı ısıtmalı absorpsiyonlu chiller – 5 bölüm:</b> 1) <b>kondenser</b> — soğutma suyu buharlaşmış soğutucudan (su) gizli ısıyı alıp yoğuşturur; 2) <b>genleşme borusu</b> — basınç ve sıcaklık düşer; 3) <b>evaporatör</b> — sıvı su chilled water boru demetine püskürtülür, düşük basınçta (sunumda “yaklaşık 38°” yazılı; ≈ 38 °F ≈ 3 °C) buharlaşıp soğuk sudan enerji alır; 4) <b>absorber</b> — LiBr çözeltisi buharı emer, soğutma suyu gizli ısıyı alır; seyreltik çözeltinin bir kısmı jeneratörden gelen derişik çözeltiyle karıştırılıp tekrar püskürtülür, bir kısmı ısı değiştiricide ısıtılıp jeneratöre pompalanır; 5) <b>jeneratör/konsantratör</b> — çözelti buhar veya sıcak suyla (atık enerji) ısıtılır, su buharlaşıp kondensere gider; derişen LiBr ısı değiştiriciden geçip absorbere döner.</li>
+<li>Absorpsiyon sistemi kompresör yerine <b>“termal kompresör”</b> (jeneratör + absorber + pompa + ısı değiştirici) kullanır; LiBr kaynamadığı için su ısı eklenerek kolayca ayrılır. Pompalar: evaporatör spray, absorber spray, jeneratör, <b>purge (porç)</b> pompası.</li>
+<li><b>Free cooling:</b> soğuk havalarda kompresör yerine kuru hava soğutucu (dry air freecooler) + plakalı eşanjör ile soğutma. Tablo: dış hava 10–12 °C → kompresör saatlerinde <b>%10</b> azalma (95 saat/yıl tasarruf); 8–10 °C → <b>%25</b> (275 h); 8 °C altı → <b>%100</b> (2015 h). Klimada <b>ekonomizer</b>: ilkbahar/sonbaharda dış havayla mahal soğutma; enerji tasarrufu + kompresörü düşük ortam sıcaklığında çalışmaktan korur (damperler, sensörler, aktüatörler, mantık kontrolörü).</li>
+</ul>
+<h3>Atık ısı geri kazanım sistemleri</h3>
+<ul>
+<li><b>Reküperatif sistemler</b> (ısı sürekli bir yüzeyden geçer): <b>plakalı eşanjörler</b>; <b>gövde-borulu</b> (düz borulu tek/çift geçiş, U-borulu; tube sheet, baffle, shell, tube bundle); <b>kanatlı borulu</b> ekonomizer/hava ısıtıcılar.</li>
+<li><b>Rejeneratif sistemler</b> (ısı bir dolguda depolanıp devredilir): <b>döner tip ısı tekerleği</b> (sıcak baca gazı – ısıtılacak hava); <b>rejeneratif yakma sistemi</b> — iki rejeneratör, yaklaşık <b>20 saniye</b> aralıkla değişen yakma/egzoz (egzoz 150 °C, giren hava 16 °C); <b>ısı borusu (heat pipe)</b> — sıcak uçta buharlaşma, adyabatik bölümde buhar akışı, soğuk uçta yoğuşma, fitilimsi yapıyla sıvı dönüşü; ısı borulu ısı değiştirici (egzoz sıcak hava girişi – soğuk taze hava girişi).</li>
+</ul>
+<h3>Isı pompası</h3>
+<ul>
+<li>Bileşenler: içerideki ve dışarıdaki ısı değiştiriciler, <b>durum değiştirici (4 yollu) vana</b>, kompresör, birinci/ikinci genleşme vanaları, baypas vanaları. Soğutma modunda içeride evaporatör (soğuk hava), dışarıda kondenser; ısıtma modunda tersi.</li>
+<li><b>Toprak kaynaklı ısı pompası:</b> toprağa yerleştirilmiş borularla topraktan suya ısı transferi → sudan gaza (evaporatör) → kompresör (+ kazandan gaza takviye ısı) → gazdan havaya (kondenser). Toprak sıcaklığı derinlikle mevsimden bağımsızlaşır (≈ 15–20 m'de ≈ 10 °C sabit); yatay serpantin veya düşey sondaj.</li>
+<li>Örnek tuzlu su döngülü sistem: toprak tuzlu suyu +2/−1 °C; evaporatör 5,5 bar, 0 °C / −4 °C; kompresör çıkışı 17 bar, 36 °C; kondenser 32 °C; ısıtma döngüsü 35/27 °C; genleşme vanası sonrası 5,5 bar, −4 °C. Isı kaynakları: toprak, hava, su.</li>
+<li><b>VRF/VRV</b> (değişken soğutucu debili) sistemler: aynı anda farklı iç ünitelerde ısıtma veya soğutma yapılabilir; esnek kullanım → tasarruf. Hatlar: <b>sıvı hattı</b> (orta sıcaklık-orta basınç sıvı), <b>deşarj hattı</b> (yüksek sıcaklık-yüksek basınç gaz), <b>emiş hattı</b> (düşük sıcaklık-düşük basınç gaz).</li>
+</ul>

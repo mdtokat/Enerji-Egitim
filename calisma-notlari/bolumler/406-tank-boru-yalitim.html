@@ -1,0 +1,44 @@
+<h2>4.6 Tank ve Borularda Isı Yalıtımı <span class="kaynak">1_21.pdf</span></h2>
+<h3>Kurallar</h3>
+<ul>
+<li><b>Genel:</b> <b>60 °C üzerindeki yüzeylerin tamamı</b>, <b>50 °C üzerindekilerin çoğu</b> elle dokunulabilir yüzey sıcaklığını sağlayacak şekilde yalıtılmalı (vana, flanş, boru tutucu ve destekler dahil).</li>
+<li><b>Teknik:</b> kullanım yerine uygun malzeme; yalıtımsız yüzey bırakılmamalı; çok katlıda malzemeler tam oturmalı; yalıtımlı tutucu-destek; uygulama denetlenmeli; yalıtım öncesi/sonrası kayıplar, tasarruf ve yatırım hesaplanmalı.</li>
+<li><b>Malzemeler:</b> <b>organik</b> (selülozlu: mantar, keten, keçe), <b>inorganik</b> (cam yünü, kaya yünü, vermikülit, perlit, seramik, fiber), <b>sentetik</b> (polistiren, poliüretan, poliizosiyanat, kauçuk).</li>
+<li><b>Seçim kriterleri:</b> işletme sıcaklıklarına dayanım; fiziksel mukavemet (taşıma, depolama, uygulama); basma mukavemeti; mekanik mukavemet (genleşme-büzülme, titreşim); zararlı emisyon yaymama; yanma direnci; korozif ve kimyasal etkilere dayanım; kalınlık ve ağırlık; <b>yüksek ısıl direnç R (m²K/W) / düşük λ (W/mK)</b>; <b>ısıl direnç başına en düşük maliyet</b>; kolay ve ucuz işçilik.</li>
+<li><b>Uygulamada dikkat:</b> işletme sıcaklığı, ortam şartları, zarar görme riski, işletme şekli (sürekli-kesintili), sıcaklık farkı, hava hareketleri ve gaz hızları.</li>
+<li><b>Tesis yalıtımı:</b> kazan, tank, baca ve kanal, fırın yalıtımları.</li>
+</ul>
+<h3>Düzlem yüzey (tank) hesapları</h3>
+<div class="formul">Yalıtım öncesi:  Q = (Uc + Ur) × A × (Ty − To)
+   Uc = B × (ty − to)^0,25      B: dik yüzey 1,45; yatay yüzey üstü 1,70; yatay yüzey altı 0,85; yatay silindir 1,20
+   Ur = 5,67 × ε × [ (Ty/100)⁴ − (To/100)⁴ ] / (Ty − To)
+   (eşdeğeri: Qc = B × A × (ty − to)^1,25;   Qr = 5,67 × ε × A × [ (Ty/100)⁴ − (To/100)⁴ ])
+Yalıtım sonrası:  Q = A × (Ty − To) / R
+   Tek kat: R = Ri + Rs;   çok kat: R = R1 + R2 + … + Rn + Rs;   R = L / λ   (Rs: yüzey direnci = 1/αd)
+   → Q = A (Ty − To) / ( L/λ + 1/αd )</div>
+<div class="ornek"><b>Tank:</b> yüzey 92 °C, ortam 35 °C, A = 15,27 m², ε = 0,8; yalıtım λ = 0,053 W/mK (60–90 kg/m³), L = 40 mm, αd = 20 W/m²K.<br>
+Uc = 1,20 × (92 − 35)^0,25 = 3,2972; Ur = 5,67 × 0,8 × [(3,65)⁴ − (3,08)⁴] / 57 = 6,9629 W/m²K.<br>
+Q<sub>kayıp</sub> = (3,2972 + 6,963) × 15,27 × 57 = <b>8.930,35 W</b>. Q<sub>yalıtımlı</sub> = 15,27 × 57 / (0,04/0,053 + 1/20) = <b>1.081,61 W</b>.<br>
+Tasarruf = <b>7.848,74 W</b> → <b>%88</b>.</div>
+<h3>Boru sistemleri</h3>
+<ul>
+<li>Vana ve flanşlar dahil eksiksiz yalıtılmalı. <b>Yalıtımsız flanşlı vana ≈ 2,5 m</b>, <b>yalıtımsız flanş ≈ 0,5 m</b> aynı çap ve sıcaklıkta yalıtımsız boruya eşdeğer kayıp (sıcaklık ve çapa göre değişebilir ama genel olarak alınır).</li>
+<li>Yalıtımlı tutucu-destek; <b>65 mm'den kalın</b> uygulamalarda <b>çok katlı</b> yalıtım; ek yerleri üst üste gelmemeli; genleşme boşluğu; dış kaplama ortama uygun; kritik şartlarda tüm olumsuz etkilerle kalınlık; dış ortamda <b>rüzgâr</b> ve mevsimsel/gece sıcaklık düşüşleri dikkate alınmalı.</li>
+</ul>
+<div class="formul">Yalıtım öncesi (W/m):  Q = (Uc + Ur) × π × d1 × (Ty − To)
+   Uc = 1,15 × ((Ty − To)/d1)^0,25;     Ur = 5,67×10⁻⁸ × ε × (Ty² + To²)(Ty + To) = 5,67 ε [(Ty/100)⁴ − (To/100)⁴]/(Ty − To)
+Yalıtım sonrası (W/m):  Q = π (Ty − To) / [ ln(d2/d1)/(2λ) + 1/(uso × d2) ]
+   uso (W/m²K), hava hızı 0 / 0,5 / 1 / 2 m/s:  parlak metal (parlatılmış Al) 5,7/6,5/8,0/9,5;
+   mat metal (galvaniz, işlenmiş çelik, Al boyalı) 8,0/9,0/11,0/13,0;  diğer tüm yüzeyler 10/11/13/15</div>
+<div class="ornek"><b>Boru:</b> yüzey 165,8 °C, ortam 20,2 °C, d1 = 26,9 mm, ε = 0,95; yalıtım λ = 0,05, 25 mm → d2 = 76,9 mm; uso = 5,7; L = 28,2 m.<br>
+Uc = 1,15 × (145,6/0,0269)^0,25 = 9,864; Ur = 10,981 W/m²K; Q<sub>kayıp</sub> = (9,864 + 10,981) × π × 0,0269 × 145,6 = <b>256,49 W/m</b>.<br>
+Q<sub>yalıtımlı</sub> = π × 145,6 / [ln(0,0769/0,0269)/(2×0,05) + 1/(5,7×0,0769)] = <b>35,78 W/m</b>. Tasarruf <b>220,72 W/m → %86</b>.</div>
+<h3>Ekonomik yalıtım kalınlığı</h3>
+<div class="formul">Isının maliyeti           = Yakıt maliyeti / Yakıt alt ısıl değeri
+Yararlı ısının maliyeti   = Isının maliyeti / Sistem verimi
+Maliyet faktörü           = Yararlı ısının maliyeti × Yıllık çalışma süresi
+Kayıp ısının maliyeti     = Maliyet faktörü × Isı kaybı   (borularda W/m, düzlemde W/m²)
+Tablo: 1 malzeme | 2 kalınlık | 3 ısı kaybı | 4 maliyet faktörü | 5 kayıp ısı maliyeti (3×4) | 6 yatırım maliyeti | 7 toplam (5+6)</div>
+<div class="ornek">Doğal gaz 1,20 TL/Sm³, 8.250 kcal/Sm³ → ısının maliyeti 0,000145455 TL/kcal; verim %95 → 0,00015311 TL/kcal → ×860/1000 = 0,000131675 TL/W(h); 8.760 h/yıl → <b>maliyet faktörü 1,153</b>.<br>
+Taş yünü, yukarıdaki boru: 25 mm: kayıp 35,78 W/m → 41,25 TL/m + yatırım 6,20 = 47,45; 30 mm: 33,28 → 38,37 + 7,40 = 45,77; 40 mm: 29,63 → 34,16 + 10,60 = 44,76; <b>50 mm: 27,07 → 31,22 + 12,60 = 43,82 (minimum)</b>; 60 mm: 25,17 → 29,03 + 16,60 = 45,63. → <b>Ekonomik kalınlık 50 mm</b> (toplam maliyet eğrisinin minimumu).</div>
+<div class="mm">Klasik optimizasyon: kalınlık arttıkça işletme (kayıp ısı) maliyeti azalır, yatırım maliyeti artar; toplamın minimumu ekonomik kalınlıktır — boru çapı seçimindeki “pompalama maliyeti + boru maliyeti” optimizasyonunun aynısı.</div>

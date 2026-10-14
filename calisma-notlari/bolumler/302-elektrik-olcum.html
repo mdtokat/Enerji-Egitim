@@ -1,0 +1,50 @@
+<h2>3.2 Elektrik Enerjisinin Ölçümü ve İzlenmesi <span class="kaynak">1_7.pdf</span></h2>
+<ul>
+<li><b>Ölçme:</b> bir niceliği kendi cinsinden seçilmiş birimle karşılaştırıp kaç birim olduğunu belirleme; uygun ekipman gerekir.</li>
+<li><b>Kalibrasyon:</b> ölçüm cihazı ile referans standart arasındaki <b>farkın belirlenmesi</b>; farkı azaltmak için cihaza ayar yapılır.</li>
+<li>Bina/tesislerde elektriksel ölçümler: gerilim, akım, güç faktörü, aydınlatma şiddeti, dönen cisimlerin devir sayısı.</li>
+</ul>
+<table>
+<tr><th>Cihaz</th><th>Bağlantı</th><th>İç direnç / önemli noktalar</th></tr>
+<tr><td><b>Voltmetre</b></td><td><b>Paralel</b> (faz-nötr, faz-faz)</td><td>İç direnci <b>yüksek</b> olmalı (devreden akım çekip gerilimi düşürmemeli). Yanlışlıkla seri bağlanırsa gerilimin çoğu voltmetrede düşer, alıcı çalışmaz. Seçim: AC/DC'ye uygun; ölçme sınırı ölçülecek değerden <b>büyük</b>; uygun hassasiyet (10 mV, kV voltmetresiyle ölçülmez); enerji altında sabit voltmetre bağlantısı yapılmaz, taşınabilir problu cihazlarla önlem alınarak ölçülür.</td></tr>
+<tr><td><b>Ampermetre</b> (sembol: daire içinde A)</td><td><b>Seri</b></td><td>İç direnci <b>çok küçük (0–1 Ω)</b>; yanlışlıkla paralel bağlanırsa büyük akım geçer, kısa sürede bozulur. Dijital, analog, <b>pens</b> tipleri; mA'dan kA'ya. Seçim: AC/DC uygun, ölçme sınırı büyük, uygun hassasiyet (µA, A ampermetresiyle ölçülmez), akımın tamamı üzerinden geçecek şekilde seri.</td></tr>
+<tr><td><b>Avometre</b></td><td>Ölçülen büyüklüğe göre</td><td>Akım, gerilim, direnç (dijitallerde kapasite, endüktans, frekans, sıcaklık, transistör uçları). Analoglar döner bobinli. Direnç ölçmeden önce <b>sıfır ayarı</b>. Kademe: ölçülecek değere en yakın ama küçük olmayan; değer bilinmiyorsa <b>en büyük kademe</b>. DC'de ibre ters saparsa uçlar ters çevrilir.</td></tr>
+<tr><td><b>Frekansmetre</b></td><td>Paralel</td><td>1 saniyedeki saykıl sayısı.</td></tr>
+<tr><td><b>Cosfimetre</b></td><td>Akım bobini <b>seri</b>, gerilim bobini <b>paralel</b></td><td>Güç katsayısını ölçer; bağlantı şeması aletin arkasında/katalogda.</td></tr>
+<tr><td><b>Takometre (turmetre)</b></td><td>—</td><td>En yaygın <b>elektro-optik</b>: ışık huzmesi gönderilir, dönen cisim üzerindeki noktadan periyodik yansıma alınır; frekans–gerilim çevirici ile devir. Dijital temaslı: mil motor miline değdirilir, her turda sinyal sayılır.</td></tr>
+<tr><td><b>Güç analizörü</b></td><td>Sabit (pano) veya portatif</td><td>—</td></tr>
+<tr><td><b>Lüksmetre</b></td><td>—</td><td>Aydınlık seviyesi; yeterli düzey / aşırı aydınlatmanın azaltılması; tablolarla karşılaştırma.</td></tr>
+<tr><td><b>Desibelmetre</b></td><td>—</td><td>Gürültü; basınçlı hava kaçaklarının tespiti.</td></tr>
+</table>
+<div class="mm">Voltmetre manometre gibi iki nokta arasındaki “basınç farkını” okur; hattan akış çekmemesi için yan bağlantıdır (paralel) ve iç direnci yüksektir. Ampermetre ise debimetre gibi akışın tamamı içinden geçmelidir (seri) ve akışa direnç oluşturmamalıdır (iç direnci çok düşük). Pens ampermetre, boruyu kesmeden dışarıdan bağlanan ultrasonik debimetre gibidir.</div>
+
+<h2>3.3 Elektrik Enerjisinde Verimlilik; Talep Tarafı Yönetimi <span class="kaynak">1_8.pdf</span></h2>
+<ul>
+<li>Ölçmek ve izlemek verimliliğin esası; gerilim dalgalanmaları, tüketim, güç faktörü, frekans ve akım değişimleri izlenmesi zorunlu değerler.</li>
+<li><b>Kayıp:</b> iletim/dağıtım hatları boyunca trafo ve kabloların iç dirençleri nedeniyle oluşan kayıplar. <b>Kaçak:</b> kuruluşun haberi olmadan sayaçsız alınan elektrik. İzleme sistemleriyle ikisi de asgariye çekilebilir.</li>
+<li>Hedef: kalite ve güvenilirlikten fedakârlık etmeden üretimden nihai kullanıma verimlilik artışı, maliyet ve kayıpların azaltılması. Birincil enerjiden binalara kadar zincirde (dönüştürme, iletim, hat kayıpları, üretim prosesleri, motor ve sürücüler, binalar) toplam <b>≈ %80 “kayıp”</b>.</li>
+<li><b>Üretimde verimlilik:</b> güvenilir arzın öncelikli koşulu kaynak çeşitlendirmesi ve <b>yerli kaynaklar</b>; çevreye duyarlı, yüksek verimli teknolojiler. HES, rüzgâr, güneş, jeotermal ve yüksek verimli <b>kojenerasyon</b> mevzuatla desteklenir.</li>
+<li><b>Kojenerasyon</b> tüketim bölgesinin yanına kurulduğu için iletim ve dağıtım hat kaybı olmaz; sanayide <b>otoprodüktörlük</b> modeliyle yaygınlaştı.</li>
+</ul>
+<table>
+<tr><th>Hat</th><th>Adlandırma</th><th>Gerilim</th><th>Kayıp</th></tr>
+<tr><td rowspan="2">İletim</td><td>Çok Yüksek Gerilim (ÇYG)</td><td>380.000 V; 220.000 V</td><td rowspan="2"><b>≈ %2,8</b> (coğrafyaya göre kabul edilebilir; günümüz teknolojileri kullanılıyor)</td></tr>
+<tr><td>Yüksek Gerilim (YG)</td><td>154.000 V; 66.000 V</td></tr>
+<tr><td rowspan="2">Dağıtım</td><td>Orta Gerilim (OG)</td><td>33.000 V; 12.000 V</td><td rowspan="2">Kayıp+kaçak Türkiye'de <b>≈ %15</b> (Avrupa %7–8); yarısı teknik kayıp, yarısı kaçak</td></tr>
+<tr><td>Alçak Gerilim (AG)</td><td>380/230 V</td></tr>
+</table>
+<ul>
+<li>Kayıpların azaltılması: verimlilik artışı, doğru planlama, projelendirme, işletme.</li>
+<li><b>İletimde:</b> santrallerin bölgesel yük-üretim dengesine uygun planlanması, iletim yatırımlarının zamanında devreye alınması, uygun <b>kompanzasyon</b> yatırımlarının zamanında yapılması.</li>
+<li><b>Dağıtımda:</b> iyi işletme, enerji devamlılığı, gerilim düşümlerinin azaltılması, yük akışlarının izlenmesi, <b>ring şebekelerinin</b> artırılması.</li>
+<li><b>SCADA</b> (Supervisory Control and Data Acquisition): elektrik, yakıt, buhar, su tüketimleri ile güç faktörü ve enerji kalitesinin bilgisayarla takip, raporlama, iyileştirme ve kontrolü için merkezi sistem; dağıtım otomasyonu, yük yönetimi, arıza ihbar, iş yönetimi içerir. Kullanım: elektrik dağıtım, su toplama-arıtma-dağıtım, hava kirliliği kontrolü, bina otomasyonu, proses tesisleri. Raporlar: günlük yük eğrisi, gerilim/akım değişimi, cos φ değişimi, aylık/yıllık trend, kurulu güç–gerçek tüketim, bölümlere dağılım.</li>
+<li><b>Elektrik sayaçları:</b> enerjiyi Wh (pratikte kWh, MWh) olarak ölçer. Analog sayaçta zaman ayrımı yok; akıllı (elektronik) sayaçta tüketim <b>sabah, akşam, gece</b> olarak üçe ayrılır.</li>
+</ul>
+<h3>Tarife analizi</h3>
+<table>
+<tr><th>Tarife</th><th>Esası</th></tr>
+<tr><td><b>Tek terimli</b></td><td>Yalnızca tüketilen kWh üzerinden bedel; abone grubuna göre farklı fiyat (mesken, sanayi, ticarethane, resmi daire, şantiye, tarımsal sulama). Sanayide genelde <b>tek vardiya (günde 8 saat)</b> çalışanlar seçer.</td></tr>
+<tr><td><b>Çift terimli</b></td><td>Hem kWh hem <b>sözleşme gücü (kW)</b> üzerinden bedel; büyük güç çekenlerin gücünün bilinmesi ve hazır tutulması; güç bedeline karşılık aktif enerjide <b>indirim</b>.</td></tr>
+<tr><td><b>Puant (çok zamanlı)</b></td><td><b>06:00–17:00 normal (gündüz)</b>; <b>17:00–22:00 yüksek (puant)</b>; <b>22:00–06:00 düşük (gece)</b>. Saatler Türkiye günlük yük eğrisine göre; akşam aydınlatma + sanayi yükü üst üste gelir, en pahalı santraller devreye girer. Fazla enerji harcayan cihazlar 22:00'den sonra çalıştırılmalı.</td></tr>
+</table>
+<div class="onemli">Puant 17–22 (en pahalı), gece 22–06 (en ucuz), gündüz 06–17. İletim kaybı ≈ %2,8; dağıtım kayıp+kaçak ≈ %15 (AB %7–8).</div>
