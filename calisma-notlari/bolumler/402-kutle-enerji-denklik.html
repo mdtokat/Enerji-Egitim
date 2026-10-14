@@ -1,0 +1,91 @@
+<h2>4.2 Kütle ve Enerji Denklikleri (Yanma) <span class="kaynak">1_11.pdf</span></h2>
+<h3>Yanma</h3>
+<ul>
+<li>Yakıttaki C ve H'nin havadaki O₂ ile tepkimesi sonucu CO₂, su buharı ve ısı açığa çıkması: C + O₂ → CO₂ + enerji; 2H₂ + O₂ → 2H₂O + enerji.</li>
+<li>Özellikleri: kimyasal olay (yeni maddeler oluşur); <b>ekzotermik</b>; hızlı; tam yanmada CO₂ ve H₂O, eksik yanmada CO, is, yanmamış HC; bağlar kopar/oluşur; <b>kütle korunur</b>; oksijen gerektirir (oksitlenme).</li>
+<li><b>Teorik (stokiyometrik) oksijen:</b> C ve H'nin en yüksek yükseltgenme kademesine kadar tam yanması için gereken O₂; yanma verimini belirlemede <b>referans noktası</b>. Pratikte tam yanma için teorik havadan <b>fazla</b> hava gerekir.</li>
+<li>Yanma çeşitleri: <b>az hava</b> ile (stokiyometrikten az), <b>fazla hava</b> ile (stokiyometrikten fazla), <b>tam yanma</b> (stokiyometrik hava ile).</li>
+</ul>
+<div class="formul">Fazla O₂ = hava ile giren O₂ − teorik O₂;   Fazla hava = giren hava − teorik hava
+%Fazla O₂ = Fazla O₂ / Teorik O₂ × 100;   %Fazla hava = Fazla hava / Teorik hava × 100;   %Fazla O₂ = %Fazla hava
+Baca gazı bileşimi biliniyorsa (kuru temelde, O₂ ve N₂ baca gazındaki %):
+   m (fazla hava oranı) = 1 / (1 − 3,76 × O₂/N₂)
+   Fazla hava oranı (%) = [O₂ / (21 − O₂)] × 100
+   Hava fazlalık katsayısı λ = [O₂ / (21 − O₂)] + 1
+NOT: bu pratik formüller için baca gazında yanmamış yakıt (CO, CH₄, C₂H₆…) bulunmamalı.</div>
+<div class="mm">Örnek: bacada %3 O₂ → fazla hava = 3/18 = %16,7, λ = 1,17. Bacada %10 O₂ → fazla hava = 10/11 = %91 (λ ≈ 1,9). Aşağıdaki Sankey'de O₂ %4'ten %10'a çıkınca kuru baca gazı kaybı %8'den %13'e çıkıp kazan verimi %79'dan %74'e düşüyor — yani fazla hava, gereksiz yere ısıtılıp bacadan atılan “balast” kütledir.</div>
+<h3>Kütle ve enerji denklikleri — amaç</h3>
+<ul>
+<li>Fiziksel/biyolojik değişimli süreçlerin analiz ve tasarımında temel; sanayide verimlilik, ürün kalitesi ve güvenli işletme için kritik. Fiziksel/kimyasal hal değişimine daima enerji değişimi eşlik eder. Yanmada amaç kimyasal enerjiyi maksimum verimle ısıya çevirmek → yakıt bileşimi, hava/O₂ miktarı, sistem konfigürasyonu optimum olmalı.</li>
+<li><b>Kütle denkliği amaçları:</b> giren/çıkan miktarları belirlemek; bilinmeyen akış, bileşim, kayıpları hesaplamak; reaksiyon verimi, dönüşüm, fazla/eksik madde; birikme analizi; proses tasarımı, ölçek büyütme, kontrol; hatalı ölçüm veya kaçak tespiti.</li>
+<li><b>Enerji denkliği amaçları:</b> gerçek tüketimi hesaplamak; sıcaklık, entalpi, ısı değişimleri; fırın, kazan, <b>reküperatör, ekonomizer</b> boyutlandırma; yakıt tüketimi ve verimlilik; kayıplar ve <b>atık ısı geri kazanım potansiyeli</b>; güvenli ve ekonomik işletme.</li>
+<li>Sonuç faydaları: yanma verimi/performansının düzenli izlenmesi; malzeme, tesis, proses değişikliklerinin etkisi; iyileştirme önceliklerinin belirlenmesi (yeni tesis, modifikasyon, yenileme); en düşük enerjiyle maksimum üretim.</li>
+<li><b>Sankey diyagramı:</b> enerjinin kaynaktan kullanıma akışını gösterir. Fırın: üst ısıl değer girişi; nem nedeniyle kayıp, kuru baca gazı kaybı, duvar/kapı/açıklık/araba kayıpları, duvarlarda depolanan enerji (kesikli fırın), yararlı enerji.</li>
+</ul>
+<table>
+<tr><th>Kazan Sankey (giriş = üst ısıl değer %100, alt ısıl değer %93)</th><th>Baca O₂ %4</th><th>Baca O₂ %10</th></tr>
+<tr><td>Nem nedeniyle kayıp</td><td>%7</td><td>%7</td></tr>
+<tr><td>Kuru baca gazı kaybı</td><td>%8</td><td>%13</td></tr>
+<tr><td>Radyasyon ve konveksiyon kaybı</td><td>%3</td><td>%3</td></tr>
+<tr><td>Blöf kaybı</td><td>%3</td><td>%3</td></tr>
+<tr><td><b>Kazan verimi</b></td><td><b>%79</b></td><td><b>%74</b></td></tr>
+</table>
+<h3>Kütle denkliği</h3>
+<ul>
+<li>Giren maddelerin toplamı = çıkanların toplamı (toplam kütle denkliği). Sistem türleri: <b>izole (adyabatik)</b> — çevreyle hiç etkileşim yok (Q=0, W=0, kütle yok); <b>kapalı</b> — kütle giriş-çıkışı yok, enerji (ısı Q, iş W) alışverişi var; <b>açık</b> — madde ve enerji giriş-çıkışı var. (Isı alışverişi yoksa adyabatik; sabit sıcaklıkta ısı alışverişi varsa izotermal.)</li>
+<li><b>Yatışkın hal:</b> birikim = 0 (dm/dt = 0); <b>yatışkın olmayan:</b> birikim ≠ 0, bileşim zamanla değişir.</li>
+<li>İlk iş: sistemin (kontrol hacminin) ve sınırlarının belirlenmesi; ikinci iş: <b>baz (temel)</b> seçimi. Kontrol hacmi: içinden kütle ve enerji akışı olan, sınırla çevrili sistem.</li>
+<li>Dikkat edilecekler: işletim türü (yatışkın/dinamik) denklem yapısını belirler; bileşen kütlesi fiziksel olaylarda sabit, kimyasalda değişir; tepkimeye girmeyen bileşen = <b>inert</b> (havadaki N₂); akış diyagramı, sınırlar, veriler; toplam ve bileşen denklikleri.</li>
+<li>Denklik kütle (kg) veya mol bazında; yüzdeler katı/sıvıda <b>kütlece</b>, gazlarda <b>hacimce (molce)</b>. Kütlesel debi ṁ = dm/dt, molar debi ṅ = dn/dt, hacimsel debi V̇ = dV/dt.</li>
+</ul>
+<div class="formul">Toplam:   (Giren) − (Çıkan) = (Birikim)
+Bileşen:  (Giren) − (Çıkan) + (Üretilen) − (Tüketilen) = (Birikim)
+Yatışkın hal: F₀ρ₀ − F₁ρ₁ = 0   (F: hacimsel akış m³/h, ρ: yoğunluk)
+CH₄ + 2O₂ → CO₂ + 2H₂O  (16 + 64 = 44 + 36 → 80 = 80);  C₂H₆ + 7/2 O₂ → 2CO₂ + 3H₂O;  C₃H₈ + 5O₂ → 3CO₂ + 4H₂O;  C₄H₁₀ + 13/2 O₂ → 4CO₂ + 5H₂O
+Genel: CmHnObNcSf + a(O₂ + 3,76N₂) → xCO₂ + yH₂O + zN₂ + dO₂ + eSO₂</div>
+<div class="ornek"><b>Örnek-1:</b> 1 mol C teorik havayla tam yanıyor (temel 1 mol C). Teorik O₂ = 1 mol; teorik hava = 1/0,21 = 4,76 mol; N₂ = 3,76 mol. Baca gazı: CO₂ 1/4,76 = <b>%21</b>, N₂ 3,76/4,76 = <b>%79</b>.<br>
+<b>Örnek-2:</b> n-hekzan fazla havayla; kuru baca gazı: %0,268 C₆H₁₄ (yanmamış), %7,6 O₂, %9,1 CO₂, %83,03 N₂ (temel 100 mol). C₆H₁₄ + 19/2 O₂ → 6CO₂ + 7H₂O. Yanan = 9,1/6 = 1,517 mol; toplam yakıt = 1,785 mol. Havayla gelen O₂ = 83,03 × 21/79 = 22,07 mol; teorik O₂ = 1,785 × 9,5 = 16,96 mol → <b>%fazla hava = (22,07 − 16,96)/16,96 = %30,1</b>. Oluşan su = 1,517 × 7 = 10,62 mol. Pratik formülle: yanmamış yakıt yansaydı 0,268 × 9,5 = 2,55 mol O₂ daha harcanacaktı → bacada 7,6 − 2,55 = 5,05 mol O₂ → 5,05/(21 − 5,05) = <b>%31,6</b> (fark yuvarlamadan).</div>
+<h3>Enerji denkliği</h3>
+<ul>
+<li>Enerjinin korunumu (1. kanun) kütleye göre daha zor uygulanır: ısı, iş, potansiyel, kinetik, iç enerji, entalpi, gizli ısı, tepkime ısısı, yanma ısısı…</li>
+<li>Adımlar: giren-çıkan madde miktarları bilinmeli → <b>önce kütle denkliği</b>; ölçümler <b>sabit, yatışkın</b> koşulda; kontrol hacmi, enerji akış diyagramı, sınırlar, veriler.</li>
+<li>Duyulur ısılar için <b>temel (referans) sıcaklık</b> seçilir; kolaylık için ortam sıcaklığı. <b>Standart koşullar: 1 atm, 15,6 °C; Normal koşullar: 1 atm, 0 °C.</b></li>
+<li>Sıcaklık (termometre, derece) ≠ ısı (kalorimetre, enerji birimi). <b>1 cal</b> = 1 g suyu 1 °C ısıtan enerji = 4,18 J. <b>Özgül ısı:</b> birim kütleyi 1 °C ısıtan ısı (cal/g°C, kcal/kg°C, Btu/lb°F, J/kgK). <b>Isı kapasitesi:</b> 1 molü 1 °C ısıtan ısı (cal/gmol°C…) = özgül ısı × molekül ağırlığı; yalnızca sıcaklığın fonksiyonu.</li>
+<li>Tepkime ısısı = tepkimedeki entalpi değişimi; <b>endotermik</b> (ısı alan) pozitif, <b>ekzotermik</b> negatif.</li>
+</ul>
+<div class="formul">Yatışkın genel:  Giren − Çıkan + Üretilen − Tüketilen = 0
+Sistemde:  m·Cp·T₀ + Q − m·Cp·T₁ = 0   →   Q = m (Cp T₁ − Cp T₀)</div>
+<ul>
+<li>Yakıtın ısı değeri: bileşenlerin O₂ ile tepkimesinde açığa çıkan bağ enerjisi; karışımda bileşen yanma ısılarının ağırlıklı toplamı. Gazlarda genelde <b>kcal/m³</b>, sıvılarda <b>kcal/kg</b>. Katı yakıtlar (C, H, O, N, S + kül yapan mineraller) yapısı bilinmediği için alt/üst ısıl değer ancak <b>deneysel</b> bulunur.</li>
+<li><b>Üst ısıl değer:</b> yanma sonu su <b>sıvı</b> (yoğuşma gizli ısısı dahil). <b>Alt ısıl değer:</b> su buhar halinde, gizli ısı geri kazanılmaz. Q<sub>alt</sub> = Q<sub>üst</sub> − λ.</li>
+</ul>
+<table>
+<tr><th>Yakıt</th><th>M</th><th>Reaksiyon</th><th>kJ/kg</th><th>kJ/Nm³</th><th>Yakıt</th><th>M</th><th>Reaksiyon</th><th>kJ/kg</th><th>kJ/Nm³</th></tr>
+<tr><td>Karbon</td><td>12</td><td>C+O₂→CO₂</td><td>32.796</td><td>—</td><td>Etan</td><td>30</td><td>C₂H₆+3,5O₂→2CO₂+3H₂O</td><td>51.870</td><td>66.768</td></tr>
+<tr><td>Hidrojen</td><td>2</td><td>H₂+0,5O₂→H₂O</td><td>141.886</td><td>12.109</td><td>Propan</td><td>44</td><td>C₃H₈+5O₂→3CO₂+4H₂O</td><td>50.000</td><td>96.500</td></tr>
+<tr><td>Kükürt</td><td>32</td><td>S+O₂→SO₂</td><td>9.300</td><td>—</td><td>Bütan</td><td>58</td><td>C₄H₁₀+6,5O₂→4CO₂+5H₂O</td><td>49.540</td><td>125.562</td></tr>
+<tr><td>Metan</td><td>16</td><td>CH₄+2O₂→CO₂+2H₂O</td><td>55.900</td><td>37.743</td><td>CO</td><td>28</td><td>CO+0,5O₂→CO₂</td><td>10.108</td><td>11.990</td></tr>
+</table>
+<ul>
+<li>Yanma kamarasında dikkate alınacak ısılar: giren-çıkan akımların duyulur ısıları; sudaki gizli ısı; yanma ısısı; ısı kaybı; kullanılan ısı.</li>
+<li><b>Isı kayıpları:</b> sıcak baca gazı ve duvarlara duyulur ısı; baca gazında CO (eksik yanma); su buharının gizli ısısı; yanmadan cürufa geçen yakıt (varsa yeni fırın tasarımı/yakıt gerekebilir). Yanma havası artırılınca CO azalır ama gaz miktarı ve duyulur ısı artar, gaz sıcaklığı düşer; düşük sıcaklıklı gazdan geri kazanım verimi de azalır → <b>bir miktar CO'ya denge açısından katlanılabilir</b> (fazla hava bir denge kararıdır).</li>
+<li><b>Adyabatik (teorik) alev sıcaklığı:</b> yanma gazlarının ulaşabileceği maksimum sıcaklık (ısı kaybı yok, tüm ısı gazların duyulur ısısına, tam yanma, cüruf yok kabulü); yanma odası malzemelerinin erime sıcaklıkları için önemli. Artırmak için yakıt ve hava <b>ön ısıtma</b>; daha fazlası için N₂'nin ısı yutmasını önlemek üzere <b>oksijence zenginleştirilmiş hava</b>.</li>
+</ul>
+<div class="ornek"><b>Örnek-3:</b> CO teorik havayla; hava 400 °C, CO 300 °C, ortam 15 °C; tam yanma. Temel 1 mol CO: CO + ½O₂ → CO₂; teorik O₂ = 0,5 mol, N₂ = 0,5 × 79/21 = 1,88 mol; baca gazı 1 mol CO₂ + 1,88 mol N₂ = 2,88 mol. H<sub>CO,alt</sub> = 67.636 cal/mol; cp O₂ 7,4, N₂ 7,0, CO 7,0 cal/mol·K.<br>
+Q = (0,5×7,4 + 1,88×7,0)(400 − 15) + 1×7,0×(300 − 15) + 1×67.636 = <b>76.122 cal</b> (baca gazı duyulur ısısı).<br>
+Baca gazı 2650 °C'de çıkarsa: (1×13,51 + 1,88×8,18)(2650 − 15) = <b>76.120 cal = 318.638 J</b> (ort. cp CO₂ 13,51, N₂ 8,18 cal/mol°C) → yani ≈ 2650 °C adyabatik alev sıcaklığı.</div>
+<h3>Yakma fırını enerji denkliği (reküperatörsüz)</h3>
+<div class="formul">Giren:  QT = Q_yakıt (Q1-2) = m_yakıt × ( Ho + Cp_yakıt × (T_yakıt − To) )
+          Cp: sıvı yakıt 2,1; LPG 2,5; kömür 1,3 kJ/kgK;  Ho: alt ısıl değer (kJ/kg)
+Çıkan:  QT = Qm (Q3) + Q_baca gazı (Q4) + Q_yüzey (Q5)
+  Qm = m_m × C_m × (T_m − To)           C_m (kJ/kg°C): su 4,18; çelik 0,5; ateş tuğlası 1,0; beton 0,8; asbest 0,9; mantar 2,0; termal akışkan 2,5
+  Q4 = Q4d + Q4w
+  Q4d (kuru baca gazı) = F × G' × (Cp1 × t1 − Cp0 × t0);   G' = G0' + A0 × (m − 1)
+      F: yakıt (Nm³/ton proses suyu); G0': teorik kuru baca gazı; A0: teorik hava (Nm³/Nm³ yakıt); m: fazla hava oranı
+  Q4w (su buharı) = F × (Gwr + Gwa) × (Cp1 × t1 − Cp0 × t0)   Gwr: yanmadan, Gwa: yanma havasından gelen su buharı
+  Q5 = U × A × (Ty − To),  U = Ur + Uc   (kJ/hm²°C)
+      Ur = 20,4 × E / (Ty − To) × [ ((Ty+273)/100)⁴ − ((To+273)/100)⁴ ]
+      Uc = B × (Ty − To)^0,25;   B: düşey yüzey/geniş silindir 5,22; yatay yüzey (yukarı bakan) 6,12; yatay silindir 4,32
+      Emisivite E: paslı çelik 0,4–0,7; boyalı çelik 0,8–0,9; parlatılmış Al 0,1; oksitlenmiş Al 0,2–0,3; refraktör 0,4–0,8
+Buhar/kondens:  Qx = m_buhar × (h_sıvı + x × h_fg)     x: kuruluk derecesi</div>
+<p>Buhar sistemlerinde asıl enerji, suyun buharlaşırken aldığı ve yoğuşurken verdiği <b>gizli ısıdır</b>; proseslerde buharla taşınan ısı çoğunlukla yoğuşturularak kullanılır.</p>
