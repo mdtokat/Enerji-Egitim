@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enerji ve Çevre Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Tek sütun sınav kâğıdı: başlık, durum çubuğu, soru kartı, sonuç paneli. Petrol mavisi mürekkep + kehribar vurgu. */
+:root {
+  --bg: #edf1f2;
+  --surface: #ffffff;
+  --ink: #12232a;
+  --muted: #566a72;
+  --line: #d2dcdf;
+  --accent: #0c5a73;
+  --accent-soft: #e1eef2;
+  --spark: #c98208;
+  --ok: #1d7448;
+  --ok-soft: #e3f3ea;
+  --bad: #b2362c;
+  --bad-soft: #fbe9e7;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+    --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+    --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+  --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+  --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--spark); outline-offset: 2px; }
+
+/* Başlık */
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 7vw, 46px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* Durum çubuğu */
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.tally { display: flex; gap: 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tally b { font-family: var(--font-data); font-weight: 500; font-size: 15px; }
+.tally .ok b { color: var(--ok); } .tally .bad b { color: var(--bad); } .tally .mk b { color: var(--accent); }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--spark); transition: width .25s ease; }
+
+/* Soru kartı */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px clamp(16px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.qnum { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.chip.src { margin-left: auto; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+.qtext { margin: 0; font-size: clamp(17px, 2.6vw, 19px); font-weight: 600; line-height: 1.45; text-wrap: pretty; }
+.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.opt {
+  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; text-align: left;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt .lt { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; font-family: var(--font-data); font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
+.opt .tx { min-width: 0; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.sel .lt { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.ok .lt { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.bad .lt { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.opt.dim { opacity: .55; }
+
+.fb { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
+.fb.ok { border-color: var(--ok); } .fb.bad { border-color: var(--bad); } .fb.blank { border-color: var(--spark); }
+.fb strong { font-size: 15px; }
+.fb.ok strong { color: var(--ok); } .fb.bad strong { color: var(--bad); } .fb.blank strong { color: var(--spark); }
+.fb p { margin: 0; color: var(--ink); max-width: 66ch; }
+
+.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.nav .grow { flex: 1; }
+.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 16px; font-weight: 600; font-size: 15px; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.warn { border-color: var(--spark); }
+.note { font-size: 14px; color: var(--muted); }
+.note b { color: var(--ink); }
+
+/* Soru haritası */
+.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.map summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.map summary span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; margin-top: 12px; }
+.grid button { height: 38px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.grid button.ans { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.grid button.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+.grid button.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+.grid button.cur { outline: 2px solid var(--spark); outline-offset: 1px; }
+
+/* Sonuç */
+.score { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: end; }
+.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 14vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+.big small { font-size: .45em; color: var(--muted); }
+.verdict { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.verdict h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stats b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
+h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
+.topics { display: flex; flex-direction: column; gap: 10px; }
+.trow { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 12px; align-items: center; font-size: 14px; }
+.trow .tn { min-width: 0; }
+.trow .tv { text-align: right; font-family: var(--font-data); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.trow .tb { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.trow .tb i { display: block; height: 100%; background: var(--accent); }
+.trow .tb i.low { background: var(--bad); } .trow .tb i.mid { background: var(--spark); }
+.rvhead { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.review { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
+.review li { border-top: 1px solid var(--line); padding: 14px 0; display: flex; flex-direction: column; gap: 6px; }
+.rq { display: flex; gap: 10px; align-items: baseline; }
+.rq .n { font-family: var(--font-data); font-size: 13px; color: var(--muted); min-width: 26px; }
+.rq p { margin: 0; font-weight: 600; min-width: 0; }
+.pill { font-family: var(--font-data); font-size: 11px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); } .pill.bad { color: var(--bad); background: var(--bad-soft); } .pill.blank { color: var(--spark); border: 1px solid var(--spark); }
+.ra { padding-left: 36px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.ra b { color: var(--ink); font-weight: 600; }
+.ra .wr { color: var(--bad); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
+
+@media (max-width: 480px) {
+  .chip.src { margin-left: 0; }
+  .score { grid-template-columns: 1fr; }
+  .ra { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SUNUM 3 · 1_4.pdf · Enerji ve Tabii Kaynaklar Bakanlığı, Çevre ve İklim Daire Başkanlığı, Şubat 2022</p>
+    <h1>Enerji ve Çevre <em>Sınavı</em></h1>
+    <p class="lede">47 soru, beşer şık. Enerji kaynaklı hava kirleticileri, azaltım teknolojileri, çevre mevzuatı ve izin süreci, sera gazları, iklim müzakereleri ve Türkiye emisyon verileri. Her cevabın açıklamasında ilgili slayt numarası yazar.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı ve açıklamayı gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: "Enerji ve Çevre" sunumu (ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022). Emisyon verileri: Türkiye Sera Gazı Emisyonları 2019. Net = doğru − yanlış ÷ 4.</span>
+  </footer>
+</div>
+
+<script>
+const Q = [
+  // Hava kirleticileri ve kaynakları
+  { t: 0, s: 3, q: "Sunumda hava kirliliğinin yapay kaynakları hangi üç başlıkta toplanmıştır?",
+    o: ["Isınma, motorlu taşıtlar ve sanayi", "Volkanlar, orman yangınları ve sanayi", "Tarım, hayvancılık ve madencilik", "Isınma, aydınlatma ve soğutma", "Elektrik üretimi, rafineriler ve limanlar"], a: 0,
+    e: "Yapay kaynaklar: <b>ısınmadan, motorlu taşıtlardan ve sanayiden</b> kaynaklanan hava kirliliği. Volkan ve orman yangını doğal kaynaklardır." },
+  { t: 0, s: 3, q: "Aşağıdakilerden hangisi sunumda sayılan genel hava kirleticileri arasında <b>yer almaz</b>?",
+    o: ["Kükürt oksitler", "Azot oksitler", "Karbon monoksit", "Askıda partikül maddeler", "Ozon tabakasını oluşturan oksijen"], a: 4,
+    e: "Sayılan kirleticiler: kükürt oksitler, azot oksitler, karbon monoksit, organik maddeler, hidrokarbonlar ve <b>askıda partikül maddeler</b> (tozlar ve aeroseller)." },
+  { t: 0, s: 4, q: "Yalnızca enerji üretimi için inşa edilen, yakıttaki kimyasal enerjiyi ısı enerjisine dönüştürerek yararlanılan elektrik ve sanayi amaçlı enerji üretim tesislerine ne ad verilir?",
+    o: ["Yakma tesisi", "Üretim (yakma içeren) proses tesisi", "Bertaraf tesisi", "Ön işlem tesisi", "Geri kazanım tesisi"], a: 0,
+    e: "Tanım <b>yakma tesisine</b> aittir. Proses tesisinde ise yakıt ham madde ile birlikte muamele görür veya enerjisi kurutma, kavurma gibi işlemlerde kullanılır." },
+  { t: 0, s: 4, q: "Yakıtın ham madde ile birlikte muamele gördüğü, bacasından proses kaynaklı baca gazı ile yanma gazlarının birlikte çıkabildiği tesis hangisidir?",
+    o: ["Üretim (yakma içeren) proses tesisi", "Yakma tesisi", "Dizel santral", "Gaz türbinli termik santral", "Derin deniz deşarj tesisi"], a: 0,
+    e: "<b>Üretim (yakma içeren) proses tesisi</b>: enerji, ham maddeyi veya ürünü kurutma, kavurma gibi işlemlerde kullanılır; bacadan proses ve yanma gazları birlikte ya da yalnız proses gazları çıkar." },
+  { t: 0, s: 4, q: "Sunuma göre turba, taş kömürü ve çöp atıklarının da kullanılabildiği termik santral türü hangisidir?",
+    o: ["Buhar türbinli termik santral", "Gaz türbinli termik santral", "Dizel santral", "Hidroelektrik santral", "Rüzgâr santrali"], a: 0,
+    e: "<b>Buhar türbinli</b> santraller: linyit, fuel oil, doğal gaz, turba, taş kömürü ve çöp atıkları. Gaz türbinli: motorin, benzin, doğal gaz. Dizel: mazot." },
+  { t: 0, s: 4, q: "Sunumda gaz türbinli termik santrallerde kullanılan yakıtlar olarak hangileri verilmiştir?",
+    o: ["Motorin, benzin ve doğal gaz", "Linyit, turba ve taş kömürü", "Yalnızca mazot", "Çöp atıkları ve fuel oil", "Ham petrol ve kömür"], a: 0,
+    e: "Gaz türbinli termik santraller: <b>motorin, benzin ve doğal gaz</b>. Kombine santraller ise doğal gaz, ham petrol, motorin, fuel oil ve kömür kullanabilir." },
+  { t: 0, s: 5, q: "Sektörel hava kirleticileri tablosunda SO₂ hangi sektörler için işaretlenmiştir?",
+    o: ["Tablodaki tüm sektörler", "Yalnızca enerji üretimi", "Yalnızca rafineriler", "Enerji üretimi ve çimento üretimi", "Seramik hariç tüm sektörler"], a: 0,
+    e: "SO₂ tablodaki <b>altı sektörün hepsinde</b> (enerji, çimento, seramik, atık yakma, rafineri, demir-metal) işaretlidir." },
+  { t: 0, s: 5, q: "Tabloya göre POP (kalıcı organik kirletici) hangi sektör için işaretlenmiştir?",
+    o: ["Demir-metal üretimi", "Enerji üretimi", "Çimento üretimi", "Rafineriler", "Atıkların yakılması"], a: 0,
+    e: "POP yalnızca <b>demir-metal üretimi</b> satırında işaretlidir. Enerji üretiminde POP dışındaki tüm kirleticiler işaretlidir." },
+  { t: 0, s: 5, q: "Tabloda rafineriler için işaretlenen kirleticiler hangileridir?",
+    o: ["SO₂, NOx ve VOC", "SO₂, NOx ve metan", "SO₂, halojen ve PM", "SO₂, NOx ve PM", "CO₂, CO ve metan"], a: 0,
+    e: "Rafineriler: <b>SO₂, NOx ve VOC</b>. Atık yakma: SO₂, NOx, metan. Seramik: SO₂, halojen, PM. Çimento: SO₂, NOx, PM." },
+  { t: 0, s: 5, q: "Tabloda CO₂ ve CO hangi sektör satırında işaretlenmiştir?",
+    o: ["Yalnızca enerji üretimi", "Çimento üretimi ve enerji üretimi", "Tüm sektörler", "Demir-metal üretimi", "Atıkların yakılması"], a: 0,
+    e: "Tabloda CO₂ ve CO yalnızca <b>enerji üretimi</b> satırında işaretlidir. Enerji üretimi POP dışındaki tüm kirleticileri yayan sektör olarak gösterilir." },
+
+  // Azaltım teknolojileri
+  { t: 1, s: 6, q: "Sunumda hava kirleticilerini azaltma yöntemlerinin sıralaması hangisidir?",
+    o: ["Kaynakta kontrol → Toplama → Soğutma → Arıtma → Deşarj", "Toplama → Arıtma → Soğutma → Kaynakta kontrol → Deşarj", "Arıtma → Kaynakta kontrol → Toplama → Deşarj → Soğutma", "Soğutma → Toplama → Kaynakta kontrol → Arıtma → Deşarj", "Kaynakta kontrol → Arıtma → Toplama → Soğutma → Deşarj"], a: 0,
+    e: "1. <b>Kaynakta kontrol</b>, 2. Toplama, 3. Soğutma, 4. Arıtma, 5. Deşarj." },
+  { t: 1, s: 6, q: "Sunumda emisyonların soğutulması için verilen yöntemler hangileridir?",
+    o: ["Seyreltme, ısı değiştiriciler, yıkama", "Siklon, torba filtre, elektrostatik filtre", "Adsorpsiyon, katalitik yakma, insineratör", "Çöktürme odası, yaş tutucu, siklon", "Kaynakta kontrol, toplama, deşarj"], a: 0,
+    e: "Soğutma: <b>seyreltme, ısı değiştiriciler ve yıkama</b>. Siklon, torba filtre gibi ekipmanlar toz tutma; adsorpsiyon, katalitik yakma ise gaz arıtma yöntemleridir." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi sunumda <b>gazların</b> arıtılması yöntemleri arasında sayılır?",
+    o: ["Katalitik yakma", "Siklon", "Çöktürme odası", "Torba filtre", "Elektrostatik filtre"], a: 0,
+    e: "Gaz arıtma: gaz yıkayıcılar, adsorpsiyon, insineratörler (yakma) ve <b>katalitik yakma</b>. Diğer şıklar toz tutma ekipmanlarıdır." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi sunumda <b>tozların</b> tutulması için kullanılan ekipmanlardan biri <b>değildir</b>?",
+    o: ["Adsorpsiyon ünitesi", "Siklon", "Torba filtre", "Yaş (ıslak) tutucu", "Elektrostatik filtre"], a: 0,
+    e: "Toz tutma: çöktürme odaları, siklonlar, torba filtreler, yaş tutucular ve elektrostatik filtreler. <b>Adsorpsiyon</b> gaz arıtma yöntemidir." },
+  { t: 1, s: 6, q: "\"Kirletici çapına göre seçilecek teknoloji\" grafiğine göre en iri parçacıklar (yaklaşık 10–10.000 mikron) için uygun teknoloji hangisidir?",
+    o: ["Çökelme odaları", "Adsorplayıcı", "Süzücü", "Yakıcılar", "Elektrostatik yoğunlaştırıcı"], a: 0,
+    e: "<b>Çökelme odaları</b> grafikte en sağda, en iri parçacık aralığındadır. Yakıcı, süzücü ve adsorplayıcı ise 0,001 mikron altındaki gaz boyutlu kirleticiler içindir." },
+  { t: 1, s: 6, q: "Sunumda \"Hangi teknoloji seçilmelidir?\" sorusu için başvurulması önerilen kaynak hangisidir?",
+    o: ["Mevcut En İyi Teknikler Referans Belgeleri (BREF)", "Kyoto Protokolü ekleri", "Türkiye Bilgilendirici Envanter Raporu", "ÇED Yönetmeliği ekleri", "BMİDÇS Ek-I listesi"], a: 0,
+    e: "Teknoloji seçimi için <b>Mevcut En İyi Teknikler Referans Belgeleri</b> (eippcb.jrc.ec.europa.eu/reference) gösterilmiştir." },
+
+  // Çevre mevzuatı ve izin süreci
+  { t: 2, s: 7, q: "Çevre Kanunu'nun sayısı ve tarihi hangisidir?",
+    o: ["2872 sayılı, 11 Ağustos 1983", "5627 sayılı, 2 Mayıs 2007", "2872 sayılı, 25 Kasım 2014", "29186 sayılı, 11 Ağustos 1983", "4628 sayılı, 20 Şubat 2001"], a: 0,
+    e: "<b>11 Ağustos 1983 tarihli 2872 sayılı Çevre Kanunu</b>. 5627 Enerji Verimliliği, 4628 Elektrik Piyasası Kanunu'dur; 29186 ise ÇED Yönetmeliği'nin Resmî Gazete sayısıdır." },
+  { t: 2, s: 7, q: "25 Kasım 2014 tarihli 29186 sayılı Resmî Gazete'de yayımlanan yönetmelik hangisidir?",
+    o: ["Çevresel Etki Değerlendirmesi (ÇED) Yönetmeliği", "Çevre İzin ve Lisans Yönetmeliği", "Atık Yönetimi Yönetmeliği", "Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği", "Su Kirliliği Kontrolü Yönetmeliği"], a: 0,
+    e: "29186 sayılı RG: <b>ÇED Yönetmeliği</b>. Çevre İzin ve Lisans: 10 Eylül 2014 / 29115. Sanayi Kaynaklı Hava Kirliliği: 20 Aralık 2014 / 29211." },
+  { t: 2, s: 8, q: "Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik hangi tarihte yayımlanarak yürürlüğe girmiştir?",
+    o: ["17 Mayıs 2014", "2 Mart 2019", "4 Haziran 2010", "31 Aralık 2004", "2 Nisan 2015"], a: 0,
+    e: "<b>17 Mayıs 2014</b>, RG 29003. Büyük Endüstriyel Kazalar: 2 Mart 2019; Çevresel Gürültü: 4 Haziran 2010; Su Kirliliği Kontrolü: 31 Aralık 2004; Atık Yönetimi: 2 Nisan 2015." },
+  { t: 2, s: 8, q: "Sunumdaki çevre mevzuatı listesinde en yeni tarihli yönetmelik hangisidir?",
+    o: ["Büyük Endüstriyel Kazaların Önlenmesi ve Etkilerinin Azaltılması Hakkında Yönetmelik", "Atık Yönetimi Yönetmeliği", "Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik", "Çevresel Gürültünün Değerlendirilmesi ve Yönetimi Yönetmeliği", "Çevre İzin ve Lisans Yönetmeliği"], a: 0,
+    e: "Listedeki en yeni düzenleme <b>2 Mart 2019</b> tarihli (RG 30702) Büyük Endüstriyel Kazaların Önlenmesi ve Etkilerinin Azaltılması Hakkında Yönetmelik'tir." },
+  { t: 2, s: 9, q: "Çevre izin ve lisans sürecinin 1. aşamasında uygun bulunan başvuruya ne verilir?",
+    o: ["1 yıl süreli Geçici Faaliyet Belgesi (GFB)", "5 yıl süreli Çevre İzin Belgesi", "Süresiz ÇED olumlu kararı", "3 yıl süreli Çevre Lisans Belgesi", "1 yıl süreli Çevre İzin ve Lisans Belgesi"], a: 0,
+    e: "1. aşamada Ek-3A/3B'deki belgelerle başvurulur; uygunsa <b>1 yıl süreli Geçici Faaliyet Belgesi</b> verilir, değilse başvuru reddedilir." },
+  { t: 2, s: 9, q: "2. aşamada uygun bulunan başvuruya verilen Çevre İzin ve/veya Lisans Belgesinin süresi ne kadardır?",
+    o: ["1 yıl", "3 yıl", "5 yıl", "10 yıl", "Süresiz"], a: 2,
+    e: "Ek-3C'deki belgelerle başvurulur; uygunsa <b>5 yıl süreli</b> Çevre İzin ve/veya Lisans Belgesi verilir." },
+  { t: 2, s: 9, q: "Çevre İzin ve Lisans Yönetmeliği'nin 2. aşamasında başvuru uygun bulunmazsa ne olur?",
+    o: ["Başvuru reddedilir ve GFB aşamasına dönülür.", "Belge 1 yıl süreyle şartlı verilir.", "Tesis doğrudan kapatılır.", "ÇED süreci yeniden başlatılır.", "Başvuru Ek-3A ile yeniden yapılır ve 5 yıl beklenir."], a: 0,
+    e: "2. aşamada uygun değilse <b>başvuru reddedilir, GFB aşamasına dönülür</b>." },
+  { t: 2, s: 9, q: "Aşağıdakilerden hangisi sunumda <b>çevre lisans</b> konuları arasında yer alır, çevre izin konuları arasında yer almaz?",
+    o: ["Geri kazanım tesisleri", "Hava emisyonu", "Çevresel gürültü", "Atıksu deşarjı", "Derin deniz deşarjı"], a: 0,
+    e: "İzin konuları: hava emisyonu, çevresel gürültü, atıksu deşarjı, derin deniz deşarjı. Lisans konuları: ön işlem, <b>geri kazanım</b> ve bertaraf tesisleri, derin deniz deşarjı. Derin deniz deşarjı her ikisinde de vardır." },
+
+  // İklim değişikliği ve sera gazları
+  { t: 3, s: 10, q: "Sunumdaki tanıma göre iklim değişikliği, iklimin ortalama durumunda ve/veya değişkenliğinde hangi süre boyunca gerçekleşen değişikliklerdir?",
+    o: ["Onlarca yıl ya da daha uzun süre", "Bir mevsim boyunca", "Birkaç yıl içinde", "Yalnızca bir yıl içinde", "Bir gün içindeki sıcaklık farkı"], a: 0,
+    e: "Tanım: \"nedeni ne olursa olsun iklimin ortalama durumunda ve/ya da değişkenliğinde <b>onlarca yıl ya da daha uzun süre</b> boyunca gerçekleşen değişiklikler\"." },
+  { t: 3, s: 10, q: "Sunumdaki ikinci tanımda insan kaynaklı iklim değişikliğinin mekanizması nasıl açıklanır?",
+    o: ["İnsan etkinlikleriyle artan sera gazı birikimlerinin doğal sera etkisini kuvvetlendirmesi", "Güneş aktivitesinin azalması", "Ozon tabakasının kalınlaşması", "Volkanik küllerin güneş ışığını engellemesi", "Okyanus akıntılarının durması"], a: 0,
+    e: "Fosil yakıt yakma, arazi kullanımı değişikliği, ormansızlaştırma ve sanayi süreçleriyle salınan sera gazı birikimlerindeki hızlı artış <b>doğal sera etkisini kuvvetlendirir</b>, yüzey sıcaklığı artar." },
+  { t: 3, s: 11, q: "Sunumdaki tabloya göre metanın kaynakları arasında hangisi <b>yer almaz</b>?",
+    o: ["LCD ve HDTV ekran üretimi", "Büyükbaş hayvanlar", "Atık depolama sahaları", "Pirinç tarlaları", "Bataklıklar"], a: 0,
+    e: "Metan: büyükbaş hayvanlar, atık depolama sahaları, çiftlik gübreleri, pirinç tarlaları, bataklıklar. <b>LCD ve HDTV ekran üretimi</b> nitrojen triflorürün (NF₃) kaynağıdır." },
+  { t: 3, s: 11, q: "Soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler hangi sera gazlarının kaynağı olarak verilmiştir?",
+    o: ["Hidroflorokarbonlar ve perflorokarbonlar", "Karbondioksit", "Metan", "Kükürt heksaflorür", "Nitrojen triflorür"], a: 0,
+    e: "<b>HFC'ler ve PFC'ler</b>: soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler." },
+  { t: 3, s: 11, q: "Yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları hangi sera gazının kaynakları arasında gösterilmiştir?",
+    o: ["Kükürt heksaflorür (SF₆)", "Metan (CH₄)", "Karbondioksit (CO₂)", "Hidroflorokarbonlar", "Nitrojen triflorür (NF₃)"], a: 0,
+    e: "<b>SF₆</b>: araç lastikleri, otomotiv endüstrisi, yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları." },
+
+  // İklim müzakereleri
+  { t: 4, s: 12, q: "BMİDÇS'de gelişmiş ülkeleri kapsayan ve emisyonlarını sınırlandırmak, sera gazı envanterlerini Sekretarya'ya bildirmekle yükümlü grup hangisidir?",
+    o: ["EK-1 ülkeleri", "EK-2 ülkeleri", "EK dışı ülkeler", "OPEC ülkeleri", "G20 ülkeleri"], a: 0,
+    e: "<b>EK-1</b>: emisyon sınırlama, yutak alanlarını koruma ve geliştirme, politika ve envanter bildirme yükümlülüğü. 42 ülke (Türkiye dahil) ve AB." },
+  { t: 4, s: 12, q: "BMİDÇS EK-2 ülkelerinin temel yükümlülüğü hangisidir?",
+    o: ["Ek dışı ülkeleri finanse etmek ve çevre dostu teknolojilerin bu ülkelere aktarılmasını sağlamak", "Emisyon azaltma yükümlülüğü olmadan finans almak", "Yalnızca yutak alanlarını korumak", "Kyoto Protokolü'nden çekilmek", "Fosil yakıt üretimini artırmak"], a: 0,
+    e: "<b>EK-2</b> (finans sağlayan gelişmiş ülkeler): ek dışı ülkeleri finanse etmek, teknoloji aktarımını sağlamak ve erişimi teşvik etmek. ABD, Japonya gibi 23 ülke ve AB." },
+  { t: 4, s: 12, q: "Sunuma göre BMİDÇS EK-1 grubunda kaç ülke yer almaktadır?",
+    o: ["42 ülke ve AB", "23 ülke ve AB", "153 ülke", "191 ülke ve AB", "189 ülke"], a: 0,
+    e: "EK-1: <b>42 ülke (Türkiye dahil) ve AB</b>. EK-2: 23 ülke ve AB. EK dışı: 153 ülke." },
+  { t: 4, s: 12, q: "Çin, Suudi Arabistan, Güney Kore ve Brezilya BMİDÇS'de hangi grupta yer alır?",
+    o: ["EK dışı ülkeler", "EK-1 ülkeleri", "EK-2 ülkeleri", "Hem EK-1 hem EK-2", "Sözleşmeye taraf değiller"], a: 0,
+    e: "<b>EK dışı ülkeler</b>: emisyon azaltma yükümlülüğü olmayan, uluslararası finans ve teknoloji desteğinden yararlanabilen 153 gelişmekte olan ülke." },
+  { t: 4, s: 13, q: "Türkiye'nin adı BMİDÇS'nin EK-II listesinden hangi kararla çıkarılmıştır?",
+    o: ["2001 Marakeş COP7'de alınan 26/CP.7 sayılı kararla", "1997 Kyoto kararıyla", "2015 Paris COP21 kararıyla", "1992 Rio kararıyla", "2009 Kopenhag COP15 kararıyla"], a: 0,
+    e: "<b>2001'de Marakeş'teki COP7</b>'de alınan <b>26/CP.7</b> sayılı kararla Türkiye'nin farklı konumu tanındı; adı EK-II'den çıkarıldı fakat EK-I'de kaldı." },
+  { t: 4, s: 13, q: "Türkiye BMİDÇS'ye hangi tarihte ve kaçıncı taraf olarak katılmıştır?",
+    o: ["24 Mayıs 2004, 189. taraf", "1992, kurucu taraf", "2009, 191. taraf", "10 Kasım 2021, 194. taraf", "2001, 42. taraf"], a: 0,
+    e: "Türkiye <b>24 Mayıs 2004</b>'te <b>189. Taraf</b> olarak BMİDÇS'ye katılmıştır. 2009, Kyoto Protokolü'ne taraf olunan yıldır." },
+  { t: 4, s: 13, q: "Kyoto Protokolü ile ilgili aşağıdakilerden hangisi sunuma göre <b>yanlıştır</b>?",
+    o: ["Türkiye'nin Protokol kapsamında bağlayıcı bir azaltım taahhüdü vardır.", "Protokol 1997'de kabul edilmiştir.", "Türkiye Protokole 2009'da taraf olmuştur.", "Protokol Aralık 2020 itibarıyla sona ermiştir.", "AB ve 191 ülke Protokole taraf olmuştur."], a: 0,
+    e: "Sunuma göre <b>Türkiye'nin Kyoto Protokolü kapsamında azaltım taahhüdü bulunmamaktadır</b>. Diğer ifadelerin hepsi doğrudur." },
+  { t: 4, s: 14, q: "Paris Anlaşması hangi tarihte kabul edilmiştir?",
+    o: ["12 Aralık 2015", "22 Nisan 2016", "4 Kasım 2016", "7 Ekim 2021", "10 Kasım 2021"], a: 0,
+    e: "Kabul: <b>12 Aralık 2015</b>. 22 Nisan 2016 Türkiye'nin imza tarihi, 4 Kasım 2016 yürürlüğe giriş tarihidir." },
+  { t: 4, s: 14, q: "Türkiye Paris Anlaşması'na hangi tarihte taraf olmuştur?",
+    o: ["10 Kasım 2021", "22 Nisan 2016", "6 Ekim 2021", "7 Ekim 2021", "4 Kasım 2016"], a: 0,
+    e: "Sıra: 22 Nisan 2016 imza → 6 Ekim 2021 Meclisten geçti → 7 Ekim 2021 Resmî Gazete → <b>10 Kasım 2021 taraf oldu</b>." },
+  { t: 4, s: 14, q: "Sunumdaki Paris Anlaşması tarihçesinde \"İklim Nötr Türkiye\" hedef yılı hangisidir?",
+    o: ["2030", "2040", "2050", "2053", "2060"], a: 3,
+    e: "Tarihçenin son halkası <b>2053 İklim Nötr Türkiye</b> hedefidir." },
+
+  // Sera gazı emisyonları
+  { t: 5, s: 15, q: "Sunuma göre 2019 yılı küresel karbondioksit emisyonu ne kadardır?",
+    o: ["36,7 Gt CO₂", "506,1 Mt CO₂", "10,7 Gt CO₂", "3,67 Gt CO₂", "367 Gt CO₂"], a: 0,
+    e: "2019 küresel CO₂ emisyonu: <b>36,7 Gt</b>. 506,1 Mt CO₂eş Türkiye'nin 2019 toplam sera gazı emisyonudur." },
+  { t: 5, s: 15, q: "2019'da 506,1 Mt CO₂eş sera gazı emisyonuyla Türkiye'nin küresel emisyonlardaki payı yaklaşık ne kadardır?",
+    o: ["%1,2'den az", "%5 civarı", "%10 civarı", "%0,1'den az", "%3–4 arası"], a: 0,
+    e: "Sunuma göre Türkiye küresel emisyonlarda <b>%1,2'den daha az</b> paya sahiptir." },
+  { t: 5, s: 15, q: "Sunumdaki grafiğe göre 2010–2020 arasında karbondioksit emisyonu <b>azalan</b> ülke hangisidir?",
+    o: ["ABD", "Çin", "Hindistan", "İran", "Türkiye"], a: 0,
+    e: "<b>ABD</b>: 5.676 → 4.713 Mt. Çin (8.617 → 10.668), Hindistan (1.678 → 2.442), İran (570 → 745) ve Türkiye (314 → 393) artmıştır." },
+  { t: 5, s: 16, q: "Türkiye'de kişi başı sera gazı emisyonu 1990'da 4,07 ton CO₂eş iken 2019'da kaç ton CO₂eş olmuştur?",
+    o: ["5,52", "6,02", "6,10", "6,46", "7,20"], a: 2,
+    e: "2019'da kişi başı emisyon <b>6,10 ton CO₂eş</b>; 1990'a göre %49,9 artış. 6,46 ile en yüksek değer 2017'dedir." },
+  { t: 5, s: 16, q: "2019'da Türkiye'nin toplam sera gazı emisyonunda en büyük paya sahip sektör ve yaklaşık payı hangisidir?",
+    o: ["Enerji, yaklaşık %72", "Tarım, yaklaşık %13", "Endüstriyel işlemler, yaklaşık %11", "Atık, yaklaşık %3", "Enerji, yaklaşık %50"], a: 0,
+    e: "Enerji 364,4 ÷ toplam 506,1 ≈ <b>%72</b>. Tarım 68,0 (≈%13), endüstriyel işlemler 56,4 (≈%11), atık 17,2 (≈%3)." },
+  { t: 5, s: 16, q: "Tabloya göre 2018–2019 arasında emisyonu <b>artan</b> tek sektör hangisidir?",
+    o: ["Tarım", "Enerji", "Endüstriyel işlemler", "Atık", "AKAKDO"], a: 0,
+    e: "<b>Tarım</b> %4,1 artmıştır. Enerji −%2,3, endüstriyel işlemler −%14,3, atık −%5,0 azalmıştır." },
+  { t: 5, s: 16, q: "Türkiye'nin toplam sera gazı emisyonu 1990–2019 arasında yüzde kaç artmıştır?",
+    o: ["%49,9", "%130,5", "%157,7", "%161,0", "%2,3"], a: 1,
+    e: "219,6 → 506,1 Mt CO₂eş: <b>%130,5</b> artış. %161,0 enerji sektörünün, %157,7 AKAKDO dahil net toplamın, %49,9 kişi başı emisyonun artışıdır." },
+  { t: 5, s: 16, q: "Tabloda 2019 için iki farklı \"Toplam\" verilmiştir: 506,1 ve 422,1 Mt CO₂eş. Aradaki fark neyden kaynaklanır?",
+    o: ["AKAKDO (arazi kullanımı ve ormancılık) yutaklarının −84,0 Mt CO₂eş olarak hesaba katılmasından", "Tarım emisyonlarının çıkarılmasından", "Atık sektörünün iki kez sayılmasından", "Kişi başı değerle çarpılmasından", "Endüstriyel işlemlerin dahil edilmemesinden"], a: 0,
+    e: "AKAKDO (Arazi Kullanımı, Arazi Kullanım Değişikliği ve Ormancılık) negatif, yani yutaktır: 506,1 − <b>84,0</b> = 422,1 Mt CO₂eş." },
+];
+const TOPICS = ["Hava kirleticileri ve kaynakları", "Azaltım teknolojileri", "Çevre mevzuatı ve izin süreci", "İklim değişikliği ve sera gazları", "İklim müzakereleri", "Sera gazı emisyonları"];
+const LET = ["A", "B", "C", "D", "E"];
+const KEY = "enerji-sinav-sunum3-v1";
+const $ = id => document.getElementById(id);
+
+let S;
+
+function shuffle(a) {
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function fresh(ids, mode) {
+  const order = shuffle(ids || Q.map((_, i) => i));
+  const perm = {};
+  order.forEach(i => { perm[i] = shuffle([0, 1, 2, 3, 4]); });
+  return { n: Q.length, mode: mode || "pr", order, perm, ans: {}, cur: 0, done: false, view: "q", ask: false, filter: "all" };
+}
+function valid(s) {
+  return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
+    s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
+
+const N = () => S.order.length;
+const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
+const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
+function status(i) {
+  if (S.ans[i] === undefined) return "blank";
+  return S.ans[i] === Q[i].a ? "ok" : "bad";
+}
+function counts() {
+  const c = { ok: 0, bad: 0, blank: 0 };
+  S.order.forEach(i => c[status(i)]++);
+  return c;
+}
+
+function render() {
+  $("m-pr").setAttribute("aria-pressed", S.mode === "pr");
+  $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
+  const na = answered();
+  $("pg").style.width = (na / N() * 100) + "%";
+  if (S.mode === "pr" || S.done) {
+    let ok = 0, bad = 0;
+    S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
+    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
+  } else {
+    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
+  }
+  $("quiz").hidden = S.view !== "q";
+  $("results").hidden = S.view !== "res";
+  if (S.view === "q") renderQ(); else renderRes();
+  renderMap();
+}
+
+function renderQ() {
+  const qi = S.order[S.cur], q = Q[qi], p = S.perm[qi], a = S.ans[qi], rev = revealed(qi);
+  const locked = S.done || (S.mode === "pr" && a !== undefined);
+  const opts = p.map((oi, k) => {
+    let cls = "opt";
+    if (rev) {
+      if (oi === q.a) cls += " ok";
+      else if (a === oi) cls += " bad";
+      else cls += " dim";
+    } else if (a === oi) cls += " sel";
+    return `<li><button type="button" class="${cls}" data-k="${k}" ${locked ? "disabled" : ""} aria-pressed="${a === oi}"><span class="lt">${LET[k]}</span><span class="tx">${q.o[oi]}</span></button></li>`;
+  }).join("");
+  let fb = "";
+  if (rev) {
+    const right = LET[p.indexOf(q.a)];
+    const st = status(qi);
+    const head = st === "ok" ? "Doğru." : st === "bad" ? `Yanlış. Doğru cevap ${right}.` : `Boş bırakıldı. Doğru cevap ${right}.`;
+    fb = `<div class="fb ${st}"><strong>${head}</strong><p>${q.e}</p></div>`;
+  }
+  const last = S.cur === N() - 1;
+  const allDone = answered() === N();
+  let nav = `<button type="button" class="btn" id="prev" ${S.cur === 0 ? "disabled" : ""}>← Önceki</button><span class="grow"></span>`;
+  if (S.done) {
+    nav += `<button type="button" class="btn" id="tores">Sonuçlar</button>`;
+    nav += `<button type="button" class="btn primary" id="next" ${last ? "disabled" : ""}>Sonraki →</button>`;
+  } else if (S.mode === "ex") {
+    if (S.ask) {
+      nav = `<span class="note"><b>${N() - answered()} soru boş.</b> Boş sorular net hesabında yanlış sayılmaz.</span><span class="grow"></span>
+        <button type="button" class="btn" id="cancel">Sorulara dön</button><button type="button" class="btn primary" id="finish2">Yine de bitir</button>`;
+    } else {
+      nav += `<button type="button" class="btn warn" id="finish">Sınavı bitir</button>`;
+      if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+    }
+  } else {
+    if (allDone) nav += `<button type="button" class="btn ${last ? "primary" : ""}" id="finish2">Sonuçları gör</button>`;
+    if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+  }
+  $("quiz").innerHTML = `
+    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span><span class="chip src">slayt ${q.s}</span></div>
+    <p class="qtext">${q.q}</p>
+    <ul class="opts">${opts}</ul>
+    ${fb}
+    <div class="nav">${nav}</div>`;
+}
+
+function renderMap() {
+  $("map").innerHTML = S.order.map((qi, k) => {
+    let cls = "";
+    if (revealed(qi) && S.ans[qi] !== undefined) cls = status(qi);
+    else if (S.ans[qi] !== undefined) cls = "ans";
+    if (S.view === "q" && k === S.cur) cls += " cur";
+    return `<button type="button" class="${cls.trim()}" data-go="${k}" aria-label="Soru ${k + 1}">${k + 1}</button>`;
+  }).join("");
+}
+
+function renderRes() {
+  const c = counts(), n = N();
+  const net = c.ok - c.bad / 4;
+  const pct = Math.round(c.ok / n * 100);
+  const verdict = pct >= 85 ? "Sunuma hâkimsiniz." : pct >= 60 ? "İyi gidiyor. Zayıf konuları tekrar edin." : "Sunumu bir kez daha gözden geçirin.";
+  const per = TOPICS.map((name, t) => {
+    const ids = S.order.filter(i => Q[i].t === t);
+    if (!ids.length) return "";
+    const ok = ids.filter(i => status(i) === "ok").length;
+    const r = ok / ids.length;
+    return `<div class="trow"><span class="tn">${name}</span><span class="tv">${ok}/${ids.length}</span><span class="tb"><i class="${r < .5 ? "low" : r < .8 ? "mid" : ""}" style="width:${r * 100}%"></i></span></div>`;
+  }).join("");
+  const list = S.order.map((qi, k) => ({ qi, k })).filter(({ qi }) => S.filter === "all" || status(qi) !== "ok").map(({ qi, k }) => {
+    const q = Q[qi], p = S.perm[qi], st = status(qi), a = S.ans[qi];
+    const pill = st === "ok" ? `<span class="pill ok">doğru</span>` : st === "bad" ? `<span class="pill bad">yanlış</span>` : `<span class="pill blank">boş</span>`;
+    const yours = a === undefined ? "" : st === "bad" ? `<span>Cevabınız: <span class="wr">${LET[p.indexOf(a)]}) ${q.o[a]}</span></span>` : "";
+    return `<li><div class="rq"><span class="n">${k + 1}.</span><p>${q.q} ${pill}</p></div>
+      <div class="ra">${yours}<span>Doğru cevap: <b>${LET[p.indexOf(q.a)]}) ${q.o[q.a]}</b></span><span>${q.e} <i>(slayt ${q.s})</i></span></div></li>`;
+  }).join("") || `<li><span class="note">Yanlış veya boş soru yok.</span></li>`;
+  const miss = c.bad + c.blank;
+  $("results").innerHTML = `
+    <div class="score">
+      <div class="big">${c.ok}<small> / ${n}</small></div>
+      <div class="verdict"><h2>${verdict}</h2>
+        <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span></div>
+      </div>
+    </div>
+    <div class="actions">
+      ${miss ? `<button type="button" class="btn primary" id="retry">Yanlış ve boşları tekrar çöz (${miss})</button>` : ""}
+      <button type="button" class="btn ${miss ? "" : "primary"}" id="restart">Baştan başla, soruları karıştır</button>
+      <button type="button" class="btn" id="back">Sorulara dön</button>
+    </div>
+    <h3>Konulara göre</h3>
+    <div class="topics">${per}</div>
+    <div class="rvhead"><h3>Cevap anahtarı ve açıklamalar</h3>
+      <div class="seg" role="group" aria-label="Liste filtresi">
+        <button type="button" data-f="all" aria-pressed="${S.filter === "all"}">Tümü</button>
+        <button type="button" data-f="miss" aria-pressed="${S.filter === "miss"}">Yanlış ve boş</button>
+      </div></div>
+    <ul class="review">${list}</ul>`;
+}
+
+function choose(k) {
+  if (S.view !== "q" || S.done || S.ask) return;
+  const qi = S.order[S.cur];
+  if (S.mode === "pr" && S.ans[qi] !== undefined) return;
+  S.ans[qi] = S.perm[qi][k];
+  commit();
+  if (S.mode === "pr") ($("next") || $("finish2"))?.focus();
+}
+function go(k) {
+  if (k < 0 || k >= N()) return;
+  S.cur = k; S.view = "q"; S.ask = false; commit();
+}
+function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
+function commit() { save(); render(); }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.k !== undefined) return choose(+b.dataset.k);
+  if (b.dataset.go !== undefined) { go(+b.dataset.go); $("quiz").scrollIntoView({ block: "nearest" }); return; }
+  if (b.dataset.f) { S.filter = b.dataset.f; return commit(); }
+  switch (b.id) {
+    case "m-pr": case "m-ex": {
+      const m = b.id === "m-pr" ? "pr" : "ex";
+      if (m === S.mode) return;
+      // Bitmiş bir denemede biçim değişirse yeni deneme başlar
+      S = S.done ? fresh(null, m) : Object.assign(S, { mode: m, ask: false });
+      return commit();
+    }
+    case "prev": return go(S.cur - 1);
+    case "next": return go(S.cur + 1);
+    case "finish": if (answered() < N()) { S.ask = true; return commit(); } return finish();
+    case "finish2": return finish();
+    case "cancel": S.ask = false; return commit();
+    case "tores": S.view = "res"; return commit();
+    case "back": S.view = "q"; return commit();
+    case "retry": S = fresh(S.order.filter(i => status(i) !== "ok"), S.mode); window.scrollTo({ top: 0 }); return commit();
+    case "restart": S = fresh(null, S.mode); window.scrollTo({ top: 0 }); return commit();
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
+  const k = e.key.toLowerCase();
+  const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
+  if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
+  if (e.key === "ArrowRight") return go(S.cur + 1);
+  if (e.key === "ArrowLeft") return go(S.cur - 1);
+  if (e.key === "Enter" && e.target === document.body) {
+    const qi = S.order[S.cur];
+    if (S.ans[qi] !== undefined || S.done) go(S.cur + 1);
+  }
+});
+
+function start(data) {
+  S = valid(data && data.S) ? data.S : (load() || fresh());
+  render();
+}
+window.claude?.hot?.snapshot?.(() => ({ S }));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
+</body>
+</html>
