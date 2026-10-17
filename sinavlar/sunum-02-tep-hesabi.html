@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TEP Hesabı Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Tek sütun sınav kâğıdı: başlık, durum çubuğu, soru kartı, sonuç paneli. Petrol mavisi mürekkep + kehribar vurgu. */
+:root {
+  --bg: #edf1f2;
+  --surface: #ffffff;
+  --ink: #12232a;
+  --muted: #566a72;
+  --line: #d2dcdf;
+  --accent: #0c5a73;
+  --accent-soft: #e1eef2;
+  --spark: #c98208;
+  --ok: #1d7448;
+  --ok-soft: #e3f3ea;
+  --bad: #b2362c;
+  --bad-soft: #fbe9e7;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+    --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+    --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+  --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+  --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--spark); outline-offset: 2px; }
+
+/* Başlık */
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 7vw, 46px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* Durum çubuğu */
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.tally { display: flex; gap: 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tally b { font-family: var(--font-data); font-weight: 500; font-size: 15px; }
+.tally .ok b { color: var(--ok); } .tally .bad b { color: var(--bad); } .tally .mk b { color: var(--accent); }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--spark); transition: width .25s ease; }
+
+/* Soru kartı */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px clamp(16px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.qnum { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.chip.src { margin-left: auto; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+.qtext { margin: 0; font-size: clamp(17px, 2.6vw, 19px); font-weight: 600; line-height: 1.45; text-wrap: pretty; }
+.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.opt {
+  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; text-align: left;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt .lt { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; font-family: var(--font-data); font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
+.opt .tx { min-width: 0; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.sel .lt { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.ok .lt { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.bad .lt { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.opt.dim { opacity: .55; }
+
+.fb { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
+.fb.ok { border-color: var(--ok); } .fb.bad { border-color: var(--bad); } .fb.blank { border-color: var(--spark); }
+.fb strong { font-size: 15px; }
+.fb.ok strong { color: var(--ok); } .fb.bad strong { color: var(--bad); } .fb.blank strong { color: var(--spark); }
+.fb p { margin: 0; color: var(--ink); max-width: 66ch; }
+
+.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.nav .grow { flex: 1; }
+.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 16px; font-weight: 600; font-size: 15px; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.warn { border-color: var(--spark); }
+.note { font-size: 14px; color: var(--muted); }
+.note b { color: var(--ink); }
+
+/* Soru haritası */
+.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.map summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.map summary span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; margin-top: 12px; }
+.grid button { height: 38px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.grid button.ans { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.grid button.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+.grid button.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+.grid button.cur { outline: 2px solid var(--spark); outline-offset: 1px; }
+
+/* Sonuç */
+.score { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: end; }
+.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 14vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+.big small { font-size: .45em; color: var(--muted); }
+.verdict { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.verdict h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stats b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
+h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
+.topics { display: flex; flex-direction: column; gap: 10px; }
+.trow { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 12px; align-items: center; font-size: 14px; }
+.trow .tn { min-width: 0; }
+.trow .tv { text-align: right; font-family: var(--font-data); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.trow .tb { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.trow .tb i { display: block; height: 100%; background: var(--accent); }
+.trow .tb i.low { background: var(--bad); } .trow .tb i.mid { background: var(--spark); }
+.rvhead { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.review { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
+.review li { border-top: 1px solid var(--line); padding: 14px 0; display: flex; flex-direction: column; gap: 6px; }
+.rq { display: flex; gap: 10px; align-items: baseline; }
+.rq .n { font-family: var(--font-data); font-size: 13px; color: var(--muted); min-width: 26px; }
+.rq p { margin: 0; font-weight: 600; min-width: 0; }
+.pill { font-family: var(--font-data); font-size: 11px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); } .pill.bad { color: var(--bad); background: var(--bad-soft); } .pill.blank { color: var(--spark); border: 1px solid var(--spark); }
+.ra { padding-left: 36px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.ra b { color: var(--ink); font-weight: 600; }
+.ra .wr { color: var(--bad); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
+
+@media (max-width: 480px) {
+  .chip.src { margin-left: 0; }
+  .score { grid-template-columns: 1fr; }
+  .ra { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SUNUM 2 · 1_3.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı eğitim sunumu</p>
+    <h1>TEP Nedir, Nasıl Hesaplanır? <em>Sınavı</em></h1>
+    <p class="lede">30 soru, beşer şık. TEP tanımı, hesap formülü, ısıl değerler tablosu ve adım adım çözümlü hesap soruları. Hesap makinesi yanınızda olsun. Her cevabın açıklamasında ilgili slayt numarası yazar.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı ve açıklamayı gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: "TEP Nedir, Nasıl Hesaplanır?" sunumu (S. Akman). Isıl değerler: Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik – Ek 2. Net = doğru − yanlış ÷ 4.</span>
+  </footer>
+</div>
+
+<script>
+const Q = [
+  // TEP kavramı
+  { t: 0, s: 4, q: "TEP kısaltmasının açılımı nedir?",
+    o: ["Ton Eşdeğer Petrol", "Toplam Enerji Potansiyeli", "Termik Enerji Payı", "Ton Enerji Performansı", "Tesis Enerji Planı"], a: 0,
+    e: "TEP = <b>Ton Eşdeğer Petrol</b>: 1 ton petrolün sahip olduğu enerjiye eşit enerji miktarı." },
+  { t: 0, s: 4, q: "TEP'in İngilizce karşılığı hangisidir?",
+    o: ["TOE", "TCE", "BTU", "GJ", "kWh"], a: 0,
+    e: "İngilizcesi <b>TOE (ton oil equivalent)</b>. TCE ton kömür eşdeğeridir; BTU, GJ ve kWh ise enerji birimleridir." },
+  { t: 0, s: 4, q: "TEP biriminin oluşturulma amacı nedir?",
+    o: ["Farklı enerji türleri kullanan bina, tesis ve işletmelerin enerji tüketimlerini birbiriyle karşılaştırabilmek", "Elektrik tarifelerini belirlemek", "Yalnızca petrol ithalatını ölçmek", "Santrallerin kurulu gücünü ifade etmek", "Yakıtların CO₂ emisyonlarını hesaplamak"], a: 0,
+    e: "Biri linyit, diğeri doğal gaz kullanan iki fabrikanın tüketimi ton, m³ ve kWh gibi farklı birimlerle doğrudan karşılaştırılamaz. TEP bunlar için <b>ortak enerji tüketim birimidir</b>." },
+  { t: 0, s: 4, q: "1 TEP kaç kcal'e eşittir?",
+    o: ["1.000.000 kcal", "860.000 kcal", "8.250.000 kcal", "10.000.000 kcal", "100.000.000 kcal"], a: 3,
+    e: "<b>1 TEP = 10.000.000 kcal</b> = 10¹⁰ cal. 1 kg petrol 10.000 kcal olduğundan 1 ton petrol 10.000 × 1.000 = 10.000.000 kcal eder." },
+  { t: 0, s: 4, q: "1 TEP kaç Gcal'dir?",
+    o: ["0,1 Gcal", "1 Gcal", "10 Gcal", "100 Gcal", "860 Gcal"], a: 2,
+    e: "1 Gcal = 10⁹ cal. 1 TEP = 10¹⁰ cal = <b>10 Gcal</b>." },
+  { t: 0, s: 4, q: "Sunumda TEP tanımına esas alınan 1 kg petrolün enerjisi kaç kcal'dir?",
+    o: ["860 kcal", "1.000 kcal", "8.250 kcal", "10.000 kcal", "10.000.000 kcal"], a: 3,
+    e: "<b>1 kg petrol = 10.000 kcal</b>; 1 ton petrol = 10.000.000 kcal = 1 TEP." },
+
+  // Hesap yöntemi
+  { t: 1, s: 5, q: "TEP hesabında kullanılan formül hangisidir?",
+    o: ["TEP = (Tüketim miktarı × Yakıt ısıl değeri) ÷ 10.000.000", "TEP = (Tüketim miktarı ÷ Yakıt ısıl değeri) × 10.000.000", "TEP = (Tüketim miktarı × 10.000.000) ÷ Yakıt ısıl değeri", "TEP = Tüketim miktarı × Yakıt ısıl değeri × 860", "TEP = (Tüketim miktarı + Yakıt ısıl değeri) ÷ 10.000.000"], a: 0,
+    e: "Tüketim miktarı ısıl değerle (kcal/birim) çarpılarak toplam enerji kcal olarak bulunur, sonra <b>10.000.000 kcal</b>'e bölünür." },
+  { t: 1, s: 5, q: "Isıl değeri kcal/kg olarak verilen bir yakıtın tüketimi ton cinsinden ise TEP hesabında ne yapılmalıdır?",
+    o: ["Tüketim 1.000 ile çarpılıp kg'a çevrilmelidir.", "Tüketim 1.000'e bölünmelidir.", "Tüketim 860 ile çarpılmalıdır.", "Tüketim yoğunlukla (kg/m³) çarpılmalıdır.", "Birim farkı sonucu etkilemez, doğrudan çarpılır."], a: 0,
+    e: "Tüketim, ısıl değerin birimine çevrilmelidir. Örnekte 5.000 ton linyit <b>5.000 × 1.000</b> kg'a çevrilip 3.000 kcal/kg ile çarpılmıştır." },
+  { t: 1, s: 6, q: "TEP hesabında 1 kWh elektrik kaç kcal olarak alınır?",
+    o: ["860 kcal", "1.000 kcal", "3.600 kcal", "4.186 kcal", "8.250 kcal"], a: 0,
+    e: "<b>1 kWh = 860 kcal</b> (bin kWh = 860.000 kcal = 0,086 TEP). 1 kWh = 3.600 kJ'dir; kcal değil." },
+  { t: 1, s: 8, q: "Tablodaki \"TEP çevrim katsayısı\" nasıl elde edilir?",
+    o: ["Alt ısıl değer ÷ 10.000.000", "Alt ısıl değer × 860", "Yoğunluk × alt ısıl değer", "Alt ısıl değer ÷ 8.250", "Üst ısıl değer ÷ 10.000.000"], a: 0,
+    e: "Örneğin taşkömürü: 6.100.000 kcal/ton ÷ 10.000.000 = <b>0,610 TEP/ton</b>. Tablo <b>alt</b> ısıl değerleri kullanır." },
+  { t: 1, s: 8, q: "Sunumdaki ısıl değerler ve TEP çevrim katsayıları tablosunun kaynağı hangisidir?",
+    o: ["Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik – Ek 2", "5346 sayılı Yenilenebilir Enerji Kanunu", "Binalarda Enerji Performansı Yönetmeliği", "Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği", "Elektrik Piyasası Lisans Yönetmeliği"], a: 0,
+    e: "Tablonun altında kaynak olarak <b>Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik – Ek 2</b> gösterilir." },
+
+  // Isıl değerler
+  { t: 2, s: 8, q: "Tabloya göre doğal gazın alt ısıl değeri nedir?",
+    o: ["860 kcal/m³", "4.028 kcal/m³", "8.250 kcal/m³", "9.155 kcal/m³", "10.200 kcal/m³"], a: 2,
+    e: "Doğal gaz: bin m³ için <b>8.250.000 kcal</b>, yani 8.250 kcal/m³; yoğunluk 0,670 kg/m³. 4.028 kcal/m³ kok gazı, 10.200 kcal/m³ propandır." },
+  { t: 2, s: 8, q: "Bin m³ doğal gazın TEP çevrim katsayısı kaçtır?",
+    o: ["0,086", "0,670", "0,825", "1,020", "8,250"], a: 2,
+    e: "8.250.000 kcal ÷ 10.000.000 = <b>0,825 TEP</b>. 0,670 doğal gazın yoğunluğudur (kg/m³)." },
+  { t: 2, s: 8, q: "Bin kWh elektriğin TEP çevrim katsayısı kaçtır?",
+    o: ["0,0086", "0,086", "0,825", "0,860", "8,6"], a: 1,
+    e: "Bin kWh × 860 kcal/kWh = 860.000 kcal; ÷ 10.000.000 = <b>0,086 TEP</b>. Hidrolik ve jeotermal elektrik için de aynı katsayı kullanılır." },
+  { t: 2, s: 7, q: "Tabloya göre teshin (ısınma) ve sanayide kullanılan linyitin alt ısıl değeri nedir?",
+    o: ["1.100 kcal/kg", "2.000 kcal/kg", "3.000 kcal/kg", "6.100 kcal/kg", "7.200 kcal/kg"], a: 2,
+    e: "Linyit (teshin ve sanayi) <b>3.000.000 kcal/ton</b> (0,300 TEP). Santral linyiti 2.000, Elbistan linyiti 1.100, taşkömürü 6.100, kok kömürü 7.200 kcal/kg'dır." },
+  { t: 2, s: 7, q: "Aşağıdaki katı yakıtlardan hangisinin alt ısıl değeri en düşüktür?",
+    o: ["Elbistan linyiti", "Santral linyiti", "Kabuk", "Hayvan ve bitki artığı", "Talaş"], a: 0,
+    e: "Elbistan linyiti <b>1.100.000 kcal/ton</b> (0,110 TEP). Santral linyiti 2.000.000, kabuk 2.250.000, hayvan ve bitki artığı 2.300.000, talaş 3.000.000 kcal/ton." },
+  { t: 2, s: 7, q: "Aşağıdaki yakıtlardan hangisinin 1 tonu 1 TEP'ten fazla enerji içerir?",
+    o: ["Taşkömürü", "Petrokok", "Fuel oil No 6", "Gazyağı", "LPG"], a: 4,
+    e: "1 ton LPG = <b>1,090 TEP</b>. Taşkömürü 0,610, petrokok 0,760, fuel oil No 6 0,986, gazyağı 0,829 TEP'tir." },
+  { t: 2, s: 8, q: "Tabloda 1 ton LPG 1,090 TEP, bin m³ LPG ise 2,700 TEP'tir. Bu farkın nedeni nedir?",
+    o: ["Bin m³ LPG'nin kütlesi yaklaşık 2,48 tondur (yoğunluk 2,477 kg/m³).", "Gaz hâlindeki LPG'nin kg başına ısıl değeri daha yüksektir.", "İki satır farklı yakıtları göstermektedir.", "Sıvı LPG'de buharlaşma kaybı vardır.", "Gazlar için üst ısıl değer kullanılmıştır."], a: 0,
+    e: "Birim farklıdır: bin m³ × 2,477 kg/m³ ≈ 2.477 kg. 2,477 ton × 10.900.000 kcal/ton ≈ <b>27.000.000 kcal</b> = 2,700 TEP." },
+
+  // Uygulama hesapları
+  { t: 3, s: 6, q: "Örnekteki fabrika 5.000 ton linyit (3.000 kcal/kg) tüketmektedir. Linyitten gelen enerji kaç kcal'dir?",
+    o: ["15.000.000 kcal", "1.500.000.000 kcal", "3.000.000.000 kcal", "15.000.000.000 kcal", "150.000.000.000 kcal"], a: 3,
+    e: "5.000 ton × 1.000 kg/ton × 3.000 kcal/kg = <b>15.000.000.000 kcal</b> (1.500 TEP)." },
+  { t: 3, s: 6, q: "5.000 ton linyit (3.000 kcal/kg) ve 12.000 kWh elektrik tüketen fabrikanın toplam tüketimi kaç TEP'tir?",
+    o: ["150,10", "1.099,73", "1.500,00", "1.501,03", "15.010,32"], a: 3,
+    e: "Linyit 15.000.000.000 kcal + elektrik 12.000 × 860 = 10.320.000 kcal = 15.010.320.000 kcal. ÷ 10.000.000 = <b>1.501,03 TEP</b>." },
+  { t: 3, s: 6, q: "1.328.000 Sm³ doğal gaz (8.250 kcal/m³) ve 48.000 kWh elektrik tüketen fabrikanın toplam tüketimi kaç TEP'tir?",
+    o: ["109,97", "1.095,60", "1.099,73", "1.501,03", "10.997,28"], a: 2,
+    e: "Doğal gaz 1.328.000 × 8.250 = 10.956.000.000 kcal + elektrik 48.000 × 860 = 41.280.000 kcal = 10.997.280.000 kcal. ÷ 10.000.000 = <b>1.099,73 TEP</b>." },
+  { t: 3, s: 3, q: "\"Benim fabrikamda daha çok enerji tüketiliyor\" tartışmasındaki iki fabrikadan (linyit + 12.000 kWh ile doğal gaz + 48.000 kWh) hangisi daha çok enerji tüketir?",
+    o: ["Linyit kullanan fabrika, yaklaşık 401 TEP daha fazla", "Doğal gaz kullanan fabrika, 4 kat fazla elektrik tükettiği için", "Doğal gaz kullanan fabrika, yaklaşık 401 TEP daha fazla", "İkisi eşit tüketir", "Birimler farklı olduğu için karşılaştırılamaz"], a: 0,
+    e: "1.501,03 − 1.099,73 ≈ <b>401,3 TEP</b>. Elektrik tüketimleri toplamın çok küçük bir kısmıdır (1,03 ve 4,13 TEP); farkı yakıtlar belirler. TEP sayesinde farklı birimler karşılaştırılabilir." },
+  { t: 3, s: 8, q: "Bir işletme yılda 200 ton motorin tüketmektedir. Bu tüketim kaç TEP'tir? (Motorin: 10.200.000 kcal/ton)",
+    o: ["20,4", "166,0", "196,1", "204,0", "2.040,0"], a: 3,
+    e: "200 × 10.200.000 = 2.040.000.000 kcal ÷ 10.000.000 = <b>204 TEP</b> (ya da 200 × 1,020)." },
+  { t: 3, s: 8, q: "Bir işletme yılda 2.500.000 kWh elektrik tüketmektedir. Bu tüketim kaç TEP'tir?",
+    o: ["21,5", "215", "290,7", "2.150", "860"], a: 1,
+    e: "2.500.000 kWh = 2.500 bin kWh × 0,086 = <b>215 TEP</b> (2.500.000 × 860 = 2.150.000.000 kcal ÷ 10⁷)." },
+  { t: 3, s: 8, q: "Bir işletme yılda 500.000 Sm³ doğal gaz tüketmektedir. Bu tüketim kaç TEP'tir?",
+    o: ["41,25", "335", "412,5", "606,1", "4.125"], a: 2,
+    e: "500.000 m³ = 500 bin m³ × 0,825 = <b>412,5 TEP</b>." },
+  { t: 3, s: 8, q: "Bir forklift filosu yılda 10.000 litre motorin tüketmektedir (yoğunluk 0,830 kg/lt, 10.200 kcal/kg). Tüketim kaç TEP'tir?",
+    o: ["0,85", "8,47", "10,20", "12,29", "84,66"], a: 1,
+    e: "10.000 lt × 0,830 = 8.300 kg; 8.300 × 10.200 = 84.660.000 kcal ÷ 10.000.000 = <b>8,47 TEP</b>. Litreyi önce yoğunlukla kg'a çevirmek gerekir." },
+  { t: 3, s: 7, q: "1.000 litre fuel oil No 6 (yoğunluk 0,940 kg/lt, 9.860 kcal/kg) kaç TEP'tir?",
+    o: ["0,927", "0,940", "0,986", "1,049", "9,27"], a: 0,
+    e: "1.000 lt × 0,940 = 940 kg; 940 × 9.860 = 9.268.400 kcal ÷ 10.000.000 = <b>0,927 TEP</b>." },
+  { t: 3, s: 7, q: "Bir tesis yılda 300 ton taşkömürü ve 1.000.000 kWh elektrik tüketmektedir. Toplam tüketim kaç TEP'tir?",
+    o: ["183,0", "191,6", "269,0", "1.043,0", "2.690,0"], a: 2,
+    e: "Taşkömürü 300 × 0,610 = 183 TEP; elektrik 1.000 bin kWh × 0,086 = 86 TEP. Toplam <b>269 TEP</b>." },
+  { t: 3, s: 7, q: "Bir termik santralde 100.000 ton Elbistan linyiti yakılmıştır. Bu kaç TEP'tir?",
+    o: ["1.100", "11.000", "20.000", "30.000", "110.000"], a: 1,
+    e: "100.000 × 0,110 = <b>11.000 TEP</b> (1.100.000 kcal/ton). Aynı miktar santral linyiti 20.000, teshin linyiti 30.000 TEP olurdu." },
+  { t: 3, s: 8, q: "Yıllık tüketimi 1.000 TEP olan bir işletmenin tüketiminin tamamı elektrik olsaydı bu yaklaşık kaç kWh ederdi?",
+    o: ["1,16 milyon kWh", "8,6 milyon kWh", "11,63 milyon kWh", "86 milyon kWh", "116,3 milyon kWh"], a: 2,
+    e: "1.000 TEP = 10¹⁰ kcal; ÷ 860 kcal/kWh ≈ <b>11,63 milyon kWh</b> (ya da 1.000 ÷ 0,086 ≈ 11.628 bin kWh)." },
+];
+const TOPICS = ["TEP kavramı", "Hesap yöntemi", "Isıl değerler tablosu", "Uygulama hesapları"];
+const LET = ["A", "B", "C", "D", "E"];
+const KEY = "enerji-sinav-sunum2-v1";
+const $ = id => document.getElementById(id);
+
+let S;
+
+function shuffle(a) {
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function fresh(ids, mode) {
+  const order = shuffle(ids || Q.map((_, i) => i));
+  const perm = {};
+  order.forEach(i => { perm[i] = shuffle([0, 1, 2, 3, 4]); });
+  return { n: Q.length, mode: mode || "pr", order, perm, ans: {}, cur: 0, done: false, view: "q", ask: false, filter: "all" };
+}
+function valid(s) {
+  return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
+    s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
+
+const N = () => S.order.length;
+const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
+const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
+function status(i) {
+  if (S.ans[i] === undefined) return "blank";
+  return S.ans[i] === Q[i].a ? "ok" : "bad";
+}
+function counts() {
+  const c = { ok: 0, bad: 0, blank: 0 };
+  S.order.forEach(i => c[status(i)]++);
+  return c;
+}
+
+function render() {
+  $("m-pr").setAttribute("aria-pressed", S.mode === "pr");
+  $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
+  const na = answered();
+  $("pg").style.width = (na / N() * 100) + "%";
+  if (S.mode === "pr" || S.done) {
+    let ok = 0, bad = 0;
+    S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
+    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
+  } else {
+    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
+  }
+  $("quiz").hidden = S.view !== "q";
+  $("results").hidden = S.view !== "res";
+  if (S.view === "q") renderQ(); else renderRes();
+  renderMap();
+}
+
+function renderQ() {
+  const qi = S.order[S.cur], q = Q[qi], p = S.perm[qi], a = S.ans[qi], rev = revealed(qi);
+  const locked = S.done || (S.mode === "pr" && a !== undefined);
+  const opts = p.map((oi, k) => {
+    let cls = "opt";
+    if (rev) {
+      if (oi === q.a) cls += " ok";
+      else if (a === oi) cls += " bad";
+      else cls += " dim";
+    } else if (a === oi) cls += " sel";
+    return `<li><button type="button" class="${cls}" data-k="${k}" ${locked ? "disabled" : ""} aria-pressed="${a === oi}"><span class="lt">${LET[k]}</span><span class="tx">${q.o[oi]}</span></button></li>`;
+  }).join("");
+  let fb = "";
+  if (rev) {
+    const right = LET[p.indexOf(q.a)];
+    const st = status(qi);
+    const head = st === "ok" ? "Doğru." : st === "bad" ? `Yanlış. Doğru cevap ${right}.` : `Boş bırakıldı. Doğru cevap ${right}.`;
+    fb = `<div class="fb ${st}"><strong>${head}</strong><p>${q.e}</p></div>`;
+  }
+  const last = S.cur === N() - 1;
+  const allDone = answered() === N();
+  let nav = `<button type="button" class="btn" id="prev" ${S.cur === 0 ? "disabled" : ""}>← Önceki</button><span class="grow"></span>`;
+  if (S.done) {
+    nav += `<button type="button" class="btn" id="tores">Sonuçlar</button>`;
+    nav += `<button type="button" class="btn primary" id="next" ${last ? "disabled" : ""}>Sonraki →</button>`;
+  } else if (S.mode === "ex") {
+    if (S.ask) {
+      nav = `<span class="note"><b>${N() - answered()} soru boş.</b> Boş sorular net hesabında yanlış sayılmaz.</span><span class="grow"></span>
+        <button type="button" class="btn" id="cancel">Sorulara dön</button><button type="button" class="btn primary" id="finish2">Yine de bitir</button>`;
+    } else {
+      nav += `<button type="button" class="btn warn" id="finish">Sınavı bitir</button>`;
+      if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+    }
+  } else {
+    if (allDone) nav += `<button type="button" class="btn ${last ? "primary" : ""}" id="finish2">Sonuçları gör</button>`;
+    if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+  }
+  $("quiz").innerHTML = `
+    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span><span class="chip src">slayt ${q.s}</span></div>
+    <p class="qtext">${q.q}</p>
+    <ul class="opts">${opts}</ul>
+    ${fb}
+    <div class="nav">${nav}</div>`;
+}
+
+function renderMap() {
+  $("map").innerHTML = S.order.map((qi, k) => {
+    let cls = "";
+    if (revealed(qi) && S.ans[qi] !== undefined) cls = status(qi);
+    else if (S.ans[qi] !== undefined) cls = "ans";
+    if (S.view === "q" && k === S.cur) cls += " cur";
+    return `<button type="button" class="${cls.trim()}" data-go="${k}" aria-label="Soru ${k + 1}">${k + 1}</button>`;
+  }).join("");
+}
+
+function renderRes() {
+  const c = counts(), n = N();
+  const net = c.ok - c.bad / 4;
+  const pct = Math.round(c.ok / n * 100);
+  const verdict = pct >= 85 ? "Sunuma hâkimsiniz." : pct >= 60 ? "İyi gidiyor. Zayıf konuları tekrar edin." : "Sunumu bir kez daha gözden geçirin.";
+  const per = TOPICS.map((name, t) => {
+    const ids = S.order.filter(i => Q[i].t === t);
+    if (!ids.length) return "";
+    const ok = ids.filter(i => status(i) === "ok").length;
+    const r = ok / ids.length;
+    return `<div class="trow"><span class="tn">${name}</span><span class="tv">${ok}/${ids.length}</span><span class="tb"><i class="${r < .5 ? "low" : r < .8 ? "mid" : ""}" style="width:${r * 100}%"></i></span></div>`;
+  }).join("");
+  const list = S.order.map((qi, k) => ({ qi, k })).filter(({ qi }) => S.filter === "all" || status(qi) !== "ok").map(({ qi, k }) => {
+    const q = Q[qi], p = S.perm[qi], st = status(qi), a = S.ans[qi];
+    const pill = st === "ok" ? `<span class="pill ok">doğru</span>` : st === "bad" ? `<span class="pill bad">yanlış</span>` : `<span class="pill blank">boş</span>`;
+    const yours = a === undefined ? "" : st === "bad" ? `<span>Cevabınız: <span class="wr">${LET[p.indexOf(a)]}) ${q.o[a]}</span></span>` : "";
+    return `<li><div class="rq"><span class="n">${k + 1}.</span><p>${q.q} ${pill}</p></div>
+      <div class="ra">${yours}<span>Doğru cevap: <b>${LET[p.indexOf(q.a)]}) ${q.o[q.a]}</b></span><span>${q.e} <i>(slayt ${q.s})</i></span></div></li>`;
+  }).join("") || `<li><span class="note">Yanlış veya boş soru yok.</span></li>`;
+  const miss = c.bad + c.blank;
+  $("results").innerHTML = `
+    <div class="score">
+      <div class="big">${c.ok}<small> / ${n}</small></div>
+      <div class="verdict"><h2>${verdict}</h2>
+        <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span></div>
+      </div>
+    </div>
+    <div class="actions">
+      ${miss ? `<button type="button" class="btn primary" id="retry">Yanlış ve boşları tekrar çöz (${miss})</button>` : ""}
+      <button type="button" class="btn ${miss ? "" : "primary"}" id="restart">Baştan başla, soruları karıştır</button>
+      <button type="button" class="btn" id="back">Sorulara dön</button>
+    </div>
+    <h3>Konulara göre</h3>
+    <div class="topics">${per}</div>
+    <div class="rvhead"><h3>Cevap anahtarı ve açıklamalar</h3>
+      <div class="seg" role="group" aria-label="Liste filtresi">
+        <button type="button" data-f="all" aria-pressed="${S.filter === "all"}">Tümü</button>
+        <button type="button" data-f="miss" aria-pressed="${S.filter === "miss"}">Yanlış ve boş</button>
+      </div></div>
+    <ul class="review">${list}</ul>`;
+}
+
+function choose(k) {
+  if (S.view !== "q" || S.done || S.ask) return;
+  const qi = S.order[S.cur];
+  if (S.mode === "pr" && S.ans[qi] !== undefined) return;
+  S.ans[qi] = S.perm[qi][k];
+  commit();
+  if (S.mode === "pr") ($("next") || $("finish2"))?.focus();
+}
+function go(k) {
+  if (k < 0 || k >= N()) return;
+  S.cur = k; S.view = "q"; S.ask = false; commit();
+}
+function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
+function commit() { save(); render(); }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.k !== undefined) return choose(+b.dataset.k);
+  if (b.dataset.go !== undefined) { go(+b.dataset.go); $("quiz").scrollIntoView({ block: "nearest" }); return; }
+  if (b.dataset.f) { S.filter = b.dataset.f; return commit(); }
+  switch (b.id) {
+    case "m-pr": case "m-ex": {
+      const m = b.id === "m-pr" ? "pr" : "ex";
+      if (m === S.mode) return;
+      // Bitmiş bir denemede biçim değişirse yeni deneme başlar
+      S = S.done ? fresh(null, m) : Object.assign(S, { mode: m, ask: false });
+      return commit();
+    }
+    case "prev": return go(S.cur - 1);
+    case "next": return go(S.cur + 1);
+    case "finish": if (answered() < N()) { S.ask = true; return commit(); } return finish();
+    case "finish2": return finish();
+    case "cancel": S.ask = false; return commit();
+    case "tores": S.view = "res"; return commit();
+    case "back": S.view = "q"; return commit();
+    case "retry": S = fresh(S.order.filter(i => status(i) !== "ok"), S.mode); window.scrollTo({ top: 0 }); return commit();
+    case "restart": S = fresh(null, S.mode); window.scrollTo({ top: 0 }); return commit();
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
+  const k = e.key.toLowerCase();
+  const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
+  if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
+  if (e.key === "ArrowRight") return go(S.cur + 1);
+  if (e.key === "ArrowLeft") return go(S.cur - 1);
+  if (e.key === "Enter" && e.target === document.body) {
+    const qi = S.order[S.cur];
+    if (S.ans[qi] !== undefined || S.done) go(S.cur + 1);
+  }
+});
+
+function start(data) {
+  S = valid(data && data.S) ? data.S : (load() || fresh());
+  render();
+}
+window.claude?.hot?.snapshot?.(() => ({ S }));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
+</body>
+</html>
