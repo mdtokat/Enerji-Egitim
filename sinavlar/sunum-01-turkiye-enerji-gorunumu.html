@@ -1,0 +1,519 @@
+<title>Enerji Görünümü Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Tek sütun sınav kâğıdı: başlık, durum çubuğu, soru kartı, sonuç paneli. Petrol mavisi mürekkep + kehribar vurgu. */
+:root {
+  --bg: #edf1f2;
+  --surface: #ffffff;
+  --ink: #12232a;
+  --muted: #566a72;
+  --line: #d2dcdf;
+  --accent: #0c5a73;
+  --accent-soft: #e1eef2;
+  --spark: #c98208;
+  --ok: #1d7448;
+  --ok-soft: #e3f3ea;
+  --bad: #b2362c;
+  --bad-soft: #fbe9e7;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+    --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+    --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
+  --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
+  --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--spark); outline-offset: 2px; }
+
+/* Başlık */
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 7vw, 46px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* Durum çubuğu */
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.tally { display: flex; gap: 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tally b { font-family: var(--font-data); font-weight: 500; font-size: 15px; }
+.tally .ok b { color: var(--ok); } .tally .bad b { color: var(--bad); } .tally .mk b { color: var(--accent); }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--spark); transition: width .25s ease; }
+
+/* Soru kartı */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px clamp(16px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.qnum { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.chip.src { margin-left: auto; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+.qtext { margin: 0; font-size: clamp(17px, 2.6vw, 19px); font-weight: 600; line-height: 1.45; text-wrap: pretty; }
+.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.opt {
+  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; text-align: left;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt .lt { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; font-family: var(--font-data); font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
+.opt .tx { min-width: 0; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.sel .lt { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.ok .lt { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.bad .lt { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.opt.dim { opacity: .55; }
+
+.fb { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
+.fb.ok { border-color: var(--ok); } .fb.bad { border-color: var(--bad); } .fb.blank { border-color: var(--spark); }
+.fb strong { font-size: 15px; }
+.fb.ok strong { color: var(--ok); } .fb.bad strong { color: var(--bad); } .fb.blank strong { color: var(--spark); }
+.fb p { margin: 0; color: var(--ink); max-width: 66ch; }
+
+.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.nav .grow { flex: 1; }
+.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 16px; font-weight: 600; font-size: 15px; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.warn { border-color: var(--spark); }
+.note { font-size: 14px; color: var(--muted); }
+.note b { color: var(--ink); }
+
+/* Soru haritası */
+.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.map summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.map summary span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; margin-top: 12px; }
+.grid button { height: 38px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.grid button.ans { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.grid button.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+.grid button.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+.grid button.cur { outline: 2px solid var(--spark); outline-offset: 1px; }
+
+/* Sonuç */
+.score { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: end; }
+.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 14vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+.big small { font-size: .45em; color: var(--muted); }
+.verdict { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.verdict h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stats b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
+h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
+.topics { display: flex; flex-direction: column; gap: 10px; }
+.trow { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 12px; align-items: center; font-size: 14px; }
+.trow .tn { min-width: 0; }
+.trow .tv { text-align: right; font-family: var(--font-data); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.trow .tb { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.trow .tb i { display: block; height: 100%; background: var(--accent); }
+.trow .tb i.low { background: var(--bad); } .trow .tb i.mid { background: var(--spark); }
+.rvhead { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.review { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
+.review li { border-top: 1px solid var(--line); padding: 14px 0; display: flex; flex-direction: column; gap: 6px; }
+.rq { display: flex; gap: 10px; align-items: baseline; }
+.rq .n { font-family: var(--font-data); font-size: 13px; color: var(--muted); min-width: 26px; }
+.rq p { margin: 0; font-weight: 600; min-width: 0; }
+.pill { font-family: var(--font-data); font-size: 11px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); } .pill.bad { color: var(--bad); background: var(--bad-soft); } .pill.blank { color: var(--spark); border: 1px solid var(--spark); }
+.ra { padding-left: 36px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.ra b { color: var(--ink); font-weight: 600; }
+.ra .wr { color: var(--bad); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
+
+@media (max-width: 480px) {
+  .chip.src { margin-left: 0; }
+  .score { grid-template-columns: 1fr; }
+  .ra { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SUNUM 1 · 1_2.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı eğitim sunumu (2022)</p>
+    <h1>Türkiye'nin Genel Enerji Görünümü <em>Sınavı</em></h1>
+    <p class="lede">33 soru, beşer şık. Arz ve talep, elektrik, enerji yoğunluğu, CO₂, yenilenebilir kaynaklar ve mevzuat. Her cevabın açıklamasında ilgili slayt numarası yazar.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı ve açıklamayı gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: "Türkiye'nin Genel Enerji Görünümü, Enerji Arz Talep Tarafındaki Gelişmeler, Yenilenebilir Enerji Kaynakları" sunumu (H. C. Topcan, 2022). Veriler EİGM, TEİAŞ, IEA ve Global Carbon Atlas kaynaklıdır. Net = doğru − yanlış ÷ 4.</span>
+  </footer>
+</div>
+
+<script>
+const Q = [
+  // Genel görünüm
+  { t: 0, s: 3, q: "Sunumdaki ülke göstergelerine göre aşağıdakilerden hangisi doğrudur?",
+    o: ["Türkiye'nin nüfusu 83 milyonun üzerindedir.", "Ortanca yaş 41,2'dir.", "İhracat tutarı ithalat tutarından fazladır.", "Yüz ölçümü 1 milyon km²'nin üzerindedir.", "Kişi başı GSYH 17.250 ABD dolarıdır."], a: 0,
+    e: "Göstergeler: nüfus > 83 milyon, ortanca yaş 32,7, yüz ölçümü 783.562,38 km², GSYH 717 milyar $, kişi başı GSYH 8.638 $. İhracat (169,6 milyar $) ithalattan (219,5 milyar $) azdır." },
+  { t: 0, s: 2, q: "Sunuma göre Türkiye'de enerji talebinin sürekli artmasının nedenleri arasında hangisi sayılmamıştır?",
+    o: ["Sanayinin büyümesi", "Nüfus artışı", "Ekonomik faaliyetlerin artması", "Çeşitlenen tüketim alışkanlıkları", "Enerji fiyatlarının sürekli düşmesi"], a: 4,
+    e: "Sunum talep artışını sanayi, nüfus, ekonomik faaliyetler ve çeşitlenen tüketim alışkanlıklarıyla açıklar. Enerji fiyatlarından söz edilmez." },
+
+  // Birincil ve nihai enerji
+  { t: 1, s: 4, q: "Türkiye'nin 2020 yılı birincil enerji arzı kaç milyon TEP olarak gerçekleşmiştir?",
+    o: ["105,3", "113,6", "147,2", "36,4", "160,0"], a: 2,
+    e: "2020 birincil enerji arzı <b>147,2 milyon TEP</b>. 105,3 MTEP ana sektörlerin nihai tüketimi, 36,4 MTEP sanayinin tüketimidir." },
+  { t: 1, s: 4, q: "Küresel birincil enerji arzı yaklaşık 14,5 milyar TEP (IEA) iken Türkiye'nin küresel arzdaki payı yaklaşık yüzde kaçtır?",
+    o: ["%0,1", "%1", "%3", "%5", "%10"], a: 1,
+    e: "147,2 milyon TEP ÷ 14.500 milyon TEP ≈ 0,010, yani yaklaşık <b>%1</b>." },
+  { t: 1, s: 4, q: "Türkiye'nin birincil enerji arzındaki yerlilik oranı yüzde kaçtır?",
+    o: ["%21,35", "%30", "%42,3", "%53,7", "%65,10"], a: 1,
+    e: "Yerlilik oranı <b>%30</b>; arzın yaklaşık %70'i ithalata dayanır. %42,3 yenilenebilirin 2020 elektrik üretimindeki payı, %53,7 yenilenebilir kurulu güç payı, %65,10 yerli ve yenilenebilir kurulu güç payı, %21,35 santrallerin kamuya ait kısmıdır." },
+  { t: 1, s: 5, q: "Grafiğe göre 2020'de birincil enerji tüketimi 147,17 Mtep, nihai enerji tüketimi 113,57 Mtep'tir. Aradaki farkın temel nedeni nedir?",
+    o: ["Enerji dönüşümü (santral, rafineri) ile iletim ve dağıtımda oluşan kayıplar", "Enerji ihracatı", "Yenilenebilir kaynakların birincil enerjiye dahil edilmemesi", "Sanayinin nihai tüketime dahil edilmemesi", "Stoklarda biriken enerji"], a: 0,
+    e: "Birincil enerji, kaynağın doğadan alındığı hâlidir (kömür, ham petrol, doğal gaz, hidrolik…). Nihai enerji son kullanıcıya ulaşan enerjidir. Aradaki yaklaşık 33,6 Mtep'in büyük kısmı santral ve rafinerilerdeki dönüşüm kayıplarından, iletim–dağıtım kayıplarından ve enerji sektörünün kendi tüketiminden gelir." },
+  { t: 1, s: 6, q: "2020 yılında ana sektörlerin nihai enerji tüketimindeki paylarının büyükten küçüğe doğru sıralaması hangisidir?",
+    o: ["Sanayi > Ulaştırma > Konut > Ticaret ve hizmetler > Tarım", "Sanayi > Konut > Ulaştırma > Tarım > Ticaret ve hizmetler", "Ulaştırma > Sanayi > Konut > Ticaret ve hizmetler > Tarım", "Konut > Sanayi > Ulaştırma > Ticaret ve hizmetler > Tarım", "Sanayi > Ulaştırma > Ticaret ve hizmetler > Konut > Tarım"], a: 0,
+    e: "Sanayi %34,6 · Ulaştırma %25,6 · Konut %24,4 · Ticaret ve hizmetler %10,7 · Tarım ve hayvancılık %4,7 (toplam 105,3 MTEP)." },
+  { t: 1, s: 7, q: "2020'de ana sektörlerin nihai enerji tüketimi 105,3 MTEP'tir. Sanayinin payı %34,6 olduğuna göre sanayinin tüketimi yaklaşık kaç MTEP'tir?",
+    o: ["25,6", "34,6", "36,4", "47,5", "70,9"], a: 2,
+    e: "105,3 × 0,346 ≈ <b>36,4 MTEP</b>. Bu değer sunumun sanayi slaytındaki 36,4 MTEP ile örtüşür." },
+  { t: 1, s: 7, q: "Sanayi sektöründe (toplam 36,4 MTEP) en çok enerji tüketen alt sektör hangisidir?",
+    o: ["Ana metal sanayi", "Metalik olmayan mineral ürünleri imalatı", "Kimya ve petrokimya ürünleri imalatı", "Tekstil ve deri ürünleri imalatı", "Gıda, içecek ve tütün ürünleri imalatı"], a: 0,
+    e: "Ana metal sanayi %26, metalik olmayan mineral ürünleri (çimento, cam, seramik vb.) %25, kimya-petrokimya %11, tekstil-deri %10, gıda-içecek-tütün %9. İlk ikisi sanayi tüketiminin yaklaşık yarısıdır." },
+
+  // Elektrik
+  { t: 2, s: 8, q: "Türkiye'nin 2021 sonu itibarıyla elektrik kurulu güç kapasitesi yaklaşık ne kadardır?",
+    o: ["53.627 MW", "79.430 MW", "99.820 MW", "147.200 MW", "306.703 MW"], a: 2,
+    e: "2021 sonu kurulu güç yaklaşık <b>99.820 MW</b> (TEİAŞ). 53.627 MW bunun yenilenebilir kısmıdır." },
+  { t: 2, s: 8, q: "2021 sonu elektrik kurulu gücünde en büyük paya sahip kaynak hangisidir?",
+    o: ["Doğal gaz", "Kömür", "Hidrolik", "Rüzgâr", "Güneş"], a: 2,
+    e: "Hidrolik %31,5, doğal gaz %25,6, kömür %20,4, rüzgâr %10,6, güneş %7,8, biyokütle+atık+atık ısı %2,0, jeotermal %1,7, sıvı yakıt %0,3." },
+  { t: 2, s: 9, q: "2020 yılı elektrik üretiminde (306.703 GWh) en büyük paya sahip kaynak hangisidir?",
+    o: ["Hidrolik", "Doğal gaz", "Kömür", "Rüzgâr", "Güneş"], a: 2,
+    e: "Kömür %34,5, hidrolik %25,5, doğal gaz %23,1, rüzgâr %8,1, güneş %3,6, jeotermal %3,3. Kurulu güçte birinci olan hidrolik, üretimde ikinci sıradadır." },
+  { t: 2, s: 9, q: "2020 yılı elektrik üretiminde yenilenebilir kaynakların payı yüzde kaçtır?",
+    o: ["%26,3", "%35,8", "%42,3", "%53,7", "%57,7"], a: 2,
+    e: "2020'de yenilenebilir <b>%42,3</b>, fosil %57,7. %53,7 yenilenebilir kurulu güç payı, %35,8 ise 2021 yenilenebilir üretim payıdır." },
+  { t: 2, s: 9, q: "2021 sonunda kurulu gücün yaklaşık %54'ü yenilenebilir iken 2020 üretiminde yenilenebilirin payı %42,3'tür. Bu farkın temel nedeni nedir?",
+    o: ["Rüzgâr, güneş ve hidrolik santrallerin kaynağa bağlı olarak yıl boyunca tam kapasiteyle çalışamaması", "Yenilenebilir santrallerin çoğunun kamuya ait olması", "Yenilenebilir elektriğin tamamının ihraç edilmesi", "Fosil yakıtlı santrallerin veriminin %100'e yakın olması", "Kurulu gücün GWh, üretimin MW ile ölçülmesi"], a: 0,
+    e: "Kurulu güç (MW) anlık kapasiteyi, üretim (GWh) yıl içinde gerçekten üretilen enerjiyi gösterir. Rüzgâr ve güneş hava koşullarına, hidrolik yağışa bağlıdır, bu yüzden kapasite faktörleri düşüktür. Kömür ve doğal gaz santralleri baz yükte daha uzun süre çalışır." },
+  { t: 2, s: 10, q: "Türkiye'nin 2020 yılı elektrik enerjisi tüketimi ne kadardır?",
+    o: ["98.296 GWh", "261.193 GWh", "306.703 GWh", "331.553 GWh", "392.790 GWh"], a: 1,
+    e: "2020 tüketimi <b>261.193 GWh</b> (son 10 yılda %52, son 20 yılda %165 artış). 306.703 GWh 2020 üretimi, 331.553 GWh 2021 üretimi, 98.296 GWh 2000 yılı tüketimidir." },
+  { t: 2, s: 10, q: "2020 yılında kişi başı elektrik tüketimi ne kadardır?",
+    o: ["1.519 kWh/kişi", "2.334 kWh/kişi", "3.124 kWh/kişi", "4.660 kWh/kişi", "8.638 kWh/kişi"], a: 2,
+    e: "<b>3.124 kWh/kişi</b>; son 10 yılda %35, son 20 yılda %106 artış. 1.519 kWh/kişi 2000 yılı, 2.334 kWh/kişi 2010 yılı değeridir." },
+  { t: 2, s: 10, q: "2020'de elektrik tüketimi 261.193 GWh, kişi başı tüketim 3.124 kWh ise hesaplamada kullanılan nüfus yaklaşık kaçtır?",
+    o: ["31,4 milyon", "72,5 milyon", "83,6 milyon", "98,3 milyon", "120,5 milyon"], a: 2,
+    e: "261.193 GWh = 261.193 × 10⁶ kWh. 261.193 × 10⁶ ÷ 3.124 ≈ <b>83,6 × 10⁶ kişi</b>. Sonuç sunumdaki \"83 milyonun üzerinde\" nüfusla uyumludur." },
+  { t: 2, s: 11, q: "EİGM projeksiyonuna göre 2020–2040 döneminde elektrik talebi için hangi öngörü yapılmıştır?",
+    o: ["Yılda ortalama %2,9–3,7 artış; 2040'ta 545–636 TWh", "Yılda ortalama %1,6–2,7 artış; 2040'ta 392–425 TWh", "Yılda ortalama %5,2–6,5 artış; 2040'ta 700–850 TWh", "Yılda ortalama %2,9–3,7 artış; 2040'ta 306–331 TWh", "Yılda ortalama %0,5–1,0 artış; 2040'ta 261–280 TWh"], a: 0,
+    e: "Yıllık ortalama <b>%2,9–3,7</b> artış ve 2040'ta <b>545–636 TWh</b>. 2020 tüketimi 261 TWh olduğundan talep yaklaşık 2,1–2,4 katına çıkar." },
+  { t: 2, s: 16, q: "Kurulu güçler dikkate alındığında elektrik üretim santrallerinin yüzde kaçı kamuya aittir?",
+    o: ["%21,35", "%30,00", "%46,30", "%53,70", "%78,64"], a: 0,
+    e: "Santrallerin <b>%21,35</b>'i kamuya, %78,64'ü diğer özel ve tüzel kişilere aittir." },
+  { t: 2, s: 17, q: "Kaynaklar bazında üretim tablosuna göre 2021 yılında elektrik üretiminde en büyük paya sahip kaynak hangisidir?",
+    o: ["Doğal gaz", "İthal kömür", "Yerli kömür", "Hidrolik", "Rüzgâr"], a: 0,
+    e: "2021'de doğal gaz <b>%32,7</b> (108.436 GWh) ile ilk sırada; hidrolik %16,8, ithal kömür %16,6, yerli kömür %14,9, rüzgâr %9,4. Hidrolik üretim 78.094 GWh'ten 55.694 GWh'e düşerken doğal gaz 70.931 GWh'ten 108.436 GWh'e çıkmıştır." },
+  { t: 2, s: 17, q: "2002–2021 tablosunda yenilenebilir kaynakların elektrik üretimindeki payının en yüksek olduğu yıl hangisidir?",
+    o: ["2005", "2015", "2019", "2020", "2021"], a: 2,
+    e: "<b>2019: %43,9</b> (hidrolik payı %29,2). 2020'de %42,3, 2021'de %35,8, 2015'te %32,2, 2005'te %24,6." },
+
+  // Yoğunluk ve CO₂
+  { t: 3, s: 13, q: "Sunumda ülkeler arasında karşılaştırılan \"birincil enerji yoğunluğu\" neyi ifade eder?",
+    o: ["Birim GSYH başına harcanan birincil enerji miktarını", "Kişi başına düşen birincil enerji tüketimini", "Birim enerji tüketimi başına salınan CO₂ miktarını", "Kurulu gücün yıllık elektrik üretimine oranını", "Enerji ithalatının toplam arza oranını"], a: 0,
+    e: "Birim: <b>tep/bin dolar (2015 $)</b>. Türkiye; Brezilya, Fransa, İspanya, G20, OECD, AB27 ve Dünya ortalamasıyla karşılaştırılır (IEA)." },
+  { t: 3, s: 13, q: "Bir ülkenin birincil enerji yoğunluğunun yıllar içinde azalması en doğru şekilde nasıl yorumlanır?",
+    o: ["Aynı ekonomik çıktı daha az enerjiyle üretilmektedir.", "Toplam enerji tüketimi mutlaka azalmıştır.", "CO₂ emisyonları artmıştır.", "Nüfus azalmıştır.", "Enerjide dışa bağımlılık artmıştır."], a: 0,
+    e: "Yoğunluk = birincil enerji ÷ GSYH. Düşmesi verimliliğin arttığını ya da ekonominin daha az enerji yoğun sektörlere kaydığını gösterir. GSYH enerji tüketiminden hızlı büyürse toplam tüketim artarken bile yoğunluk düşer." },
+  { t: 3, s: 14, q: "Sunumdaki CO₂ emisyonu verileriyle ilgili hangisi doğrudur?",
+    o: ["Toplam CO₂ emisyonu son 20 yılda %71 artarak 392,79 Mt olmuştur.", "Toplam CO₂ emisyonu 4,66 Mt'dir.", "Kişi başı CO₂ emisyonu son 20 yılda %71 artmıştır.", "Kişi başı CO₂ emisyonu 8,64 ton/kişidir.", "Toplam CO₂ emisyonu son 10 yılda %7 artmıştır."], a: 0,
+    e: "Toplam CO₂: <b>392,79 Mt</b> (10 yılda %25, 20 yılda %71 artış). Kişi başı: <b>4,66 t CO₂/kişi</b> (10 yılda %7, 20 yılda %28 artış). Kaynak: Global Carbon Atlas." },
+
+  // Yenilenebilir ve mevzuat
+  { t: 4, s: 19, q: "5346 sayılı kanun hangisidir ve hangi yıl yürürlüğe girmiştir?",
+    o: ["Yenilenebilir Enerji Kanunu – 2005", "Enerji Verimliliği Kanunu – 2007", "Elektrik Piyasası Kanunu – 2013", "Yenilenebilir Enerji Kanunu – 2002", "Maden Kanunu – 2005"], a: 0,
+    e: "<b>5346 sayılı Yenilenebilir Enerji Kanunu 2005'te</b> yürürlüğe girdi. Getirdiği destek mekanizmalarıyla özel sektör yatırımları düzenli biçimde sürdü." },
+  { t: 4, s: 19, q: "YEKDEM'e dahil lisanslı elektrik üretim tesisleri, işletmeye girdikleri yıldan itibaren kaç yıl süreyle YEKDEM ve yerli katkı fiyatlarıyla desteklenir?",
+    o: ["5 yıl", "7 yıl", "10 yıl", "15 yıl", "20 yıl"], a: 2,
+    e: "Destek süresi işletmeye girilen yıldan itibaren <b>10 yıl</b>dır." },
+  { t: 4, s: 19, q: "Türkiye'nin yenilenebilir enerji kurulu kapasitesi 2002'de yaklaşık ne kadardı ve sunum tarihinde hangi seviyeye ulaşmıştı?",
+    o: ["12 GW → 52,8 GW", "5 GW → 32 GW", "12 GW → 99,8 GW", "32 GW → 53,6 GW", "1,5 GW → 12 GW"], a: 0,
+    e: "2002'de <b>12 GW</b> olan yenilenebilir kurulu kapasite <b>52,8 GW</b>'a ulaştı (başka bir slaytta 53.627 MW olarak verilir). 99,8 GW toplam kurulu güçtür." },
+  { t: 4, s: 20, q: "5346 sayılı Kanun kapsamında aşağıdakilerden hangisi yenilenebilir enerji kaynağı sayılmaz?",
+    o: ["Dalga, akıntı ve gel-git enerjisi", "Kanal veya nehir tipi hidroelektrik", "Rezervuar alanı 15 km²'nin altında olan hidroelektrik", "Jeotermal", "Rezervuar alanı 15 km²'nin üzerinde olan barajlı hidroelektrik"], a: 4,
+    e: "Hidroelektrik yalnızca <b>kanal veya nehir tipiyse ya da rezervuar alanı 15 km²'nin altındaysa</b> kapsamdadır. Rüzgâr, güneş, jeotermal, biyokütle, dalga, akıntı ve gel-git de kapsamdadır." },
+  { t: 4, s: 21, q: "Mevzuata göre biyokütle kaynak ürünleri (ithal edilmemek kaydıyla) arasında hangisi yer almaz?",
+    o: ["Belediye atıkları (çöp gazı dahil)", "Bitkisel yağ atıkları", "Gıda ve yem değeri olmayan tarımsal atıklar", "Sanayi atık çamurları ve arıtma çamurları", "Endüstriyel odun"], a: 4,
+    e: "Listede \"<b>endüstriyel odun dışındaki</b> orman ürünleri\" yer alır; endüstriyel odunun kendisi kapsam dışıdır. Atık lastiklerin işlenmesinden çıkan yan ürünler de listededir." },
+  { t: 4, s: 22, q: "Türkiye'nin yenilenebilir enerji potansiyeli (EİGM) ile ilgili hangi eşleştirme yanlıştır?",
+    o: ["Rüzgâr – 48.000 MW (REPA)", "Güneş – 1.520 kWh/m²·yıl (GEPA)", "Jeotermal – 31.500 MWt / 2.000 MWe", "Biyokütle – 32.037 MW (BEPA)", "Hidrolik – 160.000 GWh/yıl"], a: 3,
+    e: "Biyokütle potansiyeli <b>8,6 milyon TEP</b>'tir (BEPA). 32.037 MW, 2019–2023 Stratejik Planı'ndaki hidrolik kurulu güç hedefidir." },
+
+  // Strateji ve hedefler
+  { t: 5, s: 23, q: "Sunumdaki enerji sektörü stratejisine göre aşağıdakilerden hangisi hedefler arasında yer almaz?",
+    o: ["Enerjide ithalat maliyetlerini azaltmak", "Yerli ve yenilenebilir kaynakların enerji portföyündeki payını artırmak", "Olabildiğince yerli teknolojiler kullanmak", "Kaynakları çevreci, güvenli ve katlanılabilir maliyetle kullanmak", "Enerji arzında ithal doğal gazın payını artırmak"], a: 4,
+    e: "Strateji ithalat maliyetini azaltmayı ve yerli-yenilenebilir kaynakların payını artırmayı hedefler. İthal doğal gazın payını artırmak bu hedeflerle çelişir." },
+  { t: 5, s: 24, q: "Milli Enerji ve Maden Politikası'nın üç temel ayağı hangisinde doğru verilmiştir?",
+    o: ["Arz güvenliği – Yerlileştirme – Öngörülebilir piyasa", "Arz güvenliği – Kamulaştırma – Serbest fiyat", "Verimlilik – Dijitalleşme – Karbonsuzlaşma", "Yerlileştirme – Sübvansiyon – İthalat", "Öngörülebilir piyasa – Özelleştirme – İhracat"], a: 0,
+    e: "Üç ayak: <b>Arz güvenliği, Yerlileştirme, Öngörülebilir piyasa</b>." },
+  { t: 5, s: 25, q: "2019–2023 Stratejik Planı'nda belirlenen 2023 güneş enerjisi kurulu güç hedefi kaç MW'tır?",
+    o: ["3.400 MW", "10.000 MW", "11.883 MW", "32.037 MW", "48.000 MW"], a: 1,
+    e: "2023 hedefleri: Güneş <b>10.000 MW</b>, Rüzgâr 11.883 MW, Hidrolik 32.037 MW, Jeotermal + Biyokütle 3.400 MW. 48.000 MW rüzgâr potansiyelidir." },
+];
+const TOPICS = ["Genel görünüm", "Birincil ve nihai enerji", "Elektrik", "Enerji yoğunluğu ve CO₂", "Yenilenebilir enerji ve mevzuat", "Strateji ve hedefler"];
+const LET = ["A", "B", "C", "D", "E"];
+const KEY = "enerji-sinav-sunum1-v1";
+const $ = id => document.getElementById(id);
+
+let S;
+
+function shuffle(a) {
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function fresh(ids, mode) {
+  const order = shuffle(ids || Q.map((_, i) => i));
+  const perm = {};
+  order.forEach(i => { perm[i] = shuffle([0, 1, 2, 3, 4]); });
+  return { n: Q.length, mode: mode || "pr", order, perm, ans: {}, cur: 0, done: false, view: "q", ask: false, filter: "all" };
+}
+function valid(s) {
+  return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
+    s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
+
+const N = () => S.order.length;
+const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
+const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
+function status(i) {
+  if (S.ans[i] === undefined) return "blank";
+  return S.ans[i] === Q[i].a ? "ok" : "bad";
+}
+function counts() {
+  const c = { ok: 0, bad: 0, blank: 0 };
+  S.order.forEach(i => c[status(i)]++);
+  return c;
+}
+
+function render() {
+  $("m-pr").setAttribute("aria-pressed", S.mode === "pr");
+  $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
+  const na = answered();
+  $("pg").style.width = (na / N() * 100) + "%";
+  if (S.mode === "pr" || S.done) {
+    let ok = 0, bad = 0;
+    S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
+    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
+  } else {
+    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
+  }
+  $("quiz").hidden = S.view !== "q";
+  $("results").hidden = S.view !== "res";
+  if (S.view === "q") renderQ(); else renderRes();
+  renderMap();
+}
+
+function renderQ() {
+  const qi = S.order[S.cur], q = Q[qi], p = S.perm[qi], a = S.ans[qi], rev = revealed(qi);
+  const locked = S.done || (S.mode === "pr" && a !== undefined);
+  const opts = p.map((oi, k) => {
+    let cls = "opt";
+    if (rev) {
+      if (oi === q.a) cls += " ok";
+      else if (a === oi) cls += " bad";
+      else cls += " dim";
+    } else if (a === oi) cls += " sel";
+    return `<li><button type="button" class="${cls}" data-k="${k}" ${locked ? "disabled" : ""} aria-pressed="${a === oi}"><span class="lt">${LET[k]}</span><span class="tx">${q.o[oi]}</span></button></li>`;
+  }).join("");
+  let fb = "";
+  if (rev) {
+    const right = LET[p.indexOf(q.a)];
+    const st = status(qi);
+    const head = st === "ok" ? "Doğru." : st === "bad" ? `Yanlış. Doğru cevap ${right}.` : `Boş bırakıldı. Doğru cevap ${right}.`;
+    fb = `<div class="fb ${st}"><strong>${head}</strong><p>${q.e}</p></div>`;
+  }
+  const last = S.cur === N() - 1;
+  const allDone = answered() === N();
+  let nav = `<button type="button" class="btn" id="prev" ${S.cur === 0 ? "disabled" : ""}>← Önceki</button><span class="grow"></span>`;
+  if (S.done) {
+    nav += `<button type="button" class="btn" id="tores">Sonuçlar</button>`;
+    nav += `<button type="button" class="btn primary" id="next" ${last ? "disabled" : ""}>Sonraki →</button>`;
+  } else if (S.mode === "ex") {
+    if (S.ask) {
+      nav = `<span class="note"><b>${N() - answered()} soru boş.</b> Boş sorular net hesabında yanlış sayılmaz.</span><span class="grow"></span>
+        <button type="button" class="btn" id="cancel">Sorulara dön</button><button type="button" class="btn primary" id="finish2">Yine de bitir</button>`;
+    } else {
+      nav += `<button type="button" class="btn warn" id="finish">Sınavı bitir</button>`;
+      if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+    }
+  } else {
+    if (allDone) nav += `<button type="button" class="btn ${last ? "primary" : ""}" id="finish2">Sonuçları gör</button>`;
+    if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
+  }
+  $("quiz").innerHTML = `
+    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span><span class="chip src">slayt ${q.s}</span></div>
+    <p class="qtext">${q.q}</p>
+    <ul class="opts">${opts}</ul>
+    ${fb}
+    <div class="nav">${nav}</div>`;
+}
+
+function renderMap() {
+  $("map").innerHTML = S.order.map((qi, k) => {
+    let cls = "";
+    if (revealed(qi) && S.ans[qi] !== undefined) cls = status(qi);
+    else if (S.ans[qi] !== undefined) cls = "ans";
+    if (S.view === "q" && k === S.cur) cls += " cur";
+    return `<button type="button" class="${cls.trim()}" data-go="${k}" aria-label="Soru ${k + 1}">${k + 1}</button>`;
+  }).join("");
+}
+
+function renderRes() {
+  const c = counts(), n = N();
+  const net = c.ok - c.bad / 4;
+  const pct = Math.round(c.ok / n * 100);
+  const verdict = pct >= 85 ? "Sunuma hâkimsiniz." : pct >= 60 ? "İyi gidiyor. Zayıf konuları tekrar edin." : "Sunumu bir kez daha gözden geçirin.";
+  const per = TOPICS.map((name, t) => {
+    const ids = S.order.filter(i => Q[i].t === t);
+    if (!ids.length) return "";
+    const ok = ids.filter(i => status(i) === "ok").length;
+    const r = ok / ids.length;
+    return `<div class="trow"><span class="tn">${name}</span><span class="tv">${ok}/${ids.length}</span><span class="tb"><i class="${r < .5 ? "low" : r < .8 ? "mid" : ""}" style="width:${r * 100}%"></i></span></div>`;
+  }).join("");
+  const list = S.order.map((qi, k) => ({ qi, k })).filter(({ qi }) => S.filter === "all" || status(qi) !== "ok").map(({ qi, k }) => {
+    const q = Q[qi], p = S.perm[qi], st = status(qi), a = S.ans[qi];
+    const pill = st === "ok" ? `<span class="pill ok">doğru</span>` : st === "bad" ? `<span class="pill bad">yanlış</span>` : `<span class="pill blank">boş</span>`;
+    const yours = a === undefined ? "" : st === "bad" ? `<span>Cevabınız: <span class="wr">${LET[p.indexOf(a)]}) ${q.o[a]}</span></span>` : "";
+    return `<li><div class="rq"><span class="n">${k + 1}.</span><p>${q.q} ${pill}</p></div>
+      <div class="ra">${yours}<span>Doğru cevap: <b>${LET[p.indexOf(q.a)]}) ${q.o[q.a]}</b></span><span>${q.e} <i>(slayt ${q.s})</i></span></div></li>`;
+  }).join("") || `<li><span class="note">Yanlış veya boş soru yok.</span></li>`;
+  const miss = c.bad + c.blank;
+  $("results").innerHTML = `
+    <div class="score">
+      <div class="big">${c.ok}<small> / ${n}</small></div>
+      <div class="verdict"><h2>${verdict}</h2>
+        <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span></div>
+      </div>
+    </div>
+    <div class="actions">
+      ${miss ? `<button type="button" class="btn primary" id="retry">Yanlış ve boşları tekrar çöz (${miss})</button>` : ""}
+      <button type="button" class="btn ${miss ? "" : "primary"}" id="restart">Baştan başla, soruları karıştır</button>
+      <button type="button" class="btn" id="back">Sorulara dön</button>
+    </div>
+    <h3>Konulara göre</h3>
+    <div class="topics">${per}</div>
+    <div class="rvhead"><h3>Cevap anahtarı ve açıklamalar</h3>
+      <div class="seg" role="group" aria-label="Liste filtresi">
+        <button type="button" data-f="all" aria-pressed="${S.filter === "all"}">Tümü</button>
+        <button type="button" data-f="miss" aria-pressed="${S.filter === "miss"}">Yanlış ve boş</button>
+      </div></div>
+    <ul class="review">${list}</ul>`;
+}
+
+function choose(k) {
+  if (S.view !== "q" || S.done || S.ask) return;
+  const qi = S.order[S.cur];
+  if (S.mode === "pr" && S.ans[qi] !== undefined) return;
+  S.ans[qi] = S.perm[qi][k];
+  commit();
+  if (S.mode === "pr") ($("next") || $("finish2"))?.focus();
+}
+function go(k) {
+  if (k < 0 || k >= N()) return;
+  S.cur = k; S.view = "q"; S.ask = false; commit();
+}
+function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
+function commit() { save(); render(); }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.k !== undefined) return choose(+b.dataset.k);
+  if (b.dataset.go !== undefined) { go(+b.dataset.go); $("quiz").scrollIntoView({ block: "nearest" }); return; }
+  if (b.dataset.f) { S.filter = b.dataset.f; return commit(); }
+  switch (b.id) {
+    case "m-pr": case "m-ex": {
+      const m = b.id === "m-pr" ? "pr" : "ex";
+      if (m === S.mode) return;
+      // Bitmiş bir denemede biçim değişirse yeni deneme başlar
+      S = S.done ? fresh(null, m) : Object.assign(S, { mode: m, ask: false });
+      return commit();
+    }
+    case "prev": return go(S.cur - 1);
+    case "next": return go(S.cur + 1);
+    case "finish": if (answered() < N()) { S.ask = true; return commit(); } return finish();
+    case "finish2": return finish();
+    case "cancel": S.ask = false; return commit();
+    case "tores": S.view = "res"; return commit();
+    case "back": S.view = "q"; return commit();
+    case "retry": S = fresh(S.order.filter(i => status(i) !== "ok"), S.mode); window.scrollTo({ top: 0 }); return commit();
+    case "restart": S = fresh(null, S.mode); window.scrollTo({ top: 0 }); return commit();
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
+  const k = e.key.toLowerCase();
+  const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
+  if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
+  if (e.key === "ArrowRight") return go(S.cur + 1);
+  if (e.key === "ArrowLeft") return go(S.cur - 1);
+  if (e.key === "Enter" && e.target === document.body) {
+    const qi = S.order[S.cur];
+    if (S.ans[qi] !== undefined || S.done) go(S.cur + 1);
+  }
+});
+
+function start(data) {
+  S = valid(data && data.S) ? data.S : (load() || fresh());
+  render();
+}
+window.claude?.hot?.snapshot?.(() => ({ S }));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
