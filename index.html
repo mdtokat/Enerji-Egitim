@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enerji Yöneticiliği Eğitimi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #edf1f2; --surface: #ffffff; --ink: #12232a; --muted: #566a72; --line: #d2dcdf; --accent: #0c5a73; --spark: #c98208;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f; --accent: #62b8d3; --spark: #f0b23e; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 22px; }
+.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+h1 { margin: 0; font-family: var(--font-display); font-size: clamp(32px, 7vw, 46px); line-height: 1; }
+h2 { margin: 0; font-family: var(--font-display); font-size: 22px; letter-spacing: .02em; }
+section { display: flex; flex-direction: column; gap: 10px; }
+a.item { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px; color: inherit; text-decoration: none; }
+a.item:hover, a.item:focus-visible { border-color: var(--accent); outline: none; }
+a.item b { color: var(--accent); }
+a.item span { font-size: 14px; color: var(--muted); }
+.note { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">ENERJİ YÖNETİCİLİĞİ EĞİTİMİ</p>
+    <h1>Çalışma notları ve sınavlar</h1>
+  </header>
+
+  <section>
+    <h2>Sınavlar</h2>
+    <a class="item" href="sinavlar/sunum-01-turkiye-enerji-gorunumu.html">
+      <b>Sunum 1 · Türkiye'nin Genel Enerji Görünümü</b>
+      <span>33 soru, 5 şık · alıştırma ve sınav modu, slayt referanslı açıklamalar</span>
+    </a>
+  </section>
+
+  <section>
+    <h2>Çalışma notları</h2>
+    <a class="item" href="calisma-notlari/tum-notlar.html">
+      <b>Tüm notlar (web)</b>
+      <span>Bölüm 1–5 ve hızlı tekrar</span>
+    </a>
+    <a class="item" href="Enerji_Yoneticiligi_Calisma_Notlari.pdf">
+      <b>Tüm notlar (PDF)</b>
+      <span>Yazdırmaya uygun A4 sürüm</span>
+    </a>
+  </section>
+
+  <p class="note">Sınavlardaki ilerleme yalnızca kullandığınız tarayıcıda saklanır.</p>
+</div>
+</body>
+</html>
