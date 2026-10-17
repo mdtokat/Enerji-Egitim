@@ -8,174 +8,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
-<style>
-/* Tek sütun sınav kâğıdı: başlık, durum çubuğu, soru kartı, sonuç paneli. Petrol mavisi mürekkep + kehribar vurgu. */
-:root {
-  --bg: #edf1f2;
-  --surface: #ffffff;
-  --ink: #12232a;
-  --muted: #566a72;
-  --line: #d2dcdf;
-  --accent: #0c5a73;
-  --accent-soft: #e1eef2;
-  --spark: #c98208;
-  --ok: #1d7448;
-  --ok-soft: #e3f3ea;
-  --bad: #b2362c;
-  --bad-soft: #fbe9e7;
-  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
-  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
-    --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
-    --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
-  --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
-  --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
-  color-scheme: dark;
-}
-
-* { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
-.wrap {
-  max-width: 760px; margin: 0 auto;
-  padding-block: 28px 48px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  display: flex; flex-direction: column; gap: 18px;
-}
-button { font: inherit; color: inherit; cursor: pointer; }
-button:focus-visible, summary:focus-visible { outline: 2px solid var(--spark); outline-offset: 2px; }
-
-/* Başlık */
-header { display: flex; flex-direction: column; gap: 6px; }
-.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
-h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 7vw, 46px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
-h1 em { font-style: normal; color: var(--accent); }
-.lede { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
-
-/* Durum çubuğu */
-.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 3px; gap: 2px; }
-.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
-.tally { display: flex; gap: 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.tally b { font-family: var(--font-data); font-weight: 500; font-size: 15px; }
-.tally .ok b { color: var(--ok); } .tally .bad b { color: var(--bad); } .tally .mk b { color: var(--accent); }
-.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
-.progress i { display: block; height: 100%; width: 0; background: var(--spark); transition: width .25s ease; }
-
-/* Soru kartı */
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px clamp(16px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; }
-.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
-.qnum { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
-.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
-.chip.src { margin-left: auto; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
-.qtext { margin: 0; font-size: clamp(17px, 2.6vw, 19px); font-weight: 600; line-height: 1.45; text-wrap: pretty; }
-.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.opt {
-  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; text-align: left;
-  background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px;
-  transition: border-color .15s ease, background-color .15s ease;
-}
-.opt:hover:not(:disabled) { border-color: var(--accent); }
-.opt:disabled { cursor: default; }
-.opt .lt { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; font-family: var(--font-data); font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
-.opt .tx { min-width: 0; }
-.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
-.opt.sel .lt { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
-.opt.ok .lt { background: var(--ok); border-color: var(--ok); color: var(--surface); }
-.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
-.opt.bad .lt { background: var(--bad); border-color: var(--bad); color: var(--surface); }
-.opt.dim { opacity: .55; }
-
-.fb { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
-.fb.ok { border-color: var(--ok); } .fb.bad { border-color: var(--bad); } .fb.blank { border-color: var(--spark); }
-.fb strong { font-size: 15px; }
-.fb.ok strong { color: var(--ok); } .fb.bad strong { color: var(--bad); } .fb.blank strong { color: var(--spark); }
-.fb p { margin: 0; color: var(--ink); max-width: 66ch; }
-
-.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.nav .grow { flex: 1; }
-.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 16px; font-weight: 600; font-size: 15px; }
-.btn:hover:not(:disabled) { border-color: var(--accent); }
-.btn:disabled { opacity: .4; cursor: default; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-.btn.warn { border-color: var(--spark); }
-.note { font-size: 14px; color: var(--muted); }
-.note b { color: var(--ink); }
-
-/* Soru haritası */
-.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
-.map summary { cursor: pointer; font-weight: 600; font-size: 15px; }
-.map summary span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; margin-top: 12px; }
-.grid button { height: 38px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--font-data); font-size: 13px; color: var(--muted); }
-.grid button.ans { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-.grid button.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
-.grid button.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
-.grid button.cur { outline: 2px solid var(--spark); outline-offset: 1px; }
-
-/* Sonuç */
-.score { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: end; }
-.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 14vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
-.big small { font-size: .45em; color: var(--muted); }
-.verdict { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.verdict h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
-.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.stats b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
-h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
-.topics { display: flex; flex-direction: column; gap: 10px; }
-.trow { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 12px; align-items: center; font-size: 14px; }
-.trow .tn { min-width: 0; }
-.trow .tv { text-align: right; font-family: var(--font-data); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.trow .tb { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
-.trow .tb i { display: block; height: 100%; background: var(--accent); }
-.trow .tb i.low { background: var(--bad); } .trow .tb i.mid { background: var(--spark); }
-.rvhead { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
-.review { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
-.review li { border-top: 1px solid var(--line); padding: 14px 0; display: flex; flex-direction: column; gap: 6px; }
-.rq { display: flex; gap: 10px; align-items: baseline; }
-.rq .n { font-family: var(--font-data); font-size: 13px; color: var(--muted); min-width: 26px; }
-.rq p { margin: 0; font-weight: 600; min-width: 0; }
-.pill { font-family: var(--font-data); font-size: 11px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
-.pill.ok { color: var(--ok); background: var(--ok-soft); } .pill.bad { color: var(--bad); background: var(--bad-soft); } .pill.blank { color: var(--spark); border: 1px solid var(--spark); }
-.ra { padding-left: 36px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
-.ra b { color: var(--ink); font-weight: 600; }
-.ra .wr { color: var(--bad); }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
-
-@media (max-width: 480px) {
-  .chip.src { margin-left: 0; }
-  .score { grid-template-columns: 1fr; }
-  .ra { padding-left: 0; }
-}
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
+<link rel="stylesheet" href="sinav.css">
 </head>
 <body>
 <div class="wrap">
   <header>
-    <p class="eyebrow">SUNUM 3 · 1_4.pdf · Enerji ve Tabii Kaynaklar Bakanlığı, Çevre ve İklim Daire Başkanlığı, Şubat 2022</p>
+    <a class="home" href="../index.html">← Ana sayfa</a>
+    <p class="eyebrow">SUNUM 3 · 1_4.pdf · ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022</p>
     <h1>Enerji ve Çevre <em>Sınavı</em></h1>
-    <p class="lede">47 soru, beşer şık. Enerji kaynaklı hava kirleticileri, azaltım teknolojileri, çevre mevzuatı ve izin süreci, sera gazları, iklim müzakereleri ve Türkiye emisyon verileri. Her cevabın açıklamasında ilgili slayt numarası yazar.</p>
+    <p class="lede">48 soru, beşer şık. Enerji kaynaklı hava kirleticileri, azaltım teknolojileri, çevre ve iklim mevzuatı, sera gazları, iklim müzakereleri ve Türkiye emisyon verileri. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
   </header>
 
   <div class="bar">
     <div class="seg" role="group" aria-label="Çalışma biçimi">
-      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı ve açıklamayı gösterir">Alıştırma</button>
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
       <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
     </div>
     <div class="tally" id="tally" aria-live="polite"></div>
@@ -192,378 +38,230 @@ kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--li
 
   <footer>
     <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
-    <span>Kaynak: "Enerji ve Çevre" sunumu (ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022). Emisyon verileri: Türkiye Sera Gazı Emisyonları 2019. Net = doğru − yanlış ÷ 4.</span>
+    <span>Kaynak: “Enerji ve Çevre” sunumu (ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022). Güncel veriler: TÜİK Sera Gazı Emisyon İstatistikleri 1990–2024, Global Carbon Project, Resmî Gazete (2022–2026). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
   </footer>
 </div>
 
 <script>
-const Q = [
+const SINAV = {
+key: "enerji-sinav-sunum3-v2",
+topics: ["Hava kirleticileri ve kaynakları", "Azaltım teknolojileri", "Çevre ve iklim mevzuatı", "İklim değişikliği ve sera gazları", "İklim müzakereleri", "Sera gazı emisyonları"],
+Q: [
   // Hava kirleticileri ve kaynakları
-  { t: 0, s: 3, q: "Sunumda hava kirliliğinin yapay kaynakları hangi üç başlıkta toplanmıştır?",
+  { t: 0, s: 3, q: "Hava kirliliğinin yapay (insan kaynaklı) kaynakları genel olarak hangi üç başlıkta toplanır?",
     o: ["Isınma, motorlu taşıtlar ve sanayi", "Volkanlar, orman yangınları ve sanayi", "Tarım, hayvancılık ve madencilik", "Isınma, aydınlatma ve soğutma", "Elektrik üretimi, rafineriler ve limanlar"], a: 0,
-    e: "Yapay kaynaklar: <b>ısınmadan, motorlu taşıtlardan ve sanayiden</b> kaynaklanan hava kirliliği. Volkan ve orman yangını doğal kaynaklardır." },
-  { t: 0, s: 3, q: "Aşağıdakilerden hangisi sunumda sayılan genel hava kirleticileri arasında <b>yer almaz</b>?",
-    o: ["Kükürt oksitler", "Azot oksitler", "Karbon monoksit", "Askıda partikül maddeler", "Ozon tabakasını oluşturan oksijen"], a: 4,
-    e: "Sayılan kirleticiler: kükürt oksitler, azot oksitler, karbon monoksit, organik maddeler, hidrokarbonlar ve <b>askıda partikül maddeler</b> (tozlar ve aeroseller)." },
-  { t: 0, s: 4, q: "Yalnızca enerji üretimi için inşa edilen, yakıttaki kimyasal enerjiyi ısı enerjisine dönüştürerek yararlanılan elektrik ve sanayi amaçlı enerji üretim tesislerine ne ad verilir?",
+    e: "Yapay kaynaklar: <b>ısınmadan, motorlu taşıtlardan ve sanayiden</b> kaynaklanan hava kirliliği. Volkan ve orman yangını doğal kaynaklardır.",
+    n: "Kaynağın türü kirliliğin zamanını ve yerini belirler. Isınma kaynaklı kirlilik kışın ve yerleşim alanlarında, trafik kaynaklı kirlilik yoğun caddelerde, sanayi kaynaklı kirlilik ise bacaların çevresinde yoğunlaşır. Enerji verimliliği (yalıtım, verimli kazan, toplu taşıma) üç kaynağı birden azaltır." },
+  { t: 0, s: 3, q: "Aşağıdakilerden hangisi temel hava kirleticileri arasında <b>sayılmaz</b>?",
+    o: ["Kükürt oksitler (SOₓ)", "Azot oksitler (NOₓ)", "Karbon monoksit (CO)", "Askıda partikül maddeler", "Azot gazı (N₂)"], a: 4,
+    e: "Temel kirleticiler: kükürt oksitler, azot oksitler, karbon monoksit, organik maddeler, hidrokarbonlar ve <b>askıda partikül maddeler</b> (tozlar ve aeroseller). Azot gazı (N₂) havanın yaklaşık %78'ini oluşturan zararsız bileşendir.",
+    n: "Kirleticilerin oluşum mekanizmasını bilmek azaltım yöntemini seçmeyi kolaylaştırır. SO₂ yakıttaki kükürtten gelir; düşük kükürtlü yakıt veya baca gazı kükürt giderme ile azalır. NOₓ yüksek alev sıcaklığında havadaki azottan oluşur; düşük NOₓ brülörü ile azalır. CO eksik yanmanın, partikül ise kül ve kurumun göstergesidir." },
+  { t: 0, s: 4, q: "Yalnızca enerji üretimi için kurulan, katı, sıvı veya gaz yakıtı yakarak içindeki kimyasal enerjiyi ısıya dönüştüren elektrik ve sanayi amaçlı enerji üretim tesislerine ne ad verilir?",
     o: ["Yakma tesisi", "Üretim (yakma içeren) proses tesisi", "Bertaraf tesisi", "Ön işlem tesisi", "Geri kazanım tesisi"], a: 0,
-    e: "Tanım <b>yakma tesisine</b> aittir. Proses tesisinde ise yakıt ham madde ile birlikte muamele görür veya enerjisi kurutma, kavurma gibi işlemlerde kullanılır." },
-  { t: 0, s: 4, q: "Yakıtın ham madde ile birlikte muamele gördüğü, bacasından proses kaynaklı baca gazı ile yanma gazlarının birlikte çıkabildiği tesis hangisidir?",
+    e: "Tanım <b>yakma tesisine</b> aittir. Proses tesisinde ise yakıt ham madde ile birlikte muamele görür veya enerjisi kurutma, kavurma gibi işlemlerde kullanılır.",
+    n: "Bu ayrım emisyon sınır değerlerinin hangi mevzuat ekinden alınacağını belirler. Kazanlar ve termik santraller “yakma tesisi” olarak değerlendirilir; çimento fırını veya kurutma tesisi gibi yakıtın ürünle temas ettiği tesisler “proses tesisi” olarak ayrı sınır değerlere tabidir." },
+  { t: 0, s: 4, q: "Yakıtın ham madde ile birlikte muamele gördüğü, bacasından proses kaynaklı gazlarla yanma gazlarının birlikte çıkabildiği tesis türü hangisidir?",
     o: ["Üretim (yakma içeren) proses tesisi", "Yakma tesisi", "Dizel santral", "Gaz türbinli termik santral", "Derin deniz deşarj tesisi"], a: 0,
-    e: "<b>Üretim (yakma içeren) proses tesisi</b>: enerji, ham maddeyi veya ürünü kurutma, kavurma gibi işlemlerde kullanılır; bacadan proses ve yanma gazları birlikte ya da yalnız proses gazları çıkar." },
-  { t: 0, s: 4, q: "Sunuma göre turba, taş kömürü ve çöp atıklarının da kullanılabildiği termik santral türü hangisidir?",
+    e: "<b>Üretim (yakma içeren) proses tesisi</b>: enerji, ham maddeyi veya ürünü kurutma, kavurma gibi işlemlerde kullanılır; bacadan proses ve yanma gazları birlikte ya da yalnız proses gazları çıkar.",
+    n: "Örnek: çimento döner fırınında kalker (CaCO₃) ısıtılırken hem yakıtın yanmasından hem de kalkerin ayrışmasından (kalsinasyon) CO₂ çıkar. Kalsinasyon CO₂'si “proses emisyonu”dur ve verimlilik ile azaltılamaz; bu yüzden envanterde “endüstriyel işlemler” sektöründe raporlanır." },
+  { t: 0, s: 4, q: "Linyit, fuel oil, doğal gaz, turba, taş kömürü ve çöp atıklarının yakılabildiği termik santral türü hangisidir?",
     o: ["Buhar türbinli termik santral", "Gaz türbinli termik santral", "Dizel santral", "Hidroelektrik santral", "Rüzgâr santrali"], a: 0,
-    e: "<b>Buhar türbinli</b> santraller: linyit, fuel oil, doğal gaz, turba, taş kömürü ve çöp atıkları. Gaz türbinli: motorin, benzin, doğal gaz. Dizel: mazot." },
-  { t: 0, s: 4, q: "Sunumda gaz türbinli termik santrallerde kullanılan yakıtlar olarak hangileri verilmiştir?",
+    e: "<b>Buhar türbinli</b> santrallerde yakıt kazanda yakılıp buhar üretilir; bu yüzden katı yakıtlar dahil geniş bir yelpaze kullanılabilir. Gaz türbinli santraller motorin, benzin ve doğal gaz; dizel santraller mazot kullanır.",
+    n: "Gaz türbininde yanma gazları doğrudan türbin kanatlarına çarptığı için yakıtın kül ve partikül içermemesi gerekir; bu yüzden katı yakıt kullanılamaz. Buhar türbininde ise yakıt kazanda yanar, türbine yalnızca temiz buhar gider. Kombine çevrim santralleri gaz türbininin egzoz ısısıyla buhar üreterek %55–60 verime ulaşır." },
+  { t: 0, s: 4, q: "Gaz türbinli termik santrallerde hangi yakıtlar kullanılır?",
     o: ["Motorin, benzin ve doğal gaz", "Linyit, turba ve taş kömürü", "Yalnızca mazot", "Çöp atıkları ve fuel oil", "Ham petrol ve kömür"], a: 0,
-    e: "Gaz türbinli termik santraller: <b>motorin, benzin ve doğal gaz</b>. Kombine santraller ise doğal gaz, ham petrol, motorin, fuel oil ve kömür kullanabilir." },
-  { t: 0, s: 5, q: "Sektörel hava kirleticileri tablosunda SO₂ hangi sektörler için işaretlenmiştir?",
-    o: ["Tablodaki tüm sektörler", "Yalnızca enerji üretimi", "Yalnızca rafineriler", "Enerji üretimi ve çimento üretimi", "Seramik hariç tüm sektörler"], a: 0,
-    e: "SO₂ tablodaki <b>altı sektörün hepsinde</b> (enerji, çimento, seramik, atık yakma, rafineri, demir-metal) işaretlidir." },
-  { t: 0, s: 5, q: "Tabloya göre POP (kalıcı organik kirletici) hangi sektör için işaretlenmiştir?",
-    o: ["Demir-metal üretimi", "Enerji üretimi", "Çimento üretimi", "Rafineriler", "Atıkların yakılması"], a: 0,
-    e: "POP yalnızca <b>demir-metal üretimi</b> satırında işaretlidir. Enerji üretiminde POP dışındaki tüm kirleticiler işaretlidir." },
-  { t: 0, s: 5, q: "Tabloda rafineriler için işaretlenen kirleticiler hangileridir?",
-    o: ["SO₂, NOx ve VOC", "SO₂, NOx ve metan", "SO₂, halojen ve PM", "SO₂, NOx ve PM", "CO₂, CO ve metan"], a: 0,
-    e: "Rafineriler: <b>SO₂, NOx ve VOC</b>. Atık yakma: SO₂, NOx, metan. Seramik: SO₂, halojen, PM. Çimento: SO₂, NOx, PM." },
-  { t: 0, s: 5, q: "Tabloda CO₂ ve CO hangi sektör satırında işaretlenmiştir?",
-    o: ["Yalnızca enerji üretimi", "Çimento üretimi ve enerji üretimi", "Tüm sektörler", "Demir-metal üretimi", "Atıkların yakılması"], a: 0,
-    e: "Tabloda CO₂ ve CO yalnızca <b>enerji üretimi</b> satırında işaretlidir. Enerji üretimi POP dışındaki tüm kirleticileri yayan sektör olarak gösterilir." },
+    e: "Gaz türbinli santraller: <b>motorin, benzin ve doğal gaz</b>. Kombine santraller ise doğal gaz, ham petrol, motorin, fuel oil ve kömür (gazlaştırılarak) kullanabilir.",
+    n: "Gaz türbinleri dakikalar içinde devreye girip çıkabildiği için puant (tepe) yükü ve rüzgâr–güneşin değişkenliğini dengelemekte kullanılır. Doğal gazlı santraller, kömüre göre birim elektrik başına yaklaşık yarı yarıya CO₂ salar ve neredeyse hiç SO₂ ve partikül salmaz." },
+  { t: 0, s: 5, q: "Enerji üretimi, çimento, seramik, atık yakma, rafineri ve demir-metal üretimi sektörlerinin tamamında ortak olarak salınan başlıca hava kirleticisi hangisidir?",
+    o: ["Kükürt dioksit (SO₂)", "Kalıcı organik kirleticiler (POP)", "Metan", "Halojenler", "Ağır metaller"], a: 0,
+    e: "<b>SO₂</b> bu altı sektörün hepsinde başlıca kirleticiler arasındadır, çünkü kömür, petrol ürünleri ve bazı ham maddeler kükürt içerir.",
+    n: "SO₂ atmosferde sülfürik asite dönüşerek asit yağmuruna yol açar ve solunum yollarını tahriş eder. Termik santrallerde baca gazı desülfürizasyon (BGD, kireçtaşı ile ıslak yıkama) ile %90'ın üzerinde tutulabilir; yan ürün olarak alçı taşı (jips) elde edilir." },
+  { t: 0, s: 5, q: "Dioksin ve furanlar gibi kalıcı organik kirleticiler (POP) sektörel kirletici tablolarında özellikle hangi sektörle ilişkilendirilir?",
+    o: ["Demir-metal üretimi", "Rafineriler", "Seramik üretimi", "Çimento üretimi", "Doğal gaz dağıtımı"], a: 0,
+    e: "POP, sektör tablosunda <b>demir-metal üretimi</b> için işaretlidir. Hurda metal ergitme ve sinter tesislerinde klorlu maddelerin yanmasıyla dioksin–furan oluşabilir.",
+    n: "POP'lar doğada zor parçalanır, besin zincirinde birikir ve çok düşük derişimlerde bile toksiktir. Stockholm Sözleşmesi ile kontrol altına alınmıştır. Oluşumlarını önlemenin yolu yanma sıcaklığını ve süresini kontrol etmek, 200–400 °C arasında yavaş soğumayı önlemek ve aktif karbon enjeksiyonu kullanmaktır." },
+  { t: 0, s: 5, q: "Rafinerilerin başlıca hava kirleticileri arasında SO₂ ve NOₓ'in yanında hangisi öne çıkar?",
+    o: ["Uçucu organik bileşikler (VOC)", "Metan", "Halojenler", "Kalıcı organik kirleticiler (POP)", "Ağır metaller"], a: 0,
+    e: "Rafineriler: <b>SO₂, NOₓ ve VOC</b>. Tank, vana ve yükleme noktalarından buharlaşan hidrokarbonlar VOC kaynağıdır.",
+    n: "VOC'ler güneş ışığında NOₓ ile tepkimeye girerek yer seviyesinde ozon (fotokimyasal sis) oluşturur. Rafinerilerde yüzer tavanlı tanklar, buhar geri kazanım üniteleri ve sızıntı tespit-onarım (LDAR) programlarıyla azaltılır. Diğer sektörlerin tipik kirleticileri: seramik halojen (flor), atık yakma metan, çimento PM." },
 
   // Azaltım teknolojileri
-  { t: 1, s: 6, q: "Sunumda hava kirleticilerini azaltma yöntemlerinin sıralaması hangisidir?",
+  { t: 1, s: 6, q: "Hava kirleticilerini azaltma yöntemlerinin doğru sıralaması hangisidir?",
     o: ["Kaynakta kontrol → Toplama → Soğutma → Arıtma → Deşarj", "Toplama → Arıtma → Soğutma → Kaynakta kontrol → Deşarj", "Arıtma → Kaynakta kontrol → Toplama → Deşarj → Soğutma", "Soğutma → Toplama → Kaynakta kontrol → Arıtma → Deşarj", "Kaynakta kontrol → Arıtma → Toplama → Soğutma → Deşarj"], a: 0,
-    e: "1. <b>Kaynakta kontrol</b>, 2. Toplama, 3. Soğutma, 4. Arıtma, 5. Deşarj." },
-  { t: 1, s: 6, q: "Sunumda emisyonların soğutulması için verilen yöntemler hangileridir?",
+    e: "1. <b>Kaynakta kontrol</b>, 2. Toplama, 3. Soğutma, 4. Arıtma, 5. Deşarj.",
+    n: "Sıralama bir öncelik hiyerarşisidir: hiç oluşmayan kirletici arıtma gerektirmez. Kaynakta kontrol; yakıt değişimi (kömürden gaza), yanma ayarı, düşük NOₓ brülörü ve verimlilik önlemlerini kapsar. Arıtma pahalıdır ve atık (filtre tozu, yıkama çamuru) üretir; bu yüzden son çare olarak düşünülür." },
+  { t: 1, s: 6, q: "Sıcak baca gazlarının arıtma ünitesine girmeden önce soğutulmasında kullanılan yöntemler hangileridir?",
     o: ["Seyreltme, ısı değiştiriciler, yıkama", "Siklon, torba filtre, elektrostatik filtre", "Adsorpsiyon, katalitik yakma, insineratör", "Çöktürme odası, yaş tutucu, siklon", "Kaynakta kontrol, toplama, deşarj"], a: 0,
-    e: "Soğutma: <b>seyreltme, ısı değiştiriciler ve yıkama</b>. Siklon, torba filtre gibi ekipmanlar toz tutma; adsorpsiyon, katalitik yakma ise gaz arıtma yöntemleridir." },
-  { t: 1, s: 6, q: "Aşağıdakilerden hangisi sunumda <b>gazların</b> arıtılması yöntemleri arasında sayılır?",
+    e: "Soğutma: <b>seyreltme, ısı değiştiriciler ve yıkama</b>. Siklon, torba filtre gibi ekipmanlar toz tutma; adsorpsiyon, katalitik yakma gaz arıtma yöntemleridir.",
+    n: "Enerji yöneticisi gözüyle en iyi soğutma yöntemi ısı değiştiricidir, çünkü atık ısı geri kazanılır (ekonomizer, hava ön ısıtıcı). Seyreltme (soğuk hava katma) en basit yöntemdir ama gaz hacmini büyütüp filtre boyutunu artırır. Torba filtrelerin kumaşı yüksek sıcaklığa dayanmadığı için soğutma çoğu zaman zorunludur." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi <b>gaz</b> halindeki kirleticilerin arıtılmasında kullanılan bir yöntemdir?",
     o: ["Katalitik yakma", "Siklon", "Çöktürme odası", "Torba filtre", "Elektrostatik filtre"], a: 0,
-    e: "Gaz arıtma: gaz yıkayıcılar, adsorpsiyon, insineratörler (yakma) ve <b>katalitik yakma</b>. Diğer şıklar toz tutma ekipmanlarıdır." },
-  { t: 1, s: 6, q: "Aşağıdakilerden hangisi sunumda <b>tozların</b> tutulması için kullanılan ekipmanlardan biri <b>değildir</b>?",
+    e: "Gaz arıtma: gaz yıkayıcılar, adsorpsiyon, insineratörler (yakma) ve <b>katalitik yakma</b>. Diğer şıklar toz tutma ekipmanlarıdır.",
+    n: "Katalitik yakma, VOC'leri katalizör yüzeyinde 250–400 °C gibi düşük sıcaklıkta CO₂ ve suya dönüştürür. Termal insineratöre (750 °C üzeri) göre çok daha az yakıt harcar. Adsorpsiyonda ise gaz aktif karbon gibi gözenekli bir katının yüzeyine tutunur; geri kazanılabilir çözücüler için uygundur." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi <b>toz</b> (partikül) tutma ekipmanı <b>değildir</b>?",
     o: ["Adsorpsiyon ünitesi", "Siklon", "Torba filtre", "Yaş (ıslak) tutucu", "Elektrostatik filtre"], a: 0,
-    e: "Toz tutma: çöktürme odaları, siklonlar, torba filtreler, yaş tutucular ve elektrostatik filtreler. <b>Adsorpsiyon</b> gaz arıtma yöntemidir." },
-  { t: 1, s: 6, q: "\"Kirletici çapına göre seçilecek teknoloji\" grafiğine göre en iri parçacıklar (yaklaşık 10–10.000 mikron) için uygun teknoloji hangisidir?",
-    o: ["Çökelme odaları", "Adsorplayıcı", "Süzücü", "Yakıcılar", "Elektrostatik yoğunlaştırıcı"], a: 0,
-    e: "<b>Çökelme odaları</b> grafikte en sağda, en iri parçacık aralığındadır. Yakıcı, süzücü ve adsorplayıcı ise 0,001 mikron altındaki gaz boyutlu kirleticiler içindir." },
-  { t: 1, s: 6, q: "Sunumda \"Hangi teknoloji seçilmelidir?\" sorusu için başvurulması önerilen kaynak hangisidir?",
-    o: ["Mevcut En İyi Teknikler Referans Belgeleri (BREF)", "Kyoto Protokolü ekleri", "Türkiye Bilgilendirici Envanter Raporu", "ÇED Yönetmeliği ekleri", "BMİDÇS Ek-I listesi"], a: 0,
-    e: "Teknoloji seçimi için <b>Mevcut En İyi Teknikler Referans Belgeleri</b> (eippcb.jrc.ec.europa.eu/reference) gösterilmiştir." },
+    e: "Toz tutma: çöktürme odaları, siklonlar, torba filtreler, yaş tutucular ve elektrostatik filtreler. <b>Adsorpsiyon</b> gaz arıtma yöntemidir.",
+    n: "Toz tutucuların çalışma ilkeleri: çöktürme odası yerçekimi, siklon merkezkaç kuvveti, torba filtre süzme, yaş tutucu su damlacıklarıyla yakalama, elektrostatik filtre ise parçacıkları elektrikle yükleyip plakalarda toplama. Torba filtre ve elektrostatik filtre ince tozda %99'un üzerinde verim sağlar." },
+  { t: 1, s: 6, q: "Kirletici çapına göre teknoloji seçiminde, çapı yaklaşık 10 mikrondan büyük (10–10.000 µm) iri parçacıklar için en basit ve ucuz yöntem hangisidir?",
+    o: ["Çöktürme (çökelme) odaları", "Adsorpsiyon", "Süzücü (membran)", "Yakıcılar", "Elektrostatik filtre"], a: 0,
+    e: "<b>Çöktürme odaları</b> iri parçacıkları yerçekimiyle ayırır. Yakıcı, süzücü ve adsorplayıcılar 0,001 µm altındaki gaz molekülü boyutundaki kirleticiler içindir; elektrostatik filtre ise ince tozlarda (yaklaşık 0,01–10 µm) etkilidir.",
+    n: "Parçacık küçüldükçe tutmak zorlaşır ve sağlığa etkisi artar. PM10 (10 µm altı) burun ve boğaza, PM2,5 (2,5 µm altı) akciğerin derinlerine ve kana kadar ulaşır. Bu yüzden iri tozu tutan çöktürme odası veya siklon çoğu zaman yalnızca ön ayırıcıdır; ince toz için torba filtre ya da elektrostatik filtre gerekir." },
+  { t: 1, s: 6, q: "Bir tesis için hangi kirlilik önleme teknolojisinin seçileceğine karar verirken AB'de esas alınan referans belgeler hangileridir?",
+    o: ["Mevcut En İyi Teknikler Referans Belgeleri (BREF)", "Kyoto Protokolü ekleri", "Ulusal sera gazı envanter raporu", "ÇED başvuru dosyası formatı", "BMİDÇS Ek-I listesi"], a: 0,
+    e: "Teknoloji seçimi için <b>Mevcut En İyi Teknikler (MET/BAT) Referans Belgeleri</b> (BREF) kullanılır; Avrupa Komisyonu Ortak Araştırma Merkezi tarafından sektör bazında yayımlanır.",
+    n: "MET, teknik ve ekonomik olarak uygulanabilir en etkili tekniklerdir. BREF'ler her sektör (büyük yakma tesisleri, çimento, demir-çelik vb.) için ulaşılabilir emisyon düzeylerini (BAT-AEL) verir. Türkiye'nin AB uyum sürecindeki çevre izni düzenlemeleri ve AB'nin Sınırda Karbon Düzenleme Mekanizması (SKDM) ihracatçıları bu belgelere giderek daha fazla bağlamaktadır." },
 
-  // Çevre mevzuatı ve izin süreci
-  { t: 2, s: 7, q: "Çevre Kanunu'nun sayısı ve tarihi hangisidir?",
-    o: ["2872 sayılı, 11 Ağustos 1983", "5627 sayılı, 2 Mayıs 2007", "2872 sayılı, 25 Kasım 2014", "29186 sayılı, 11 Ağustos 1983", "4628 sayılı, 20 Şubat 2001"], a: 0,
-    e: "<b>11 Ağustos 1983 tarihli 2872 sayılı Çevre Kanunu</b>. 5627 Enerji Verimliliği, 4628 Elektrik Piyasası Kanunu'dur; 29186 ise ÇED Yönetmeliği'nin Resmî Gazete sayısıdır." },
-  { t: 2, s: 7, q: "25 Kasım 2014 tarihli 29186 sayılı Resmî Gazete'de yayımlanan yönetmelik hangisidir?",
-    o: ["Çevresel Etki Değerlendirmesi (ÇED) Yönetmeliği", "Çevre İzin ve Lisans Yönetmeliği", "Atık Yönetimi Yönetmeliği", "Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği", "Su Kirliliği Kontrolü Yönetmeliği"], a: 0,
-    e: "29186 sayılı RG: <b>ÇED Yönetmeliği</b>. Çevre İzin ve Lisans: 10 Eylül 2014 / 29115. Sanayi Kaynaklı Hava Kirliliği: 20 Aralık 2014 / 29211." },
-  { t: 2, s: 8, q: "Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik hangi tarihte yayımlanarak yürürlüğe girmiştir?",
+  // Çevre ve iklim mevzuatı
+  { t: 2, s: 7, q: "Türkiye'de çevre mevzuatının çerçevesini oluşturan Çevre Kanunu'nun sayısı ve kabul tarihi hangisidir?",
+    o: ["2872 sayılı, 11 Ağustos 1983", "5627 sayılı, 2 Mayıs 2007", "7552 sayılı, 2 Temmuz 2025", "6446 sayılı, 14 Mart 2013", "4628 sayılı, 20 Şubat 2001"], a: 0,
+    e: "<b>2872 sayılı Çevre Kanunu, 11 Ağustos 1983</b>. 5627 Enerji Verimliliği, 7552 İklim, 6446 ve 4628 Elektrik Piyasası kanunlarıdır.",
+    n: "Çevre Kanunu “kirleten öder” ilkesini benimser: kirliliğe yol açan, bunun önlenmesi ve giderilmesi masraflarını karşılar. ÇED, çevre izinleri, atık ve hava kalitesi yönetmeliklerinin çoğu bu Kanun'a dayanır." },
+  { t: 2, s: 7, q: "Hâlen yürürlükte olan Çevresel Etki Değerlendirmesi (ÇED) Yönetmeliği hangi tarihte Resmî Gazete'de yayımlanmıştır?",
+    o: ["25 Kasım 2014", "29 Temmuz 2022", "10 Eylül 2014", "2 Nisan 2015", "17 Mayıs 2014"], a: 1,
+    e: "Yürürlükteki ÇED Yönetmeliği <b>29 Temmuz 2022 tarihli ve 31907 sayılı</b> Resmî Gazete'de yayımlanmış, 2014 tarihli yönetmeliği yürürlükten kaldırmıştır.",
+    n: "ÇED, bir projenin çevreye etkilerinin proje uygulanmadan önce değerlendirildiği süreçtir. Sonuç ya “ÇED Olumlu / Olumsuz” ya da seçme-eleme aşamasında “ÇED Gerekli / Gerekli Değildir” kararıdır. 2022 yönetmeliği 2025 ve 2026'da da değiştirilmiştir; proje öncesinde güncel metne bakmak gerekir.",
+    g: { eski: "ÇED Yönetmeliği: 25 Kasım 2014, RG 29186.", yeni: "ÇED Yönetmeliği: 29 Temmuz 2022, RG 31907 (2014 yönetmeliğini kaldırdı); son değişiklikler RG 26.06.2025 (32938) ve 05.03.2026 (33187).", kaynak: "Resmî Gazete; Çevre, Şehircilik ve İklim Değişikliği Bakanlığı ÇED Genelgesi (Mart 2026)" } },
+  { t: 2, s: 7, q: "Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği hangi yıl yürürlüğe girmiştir?",
+    o: ["2004", "2010", "2014", "2019", "2022"], a: 2,
+    e: "Yönetmelik <b>20 Aralık 2014</b> tarihli, 29211 sayılı Resmî Gazete'de yayımlanarak yürürlüğe girmiştir.",
+    n: "Bu yönetmelik bacalardan çıkan emisyonlar için sınır değerleri, baca yüksekliği hesabını ve emisyon ölçüm yükümlülüklerini düzenler. Büyük tesislerde sürekli emisyon ölçüm sistemi (SEÖS) kurulup verilerin Bakanlığa çevrim içi aktarılması zorunludur." },
+  { t: 2, s: 8, q: "Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik hangi tarihte yayımlanmıştır?",
     o: ["17 Mayıs 2014", "2 Mart 2019", "4 Haziran 2010", "31 Aralık 2004", "2 Nisan 2015"], a: 0,
-    e: "<b>17 Mayıs 2014</b>, RG 29003. Büyük Endüstriyel Kazalar: 2 Mart 2019; Çevresel Gürültü: 4 Haziran 2010; Su Kirliliği Kontrolü: 31 Aralık 2004; Atık Yönetimi: 2 Nisan 2015." },
-  { t: 2, s: 8, q: "Sunumdaki çevre mevzuatı listesinde en yeni tarihli yönetmelik hangisidir?",
-    o: ["Büyük Endüstriyel Kazaların Önlenmesi ve Etkilerinin Azaltılması Hakkında Yönetmelik", "Atık Yönetimi Yönetmeliği", "Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik", "Çevresel Gürültünün Değerlendirilmesi ve Yönetimi Yönetmeliği", "Çevre İzin ve Lisans Yönetmeliği"], a: 0,
-    e: "Listedeki en yeni düzenleme <b>2 Mart 2019</b> tarihli (RG 30702) Büyük Endüstriyel Kazaların Önlenmesi ve Etkilerinin Azaltılması Hakkında Yönetmelik'tir." },
-  { t: 2, s: 9, q: "Çevre izin ve lisans sürecinin 1. aşamasında uygun bulunan başvuruya ne verilir?",
+    e: "<b>17 Mayıs 2014</b>, RG 29003. Büyük Endüstriyel Kazalar: 2 Mart 2019; Çevresel Gürültü: 4 Haziran 2010; Su Kirliliği Kontrolü: 31 Aralık 2004; Atık Yönetimi: 2 Nisan 2015.",
+    n: "Bu yönetmelik kapsamındaki tesisler sera gazı emisyonlarını izleme planına göre ölçer, yıllık rapor hazırlar ve raporu akredite doğrulayıcıya doğrulatır. Bu “izleme, raporlama, doğrulama” (İRD/MRV) altyapısı, emisyon ticaret sisteminin ön koşuludur." },
+  { t: 2, s: 8, q: "Türkiye'de emisyon ticaret sisteminin (ETS) kurulmasını hükme bağlayan ve net sıfır emisyon hedefine yasal dayanak oluşturan kanun hangisidir?",
+    o: ["7552 sayılı İklim Kanunu (2025)", "2872 sayılı Çevre Kanunu (1983)", "5627 sayılı Enerji Verimliliği Kanunu (2007)", "5346 sayılı Yenilenebilir Enerji Kanunu (2005)", "Türkiye'de iklimle ilgili bir kanun yoktur"], a: 0,
+    e: "<b>7552 sayılı İklim Kanunu</b> 2 Temmuz 2025'te kabul edilmiş, 9 Temmuz 2025 tarihli ve 32951 sayılı Resmî Gazete'de yayımlanmıştır. Türkiye Emisyon Ticaret Sistemi Yönetmeliği ise 27 Ağustos 2026'da (RG 33353) yürürlüğe girmiştir.",
+    n: "ETS'de devlet toplam emisyon için bir üst sınır belirler ve tesislere emisyon izni (tahsisat) verir. Sınırın altında kalan tesis fazla iznini satabilir, aşan tesis satın almak zorundadır. Böylece emisyon azaltımı en ucuz yapılabildiği yerde gerçekleşir. Enerji verimliliği projeleri bu sistemde doğrudan parasal değer kazanır.",
+    g: { eski: "Sunumda iklim kanunu yer almıyor; sera gazı izleme 2014 tarihli yönetmeliğe dayanıyordu.", yeni: "7552 sayılı İklim Kanunu (RG 09.07.2025, 32951) ETS'yi kurdu; Türkiye ETS Yönetmeliği RG 27.08.2026, 33353 ile yürürlüğe girdi.", kaynak: "Resmî Gazete (9 Temmuz 2025 ve 27 Ağustos 2026)" } },
+  { t: 2, s: 9, q: "Çevre İzin ve Lisans Yönetmeliği'ne göre 1. aşamada uygun bulunan başvuruya ne verilir?",
     o: ["1 yıl süreli Geçici Faaliyet Belgesi (GFB)", "5 yıl süreli Çevre İzin Belgesi", "Süresiz ÇED olumlu kararı", "3 yıl süreli Çevre Lisans Belgesi", "1 yıl süreli Çevre İzin ve Lisans Belgesi"], a: 0,
-    e: "1. aşamada Ek-3A/3B'deki belgelerle başvurulur; uygunsa <b>1 yıl süreli Geçici Faaliyet Belgesi</b> verilir, değilse başvuru reddedilir." },
-  { t: 2, s: 9, q: "2. aşamada uygun bulunan başvuruya verilen Çevre İzin ve/veya Lisans Belgesinin süresi ne kadardır?",
+    e: "1. aşamada Ek-3A/3B'deki belgelerle başvurulur; uygunsa <b>1 yıl süreli Geçici Faaliyet Belgesi</b> verilir, değilse başvuru reddedilir.",
+    n: "GFB, tesisin çevre izni almadan önce deneme niteliğinde faaliyet göstermesine imkân verir. Bu bir yıl içinde emisyon ve gürültü ölçümleri yapılarak 2. aşamanın (çevre izni) belgeleri hazırlanır. GFB süresi içinde izin alınamazsa tesis faaliyetine devam edemez." },
+  { t: 2, s: 9, q: "Çevre İzin ve Lisans Yönetmeliği'nin 2. aşamasında uygun bulunan başvuruya verilen Çevre İzin ve/veya Lisans Belgesi kaç yıl geçerlidir?",
     o: ["1 yıl", "3 yıl", "5 yıl", "10 yıl", "Süresiz"], a: 2,
-    e: "Ek-3C'deki belgelerle başvurulur; uygunsa <b>5 yıl süreli</b> Çevre İzin ve/veya Lisans Belgesi verilir." },
-  { t: 2, s: 9, q: "Çevre İzin ve Lisans Yönetmeliği'nin 2. aşamasında başvuru uygun bulunmazsa ne olur?",
+    e: "Ek-3C'deki belgelerle başvurulur; uygunsa <b>5 yıl</b> geçerli Çevre İzin ve/veya Lisans Belgesi verilir.",
+    n: "Belgenin yenilenmesi için geçerlilik süresi bitmeden en az 180 gün önce başvuru yapılmalıdır. Süre bitince izin kendiliğinden uzamaz; tesisin kapasite artışı veya proses değişikliği gibi durumlarda belge süresinden önce de güncellenmelidir." },
+  { t: 2, s: 9, q: "Çevre İzin ve Lisans sürecinin 2. aşamasında başvuru uygun bulunmazsa ne olur?",
     o: ["Başvuru reddedilir ve GFB aşamasına dönülür.", "Belge 1 yıl süreyle şartlı verilir.", "Tesis doğrudan kapatılır.", "ÇED süreci yeniden başlatılır.", "Başvuru Ek-3A ile yeniden yapılır ve 5 yıl beklenir."], a: 0,
-    e: "2. aşamada uygun değilse <b>başvuru reddedilir, GFB aşamasına dönülür</b>." },
-  { t: 2, s: 9, q: "Aşağıdakilerden hangisi sunumda <b>çevre lisans</b> konuları arasında yer alır, çevre izin konuları arasında yer almaz?",
+    e: "2. aşamada uygun değilse <b>başvuru reddedilir, GFB aşamasına dönülür</b>.",
+    n: "Ret, tesisin eksikleri giderip yeniden başvurabileceği anlamına gelir. Bu süreçte en sık görülen eksikler: emisyon ölçüm raporunun akredite laboratuvardan alınmaması, baca yüksekliğinin hesaba uymaması ve atık su arıtma tesisi proje onayının bulunmamasıdır." },
+  { t: 2, s: 9, q: "Aşağıdaki konulardan hangisi <b>çevre lisansı</b> gerektirir, ancak <b>çevre izni</b> konuları arasında yer almaz?",
     o: ["Geri kazanım tesisleri", "Hava emisyonu", "Çevresel gürültü", "Atıksu deşarjı", "Derin deniz deşarjı"], a: 0,
-    e: "İzin konuları: hava emisyonu, çevresel gürültü, atıksu deşarjı, derin deniz deşarjı. Lisans konuları: ön işlem, <b>geri kazanım</b> ve bertaraf tesisleri, derin deniz deşarjı. Derin deniz deşarjı her ikisinde de vardır." },
+    e: "İzin konuları: hava emisyonu, çevresel gürültü, atıksu deşarjı, derin deniz deşarjı. Lisans konuları: ön işlem, <b>geri kazanım</b> ve bertaraf tesisleri, derin deniz deşarjı. Derin deniz deşarjı her ikisinde de vardır.",
+    n: "Kısa ayrım: çevre izni, tesisin kendi faaliyetinden kaynaklanan salımları (baca, gürültü, atık su) düzenler. Çevre lisansı ise başkalarının atıklarını kabul edip işleyen tesislere (geri kazanım, bertaraf) verilir." },
 
   // İklim değişikliği ve sera gazları
-  { t: 3, s: 10, q: "Sunumdaki tanıma göre iklim değişikliği, iklimin ortalama durumunda ve/veya değişkenliğinde hangi süre boyunca gerçekleşen değişikliklerdir?",
+  { t: 3, s: 10, q: "Bilimsel tanıma göre iklim değişikliği, iklimin ortalama durumunda ve/veya değişkenliğinde hangi süre boyunca gerçekleşen değişikliklerdir?",
     o: ["Onlarca yıl ya da daha uzun süre", "Bir mevsim boyunca", "Birkaç yıl içinde", "Yalnızca bir yıl içinde", "Bir gün içindeki sıcaklık farkı"], a: 0,
-    e: "Tanım: \"nedeni ne olursa olsun iklimin ortalama durumunda ve/ya da değişkenliğinde <b>onlarca yıl ya da daha uzun süre</b> boyunca gerçekleşen değişiklikler\"." },
-  { t: 3, s: 10, q: "Sunumdaki ikinci tanımda insan kaynaklı iklim değişikliğinin mekanizması nasıl açıklanır?",
+    e: "Tanım: nedeni ne olursa olsun iklimin ortalama durumunda ve/veya değişkenliğinde <b>onlarca yıl ya da daha uzun süre</b> boyunca gerçekleşen değişiklikler.",
+    n: "Hava durumu ile iklim farklıdır: hava durumu günlük koşulları, iklim ise genellikle 30 yıllık ortalamaları anlatır. Bu yüzden tek bir sıcak yaz ya da soğuk kış iklim değişikliğini kanıtlamaz veya çürütmez; uzun dönemli eğilim önemlidir." },
+  { t: 3, s: 10, q: "İnsan kaynaklı iklim değişikliğinin mekanizması en doğru nasıl açıklanır?",
     o: ["İnsan etkinlikleriyle artan sera gazı birikimlerinin doğal sera etkisini kuvvetlendirmesi", "Güneş aktivitesinin azalması", "Ozon tabakasının kalınlaşması", "Volkanik küllerin güneş ışığını engellemesi", "Okyanus akıntılarının durması"], a: 0,
-    e: "Fosil yakıt yakma, arazi kullanımı değişikliği, ormansızlaştırma ve sanayi süreçleriyle salınan sera gazı birikimlerindeki hızlı artış <b>doğal sera etkisini kuvvetlendirir</b>, yüzey sıcaklığı artar." },
-  { t: 3, s: 11, q: "Sunumdaki tabloya göre metanın kaynakları arasında hangisi <b>yer almaz</b>?",
+    e: "Fosil yakıt yakma, arazi kullanımı değişikliği, ormansızlaştırma ve sanayi süreçleriyle salınan sera gazları <b>doğal sera etkisini kuvvetlendirir</b>, yüzey sıcaklığı artar.",
+    n: "Doğal sera etkisi olmasaydı Dünya'nın ortalama sıcaklığı yaklaşık −18 °C olurdu; sera gazları sayesinde yaklaşık +15 °C'dir. Sorun bu etkinin insan eliyle güçlenmesidir. Ozon tabakasının incelmesi ayrı bir sorundur (UV ışınımı); iklim değişikliğiyle karıştırılmamalıdır." },
+  { t: 3, s: 11, q: "Aşağıdakilerden hangisi metan (CH₄) kaynakları arasında <b>yer almaz</b>?",
     o: ["LCD ve HDTV ekran üretimi", "Büyükbaş hayvanlar", "Atık depolama sahaları", "Pirinç tarlaları", "Bataklıklar"], a: 0,
-    e: "Metan: büyükbaş hayvanlar, atık depolama sahaları, çiftlik gübreleri, pirinç tarlaları, bataklıklar. <b>LCD ve HDTV ekran üretimi</b> nitrojen triflorürün (NF₃) kaynağıdır." },
-  { t: 3, s: 11, q: "Soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler hangi sera gazlarının kaynağı olarak verilmiştir?",
-    o: ["Hidroflorokarbonlar ve perflorokarbonlar", "Karbondioksit", "Metan", "Kükürt heksaflorür", "Nitrojen triflorür"], a: 0,
-    e: "<b>HFC'ler ve PFC'ler</b>: soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler." },
-  { t: 3, s: 11, q: "Yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları hangi sera gazının kaynakları arasında gösterilmiştir?",
+    e: "Metan: büyükbaş hayvanlar, atık depolama sahaları, çiftlik gübreleri, pirinç tarlaları, bataklıklar. <b>LCD ve HDTV ekran üretimi</b> nitrojen triflorürün (NF₃) kaynağıdır.",
+    n: "Metan, oksijensiz ortamda organik maddenin ayrışmasıyla oluşur. Atık depolama sahalarındaki metan (çöp gazı) toplanıp gaz motorlarında elektrik üretilebilir; bu hem sera gazını azaltır hem de 5346 sayılı Kanun'da tanımlı yenilenebilir enerji üretimidir. Doğal gaz boru hatlarındaki kaçaklar da önemli bir metan kaynağıdır." },
+  { t: 3, s: 11, q: "Soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler hangi sera gazlarının başlıca kaynaklarıdır?",
+    o: ["Hidroflorokarbonlar (HFC) ve perflorokarbonlar (PFC)", "Karbondioksit", "Metan", "Kükürt heksaflorür", "Nitrojen triflorür"], a: 0,
+    e: "<b>HFC'ler ve PFC'ler</b>: soğutucular, klimalar, köpük ürünler, yalıtım malzemeleri ve spreyler.",
+    n: "HFC'ler ozon tabakasına zarar veren CFC'lerin yerine geldi, ancak güçlü sera gazlarıdır; örneğin R-134a'nın küresel ısınma potansiyeli 1.300 civarındadır. Kigali Değişikliği ile HFC'lerin kademeli azaltılması kararlaştırıldı. Soğutma sistemlerinde kaçak kontrolü ve düşük GWP'li soğutuculara (R-32, CO₂, propan) geçiş hem çevre hem verimlilik konusudur." },
+  { t: 3, s: 11, q: "Yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları ile otomotiv sanayi hangi sera gazının kaynakları arasında gösterilir?",
     o: ["Kükürt heksaflorür (SF₆)", "Metan (CH₄)", "Karbondioksit (CO₂)", "Hidroflorokarbonlar", "Nitrojen triflorür (NF₃)"], a: 0,
-    e: "<b>SF₆</b>: araç lastikleri, otomotiv endüstrisi, yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları." },
+    e: "<b>SF₆</b>: araç lastikleri, otomotiv endüstrisi, yarı iletken imalatı, madencilik, askeri uçak ve radar uygulamaları.",
+    n: "SF₆ bilinen en güçlü sera gazıdır; küresel ısınma potansiyeli 23.000'in üzerindedir ve atmosferde binlerce yıl kalır. Enerji sektöründe yüksek gerilim kesicilerinde ve gaz yalıtımlı şalt tesislerinde (GIS) yalıtkan olarak kullanılır. Bu yüzden şalt bakımında SF₆ kaçak takibi önemlidir." },
 
   // İklim müzakereleri
-  { t: 4, s: 12, q: "BMİDÇS'de gelişmiş ülkeleri kapsayan ve emisyonlarını sınırlandırmak, sera gazı envanterlerini Sekretarya'ya bildirmekle yükümlü grup hangisidir?",
-    o: ["EK-1 ülkeleri", "EK-2 ülkeleri", "EK dışı ülkeler", "OPEC ülkeleri", "G20 ülkeleri"], a: 0,
-    e: "<b>EK-1</b>: emisyon sınırlama, yutak alanlarını koruma ve geliştirme, politika ve envanter bildirme yükümlülüğü. 42 ülke (Türkiye dahil) ve AB." },
-  { t: 4, s: 12, q: "BMİDÇS EK-2 ülkelerinin temel yükümlülüğü hangisidir?",
+  { t: 4, s: 12, q: "BM İklim Değişikliği Çerçeve Sözleşmesi'nde (BMİDÇS) emisyonlarını sınırlandırmak, yutak alanlarını korumak ve sera gazı envanterlerini Sekretarya'ya bildirmekle yükümlü gelişmiş ülkeler hangi listededir?",
+    o: ["EK-1", "EK-2", "EK dışı", "OPEC", "G20"], a: 0,
+    e: "<b>EK-1</b>: emisyon sınırlama, yutak alanlarını koruma ve geliştirme, politika ve envanter bildirme yükümlülüğü. 42 ülke (Türkiye dahil) ve AB bu listededir.",
+    n: "Türkiye, EK-1 ülkesi olarak her yıl Ulusal Sera Gazı Envanter Raporu sunar; TÜİK'in yıllık sera gazı istatistikleri bu envanterden gelir. EK-1 ülkeleri 1992'de OECD üyeliği temel alınarak belirlendi; bu yüzden Türkiye gelişmekte olan bir ekonomi olmasına rağmen bu listeye girdi." },
+  { t: 4, s: 12, q: "BMİDÇS'de EK-2 ülkelerinin temel yükümlülüğü hangisidir?",
     o: ["Ek dışı ülkeleri finanse etmek ve çevre dostu teknolojilerin bu ülkelere aktarılmasını sağlamak", "Emisyon azaltma yükümlülüğü olmadan finans almak", "Yalnızca yutak alanlarını korumak", "Kyoto Protokolü'nden çekilmek", "Fosil yakıt üretimini artırmak"], a: 0,
-    e: "<b>EK-2</b> (finans sağlayan gelişmiş ülkeler): ek dışı ülkeleri finanse etmek, teknoloji aktarımını sağlamak ve erişimi teşvik etmek. ABD, Japonya gibi 23 ülke ve AB." },
-  { t: 4, s: 12, q: "Sunuma göre BMİDÇS EK-1 grubunda kaç ülke yer almaktadır?",
-    o: ["42 ülke ve AB", "23 ülke ve AB", "153 ülke", "191 ülke ve AB", "189 ülke"], a: 0,
-    e: "EK-1: <b>42 ülke (Türkiye dahil) ve AB</b>. EK-2: 23 ülke ve AB. EK dışı: 153 ülke." },
+    e: "<b>EK-2</b> (finans sağlayan gelişmiş ülkeler): ek dışı ülkeleri finanse etmek, teknoloji aktarımını sağlamak ve erişimi teşvik etmek. ABD, Japonya gibi 23 ülke ve AB.",
+    n: "İklim finansmanı müzakerelerin en çekişmeli başlığıdır. Gelişmiş ülkeler 2020'ye kadar yılda 100 milyar $ sağlama sözü vermişti; COP29'da (Bakü, 2024) yeni hedef 2035'e kadar yılda en az 300 milyar $ olarak belirlendi. Türkiye EK-2'den çıkarıldığı için finans sağlama yükümlülüğü yoktur." },
+  { t: 4, s: 12, q: "BMİDÇS listelerine göre aşağıdaki eşleştirmelerden hangisi doğrudur?",
+    o: ["EK-1: 42 ülke ve AB; EK-2: 23 ülke ve AB; EK dışı: 153 ülke", "EK-1: 23 ülke ve AB; EK-2: 42 ülke; EK dışı: 153 ülke", "EK-1: 153 ülke; EK-2: 23 ülke; EK dışı: 42 ülke", "EK-1: 191 ülke ve AB; EK-2: 42 ülke; EK dışı: 23 ülke", "EK-1: 42 ülke; EK-2: 153 ülke; EK dışı: 23 ülke"], a: 0,
+    e: "EK-1: <b>42 ülke (Türkiye dahil) ve AB</b>. EK-2: 23 ülke ve AB. EK dışı: 153 ülke.",
+    n: "Hatırlama ipucu: EK-2, EK-1'in alt kümesidir; her EK-2 ülkesi aynı zamanda EK-1'dedir, ama tersi geçerli değildir. Türkiye 2001'den beri yalnızca EK-1'dedir. 191, Kyoto Protokolü'ne taraf ülke sayısıdır." },
   { t: 4, s: 12, q: "Çin, Suudi Arabistan, Güney Kore ve Brezilya BMİDÇS'de hangi grupta yer alır?",
     o: ["EK dışı ülkeler", "EK-1 ülkeleri", "EK-2 ülkeleri", "Hem EK-1 hem EK-2", "Sözleşmeye taraf değiller"], a: 0,
-    e: "<b>EK dışı ülkeler</b>: emisyon azaltma yükümlülüğü olmayan, uluslararası finans ve teknoloji desteğinden yararlanabilen 153 gelişmekte olan ülke." },
+    e: "<b>EK dışı ülkeler</b>: emisyon azaltma yükümlülüğü olmayan, uluslararası finans ve teknoloji desteğinden yararlanabilen 153 gelişmekte olan ülke.",
+    n: "1992'deki bu sınıflandırma bugünün gerçekliğiyle çelişir: Çin artık dünyanın en büyük emitörüdür ve Güney Kore OECD üyesidir. Paris Anlaşması bu yüzden katı ek ayrımı yerine tüm ülkelerin kendi ulusal katkı beyanlarını (NDC) sunduğu bir yapı kurdu." },
   { t: 4, s: 13, q: "Türkiye'nin adı BMİDÇS'nin EK-II listesinden hangi kararla çıkarılmıştır?",
     o: ["2001 Marakeş COP7'de alınan 26/CP.7 sayılı kararla", "1997 Kyoto kararıyla", "2015 Paris COP21 kararıyla", "1992 Rio kararıyla", "2009 Kopenhag COP15 kararıyla"], a: 0,
-    e: "<b>2001'de Marakeş'teki COP7</b>'de alınan <b>26/CP.7</b> sayılı kararla Türkiye'nin farklı konumu tanındı; adı EK-II'den çıkarıldı fakat EK-I'de kaldı." },
+    e: "<b>2001'de Marakeş'teki COP7</b>'de alınan <b>26/CP.7</b> sayılı kararla Türkiye'nin diğer EK-I ülkelerinden farklı konumu tanınmış; adı EK-II'den çıkarılmış, ancak EK-I'de kalmıştır.",
+    n: "COP (Conference of the Parties, Taraflar Konferansı) BMİDÇS'nin karar organıdır ve her yıl toplanır. COP numarasını bilmek tarihleri hatırlamayı kolaylaştırır: COP3 Kyoto (1997), COP7 Marakeş (2001), COP21 Paris (2015), COP29 Bakü (2024), COP30 Belém (2025), COP31 Antalya (2026)." },
   { t: 4, s: 13, q: "Türkiye BMİDÇS'ye hangi tarihte ve kaçıncı taraf olarak katılmıştır?",
     o: ["24 Mayıs 2004, 189. taraf", "1992, kurucu taraf", "2009, 191. taraf", "10 Kasım 2021, 194. taraf", "2001, 42. taraf"], a: 0,
-    e: "Türkiye <b>24 Mayıs 2004</b>'te <b>189. Taraf</b> olarak BMİDÇS'ye katılmıştır. 2009, Kyoto Protokolü'ne taraf olunan yıldır." },
-  { t: 4, s: 13, q: "Kyoto Protokolü ile ilgili aşağıdakilerden hangisi sunuma göre <b>yanlıştır</b>?",
-    o: ["Türkiye'nin Protokol kapsamında bağlayıcı bir azaltım taahhüdü vardır.", "Protokol 1997'de kabul edilmiştir.", "Türkiye Protokole 2009'da taraf olmuştur.", "Protokol Aralık 2020 itibarıyla sona ermiştir.", "AB ve 191 ülke Protokole taraf olmuştur."], a: 0,
-    e: "Sunuma göre <b>Türkiye'nin Kyoto Protokolü kapsamında azaltım taahhüdü bulunmamaktadır</b>. Diğer ifadelerin hepsi doğrudur." },
+    e: "Türkiye <b>24 Mayıs 2004</b>'te <b>189. taraf</b> olarak BMİDÇS'ye katılmıştır. 2009 Kyoto Protokolü'ne, 2021 Paris Anlaşması'na taraf olunan yıllardır.",
+    n: "Türkiye'nin taraf olma sırası: BMİDÇS 2004 → Kyoto Protokolü 2009 → Paris Anlaşması 2021. Sözleşmeye 1992'de değil 2004'te katılmasının nedeni, EK-II'deki finans yükümlülüğü sorunu 2001'de çözülene kadar beklemesidir." },
+  { t: 4, s: 13, q: "Kyoto Protokolü ile ilgili aşağıdakilerden hangisi <b>yanlıştır</b>?",
+    o: ["Türkiye'nin Protokol kapsamında bağlayıcı bir azaltım taahhüdü vardır.", "Protokol 1997'de kabul edilmiştir.", "Türkiye Protokole 2009'da taraf olmuştur.", "Protokolün uygulama dönemi 2020 sonunda sona ermiştir.", "AB ve 191 ülke Protokole taraf olmuştur."], a: 0,
+    e: "<b>Türkiye'nin Kyoto Protokolü kapsamında azaltım taahhüdü yoktur</b>, çünkü Protokol kabul edildiğinde BMİDÇS'ye taraf değildi ve Protokol'ün Ek-B listesinde yer almadı. Diğer ifadeler doğrudur.",
+    n: "Kyoto, yalnızca gelişmiş ülkelere bağlayıcı azaltım hedefi koyan “yukarıdan aşağı” bir modeldi. ABD'nin katılmaması ve gelişmekte olan büyük emitörlerin kapsam dışında kalması etkisini sınırladı. 2021'den itibaren yerini, tüm ülkelerin kendi hedefini belirlediği Paris Anlaşması aldı." },
   { t: 4, s: 14, q: "Paris Anlaşması hangi tarihte kabul edilmiştir?",
     o: ["12 Aralık 2015", "22 Nisan 2016", "4 Kasım 2016", "7 Ekim 2021", "10 Kasım 2021"], a: 0,
-    e: "Kabul: <b>12 Aralık 2015</b>. 22 Nisan 2016 Türkiye'nin imza tarihi, 4 Kasım 2016 yürürlüğe giriş tarihidir." },
+    e: "Kabul: <b>12 Aralık 2015</b> (COP21). 22 Nisan 2016 Türkiye'nin imza tarihi, 4 Kasım 2016 yürürlüğe giriş tarihidir.",
+    n: "Paris Anlaşması'nın amacı küresel sıcaklık artışını sanayi öncesine göre 2 °C'nin “oldukça altında” tutmak ve 1,5 °C ile sınırlamaya çalışmaktır. Her ülke beş yılda bir güncellenen ulusal katkı beyanı (NDC) sunar; her yeni beyanın bir öncekinden daha iddialı olması beklenir." },
   { t: 4, s: 14, q: "Türkiye Paris Anlaşması'na hangi tarihte taraf olmuştur?",
     o: ["10 Kasım 2021", "22 Nisan 2016", "6 Ekim 2021", "7 Ekim 2021", "4 Kasım 2016"], a: 0,
-    e: "Sıra: 22 Nisan 2016 imza → 6 Ekim 2021 Meclisten geçti → 7 Ekim 2021 Resmî Gazete → <b>10 Kasım 2021 taraf oldu</b>." },
-  { t: 4, s: 14, q: "Sunumdaki Paris Anlaşması tarihçesinde \"İklim Nötr Türkiye\" hedef yılı hangisidir?",
+    e: "Sıra: 22 Nisan 2016 imza → 6 Ekim 2021 Meclisten geçti → 7 Ekim 2021 Resmî Gazete → <b>10 Kasım 2021 taraf oldu</b>.",
+    n: "İmza ile taraf olmak farklıdır: imza, metni kabul etme niyetidir; taraf olmak için onay (Meclis kabulü ve onay belgesinin BM'ye verilmesi) gerekir. Onay belgesi verildikten 30 gün sonra anlaşma o ülke için yürürlüğe girer." },
+  { t: 4, s: 14, q: "Türkiye'nin “net sıfır emisyon” (iklim nötr) hedef yılı hangisidir?",
     o: ["2030", "2040", "2050", "2053", "2060"], a: 3,
-    e: "Tarihçenin son halkası <b>2053 İklim Nötr Türkiye</b> hedefidir." },
+    e: "Türkiye'nin net sıfır emisyon hedef yılı <b>2053</b>'tür. Bu hedef 7552 sayılı İklim Kanunu ile yasal dayanak kazanmıştır.",
+    n: "Net sıfır, kalan emisyonların ormanlar gibi yutaklarla veya karbon yakalama teknolojileriyle dengelenmesi demektir; hiç emisyon olmaması demek değildir. AB'nin hedefi 2050, Çin'in 2060'tır. Türkiye'nin 2053 yolundaki ara hedefleri ulusal katkı beyanında (NDC) yer alır." },
+  { t: 4, s: 14, q: "Türkiye'nin COP30'da (Belém, 2025) sunduğu güncellenmiş ulusal katkı beyanına göre 2035 yılında toplam sera gazı emisyonunun hangi düzeyde sınırlandırılması hedeflenmektedir?",
+    o: ["Yaklaşık 366 Mt CO₂e", "Yaklaşık 466 Mt CO₂e", "Yaklaşık 585 Mt CO₂e", "Yaklaşık 643 Mt CO₂e", "Yaklaşık 1.109 Mt CO₂e"], a: 3,
+    e: "2035 hedefi toplam emisyonun <b>643 Mt CO₂e</b> ile sınırlandırılmasıdır; bu, referans senaryoya göre 466 Mt CO₂e azaltım demektir. 2030 için öngörülen düzey 695 Mt CO₂e'dir.",
+    n: "Türkiye'nin hedefleri mutlak azaltım değil, “referans senaryoya göre azaltım” şeklindedir: emisyonlar zirve yapıp sonra düşecek şekilde planlanır. 2024 emisyonu 584,5 Mt CO₂e olduğundan 643 Mt hedefi, bugünkü düzeyin üzerinde bir zirveye izin verir. Bu yüzden çevre örgütleri hedefi yetersiz bulmaktadır.",
+    g: { eski: "Sunumda yalnızca 2053 iklim nötr hedefi yer alıyor.", yeni: "2030'da referans senaryoya göre %41 azaltım (695 Mt); 2035'te 643 Mt CO₂e üst sınır (referansa göre 466 Mt azaltım); 2053 net sıfır.", kaynak: "Türkiye'nin güncellenmiş Ulusal Katkı Beyanı (COP30, Kasım 2025); İKV değerlendirme notu (Mart 2026)" } },
+  { t: 4, s: 14, q: "Kasım 2026'da Antalya'da yapılacak BM İklim Değişikliği Taraflar Konferansı'nın (COP31) başkanlığını hangi ülke üstlenmiştir?",
+    o: ["Türkiye", "Brezilya", "Azerbaycan", "Birleşik Arap Emirlikleri", "Almanya"], a: 0,
+    e: "COP30'da (Belém) alınan kararla <b>Türkiye</b> COP31'e ev sahipliği yapacak ve konferans başkanlığını üstlenecektir. Müzakerelerin yönetimini ise Avustralya yürütecektir.",
+    n: "Bu düzenleme COP tarihinde bir ilktir: ev sahipliği ve liderler zirvesi Türkiye'de, karar metinlerini şekillendiren müzakereler Avustralya'nın “Müzakereler Başkanı”nda. Brezilya COP30'a (2025), Azerbaycan COP29'a (2024), BAE COP28'e (2023) ev sahipliği yapmıştı.",
+    g: { eski: "Sunum Paris Anlaşması tarihçesiyle (2021) sınırlı.", yeni: "Türkiye, COP31'e (Antalya, Kasım 2026) ev sahipliği yapacak ve başkanlığı üstlenecek; müzakereleri Avustralya yönetecek.", kaynak: "COP30 kararı (Belém, Kasım 2025); Bloomberg HT, Ekonomi Gazetesi haberleri" } },
 
   // Sera gazı emisyonları
-  { t: 5, s: 15, q: "Sunuma göre 2019 yılı küresel karbondioksit emisyonu ne kadardır?",
-    o: ["36,7 Gt CO₂", "506,1 Mt CO₂", "10,7 Gt CO₂", "3,67 Gt CO₂", "367 Gt CO₂"], a: 0,
-    e: "2019 küresel CO₂ emisyonu: <b>36,7 Gt</b>. 506,1 Mt CO₂eş Türkiye'nin 2019 toplam sera gazı emisyonudur." },
-  { t: 5, s: 15, q: "2019'da 506,1 Mt CO₂eş sera gazı emisyonuyla Türkiye'nin küresel emisyonlardaki payı yaklaşık ne kadardır?",
-    o: ["%1,2'den az", "%5 civarı", "%10 civarı", "%0,1'den az", "%3–4 arası"], a: 0,
-    e: "Sunuma göre Türkiye küresel emisyonlarda <b>%1,2'den daha az</b> paya sahiptir." },
-  { t: 5, s: 15, q: "Sunumdaki grafiğe göre 2010–2020 arasında karbondioksit emisyonu <b>azalan</b> ülke hangisidir?",
+  { t: 5, s: 15, q: "Global Carbon Project'e göre 2025 yılında fosil kaynaklı küresel CO₂ emisyonunun yaklaşık ne kadar olması öngörülmüştür?",
+    o: ["Yaklaşık 3,8 Gt CO₂", "Yaklaşık 15 Gt CO₂", "Yaklaşık 38 Gt CO₂", "Yaklaşık 380 Gt CO₂", "Yaklaşık 585 Mt CO₂"], a: 2,
+    e: "2025 fosil CO₂ emisyonu <b>38,1 Gt</b> ile rekor düzeyde (+%1,1) öngörülmüştür. Arazi kullanımı dahil toplam CO₂ yaklaşık 42,2 Gt'dir.",
+    n: "Birimler: 1 Gt (gigaton) = 1.000 Mt = 1 milyar ton. Fosil CO₂ artışına kömür (+%0,8), petrol (+%1) ve doğal gaz (+%1,3) birlikte katkı yaptı. Küresel emisyonlar hâlâ artarken 1,5 °C hedefi için kalan karbon bütçesi hızla tükenmektedir.",
+    g: { eski: "2019 küresel CO₂ emisyonu: 36,7 Gt.", yeni: "2025 fosil CO₂ emisyonu: 38,1 Gt (öngörü, +%1,1, rekor).", kaynak: "Global Carbon Project, Global Carbon Budget 2025 (Kasım 2025)" } },
+  { t: 5, s: 16, q: "TÜİK verilerine göre Türkiye'nin 2024 yılı toplam sera gazı emisyonu ne kadardır?",
+    o: ["506,1 Mt CO₂e", "552,4 Mt CO₂e", "584,5 Mt CO₂e", "643,0 Mt CO₂e", "695,0 Mt CO₂e"], a: 2,
+    e: "2024'te toplam emisyon bir önceki yıla göre %5,3 artarak <b>584,5 Mt CO₂e</b> olmuştur. 506,1 Mt 2019 değeri, 643 ve 695 Mt ise 2035 ve 2030 için öngörülen düzeylerdir.",
+    n: "1990'da yaklaşık 229 Mt olan toplam emisyon 2024'te yaklaşık 2,5 katına çıkmıştır. TÜİK her yıl Mart–Nisan aylarında iki yıl önceye ait envanteri açıklar (2024 verisi Mart 2026'da). Bu yüzden “en güncel” emisyon verisi her zaman iki yıl geriden gelir.",
+    g: { eski: "Toplam 506,1 Mt CO₂e (2019); 1990–2019 artışı %130,5.", yeni: "Toplam 584,5 Mt CO₂e (2024, +%5,3); 1990'a göre ≈2,5 kat.", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024 (27 Mart 2026)" } },
+  { t: 5, s: 16, q: "TÜİK'e göre Türkiye'de kişi başı sera gazı emisyonu 2024 yılında yaklaşık kaç ton CO₂e'dir?",
+    o: ["4,2", "5,5", "6,1", "6,8", "8,5"], a: 3,
+    e: "Kişi başı emisyon 2024'te <b>6,8 t CO₂e</b>'dir (2023'te 6,5; 1990'da 4,2).",
+    n: "Kişi başı emisyon, toplam emisyonun nüfusa bölünmesiyle bulunur ve ülkeler arası adil karşılaştırma için kullanılır. Türkiye'nin kişi başı değeri AB ortalamasına yaklaşmış, dünya ortalamasının (yaklaşık 6,5 t) üzerine çıkmıştır. Envanter revize edildiğinde geçmiş yılların değerleri de değişebilir: 1990 değeri eski bültende 4,07, yenisinde 4,2'dir.",
+    g: { eski: "Kişi başı 6,10 t CO₂e (2019); 1990'da 4,07.", yeni: "Kişi başı 6,8 t CO₂e (2024); 2023'te 6,5; 1990'da 4,2 (revize).", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024" } },
+  { t: 5, s: 16, q: "2024 yılında Türkiye'nin toplam sera gazı emisyonunda enerji sektörünün payı yaklaşık ne kadardır?",
+    o: ["Yaklaşık %13", "Yaklaşık %33", "Yaklaşık %50", "Yaklaşık %72", "Yaklaşık %95"], a: 3,
+    e: "Enerji kaynaklı emisyonlar <b>%71,8</b> (419,9 Mt CO₂e). Endüstriyel işlemler ve ürün kullanımı %12,9, tarım %12,6, atık %2,6.",
+    n: "Envanterde “enerji” sektörü elektrik üretimini, sanayide yakıt yakmayı, ulaştırmayı ve binalarda ısınmayı birlikte kapsar. Toplamın yaklaşık dörtte üçü buradan geldiği için enerji verimliliği ve yenilenebilir enerji, iklim politikasının en büyük kaldıracıdır.",
+    g: { eski: "Enerji 364,4 Mt (≈%72), endüstriyel işlemler 56,4, tarım 68,0, atık 17,2 Mt (2019).", yeni: "Enerji %71,8 (419,9 Mt), endüstriyel işlemler %12,9, tarım %12,6, atık %2,6 (2024).", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024" } },
+  { t: 5, s: 16, q: "1990–2024 döneminde yüzde olarak en hızlı artan emisyon sektörü hangisidir?",
+    o: ["Endüstriyel işlemler ve ürün kullanımı", "Enerji", "Tarım", "Atık", "Hiçbiri; tüm sektörlerde emisyon azalmıştır"], a: 0,
+    e: "1990'a göre artış: <b>endüstriyel işlemler %227,6</b>, enerji %192,3, tarım %41,8.",
+    n: "Endüstriyel işlemlerdeki hızlı artışın ana nedeni çimento, demir-çelik ve kimya üretiminin büyümesidir. Bu emisyonların önemli kısmı yakıttan değil, kimyasal tepkimeden (örneğin kalkerin kalsinasyonu) gelir. Bu yüzden azaltmak için yakıt değişimi yetmez; klinker oranını düşürmek veya karbon yakalama gibi proses çözümleri gerekir.",
+    g: { eski: "1990–2019: enerji %161,0, endüstriyel işlemler %147,1, tarım %47,7 artış.", yeni: "1990–2024: endüstriyel işlemler %227,6, enerji %192,3, tarım %41,8 artış.", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024" } },
+  { t: 5, s: 16, q: "Sera gazı envanterinde AKAKDO (arazi kullanımı, arazi kullanım değişikliği ve ormancılık) sektörünün değeri negatif çıkıyorsa bu ne anlama gelir?",
+    o: ["Ormanlar ve araziler atmosferden salındığından daha fazla CO₂ tutmaktadır (net yutak).", "Ormanlarda emisyon ölçülememiştir.", "Tarım emisyonları sıfırlanmıştır.", "Arazi sektörü toplam emisyonu artırmaktadır.", "Hesaplama hatası yapılmıştır."], a: 0,
+    e: "Negatif değer <b>net yutak</b> demektir: ormanlar ve araziler CO₂'yi atmosferden çekip depolar. Bu yüzden AKAKDO dahil “net toplam”, brüt toplamdan küçüktür.",
+    n: "Örnek: 2019'da brüt toplam 506,1 Mt, AKAKDO −84,0 Mt, net toplam 422,1 Mt idi. Net sıfır hedefleri bu yutak kapasitesine dayanır: 2053'te kalan emisyonlar ağaçlandırma ve orman yönetimiyle büyütülen yutaklarla dengelenecektir. Orman yangınları yutak kapasitesini düşürür." },
+  { t: 5, s: 15, q: "2010–2020 döneminde aşağıdaki büyük emitörlerden hangisinin CO₂ emisyonu <b>azalmıştır</b>?",
     o: ["ABD", "Çin", "Hindistan", "İran", "Türkiye"], a: 0,
-    e: "<b>ABD</b>: 5.676 → 4.713 Mt. Çin (8.617 → 10.668), Hindistan (1.678 → 2.442), İran (570 → 745) ve Türkiye (314 → 393) artmıştır." },
-  { t: 5, s: 16, q: "Türkiye'de kişi başı sera gazı emisyonu 1990'da 4,07 ton CO₂eş iken 2019'da kaç ton CO₂eş olmuştur?",
-    o: ["5,52", "6,02", "6,10", "6,46", "7,20"], a: 2,
-    e: "2019'da kişi başı emisyon <b>6,10 ton CO₂eş</b>; 1990'a göre %49,9 artış. 6,46 ile en yüksek değer 2017'dedir." },
-  { t: 5, s: 16, q: "2019'da Türkiye'nin toplam sera gazı emisyonunda en büyük paya sahip sektör ve yaklaşık payı hangisidir?",
-    o: ["Enerji, yaklaşık %72", "Tarım, yaklaşık %13", "Endüstriyel işlemler, yaklaşık %11", "Atık, yaklaşık %3", "Enerji, yaklaşık %50"], a: 0,
-    e: "Enerji 364,4 ÷ toplam 506,1 ≈ <b>%72</b>. Tarım 68,0 (≈%13), endüstriyel işlemler 56,4 (≈%11), atık 17,2 (≈%3)." },
-  { t: 5, s: 16, q: "Tabloya göre 2018–2019 arasında emisyonu <b>artan</b> tek sektör hangisidir?",
-    o: ["Tarım", "Enerji", "Endüstriyel işlemler", "Atık", "AKAKDO"], a: 0,
-    e: "<b>Tarım</b> %4,1 artmıştır. Enerji −%2,3, endüstriyel işlemler −%14,3, atık −%5,0 azalmıştır." },
-  { t: 5, s: 16, q: "Türkiye'nin toplam sera gazı emisyonu 1990–2019 arasında yüzde kaç artmıştır?",
-    o: ["%49,9", "%130,5", "%157,7", "%161,0", "%2,3"], a: 1,
-    e: "219,6 → 506,1 Mt CO₂eş: <b>%130,5</b> artış. %161,0 enerji sektörünün, %157,7 AKAKDO dahil net toplamın, %49,9 kişi başı emisyonun artışıdır." },
-  { t: 5, s: 16, q: "Tabloda 2019 için iki farklı \"Toplam\" verilmiştir: 506,1 ve 422,1 Mt CO₂eş. Aradaki fark neyden kaynaklanır?",
-    o: ["AKAKDO (arazi kullanımı ve ormancılık) yutaklarının −84,0 Mt CO₂eş olarak hesaba katılmasından", "Tarım emisyonlarının çıkarılmasından", "Atık sektörünün iki kez sayılmasından", "Kişi başı değerle çarpılmasından", "Endüstriyel işlemlerin dahil edilmemesinden"], a: 0,
-    e: "AKAKDO (Arazi Kullanımı, Arazi Kullanım Değişikliği ve Ormancılık) negatif, yani yutaktır: 506,1 − <b>84,0</b> = 422,1 Mt CO₂eş." },
-];
-const TOPICS = ["Hava kirleticileri ve kaynakları", "Azaltım teknolojileri", "Çevre mevzuatı ve izin süreci", "İklim değişikliği ve sera gazları", "İklim müzakereleri", "Sera gazı emisyonları"];
-const LET = ["A", "B", "C", "D", "E"];
-const KEY = "enerji-sinav-sunum3-v1";
-const $ = id => document.getElementById(id);
-
-let S;
-
-function shuffle(a) {
-  a = a.slice();
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
-function fresh(ids, mode) {
-  const order = shuffle(ids || Q.map((_, i) => i));
-  const perm = {};
-  order.forEach(i => { perm[i] = shuffle([0, 1, 2, 3, 4]); });
-  return { n: Q.length, mode: mode || "pr", order, perm, ans: {}, cur: 0, done: false, view: "q", ask: false, filter: "all" };
-}
-function valid(s) {
-  return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
-    s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
-}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
-
-const N = () => S.order.length;
-const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
-const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
-function status(i) {
-  if (S.ans[i] === undefined) return "blank";
-  return S.ans[i] === Q[i].a ? "ok" : "bad";
-}
-function counts() {
-  const c = { ok: 0, bad: 0, blank: 0 };
-  S.order.forEach(i => c[status(i)]++);
-  return c;
-}
-
-function render() {
-  $("m-pr").setAttribute("aria-pressed", S.mode === "pr");
-  $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
-  const na = answered();
-  $("pg").style.width = (na / N() * 100) + "%";
-  if (S.mode === "pr" || S.done) {
-    let ok = 0, bad = 0;
-    S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
-    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
-  } else {
-    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
-  }
-  $("quiz").hidden = S.view !== "q";
-  $("results").hidden = S.view !== "res";
-  if (S.view === "q") renderQ(); else renderRes();
-  renderMap();
-}
-
-function renderQ() {
-  const qi = S.order[S.cur], q = Q[qi], p = S.perm[qi], a = S.ans[qi], rev = revealed(qi);
-  const locked = S.done || (S.mode === "pr" && a !== undefined);
-  const opts = p.map((oi, k) => {
-    let cls = "opt";
-    if (rev) {
-      if (oi === q.a) cls += " ok";
-      else if (a === oi) cls += " bad";
-      else cls += " dim";
-    } else if (a === oi) cls += " sel";
-    return `<li><button type="button" class="${cls}" data-k="${k}" ${locked ? "disabled" : ""} aria-pressed="${a === oi}"><span class="lt">${LET[k]}</span><span class="tx">${q.o[oi]}</span></button></li>`;
-  }).join("");
-  let fb = "";
-  if (rev) {
-    const right = LET[p.indexOf(q.a)];
-    const st = status(qi);
-    const head = st === "ok" ? "Doğru." : st === "bad" ? `Yanlış. Doğru cevap ${right}.` : `Boş bırakıldı. Doğru cevap ${right}.`;
-    fb = `<div class="fb ${st}"><strong>${head}</strong><p>${q.e}</p></div>`;
-  }
-  const last = S.cur === N() - 1;
-  const allDone = answered() === N();
-  let nav = `<button type="button" class="btn" id="prev" ${S.cur === 0 ? "disabled" : ""}>← Önceki</button><span class="grow"></span>`;
-  if (S.done) {
-    nav += `<button type="button" class="btn" id="tores">Sonuçlar</button>`;
-    nav += `<button type="button" class="btn primary" id="next" ${last ? "disabled" : ""}>Sonraki →</button>`;
-  } else if (S.mode === "ex") {
-    if (S.ask) {
-      nav = `<span class="note"><b>${N() - answered()} soru boş.</b> Boş sorular net hesabında yanlış sayılmaz.</span><span class="grow"></span>
-        <button type="button" class="btn" id="cancel">Sorulara dön</button><button type="button" class="btn primary" id="finish2">Yine de bitir</button>`;
-    } else {
-      nav += `<button type="button" class="btn warn" id="finish">Sınavı bitir</button>`;
-      if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
-    }
-  } else {
-    if (allDone) nav += `<button type="button" class="btn ${last ? "primary" : ""}" id="finish2">Sonuçları gör</button>`;
-    if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
-  }
-  $("quiz").innerHTML = `
-    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span><span class="chip src">slayt ${q.s}</span></div>
-    <p class="qtext">${q.q}</p>
-    <ul class="opts">${opts}</ul>
-    ${fb}
-    <div class="nav">${nav}</div>`;
-}
-
-function renderMap() {
-  $("map").innerHTML = S.order.map((qi, k) => {
-    let cls = "";
-    if (revealed(qi) && S.ans[qi] !== undefined) cls = status(qi);
-    else if (S.ans[qi] !== undefined) cls = "ans";
-    if (S.view === "q" && k === S.cur) cls += " cur";
-    return `<button type="button" class="${cls.trim()}" data-go="${k}" aria-label="Soru ${k + 1}">${k + 1}</button>`;
-  }).join("");
-}
-
-function renderRes() {
-  const c = counts(), n = N();
-  const net = c.ok - c.bad / 4;
-  const pct = Math.round(c.ok / n * 100);
-  const verdict = pct >= 85 ? "Sunuma hâkimsiniz." : pct >= 60 ? "İyi gidiyor. Zayıf konuları tekrar edin." : "Sunumu bir kez daha gözden geçirin.";
-  const per = TOPICS.map((name, t) => {
-    const ids = S.order.filter(i => Q[i].t === t);
-    if (!ids.length) return "";
-    const ok = ids.filter(i => status(i) === "ok").length;
-    const r = ok / ids.length;
-    return `<div class="trow"><span class="tn">${name}</span><span class="tv">${ok}/${ids.length}</span><span class="tb"><i class="${r < .5 ? "low" : r < .8 ? "mid" : ""}" style="width:${r * 100}%"></i></span></div>`;
-  }).join("");
-  const list = S.order.map((qi, k) => ({ qi, k })).filter(({ qi }) => S.filter === "all" || status(qi) !== "ok").map(({ qi, k }) => {
-    const q = Q[qi], p = S.perm[qi], st = status(qi), a = S.ans[qi];
-    const pill = st === "ok" ? `<span class="pill ok">doğru</span>` : st === "bad" ? `<span class="pill bad">yanlış</span>` : `<span class="pill blank">boş</span>`;
-    const yours = a === undefined ? "" : st === "bad" ? `<span>Cevabınız: <span class="wr">${LET[p.indexOf(a)]}) ${q.o[a]}</span></span>` : "";
-    return `<li><div class="rq"><span class="n">${k + 1}.</span><p>${q.q} ${pill}</p></div>
-      <div class="ra">${yours}<span>Doğru cevap: <b>${LET[p.indexOf(q.a)]}) ${q.o[q.a]}</b></span><span>${q.e} <i>(slayt ${q.s})</i></span></div></li>`;
-  }).join("") || `<li><span class="note">Yanlış veya boş soru yok.</span></li>`;
-  const miss = c.bad + c.blank;
-  $("results").innerHTML = `
-    <div class="score">
-      <div class="big">${c.ok}<small> / ${n}</small></div>
-      <div class="verdict"><h2>${verdict}</h2>
-        <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span></div>
-      </div>
-    </div>
-    <div class="actions">
-      ${miss ? `<button type="button" class="btn primary" id="retry">Yanlış ve boşları tekrar çöz (${miss})</button>` : ""}
-      <button type="button" class="btn ${miss ? "" : "primary"}" id="restart">Baştan başla, soruları karıştır</button>
-      <button type="button" class="btn" id="back">Sorulara dön</button>
-    </div>
-    <h3>Konulara göre</h3>
-    <div class="topics">${per}</div>
-    <div class="rvhead"><h3>Cevap anahtarı ve açıklamalar</h3>
-      <div class="seg" role="group" aria-label="Liste filtresi">
-        <button type="button" data-f="all" aria-pressed="${S.filter === "all"}">Tümü</button>
-        <button type="button" data-f="miss" aria-pressed="${S.filter === "miss"}">Yanlış ve boş</button>
-      </div></div>
-    <ul class="review">${list}</ul>`;
-}
-
-function choose(k) {
-  if (S.view !== "q" || S.done || S.ask) return;
-  const qi = S.order[S.cur];
-  if (S.mode === "pr" && S.ans[qi] !== undefined) return;
-  S.ans[qi] = S.perm[qi][k];
-  commit();
-  if (S.mode === "pr") ($("next") || $("finish2"))?.focus();
-}
-function go(k) {
-  if (k < 0 || k >= N()) return;
-  S.cur = k; S.view = "q"; S.ask = false; commit();
-}
-function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
-function commit() { save(); render(); }
-
-document.addEventListener("click", e => {
-  const b = e.target.closest("button");
-  if (!b) return;
-  if (b.dataset.k !== undefined) return choose(+b.dataset.k);
-  if (b.dataset.go !== undefined) { go(+b.dataset.go); $("quiz").scrollIntoView({ block: "nearest" }); return; }
-  if (b.dataset.f) { S.filter = b.dataset.f; return commit(); }
-  switch (b.id) {
-    case "m-pr": case "m-ex": {
-      const m = b.id === "m-pr" ? "pr" : "ex";
-      if (m === S.mode) return;
-      // Bitmiş bir denemede biçim değişirse yeni deneme başlar
-      S = S.done ? fresh(null, m) : Object.assign(S, { mode: m, ask: false });
-      return commit();
-    }
-    case "prev": return go(S.cur - 1);
-    case "next": return go(S.cur + 1);
-    case "finish": if (answered() < N()) { S.ask = true; return commit(); } return finish();
-    case "finish2": return finish();
-    case "cancel": S.ask = false; return commit();
-    case "tores": S.view = "res"; return commit();
-    case "back": S.view = "q"; return commit();
-    case "retry": S = fresh(S.order.filter(i => status(i) !== "ok"), S.mode); window.scrollTo({ top: 0 }); return commit();
-    case "restart": S = fresh(null, S.mode); window.scrollTo({ top: 0 }); return commit();
-  }
-});
-
-document.addEventListener("keydown", e => {
-  if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
-  const k = e.key.toLowerCase();
-  const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
-  if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
-  if (e.key === "ArrowRight") return go(S.cur + 1);
-  if (e.key === "ArrowLeft") return go(S.cur - 1);
-  if (e.key === "Enter" && e.target === document.body) {
-    const qi = S.order[S.cur];
-    if (S.ans[qi] !== undefined || S.done) go(S.cur + 1);
-  }
-});
-
-function start(data) {
-  S = valid(data && data.S) ? data.S : (load() || fresh());
-  render();
-}
-window.claude?.hot?.snapshot?.(() => ({ S }));
-window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+    e: "<b>ABD</b>: yaklaşık 5.676 → 4.713 Mt. Çin (8.617 → 10.668), Hindistan (1.678 → 2.442), İran (570 → 745) ve Türkiye (314 → 393) artmıştır.",
+    n: "ABD'deki düşüşün ana nedeni elektrik üretiminde kömürün yerini kaya gazından elde edilen ucuz doğal gaza ve rüzgâr–güneşe bırakmasıdır. Japonya, Almanya ve Rusya gibi ülkelerde de azalma görülmüştür. Çin, 2025'te de dünyanın en büyük emitörüdür; ancak emisyon artış hızı yenilenebilir yatırımlar sayesinde yavaşlamıştır." },
+]};
 </script>
+<script src="sinav.js"></script>
 </body>
 </html>

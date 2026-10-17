@@ -3,179 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Enerji Görünümü Sınavı</title>
+<title>Türkiye Enerji Görünümü Sınavı</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
-<style>
-/* Tek sütun sınav kâğıdı: başlık, durum çubuğu, soru kartı, sonuç paneli. Petrol mavisi mürekkep + kehribar vurgu. */
-:root {
-  --bg: #edf1f2;
-  --surface: #ffffff;
-  --ink: #12232a;
-  --muted: #566a72;
-  --line: #d2dcdf;
-  --accent: #0c5a73;
-  --accent-soft: #e1eef2;
-  --spark: #c98208;
-  --ok: #1d7448;
-  --ok-soft: #e3f3ea;
-  --bad: #b2362c;
-  --bad-soft: #fbe9e7;
-  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
-  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
-    --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
-    --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0c1519; --surface: #142228; --ink: #e2ebed; --muted: #8ea2a9; --line: #26383f;
-  --accent: #62b8d3; --accent-soft: #173341; --spark: #f0b23e;
-  --ok: #4fc58c; --ok-soft: #133224; --bad: #f2776c; --bad-soft: #3a1c1a;
-  color-scheme: dark;
-}
-
-* { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
-.wrap {
-  max-width: 760px; margin: 0 auto;
-  padding-block: 28px 48px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  display: flex; flex-direction: column; gap: 18px;
-}
-button { font: inherit; color: inherit; cursor: pointer; }
-button:focus-visible, summary:focus-visible { outline: 2px solid var(--spark); outline-offset: 2px; }
-
-/* Başlık */
-header { display: flex; flex-direction: column; gap: 6px; }
-.eyebrow { margin: 0; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
-h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 7vw, 46px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
-h1 em { font-style: normal; color: var(--accent); }
-.lede { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
-
-/* Durum çubuğu */
-.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 3px; gap: 2px; }
-.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
-.tally { display: flex; gap: 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.tally b { font-family: var(--font-data); font-weight: 500; font-size: 15px; }
-.tally .ok b { color: var(--ok); } .tally .bad b { color: var(--bad); } .tally .mk b { color: var(--accent); }
-.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
-.progress i { display: block; height: 100%; width: 0; background: var(--spark); transition: width .25s ease; }
-
-/* Soru kartı */
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px clamp(16px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; }
-.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
-.qnum { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
-.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
-.chip.src { margin-left: auto; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
-.qtext { margin: 0; font-size: clamp(17px, 2.6vw, 19px); font-weight: 600; line-height: 1.45; text-wrap: pretty; }
-.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.opt {
-  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; text-align: left;
-  background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px;
-  transition: border-color .15s ease, background-color .15s ease;
-}
-.opt:hover:not(:disabled) { border-color: var(--accent); }
-.opt:disabled { cursor: default; }
-.opt .lt { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; font-family: var(--font-data); font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
-.opt .tx { min-width: 0; }
-.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
-.opt.sel .lt { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
-.opt.ok .lt { background: var(--ok); border-color: var(--ok); color: var(--surface); }
-.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
-.opt.bad .lt { background: var(--bad); border-color: var(--bad); color: var(--surface); }
-.opt.dim { opacity: .55; }
-
-.fb { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
-.fb.ok { border-color: var(--ok); } .fb.bad { border-color: var(--bad); } .fb.blank { border-color: var(--spark); }
-.fb strong { font-size: 15px; }
-.fb.ok strong { color: var(--ok); } .fb.bad strong { color: var(--bad); } .fb.blank strong { color: var(--spark); }
-.fb p { margin: 0; color: var(--ink); max-width: 66ch; }
-
-.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.nav .grow { flex: 1; }
-.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 16px; font-weight: 600; font-size: 15px; }
-.btn:hover:not(:disabled) { border-color: var(--accent); }
-.btn:disabled { opacity: .4; cursor: default; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-.btn.warn { border-color: var(--spark); }
-.note { font-size: 14px; color: var(--muted); }
-.note b { color: var(--ink); }
-
-/* Soru haritası */
-.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
-.map summary { cursor: pointer; font-weight: 600; font-size: 15px; }
-.map summary span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; margin-top: 12px; }
-.grid button { height: 38px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--font-data); font-size: 13px; color: var(--muted); }
-.grid button.ans { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-.grid button.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
-.grid button.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
-.grid button.cur { outline: 2px solid var(--spark); outline-offset: 1px; }
-
-/* Sonuç */
-.score { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: end; }
-.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 14vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
-.big small { font-size: .45em; color: var(--muted); }
-.verdict { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.verdict h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
-.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.stats b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
-h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
-.topics { display: flex; flex-direction: column; gap: 10px; }
-.trow { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 12px; align-items: center; font-size: 14px; }
-.trow .tn { min-width: 0; }
-.trow .tv { text-align: right; font-family: var(--font-data); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.trow .tb { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
-.trow .tb i { display: block; height: 100%; background: var(--accent); }
-.trow .tb i.low { background: var(--bad); } .trow .tb i.mid { background: var(--spark); }
-.rvhead { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
-.review { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
-.review li { border-top: 1px solid var(--line); padding: 14px 0; display: flex; flex-direction: column; gap: 6px; }
-.rq { display: flex; gap: 10px; align-items: baseline; }
-.rq .n { font-family: var(--font-data); font-size: 13px; color: var(--muted); min-width: 26px; }
-.rq p { margin: 0; font-weight: 600; min-width: 0; }
-.pill { font-family: var(--font-data); font-size: 11px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
-.pill.ok { color: var(--ok); background: var(--ok-soft); } .pill.bad { color: var(--bad); background: var(--bad-soft); } .pill.blank { color: var(--spark); border: 1px solid var(--spark); }
-.ra { padding-left: 36px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
-.ra b { color: var(--ink); font-weight: 600; }
-.ra .wr { color: var(--bad); }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
-
-@media (max-width: 480px) {
-  .chip.src { margin-left: 0; }
-  .score { grid-template-columns: 1fr; }
-  .ra { padding-left: 0; }
-}
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
+<link rel="stylesheet" href="sinav.css">
 </head>
 <body>
 <div class="wrap">
   <header>
-    <p class="eyebrow">SUNUM 1 · 1_2.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı eğitim sunumu (2022)</p>
+    <a class="home" href="../index.html">← Ana sayfa</a>
+    <p class="eyebrow">SUNUM 1 · 1_2.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı, 2022</p>
     <h1>Türkiye'nin Genel Enerji Görünümü <em>Sınavı</em></h1>
-    <p class="lede">33 soru, beşer şık. Arz ve talep, elektrik, enerji yoğunluğu, CO₂, yenilenebilir kaynaklar ve mevzuat. Her cevabın açıklamasında ilgili slayt numarası yazar.</p>
+    <p class="lede">37 soru, beşer şık. Nüfus ve ekonomi göstergeleri, birincil ve nihai enerji, elektrik kurulu gücü ve üretimi, emisyonlar, yenilenebilir enerji mevzuatı ve 2035 hedefleri. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
   </header>
 
   <div class="bar">
     <div class="seg" role="group" aria-label="Çalışma biçimi">
-      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı ve açıklamayı gösterir">Alıştırma</button>
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
       <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
     </div>
     <div class="tally" id="tally" aria-live="polite"></div>
@@ -192,336 +38,202 @@ kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--li
 
   <footer>
     <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
-    <span>Kaynak: "Türkiye'nin Genel Enerji Görünümü, Enerji Arz Talep Tarafındaki Gelişmeler, Yenilenebilir Enerji Kaynakları" sunumu (H. C. Topcan, 2022). Veriler EİGM, TEİAŞ, IEA ve Global Carbon Atlas kaynaklıdır. Net = doğru − yanlış ÷ 4.</span>
+    <span>Kaynak: “Türkiye'nin Genel Enerji Görünümü, Enerji Arz Talep Tarafındaki Gelişmeler, Yenilenebilir Enerji Kaynakları” sunumu (H. C. Topcan, 2022). Güncel veriler: TÜİK, ETKB, TEİAŞ, SHURA, Ember, Energy Institute (2024–2026). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
   </footer>
 </div>
 
 <script>
-const Q = [
+const SINAV = {
+key: "enerji-sinav-sunum1-v2",
+topics: ["Genel görünüm", "Birincil ve nihai enerji", "Elektrik", "Enerji yoğunluğu ve emisyon", "Yenilenebilir enerji ve mevzuat", "Strateji ve hedefler"],
+Q: [
   // Genel görünüm
-  { t: 0, s: 3, q: "Sunumdaki ülke göstergelerine göre aşağıdakilerden hangisi doğrudur?",
-    o: ["Türkiye'nin nüfusu 83 milyonun üzerindedir.", "Ortanca yaş 41,2'dir.", "İhracat tutarı ithalat tutarından fazladır.", "Yüz ölçümü 1 milyon km²'nin üzerindedir.", "Kişi başı GSYH 17.250 ABD dolarıdır."], a: 0,
-    e: "Göstergeler: nüfus > 83 milyon, ortanca yaş 32,7, yüz ölçümü 783.562,38 km², GSYH 717 milyar $, kişi başı GSYH 8.638 $. İhracat (169,6 milyar $) ithalattan (219,5 milyar $) azdır." },
-  { t: 0, s: 2, q: "Sunuma göre Türkiye'de enerji talebinin sürekli artmasının nedenleri arasında hangisi sayılmamıştır?",
+  { t: 0, s: 3, q: "TÜİK Adrese Dayalı Nüfus Kayıt Sistemi sonuçlarına göre 31 Aralık 2025 itibarıyla Türkiye'nin nüfusu yaklaşık kaçtır?",
+    o: ["78,7 milyon", "83,6 milyon", "86,1 milyon", "90,4 milyon", "95,0 milyon"], a: 2,
+    e: "31.12.2025 itibarıyla nüfus <b>86.092.168</b> kişidir; bir yılda yaklaşık 427 bin kişi artmıştır.",
+    n: "Nüfus, enerji talebinin temel belirleyicilerinden biridir. Kişi başı elektrik tüketimi (kWh/kişi) ve kişi başı emisyon (t CO₂e/kişi) gibi göstergeler toplam değerin nüfusa bölünmesiyle bulunur. Bu yüzden karşılaştırma yaparken pay ve paydanın aynı yıla ait olmasına dikkat edin. Yıllık nüfus artış hızı 2025'te binde 5'tir; artış yavaşladığı için talep büyümesinde ekonomik faaliyet ve tüketim alışkanlıkları giderek daha belirleyici olur.",
+    g: { eski: "Nüfus 83 milyonun üzerinde (2020 verisi).", yeni: "86.092.168 kişi (31.12.2025); yıllık artış hızı binde 5.", kaynak: "TÜİK, Adrese Dayalı Nüfus Kayıt Sistemi 2025 Sonuçları (Şubat 2026)" } },
+  { t: 0, s: 3, q: "Türkiye nüfusunun ortanca yaşı 2025 yılında kaçtır?",
+    o: ["28,5", "32,7", "34,9", "38,8", "42,1"], a: 2,
+    e: "Ortanca yaş 2025'te <b>34,9</b>'dur (erkeklerde 34,2, kadınlarda 35,7). 2020'de 32,7 idi.",
+    n: "Ortanca yaş, nüfusu yaşa göre sıraladığınızda tam ortadaki kişinin yaşıdır; nüfusun yarısı bu yaştan genç, yarısı yaşlıdır. Türkiye hızla yaşlanıyor: 2020'den 2025'e ortanca yaş 2,2 yıl arttı. Yaşlanan nüfus konutta ısınma ve soğutma konforuna, sağlık hizmetlerine ve hane büyüklüğüne bağlı enerji talebini etkiler.",
+    g: { eski: "Ortanca yaş 32,7 (2020).", yeni: "Ortanca yaş 34,9 (2025).", kaynak: "TÜİK, ADNKS 2025 Sonuçları" } },
+  { t: 0, s: 3, q: "Türkiye'nin 2025 yılı dış ticaretiyle ilgili hangisi doğrudur?",
+    o: ["İthalat ihracattan fazladır; dış ticaret açığı yaklaşık 92 milyar dolardır.", "İhracat ithalattan fazladır; dış ticaret fazlası yaklaşık 92 milyar dolardır.", "İhracat ve ithalat birbirine eşittir.", "İhracat yaklaşık 169,6 milyar dolardır.", "İthalat yaklaşık 219,5 milyar dolardır."], a: 0,
+    e: "2025'te ihracat <b>273,4 milyar $</b>, ithalat <b>365,4 milyar $</b>; dış ticaret açığı <b>92 milyar $</b>. 169,6 ve 219,5 milyar $ sunumdaki eski (2020) değerlerdir.",
+    n: "Enerji ithalatı, Türkiye'nin dış ticaret açığının en büyük kalemlerinden biridir: petrol ve doğal gaz ihtiyacının büyük bölümü yurt dışından alınır. Bu yüzden enerji verimliliği yalnızca çevresel değil, cari açığı azaltan ekonomik bir politikadır. Tasarruf edilen her TEP, büyük ölçüde ithal edilmeyen yakıt anlamına gelir.",
+    g: { eski: "İhracat 169,6 milyar $, ithalat 219,5 milyar $ (2020).", yeni: "İhracat 273,4 milyar $ (+%4,4), ithalat 365,4 milyar $ (+%6,2), açık 92 milyar $ (2025).", kaynak: "TÜİK dış ticaret verileri, Strateji ve Bütçe Başkanlığı özeti (Ocak 2026)" } },
+  { t: 0, s: 3, q: "Türkiye'nin 2025 yılı kişi başına GSYH'si ABD doları cinsinden yaklaşık ne kadardır?",
+    o: ["Yaklaşık 9 bin $", "Yaklaşık 13 bin $", "Yaklaşık 18 bin $", "Yaklaşık 25 bin $", "Yaklaşık 35 bin $"], a: 2,
+    e: "2025'te GSYH yaklaşık <b>1,6 trilyon $</b>, kişi başına GSYH yaklaşık <b>18,1 bin $</b>'dır. Sunumdaki 8.638 $ 2020 değeridir.",
+    n: "GSYH, enerji yoğunluğu hesabının paydasıdır (enerji ÷ GSYH). Dolar bazlı GSYH döviz kurundaki dalgalanmalardan çok etkilendiği için uluslararası enerji yoğunluğu karşılaştırmalarında sabit fiyatlı (örneğin 2015 $) veya satın alma gücü paritesine (SGP) göre GSYH kullanılır. Böylece yalnızca kur değiştiği için yoğunluk “iyileşmiş” görünmez.",
+    g: { eski: "GSYH 717 milyar $, kişi başına GSYH 8.638 $ (2020).", yeni: "GSYH ≈1,596 trilyon $; kişi başına GSYH 18.040 $ (ilk açıklama), revizyonla 18.103 $ (2025).", kaynak: "TÜİK, Dönemsel GSYH 2025 (Mart ve Ağustos 2026 açıklamaları)" } },
+  { t: 0, s: 2, q: "Türkiye'de enerji talebinin sürekli artmasının nedenleri arasında aşağıdakilerden hangisi <b>gösterilemez</b>?",
     o: ["Sanayinin büyümesi", "Nüfus artışı", "Ekonomik faaliyetlerin artması", "Çeşitlenen tüketim alışkanlıkları", "Enerji fiyatlarının sürekli düşmesi"], a: 4,
-    e: "Sunum talep artışını sanayi, nüfus, ekonomik faaliyetler ve çeşitlenen tüketim alışkanlıklarıyla açıklar. Enerji fiyatlarından söz edilmez." },
+    e: "Talep artışı sanayi, nüfus, ekonomik faaliyetler ve çeşitlenen tüketim alışkanlıklarıyla açıklanır. Enerji fiyatları sürekli düşmemiştir ve talebin itici gücü olarak sayılmaz.",
+    n: "Türkiye, Doğu–Batı ve Kuzey–Güney arasında doğal bir köprüdür; bu konum hem enerji transit güzergâhları (boru hatları, LNG terminalleri) hem de ihracat pazarlarına erişim açısından avantaj sağlar. Talep tarafında ise büyüyen sanayi, kentleşme ve artan cihaz sahipliği (klima, beyaz eşya, elektrikli araç) enerji ihtiyacını sürekli yukarı çeker." },
 
   // Birincil ve nihai enerji
-  { t: 1, s: 4, q: "Türkiye'nin 2020 yılı birincil enerji arzı kaç milyon TEP olarak gerçekleşmiştir?",
-    o: ["105,3", "113,6", "147,2", "36,4", "160,0"], a: 2,
-    e: "2020 birincil enerji arzı <b>147,2 milyon TEP</b>. 105,3 MTEP ana sektörlerin nihai tüketimi, 36,4 MTEP sanayinin tüketimidir." },
-  { t: 1, s: 4, q: "Küresel birincil enerji arzı yaklaşık 14,5 milyar TEP (IEA) iken Türkiye'nin küresel arzdaki payı yaklaşık yüzde kaçtır?",
+  { t: 1, s: 4, q: "Türkiye'nin 2024 yılı birincil enerji arzı yaklaşık kaç milyon TEP'tir?",
+    o: ["105,3", "127,2", "147,2", "165,2", "205,0"], a: 3,
+    e: "2024 birincil enerji arzı bir önceki yıla göre %4,3 artarak <b>165,2 milyon TEP</b> olmuştur. 127,2 Mtep 2024 nihai tüketimidir; 205 Mtep ise 2035 için öngörülen talep düzeyidir.",
+    n: "Birincil enerji arzı = yerli üretim + ithalat − ihracat ± stok değişimi (− uluslararası deniz/hava yakıtı). Kaynağın doğadan alındığı hâldeki enerjidir: kömür, ham petrol, doğal gaz, hidrolik, rüzgâr, güneş, jeotermal, biyokütle. Ülkenin toplam enerji ihtiyacını gösterdiği için büyüme, dışa bağımlılık ve emisyon hesaplarında temel büyüklüktür.",
+    g: { eski: "147,2 milyon TEP (2020).", yeni: "165,2 milyon TEP (2024, +%4,3); 2023'te 158,4 milyon TEP.", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2025" } },
+  { t: 1, s: 4, q: "Küresel birincil enerji arzı yaklaşık 14–15 milyar TEP iken birincil enerji arzı 165 milyon TEP olan Türkiye'nin küresel arzdaki payı yaklaşık yüzde kaçtır?",
     o: ["%0,1", "%1", "%3", "%5", "%10"], a: 1,
-    e: "147,2 milyon TEP ÷ 14.500 milyon TEP ≈ 0,010, yani yaklaşık <b>%1</b>." },
-  { t: 1, s: 4, q: "Türkiye'nin birincil enerji arzındaki yerlilik oranı yüzde kaçtır?",
-    o: ["%21,35", "%30", "%42,3", "%53,7", "%65,10"], a: 1,
-    e: "Yerlilik oranı <b>%30</b>; arzın yaklaşık %70'i ithalata dayanır. %42,3 yenilenebilirin 2020 elektrik üretimindeki payı, %53,7 yenilenebilir kurulu güç payı, %65,10 yerli ve yenilenebilir kurulu güç payı, %21,35 santrallerin kamuya ait kısmıdır." },
-  { t: 1, s: 5, q: "Grafiğe göre 2020'de birincil enerji tüketimi 147,17 Mtep, nihai enerji tüketimi 113,57 Mtep'tir. Aradaki farkın temel nedeni nedir?",
+    e: "165 milyon ÷ ~15.000 milyon ≈ 0,011, yani yaklaşık <b>%1</b>.",
+    n: "Uluslararası istatistiklerde enerji çoğu zaman eksajul (EJ) ile verilir. Çevirmek için 1 TEP = 41,868 GJ kullanılır: 600 EJ ÷ 41,868 GJ ≈ 14,3 milyar TEP. Türkiye dünya nüfusunun yaklaşık %1'ini barındırdığı için enerji arzındaki %1'lik pay, kişi başı tüketimin dünya ortalamasına yakın olduğunu gösterir.",
+    g: { eski: "Türkiye 147,2 Mtep, küresel arz 14,5 milyar TEP (IEA) → pay ≈%1 (2020).", yeni: "Türkiye 165,2 Mtep (2024); küresel arz 2025'te ≈600 EJ ≈14,3 milyar TEP → pay hâlâ ≈%1.", kaynak: "ETKB/SHURA (2024); Energy Institute Statistical Review of World Energy 2026" } },
+  { t: 1, s: 4, q: "2024 yılında Türkiye'nin birincil enerji arzının yaklaşık ne kadarı ithal fosil yakıtlarla karşılanmıştır?",
+    o: ["Yaklaşık %10", "Yaklaşık %30", "Yaklaşık %50", "Yaklaşık %78", "Yaklaşık %98"], a: 3,
+    e: "2024'te birincil enerji arzının <b>%77,6</b>'sı ithal fosil yakıtlarla karşılanmıştır. Fosil yakıtların toplam payı %81,5, yenilenebilirin payı %18,6'dır.",
+    n: "Dışa bağımlılık enerji arz güvenliğinin ana göstergesidir. Doğal gaz ve petrolde ihtiyacın büyük bölümü ithal edilir; yerli kaynaklarda öne çıkanlar linyit, hidrolik, rüzgâr, güneş ve jeotermaldir. Yerli ve yenilenebilir kaynakların payını artırmak ile verimliliği yükseltmek bu oranı düşürmenin iki temel yoludur.",
+    g: { eski: "Birincil enerji arzında yerlilik oranı %30, yani arzın yaklaşık %70'i ithal (2020).", yeni: "Arzın %77,6'sı ithal fosil yakıtlarla karşılandı; yenilenebilir payı %18,6 (2024).", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2025" } },
+  { t: 1, s: 5, q: "2024'te Türkiye'nin birincil enerji arzı 165,2 Mtep, nihai enerji tüketimi 127,2 Mtep'tir. Aradaki yaklaşık 38 Mtep farkın temel nedeni nedir?",
     o: ["Enerji dönüşümü (santral, rafineri) ile iletim ve dağıtımda oluşan kayıplar", "Enerji ihracatı", "Yenilenebilir kaynakların birincil enerjiye dahil edilmemesi", "Sanayinin nihai tüketime dahil edilmemesi", "Stoklarda biriken enerji"], a: 0,
-    e: "Birincil enerji, kaynağın doğadan alındığı hâlidir (kömür, ham petrol, doğal gaz, hidrolik…). Nihai enerji son kullanıcıya ulaşan enerjidir. Aradaki yaklaşık 33,6 Mtep'in büyük kısmı santral ve rafinerilerdeki dönüşüm kayıplarından, iletim–dağıtım kayıplarından ve enerji sektörünün kendi tüketiminden gelir." },
-  { t: 1, s: 6, q: "2020 yılında ana sektörlerin nihai enerji tüketimindeki paylarının büyükten küçüğe doğru sıralaması hangisidir?",
-    o: ["Sanayi > Ulaştırma > Konut > Ticaret ve hizmetler > Tarım", "Sanayi > Konut > Ulaştırma > Tarım > Ticaret ve hizmetler", "Ulaştırma > Sanayi > Konut > Ticaret ve hizmetler > Tarım", "Konut > Sanayi > Ulaştırma > Ticaret ve hizmetler > Tarım", "Sanayi > Ulaştırma > Ticaret ve hizmetler > Konut > Tarım"], a: 0,
-    e: "Sanayi %34,6 · Ulaştırma %25,6 · Konut %24,4 · Ticaret ve hizmetler %10,7 · Tarım ve hayvancılık %4,7 (toplam 105,3 MTEP)." },
-  { t: 1, s: 7, q: "2020'de ana sektörlerin nihai enerji tüketimi 105,3 MTEP'tir. Sanayinin payı %34,6 olduğuna göre sanayinin tüketimi yaklaşık kaç MTEP'tir?",
-    o: ["25,6", "34,6", "36,4", "47,5", "70,9"], a: 2,
-    e: "105,3 × 0,346 ≈ <b>36,4 MTEP</b>. Bu değer sunumun sanayi slaytındaki 36,4 MTEP ile örtüşür." },
-  { t: 1, s: 7, q: "Sanayi sektöründe (toplam 36,4 MTEP) en çok enerji tüketen alt sektör hangisidir?",
-    o: ["Ana metal sanayi", "Metalik olmayan mineral ürünleri imalatı", "Kimya ve petrokimya ürünleri imalatı", "Tekstil ve deri ürünleri imalatı", "Gıda, içecek ve tütün ürünleri imalatı"], a: 0,
-    e: "Ana metal sanayi %26, metalik olmayan mineral ürünleri (çimento, cam, seramik vb.) %25, kimya-petrokimya %11, tekstil-deri %10, gıda-içecek-tütün %9. İlk ikisi sanayi tüketiminin yaklaşık yarısıdır." },
+    e: "Birincil enerji kaynağın doğadaki hâlidir; nihai enerji son kullanıcıya ulaşan enerjidir. Aradaki farkın büyük kısmı santral ve rafinerilerdeki <b>dönüşüm kayıpları</b>, iletim–dağıtım kayıpları ve enerji sektörünün kendi tüketimidir.",
+    n: "En büyük kayıp termik santrallerde oluşur: verimi %38 olan bir kömür santralinde yakıt enerjisinin yaklaşık %62'si bacadan ve soğutma suyundan ısı olarak atılır. Bu yüzden elektriği ısınma için doğrudan dirençle kullanmak birincil enerji açısından pahalıdır; ısı pompası ya da kojenerasyon gibi çözümler bu kaybı azaltır.",
+    g: { eski: "Birincil 147,17 Mtep, nihai 113,57 Mtep (2020).", yeni: "Birincil 165,2 Mtep, nihai 127,2 Mtep (2024).", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2025" } },
+  { t: 1, s: 6, q: "2024 yılında Türkiye'de nihai enerji tüketiminde en büyük paya sahip sektör hangisidir?",
+    o: ["Sanayi", "Ulaştırma", "Konut", "Ticaret ve hizmetler", "Tarım ve hayvancılık"], a: 0,
+    e: "2024'te nihai tüketim 127,2 Mtep'tir ve en büyük pay <b>%30,6 ile sanayiye</b> aittir. 2023 verilerinde ulaştırma %27,4, konut %21,8'dir.",
+    n: "Nihai tüketim; sanayi, ulaştırma, konut, ticaret-hizmetler ve tarım olarak izlenir. Sanayinin payı 2020'deki %34,6'dan %30,6'ya geriledi; ulaştırma ve binaların ağırlığı arttı. Verimlilik politikası bu yüzden yalnız fabrikalara değil, bina yalıtımına, ısı pompalarına ve ulaştırmada elektrifikasyona da odaklanır. 2024'te elektriğin nihai tüketimdeki payı %20'dir.",
+    g: { eski: "Toplam 105,3 Mtep; sanayi %34,6, ulaştırma %25,6, konut %24,4, ticaret-hizmet %10,7, tarım %4,7 (2020).", yeni: "Toplam 127,2 Mtep (+%4,6); sanayi %30,6 ile ilk sırada (2024). 2023'te ulaştırma %27,4, konut %21,8.", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2024 ve 2025" } },
+  { t: 1, s: 7, q: "Nihai enerji tüketimi 127,2 Mtep ve sanayinin payı %30,6 ise sanayinin enerji tüketimi yaklaşık kaç Mtep'tir?",
+    o: ["30,6", "34,6", "38,9", "45,0", "55,4"], a: 2,
+    e: "127,2 × 0,306 ≈ <b>38,9 Mtep</b>.",
+    n: "Yüzde payından miktara geçerken payı 100'e bölüp toplamla çarpın. Ters yönde, miktardan paya geçerken miktarı toplama bölüp 100 ile çarpın. Sınavlarda sık yapılan hata, toplamı birincil enerji arzından almaktır: sektör payları nihai tüketim üzerinden hesaplanır.",
+    g: { eski: "Sanayi tüketimi 36,4 MTEP (2020; 105,3 × %34,6).", yeni: "Sanayi tüketimi ≈38,9 Mtep (2024; 127,2 × %30,6, hesaplanan değer).", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2025" } },
+  { t: 1, s: 7, q: "TÜİK'in 2024 sanayi enerji tüketimi verilerine göre sanayide en çok enerji tüketen alt sektör hangisidir?",
+    o: ["Diğer metalik olmayan mineral ürünlerin imalatı (çimento, seramik, cam vb.)", "Ana metal sanayi", "Kimya ve petrokimya ürünleri imalatı", "Tekstil ve deri ürünleri imalatı", "Gıda, içecek ve tütün ürünleri imalatı"], a: 0,
+    e: "2024'te sanayide 1.717.368 TJ enerji tüketilmiş, en büyük pay <b>%28,8 ile metalik olmayan mineral ürünler</b> imalatına ait olmuştur. 2020'de ana metal sanayi %26 ile birinciydi.",
+    n: "Çimento, kireç, seramik ve cam üretimi 1.000 °C'nin üzerinde çalışan fırınlar kullanır; bu yüzden enerji yoğundur. Bu tesislerde en büyük verimlilik fırsatları atık ısı geri kazanımı (ön ısıtıcı, atık ısıdan elektrik), fırın yalıtımı ve yanma havası ayarıdır. 2024'te sanayide en çok tüketilen enerji kaynağı elektrik olmuştur (485.163 TJ).",
+    g: { eski: "Sanayi tüketimi 36,4 Mtep; ana metal %26, metalik olmayan mineral %25, kimya %11 (2020).", yeni: "Sanayi tüketimi 1.717.368 TJ; metalik olmayan mineral ürünler %28,8 ile ilk sırada (2024).", kaynak: "TÜİK, Sanayi Sektörü Nihai Enerji Tüketimi 2024" } },
 
   // Elektrik
-  { t: 2, s: 8, q: "Türkiye'nin 2021 sonu itibarıyla elektrik kurulu güç kapasitesi yaklaşık ne kadardır?",
-    o: ["53.627 MW", "79.430 MW", "99.820 MW", "147.200 MW", "306.703 MW"], a: 2,
-    e: "2021 sonu kurulu güç yaklaşık <b>99.820 MW</b> (TEİAŞ). 53.627 MW bunun yenilenebilir kısmıdır." },
-  { t: 2, s: 8, q: "2021 sonu elektrik kurulu gücünde en büyük paya sahip kaynak hangisidir?",
-    o: ["Doğal gaz", "Kömür", "Hidrolik", "Rüzgâr", "Güneş"], a: 2,
-    e: "Hidrolik %31,5, doğal gaz %25,6, kömür %20,4, rüzgâr %10,6, güneş %7,8, biyokütle+atık+atık ısı %2,0, jeotermal %1,7, sıvı yakıt %0,3." },
-  { t: 2, s: 9, q: "2020 yılı elektrik üretiminde (306.703 GWh) en büyük paya sahip kaynak hangisidir?",
-    o: ["Hidrolik", "Doğal gaz", "Kömür", "Rüzgâr", "Güneş"], a: 2,
-    e: "Kömür %34,5, hidrolik %25,5, doğal gaz %23,1, rüzgâr %8,1, güneş %3,6, jeotermal %3,3. Kurulu güçte birinci olan hidrolik, üretimde ikinci sıradadır." },
-  { t: 2, s: 9, q: "2020 yılı elektrik üretiminde yenilenebilir kaynakların payı yüzde kaçtır?",
-    o: ["%26,3", "%35,8", "%42,3", "%53,7", "%57,7"], a: 2,
-    e: "2020'de yenilenebilir <b>%42,3</b>, fosil %57,7. %53,7 yenilenebilir kurulu güç payı, %35,8 ise 2021 yenilenebilir üretim payıdır." },
-  { t: 2, s: 9, q: "2021 sonunda kurulu gücün yaklaşık %54'ü yenilenebilir iken 2020 üretiminde yenilenebilirin payı %42,3'tür. Bu farkın temel nedeni nedir?",
+  { t: 2, s: 8, q: "Türkiye'nin 2025 sonu itibarıyla elektrik kurulu gücü yaklaşık ne kadardır?",
+    o: ["Yaklaşık 85 GW", "Yaklaşık 100 GW", "Yaklaşık 122,5 GW", "Yaklaşık 150 GW", "Yaklaşık 190 GW"], a: 2,
+    e: "2025 Aralık sonunda kurulu güç <b>122.519 MW</b>'tır. Haziran 2026 sonunda 126.113 MW'a ulaşmıştır.",
+    n: "Kurulu güç (MW), santrallerin aynı anda verebileceği en yüksek güçtür, yani kapasitedir. Üretilen enerji ise MWh/GWh ile ölçülür. 2025'te devreye alınan yeni kapasitenin yaklaşık %99'u yenilenebilir santrallerdir; artışın sürükleyicisi güneş ve rüzgârdır.",
+    g: { eski: "≈99.820 MW (2021 sonu).", yeni: "122.519 MW (2025 sonu); 126.113 MW (Haziran 2026 sonu).", kaynak: "ETKB ve TEİAŞ verileri" } },
+  { t: 2, s: 8, q: "2025 sonunda Türkiye'nin elektrik kurulu gücünde en büyük paya sahip kaynak hangisidir?",
+    o: ["Hidrolik", "Doğal gaz", "Güneş", "Kömür (yerli + ithal)", "Rüzgâr"], a: 0,
+    e: "Hidrolik <b>%26,4</b> (32.294 MW) ile ilk sıradadır. Güneş %20,5, doğal gaz %19,8, kömür yaklaşık %18 (yerli %9,4, ithal %8,5), rüzgâr %12,1.",
+    n: "Dikkat: 2021'de güneşin payı yalnızca %7,8 iken 2025'te %20,5'e çıktı ve kurulu güçte doğal gazı geçerek ikinci sıraya yükseldi. Bu hızlı değişim, kurulu güç sorularında yılın önemini gösterir. Eski bir kaynaktan ezberlenen sıralama güncel olmayabilir.",
+    g: { eski: "Hidrolik %31,5, doğal gaz %25,6, kömür %20,4, rüzgâr %10,6, güneş %7,8 (2021 sonu).", yeni: "Hidrolik %26,4, güneş %20,5, doğal gaz %19,8, kömür ≈%18, rüzgâr %12,1 (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 2, s: 8, q: "2025 sonunda kurulu güçte hidroliğin ardından ikinci sıraya yükselen kaynak hangisidir?",
+    o: ["Güneş", "Doğal gaz", "İthal kömür", "Rüzgâr", "Jeotermal"], a: 0,
+    e: "Güneş <b>25.109 MW (%20,5)</b> ile doğal gazı (24.232 MW, %19,8) geçerek ikinci sıraya yükselmiştir.",
+    n: "Güneşte kurulu güç hızla arttı: 2023 için konan 10 GW hedefi aşıldı ve kapasite 2025 sonunda 25 GW'ı geçti. Bunun başlıca nedenleri panel maliyetlerinin düşmesi, lisanssız ve öz tüketim amaçlı çatı GES'ler ile YEKA ihaleleridir. Ancak güneş yalnızca gündüz üretir; kapasite faktörü (%18–22) termik santrallerden düşüktür.",
+    g: { eski: "Güneş %7,8 ile kurulu güçte beşinci sırada (2021).", yeni: "Güneş 25.109 MW, %20,5 ile ikinci sırada (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 2, s: 16, q: "2025 sonu itibarıyla yenilenebilir kaynakların Türkiye elektrik kurulu gücündeki payı yaklaşık ne kadardır?",
+    o: ["%42", "%54", "%62", "%75", "%85"], a: 2,
+    e: "Yenilenebilir kurulu güç <b>76.281 MW</b>, payı <b>%62,3</b>'tür.",
+    n: "Yenilenebilir kurulu güce hidrolik, rüzgâr, güneş, jeotermal ve biyokütle dahildir. “Yerli ve yenilenebilir” oranı ise buna yerli kömürü de ekler; iki oran karıştırılmamalıdır. Bakanlık 2025 üretiminin %56,7'sinin yerli ve yenilenebilir kaynaklardan sağlandığını açıklamıştır.",
+    g: { eski: "Yenilenebilir kurulu güç payı %53,7, toplam 53.627 MW (2021).", yeni: "Yenilenebilir kurulu güç payı %62,3, toplam 76.281 MW (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 2, s: 9, q: "2025 yılında Türkiye'de elektrik üretiminde en büyük paya sahip kaynak hangisidir?",
+    o: ["Kömür (yerli + ithal)", "Doğal gaz", "Hidrolik", "Rüzgâr", "Güneş"], a: 0,
+    e: "Kömür yaklaşık <b>%34</b> ile ilk sıradadır ve bunun üçte ikisi ithal kömürdür. Doğal gaz ≈%22, hidrolik ≈%16, rüzgâr %11,1, güneş %10,5.",
+    n: "Kurulu güçte birinci olan hidrolik, üretimde üçüncü sıradadır. Kömür santralleri baz yükte yılın büyük bölümünde çalışır; hidroliğin üretimi ise yağışa bağlıdır. 2025 kurak geçtiği için hidrolik payı düştü; rüzgâr ve güneşin toplam payı ise %21,6'ya çıkarak doğal gazla (≈%22) neredeyse eşitlendi.",
+    g: { eski: "2020'de kömür %34,5, hidrolik %25,5, doğal gaz %23,1; 2021'de doğal gaz %32,7 ile birinci.", yeni: "2025'te kömür ≈%34, doğal gaz ≈%22, hidrolik ≈%16, rüzgâr %11,1, güneş %10,5; toplam üretim 362.992 GWh.", kaynak: "Ember, Türkiye Elektrik Görünümü 2026; ETKB 2025 verileri" } },
+  { t: 2, s: 9, q: "2025 yılında yenilenebilir kaynakların Türkiye elektrik üretimindeki payı yaklaşık yüzde kaçtır?",
+    o: ["%26", "%35", "%43", "%62", "%75"], a: 2,
+    e: "2025'te yenilenebilir payı <b>%43,2</b>'dir. %62 ise yenilenebilirin kurulu güçteki payıdır.",
+    n: "Yenilenebilir üretim payı yıldan yıla yağışla dalgalanır: hidrolik payı yüksek olan 2019'da %43,9'a çıkmış, kurak 2021'de %35,8'e inmişti. 2025 de kurak bir yıldı, ama rüzgâr ve güneşin büyümesi sayesinde pay yine %43 düzeyinde kaldı. Değişken kaynaklar arttıkça depolama ve esnek üretim ihtiyacı da artar.",
+    g: { eski: "%42,3 (2020); %35,8 (2021).", yeni: "%43,2 (2025).", kaynak: "SHURA Türkiye Enerji Dönüşümü Görünümü 2025 (EPDK verileri); Ember" } },
+  { t: 2, s: 9, q: "2025 sonunda kurulu gücün %62'si yenilenebilir iken üretimde yenilenebilirin payı %43'tür. Bu farkın temel nedeni nedir?",
     o: ["Rüzgâr, güneş ve hidrolik santrallerin kaynağa bağlı olarak yıl boyunca tam kapasiteyle çalışamaması", "Yenilenebilir santrallerin çoğunun kamuya ait olması", "Yenilenebilir elektriğin tamamının ihraç edilmesi", "Fosil yakıtlı santrallerin veriminin %100'e yakın olması", "Kurulu gücün GWh, üretimin MW ile ölçülmesi"], a: 0,
-    e: "Kurulu güç (MW) anlık kapasiteyi, üretim (GWh) yıl içinde gerçekten üretilen enerjiyi gösterir. Rüzgâr ve güneş hava koşullarına, hidrolik yağışa bağlıdır, bu yüzden kapasite faktörleri düşüktür. Kömür ve doğal gaz santralleri baz yükte daha uzun süre çalışır." },
-  { t: 2, s: 10, q: "Türkiye'nin 2020 yılı elektrik enerjisi tüketimi ne kadardır?",
-    o: ["98.296 GWh", "261.193 GWh", "306.703 GWh", "331.553 GWh", "392.790 GWh"], a: 1,
-    e: "2020 tüketimi <b>261.193 GWh</b> (son 10 yılda %52, son 20 yılda %165 artış). 306.703 GWh 2020 üretimi, 331.553 GWh 2021 üretimi, 98.296 GWh 2000 yılı tüketimidir." },
-  { t: 2, s: 10, q: "2020 yılında kişi başı elektrik tüketimi ne kadardır?",
-    o: ["1.519 kWh/kişi", "2.334 kWh/kişi", "3.124 kWh/kişi", "4.660 kWh/kişi", "8.638 kWh/kişi"], a: 2,
-    e: "<b>3.124 kWh/kişi</b>; son 10 yılda %35, son 20 yılda %106 artış. 1.519 kWh/kişi 2000 yılı, 2.334 kWh/kişi 2010 yılı değeridir." },
-  { t: 2, s: 10, q: "2020'de elektrik tüketimi 261.193 GWh, kişi başı tüketim 3.124 kWh ise hesaplamada kullanılan nüfus yaklaşık kaçtır?",
-    o: ["31,4 milyon", "72,5 milyon", "83,6 milyon", "98,3 milyon", "120,5 milyon"], a: 2,
-    e: "261.193 GWh = 261.193 × 10⁶ kWh. 261.193 × 10⁶ ÷ 3.124 ≈ <b>83,6 × 10⁶ kişi</b>. Sonuç sunumdaki \"83 milyonun üzerinde\" nüfusla uyumludur." },
-  { t: 2, s: 11, q: "EİGM projeksiyonuna göre 2020–2040 döneminde elektrik talebi için hangi öngörü yapılmıştır?",
-    o: ["Yılda ortalama %2,9–3,7 artış; 2040'ta 545–636 TWh", "Yılda ortalama %1,6–2,7 artış; 2040'ta 392–425 TWh", "Yılda ortalama %5,2–6,5 artış; 2040'ta 700–850 TWh", "Yılda ortalama %2,9–3,7 artış; 2040'ta 306–331 TWh", "Yılda ortalama %0,5–1,0 artış; 2040'ta 261–280 TWh"], a: 0,
-    e: "Yıllık ortalama <b>%2,9–3,7</b> artış ve 2040'ta <b>545–636 TWh</b>. 2020 tüketimi 261 TWh olduğundan talep yaklaşık 2,1–2,4 katına çıkar." },
-  { t: 2, s: 16, q: "Kurulu güçler dikkate alındığında elektrik üretim santrallerinin yüzde kaçı kamuya aittir?",
-    o: ["%21,35", "%30,00", "%46,30", "%53,70", "%78,64"], a: 0,
-    e: "Santrallerin <b>%21,35</b>'i kamuya, %78,64'ü diğer özel ve tüzel kişilere aittir." },
-  { t: 2, s: 17, q: "Kaynaklar bazında üretim tablosuna göre 2021 yılında elektrik üretiminde en büyük paya sahip kaynak hangisidir?",
-    o: ["Doğal gaz", "İthal kömür", "Yerli kömür", "Hidrolik", "Rüzgâr"], a: 0,
-    e: "2021'de doğal gaz <b>%32,7</b> (108.436 GWh) ile ilk sırada; hidrolik %16,8, ithal kömür %16,6, yerli kömür %14,9, rüzgâr %9,4. Hidrolik üretim 78.094 GWh'ten 55.694 GWh'e düşerken doğal gaz 70.931 GWh'ten 108.436 GWh'e çıkmıştır." },
-  { t: 2, s: 17, q: "2002–2021 tablosunda yenilenebilir kaynakların elektrik üretimindeki payının en yüksek olduğu yıl hangisidir?",
-    o: ["2005", "2015", "2019", "2020", "2021"], a: 2,
-    e: "<b>2019: %43,9</b> (hidrolik payı %29,2). 2020'de %42,3, 2021'de %35,8, 2015'te %32,2, 2005'te %24,6." },
+    e: "Kurulu güç kapasiteyi, üretim gerçekleşen enerjiyi gösterir. Rüzgâr ve güneş hava koşullarına, hidrolik yağışa bağlıdır; bu yüzden <b>kapasite faktörleri</b> düşüktür.",
+    n: "Kapasite faktörü = yıllık üretim ÷ (kurulu güç × 8.760 saat). Örneğin 1 MW'lık bir GES yılda yaklaşık 1.600–1.800 MWh üretir: 1.700 ÷ 8.760 ≈ %19. Bir kömür santrali ise %60–80 aralığında çalışabilir. Bu nedenle 1 MW güneş, enerji olarak 1 MW kömürün yerini tutmaz." ,
+    g: { eski: "Kurulu güçte yenilenebilir ≈%54 (2021), üretimde %42,3 (2020).", yeni: "Kurulu güçte %62,3 (2025 sonu), üretimde %43,2 (2025).", kaynak: "ETKB; SHURA Türkiye Enerji Dönüşümü Görünümü 2025" } },
+  { t: 2, s: 10, q: "Türkiye'nin 2025 yılı elektrik tüketimi yaklaşık ne kadardır?",
+    o: ["261 TWh", "307 TWh", "332 TWh", "361 TWh", "510 TWh"], a: 3,
+    e: "2025 tüketimi <b>360.929 GWh ≈ 361 TWh</b> ile tüm zamanların en yüksek düzeyidir; üretim 362.992 GWh'tir.",
+    n: "Birim dönüşümü: 1 TWh = 1.000 GWh = 1 milyar kWh. Tüketim ile üretim arasındaki fark ithalat-ihracat dengesi ve şebeke kayıplarıyla açıklanır. 2020'den 2025'e tüketim yaklaşık %38 arttı. 261 TWh 2020 tüketimi, 510 TWh ise 2035 için öngörülen talep düzeyidir.",
+    g: { eski: "261.193 GWh (2020).", yeni: "360.929 GWh (2025, rekor; +%3,7).", kaynak: "ETKB 2025 elektrik verileri (Ocak 2026)" } },
+  { t: 2, s: 10, q: "2025 yılında elektrik tüketimi 360.929 GWh, nüfus yaklaşık 86,1 milyon ise kişi başı elektrik tüketimi yaklaşık kaç kWh'tir?",
+    o: ["3.124 kWh", "3.390 kWh", "4.190 kWh", "5.200 kWh", "41.900 kWh"], a: 2,
+    e: "360.929 GWh = 360.929 × 10⁶ kWh. 360.929 × 10⁶ ÷ 86,1 × 10⁶ ≈ <b>4.190 kWh/kişi</b>.",
+    n: "GWh'i kWh'e çevirmek için 10⁶ ile çarpın. Kişi başı tüketim refah ve sanayileşme düzeyinin göstergesidir, ancak yalnızca hane tüketimini değil sanayi ve hizmetleri de kapsar. Türkiye'nin kişi başı tüketimi artmakla birlikte AB ortalamasının hâlâ altındadır.",
+    g: { eski: "3.124 kWh/kişi (2020).", yeni: "≈4.190 kWh/kişi (2025; tüketim ÷ nüfus ile hesaplanan değer).", kaynak: "ETKB 2025 tüketim verisi ve TÜİK ADNKS 2025 nüfusundan hesaplama" } },
+  { t: 2, s: 11, q: "Ulusal Enerji Planı ve Enerji Bakanlığı açıklamalarına göre Türkiye'nin 2035 yılı elektrik talebinin yaklaşık ne kadar olması öngörülmektedir?",
+    o: ["Yaklaşık 361 TWh", "Yaklaşık 420 TWh", "Yaklaşık 510 TWh", "Yaklaşık 636 TWh", "Yaklaşık 800 TWh"], a: 2,
+    e: "2035 için öngörülen elektrik talebi <b>yaklaşık 510 TWh</b>'tir. 361 TWh 2025 tüketimidir.",
+    n: "Talep projeksiyonları kurulu güç ve şebeke yatırımlarını planlamanın temelidir ve düzenli olarak revize edilir. Örneğin Ulusal Enerji Planı 2025 için yaklaşık 380 TWh öngörmüştü; gerçekleşme 361 TWh oldu. Verimlilik önlemleri, ekonomik büyüme ve elektrifikasyon (ısı pompası, elektrikli araç) gerçekleşmeyi tahminden saptırabilir.",
+    g: { eski: "2020–2040 döneminde yılda ortalama %2,9–3,7 artış; 2040'ta 545–636 TWh (EİGM projeksiyonu).", yeni: "2035'te ≈510 TWh (Ulusal Enerji Planı 2022; Bakan Bayraktar, Ekim 2024).", kaynak: "ETKB, Türkiye Ulusal Enerji Planı (2022) ve 2035 hedef açıklamaları" } },
+  { t: 2, s: 17, q: "Kurak geçen bir yılda hidroelektrik üretimi önceki yıla göre yaklaşık 22 TWh azalırsa, açığı kısa vadede kapatmak için genellikle hangi santrallerin üretimi artar?",
+    o: ["Doğal gaz santralleri", "Nükleer santraller", "Jeotermal santraller", "Dalga enerjisi santralleri", "Hiçbiri; tüketim kendiliğinden azalır"], a: 0,
+    e: "Doğal gaz santralleri hızlı devreye girip çıkabildikleri için açığı kapatan esnek kaynaktır. Nitekim kurak 2021'de hidrolik üretim 78,1 TWh'ten 55,7 TWh'e düşerken doğal gaz üretimi 70,9 TWh'ten <b>108,4 TWh</b>'e çıkmıştır.",
+    n: "Kuraklık yalnızca yenilenebilir payını düşürmez, ithal doğal gaz talebini ve maliyetini de artırır. Bu yüzden hidroliğe bağımlılık, depolama, pompaj depolamalı HES ve esnek kapasite arz güvenliği planlamasının parçasıdır. Nükleer ve jeotermal baz yük santralleridir; üretimleri kısa sürede artırılamaz." },
 
-  // Yoğunluk ve CO₂
-  { t: 3, s: 13, q: "Sunumda ülkeler arasında karşılaştırılan \"birincil enerji yoğunluğu\" neyi ifade eder?",
+  // Enerji yoğunluğu ve emisyon
+  { t: 3, s: 13, q: "Ülkeler arasında karşılaştırılan “birincil enerji yoğunluğu” neyi ifade eder?",
     o: ["Birim GSYH başına harcanan birincil enerji miktarını", "Kişi başına düşen birincil enerji tüketimini", "Birim enerji tüketimi başına salınan CO₂ miktarını", "Kurulu gücün yıllık elektrik üretimine oranını", "Enerji ithalatının toplam arza oranını"], a: 0,
-    e: "Birim: <b>tep/bin dolar (2015 $)</b>. Türkiye; Brezilya, Fransa, İspanya, G20, OECD, AB27 ve Dünya ortalamasıyla karşılaştırılır (IEA)." },
+    e: "Birincil enerji yoğunluğu = birincil enerji arzı ÷ GSYH. Birimi örneğin <b>tep/bin dolar (2015 $)</b>'dır.",
+    n: "Yoğunluk, ekonominin enerjiyi ne kadar verimli kullandığının kaba göstergesidir. Karşılaştırma için sabit fiyatlı veya satın alma gücü paritesine göre GSYH kullanılır. Yoğunluk, ekonomik yapının da etkisinde kalır: ağır sanayisi büyük bir ülkenin yoğunluğu, hizmet ağırlıklı bir ülkeninkinden yüksek çıkabilir; bu tek başına verimsizlik anlamına gelmez." },
   { t: 3, s: 13, q: "Bir ülkenin birincil enerji yoğunluğunun yıllar içinde azalması en doğru şekilde nasıl yorumlanır?",
     o: ["Aynı ekonomik çıktı daha az enerjiyle üretilmektedir.", "Toplam enerji tüketimi mutlaka azalmıştır.", "CO₂ emisyonları artmıştır.", "Nüfus azalmıştır.", "Enerjide dışa bağımlılık artmıştır."], a: 0,
-    e: "Yoğunluk = birincil enerji ÷ GSYH. Düşmesi verimliliğin arttığını ya da ekonominin daha az enerji yoğun sektörlere kaydığını gösterir. GSYH enerji tüketiminden hızlı büyürse toplam tüketim artarken bile yoğunluk düşer." },
-  { t: 3, s: 14, q: "Sunumdaki CO₂ emisyonu verileriyle ilgili hangisi doğrudur?",
-    o: ["Toplam CO₂ emisyonu son 20 yılda %71 artarak 392,79 Mt olmuştur.", "Toplam CO₂ emisyonu 4,66 Mt'dir.", "Kişi başı CO₂ emisyonu son 20 yılda %71 artmıştır.", "Kişi başı CO₂ emisyonu 8,64 ton/kişidir.", "Toplam CO₂ emisyonu son 10 yılda %7 artmıştır."], a: 0,
-    e: "Toplam CO₂: <b>392,79 Mt</b> (10 yılda %25, 20 yılda %71 artış). Kişi başı: <b>4,66 t CO₂/kişi</b> (10 yılda %7, 20 yılda %28 artış). Kaynak: Global Carbon Atlas." },
+    e: "Yoğunluğun düşmesi, birim GSYH için daha az enerji harcandığını gösterir: verimlilik artmış ya da ekonomi daha az enerji yoğun sektörlere kaymıştır.",
+    n: "GSYH enerji tüketiminden hızlı büyürse toplam tüketim artarken bile yoğunluk düşer. Buna “göreli ayrışma” denir. Toplam tüketim de azalıyorsa “mutlak ayrışma” vardır. Türkiye'de birincil arz 2020–2024 arasında arttı; yoğunluktaki iyileşme bu nedenle göreli ayrışmadır." },
+  { t: 3, s: 14, q: "TÜİK verilerine göre Türkiye'nin 2024 yılı toplam sera gazı emisyonu yaklaşık ne kadardır?",
+    o: ["Yaklaşık 393 Mt CO₂e", "Yaklaşık 506 Mt CO₂e", "Yaklaşık 585 Mt CO₂e", "Yaklaşık 695 Mt CO₂e", "Yaklaşık 36,7 Gt CO₂e"], a: 2,
+    e: "2024'te toplam sera gazı emisyonu bir önceki yıla göre %5,3 artarak <b>584,5 Mt CO₂e</b> olmuştur. Kişi başı emisyon <b>6,8 t CO₂e</b>, enerji kaynaklı emisyonların payı %71,8'dir.",
+    n: "Sunumdaki 392,79 Mt değeri yalnızca CO₂'yi (fosil yakıt kaynaklı) kapsar; TÜİK envanteri ise tüm sera gazlarını CO₂ eşdeğeri olarak toplar. Karşılaştırma yaparken kapsamın aynı olmasına dikkat edin. 695 Mt, Türkiye'nin 2030 için öngördüğü emisyon düzeyidir.",
+    g: { eski: "CO₂ emisyonu 392,79 Mt, kişi başı 4,66 t CO₂ (Global Carbon Atlas, sunum 2022).", yeni: "Toplam sera gazı 584,5 Mt CO₂e (2024, +%5,3); kişi başı 6,8 t CO₂e; enerji sektörü 419,9 Mt CO₂e.", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024 (Mart 2026)" } },
+  { t: 3, s: 14, q: "Emisyon istatistiklerinde kullanılan “CO₂ eşdeğeri (CO₂e)” ifadesi neyi anlatır?",
+    o: ["Farklı sera gazlarının küresel ısınma potansiyelleriyle çarpılarak CO₂ cinsinden toplanmış miktarını", "Yalnızca fosil yakıtlardan çıkan CO₂ miktarını", "Atmosferdeki CO₂ derişimini (ppm)", "Bir ton petrolün yanmasıyla çıkan CO₂ miktarını", "Ormanların yıllık CO₂ tutma kapasitesini"], a: 0,
+    e: "CO₂e, metan, diazot monoksit ve florlu gazlar gibi farklı gazları <b>küresel ısınma potansiyelleri (GWP)</b> ile çarparak tek bir birimde toplar.",
+    n: "100 yıllık zaman ölçeğinde metanın GWP'si yaklaşık 28, N₂O'nunki yaklaşık 265'tir; SF₆ gibi florlu gazlarınki binlerle ifade edilir. Yani 1 ton metan yaklaşık 28 ton CO₂e sayılır. Envanter raporlarında hangi GWP setinin (IPCC AR4 veya AR5) kullanıldığı belirtilir; set değişince geçmiş yıllar da revize edilir." },
 
-  // Yenilenebilir ve mevzuat
+  // Yenilenebilir enerji ve mevzuat
   { t: 4, s: 19, q: "5346 sayılı kanun hangisidir ve hangi yıl yürürlüğe girmiştir?",
     o: ["Yenilenebilir Enerji Kanunu – 2005", "Enerji Verimliliği Kanunu – 2007", "Elektrik Piyasası Kanunu – 2013", "Yenilenebilir Enerji Kanunu – 2002", "Maden Kanunu – 2005"], a: 0,
-    e: "<b>5346 sayılı Yenilenebilir Enerji Kanunu 2005'te</b> yürürlüğe girdi. Getirdiği destek mekanizmalarıyla özel sektör yatırımları düzenli biçimde sürdü." },
-  { t: 4, s: 19, q: "YEKDEM'e dahil lisanslı elektrik üretim tesisleri, işletmeye girdikleri yıldan itibaren kaç yıl süreyle YEKDEM ve yerli katkı fiyatlarıyla desteklenir?",
+    e: "<b>5346 sayılı Yenilenebilir Enerji Kaynaklarının Elektrik Enerjisi Üretimi Amaçlı Kullanımına İlişkin Kanun 2005</b>'te yürürlüğe girmiştir.",
+    n: "Enerji mevzuatının temel kanunlarını tarihleriyle birlikte öğrenin: 5346 Yenilenebilir Enerji Kanunu (2005), 5627 Enerji Verimliliği Kanunu (2007), 6446 Elektrik Piyasası Kanunu (2013), 7552 İklim Kanunu (2025). 5346 ile getirilen alım garantisi, özel sektörün yenilenebilir yatırımlarının itici gücü oldu." },
+  { t: 4, s: 19, q: "YEKDEM'e dahil lisanslı bir yenilenebilir elektrik santrali, işletmeye girdiği yıldan itibaren kaç yıl süreyle YEKDEM fiyatından yararlanır?",
     o: ["5 yıl", "7 yıl", "10 yıl", "15 yıl", "20 yıl"], a: 2,
-    e: "Destek süresi işletmeye girilen yıldan itibaren <b>10 yıl</b>dır." },
-  { t: 4, s: 19, q: "Türkiye'nin yenilenebilir enerji kurulu kapasitesi 2002'de yaklaşık ne kadardı ve sunum tarihinde hangi seviyeye ulaşmıştı?",
-    o: ["12 GW → 52,8 GW", "5 GW → 32 GW", "12 GW → 99,8 GW", "32 GW → 53,6 GW", "1,5 GW → 12 GW"], a: 0,
-    e: "2002'de <b>12 GW</b> olan yenilenebilir kurulu kapasite <b>52,8 GW</b>'a ulaştı (başka bir slaytta 53.627 MW olarak verilir). 99,8 GW toplam kurulu güçtür." },
-  { t: 4, s: 20, q: "5346 sayılı Kanun kapsamında aşağıdakilerden hangisi yenilenebilir enerji kaynağı sayılmaz?",
+    e: "YEKDEM fiyatı işletmeye girişten itibaren <b>10 yıl</b> uygulanır. 1 Temmuz 2021'den sonra işletmeye girenlerde yerli katkı ilavesi <b>5 yıl</b> uygulanır.",
+    n: "YEKDEM (Yenilenebilir Enerji Kaynakları Destekleme Mekanizması), üretilen elektriği sabit fiyattan satın alma garantisidir. 2021 öncesinde fiyatlar ABD doları/sent cinsindendi. 3453 sayılı Cumhurbaşkanı Kararı ile 1 Temmuz 2021 sonrası tesislerde fiyatlar TL'ye çevrildi, dönemsel güncelleme ile dolar bazlı tavan uygulaması getirildi.",
+    g: { eski: "YEKDEM ve yerli katkı fiyatları 10 yıl boyunca, ABD doları bazlı.", yeni: "1 Temmuz 2021 sonrası tesisler: YEKDEM fiyatı TL bazlı ve 10 yıl, yerli katkı 5 yıl.", kaynak: "3453 sayılı Cumhurbaşkanı Kararı (RG 30.01.2021, 31380)" } },
+  { t: 4, s: 19, q: "Türkiye'nin 2002'de yaklaşık 12 GW olan yenilenebilir kurulu gücü 2025 sonunda yaklaşık ne kadara ulaşmıştır?",
+    o: ["Yaklaşık 32 GW", "Yaklaşık 53 GW", "Yaklaşık 76 GW", "Yaklaşık 100 GW", "Yaklaşık 122 GW"], a: 2,
+    e: "2025 sonunda yenilenebilir kurulu güç <b>76.281 MW ≈ 76 GW</b>'tır; 2002'ye göre 6 katından fazla. 122 GW toplam kurulu güçtür.",
+    n: "Yenilenebilir kapasitedeki artışın ilk dalgası hidrolik ve rüzgârdan (2005–2015), ikinci dalgası güneşten (2017 sonrası) geldi. Bu artışın arkasında 5346 sayılı Kanun, YEKDEM alım garantisi, lisanssız üretim düzenlemeleri ve YEKA ihaleleri vardır.",
+    g: { eski: "12 GW (2002) → 52,8 GW (2021/2022).", yeni: "76.281 MW (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 4, s: 20, q: "5346 sayılı Kanun kapsamında aşağıdakilerden hangisi yenilenebilir enerji kaynağı <b>sayılmaz</b>?",
     o: ["Dalga, akıntı ve gel-git enerjisi", "Kanal veya nehir tipi hidroelektrik", "Rezervuar alanı 15 km²'nin altında olan hidroelektrik", "Jeotermal", "Rezervuar alanı 15 km²'nin üzerinde olan barajlı hidroelektrik"], a: 4,
-    e: "Hidroelektrik yalnızca <b>kanal veya nehir tipiyse ya da rezervuar alanı 15 km²'nin altındaysa</b> kapsamdadır. Rüzgâr, güneş, jeotermal, biyokütle, dalga, akıntı ve gel-git de kapsamdadır." },
-  { t: 4, s: 21, q: "Mevzuata göre biyokütle kaynak ürünleri (ithal edilmemek kaydıyla) arasında hangisi yer almaz?",
+    e: "Hidroelektrik ancak <b>kanal veya nehir tipiyse ya da rezervuar alanı 15 km²'nin altındaysa</b> Kanun kapsamındadır. Rüzgâr, güneş, jeotermal, biyokütle, dalga, akıntı ve gel-git de kapsamdadır.",
+    n: "Bu ayrım hukuki bir tanımdır: büyük barajlı HES'ler istatistiklerde yenilenebilir üretim sayılır, ancak 5346 sayılı Kanun'un sağladığı destek ve belgelendirme açısından “YEK” kapsamında değildir. Sınavlarda “istatistikte yenilenebilir” ile “mevzuatta YEK” farkı sıkça sorulur." },
+  { t: 4, s: 21, q: "Mevzuata göre (ithal edilmemek kaydıyla) biyokütle kaynak ürünleri arasında hangisi <b>yer almaz</b>?",
     o: ["Belediye atıkları (çöp gazı dahil)", "Bitkisel yağ atıkları", "Gıda ve yem değeri olmayan tarımsal atıklar", "Sanayi atık çamurları ve arıtma çamurları", "Endüstriyel odun"], a: 4,
-    e: "Listede \"<b>endüstriyel odun dışındaki</b> orman ürünleri\" yer alır; endüstriyel odunun kendisi kapsam dışıdır. Atık lastiklerin işlenmesinden çıkan yan ürünler de listededir." },
-  { t: 4, s: 22, q: "Türkiye'nin yenilenebilir enerji potansiyeli (EİGM) ile ilgili hangi eşleştirme yanlıştır?",
-    o: ["Rüzgâr – 48.000 MW (REPA)", "Güneş – 1.520 kWh/m²·yıl (GEPA)", "Jeotermal – 31.500 MWt / 2.000 MWe", "Biyokütle – 32.037 MW (BEPA)", "Hidrolik – 160.000 GWh/yıl"], a: 3,
-    e: "Biyokütle potansiyeli <b>8,6 milyon TEP</b>'tir (BEPA). 32.037 MW, 2019–2023 Stratejik Planı'ndaki hidrolik kurulu güç hedefidir." },
+    e: "Listede “<b>endüstriyel odun dışındaki</b> orman ürünleri” yer alır; endüstriyel odunun kendisi kapsam dışıdır. Atık lastiklerin işlenmesinden çıkan yan ürünler de listededir.",
+    n: "Biyokütle tanımının mantığı, gıda ve hammadde olarak değerli ürünlerle rekabet etmeyen atık ve artıkları enerjiye dönüştürmektir. Bu yüzden gıda/yem değeri olan ürünler ve endüstriyel odun dışarıda bırakılmış, “ithal edilmemek kaydıyla” şartıyla yerli kaynak vurgusu yapılmıştır." },
+  { t: 4, s: 22, q: "Türkiye'nin yenilenebilir enerji potansiyeli ile ilgili aşağıdaki eşleştirmelerden hangisi <b>yanlıştır</b>?",
+    o: ["Rüzgâr – 48.000 MW (REPA)", "Güneş – yıllık ortalama 1.520 kWh/m² ışınım (GEPA)", "Jeotermal – 31.500 MWt / 2.000 MWe", "Biyokütle – 32.037 MW (BEPA)", "Hidrolik – 160.000 GWh/yıl"], a: 3,
+    e: "Biyokütle potansiyeli <b>8,6 milyon TEP</b>'tir (BEPA). 32.037 MW, eski 2023 stratejik planındaki hidrolik kurulu güç hedefidir.",
+    n: "Potansiyel atlasları: REPA (rüzgâr), GEPA (güneş), BEPA (biyokütle). “Teknik potansiyel” ile “ekonomik potansiyel” farklıdır: teknik potansiyel teoride kurulabilecek kapasiteyi, ekonomik potansiyel bugünkü maliyetlerle kârlı olan kısmı gösterir. Rüzgâr kurulu gücü 2025 sonunda 14,8 GW'tır; 48 GW potansiyelin yaklaşık üçte biridir." },
 
   // Strateji ve hedefler
-  { t: 5, s: 23, q: "Sunumdaki enerji sektörü stratejisine göre aşağıdakilerden hangisi hedefler arasında yer almaz?",
+  { t: 5, s: 23, q: "Türkiye'nin enerji sektörü stratejisinde aşağıdakilerden hangisi hedefler arasında <b>yer almaz</b>?",
     o: ["Enerjide ithalat maliyetlerini azaltmak", "Yerli ve yenilenebilir kaynakların enerji portföyündeki payını artırmak", "Olabildiğince yerli teknolojiler kullanmak", "Kaynakları çevreci, güvenli ve katlanılabilir maliyetle kullanmak", "Enerji arzında ithal doğal gazın payını artırmak"], a: 4,
-    e: "Strateji ithalat maliyetini azaltmayı ve yerli-yenilenebilir kaynakların payını artırmayı hedefler. İthal doğal gazın payını artırmak bu hedeflerle çelişir." },
+    e: "Strateji ithalat maliyetini azaltmayı ve yerli-yenilenebilir kaynakların payını artırmayı hedefler. İthal doğal gazın payını artırmak bu hedeflerle çelişir.",
+    n: "Strateji belgelerinde verimlilik, yerli kaynak ve yerli teknoloji birlikte geçer: kaynak yerli olsa bile ekipman (türbin, panel, inverter) ithal ise dışa bağımlılık başka bir biçimde sürer. YEKA ihalelerindeki yerli üretim şartı bu yüzden konmuştur." },
   { t: 5, s: 24, q: "Milli Enerji ve Maden Politikası'nın üç temel ayağı hangisinde doğru verilmiştir?",
     o: ["Arz güvenliği – Yerlileştirme – Öngörülebilir piyasa", "Arz güvenliği – Kamulaştırma – Serbest fiyat", "Verimlilik – Dijitalleşme – Karbonsuzlaşma", "Yerlileştirme – Sübvansiyon – İthalat", "Öngörülebilir piyasa – Özelleştirme – İhracat"], a: 0,
-    e: "Üç ayak: <b>Arz güvenliği, Yerlileştirme, Öngörülebilir piyasa</b>." },
-  { t: 5, s: 25, q: "2019–2023 Stratejik Planı'nda belirlenen 2023 güneş enerjisi kurulu güç hedefi kaç MW'tır?",
-    o: ["3.400 MW", "10.000 MW", "11.883 MW", "32.037 MW", "48.000 MW"], a: 1,
-    e: "2023 hedefleri: Güneş <b>10.000 MW</b>, Rüzgâr 11.883 MW, Hidrolik 32.037 MW, Jeotermal + Biyokütle 3.400 MW. 48.000 MW rüzgâr potansiyelidir." },
-];
-const TOPICS = ["Genel görünüm", "Birincil ve nihai enerji", "Elektrik", "Enerji yoğunluğu ve CO₂", "Yenilenebilir enerji ve mevzuat", "Strateji ve hedefler"];
-const LET = ["A", "B", "C", "D", "E"];
-const KEY = "enerji-sinav-sunum1-v1";
-const $ = id => document.getElementById(id);
-
-let S;
-
-function shuffle(a) {
-  a = a.slice();
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
-function fresh(ids, mode) {
-  const order = shuffle(ids || Q.map((_, i) => i));
-  const perm = {};
-  order.forEach(i => { perm[i] = shuffle([0, 1, 2, 3, 4]); });
-  return { n: Q.length, mode: mode || "pr", order, perm, ans: {}, cur: 0, done: false, view: "q", ask: false, filter: "all" };
-}
-function valid(s) {
-  return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
-    s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
-}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
-
-const N = () => S.order.length;
-const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
-const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
-function status(i) {
-  if (S.ans[i] === undefined) return "blank";
-  return S.ans[i] === Q[i].a ? "ok" : "bad";
-}
-function counts() {
-  const c = { ok: 0, bad: 0, blank: 0 };
-  S.order.forEach(i => c[status(i)]++);
-  return c;
-}
-
-function render() {
-  $("m-pr").setAttribute("aria-pressed", S.mode === "pr");
-  $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
-  const na = answered();
-  $("pg").style.width = (na / N() * 100) + "%";
-  if (S.mode === "pr" || S.done) {
-    let ok = 0, bad = 0;
-    S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
-    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
-  } else {
-    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
-  }
-  $("quiz").hidden = S.view !== "q";
-  $("results").hidden = S.view !== "res";
-  if (S.view === "q") renderQ(); else renderRes();
-  renderMap();
-}
-
-function renderQ() {
-  const qi = S.order[S.cur], q = Q[qi], p = S.perm[qi], a = S.ans[qi], rev = revealed(qi);
-  const locked = S.done || (S.mode === "pr" && a !== undefined);
-  const opts = p.map((oi, k) => {
-    let cls = "opt";
-    if (rev) {
-      if (oi === q.a) cls += " ok";
-      else if (a === oi) cls += " bad";
-      else cls += " dim";
-    } else if (a === oi) cls += " sel";
-    return `<li><button type="button" class="${cls}" data-k="${k}" ${locked ? "disabled" : ""} aria-pressed="${a === oi}"><span class="lt">${LET[k]}</span><span class="tx">${q.o[oi]}</span></button></li>`;
-  }).join("");
-  let fb = "";
-  if (rev) {
-    const right = LET[p.indexOf(q.a)];
-    const st = status(qi);
-    const head = st === "ok" ? "Doğru." : st === "bad" ? `Yanlış. Doğru cevap ${right}.` : `Boş bırakıldı. Doğru cevap ${right}.`;
-    fb = `<div class="fb ${st}"><strong>${head}</strong><p>${q.e}</p></div>`;
-  }
-  const last = S.cur === N() - 1;
-  const allDone = answered() === N();
-  let nav = `<button type="button" class="btn" id="prev" ${S.cur === 0 ? "disabled" : ""}>← Önceki</button><span class="grow"></span>`;
-  if (S.done) {
-    nav += `<button type="button" class="btn" id="tores">Sonuçlar</button>`;
-    nav += `<button type="button" class="btn primary" id="next" ${last ? "disabled" : ""}>Sonraki →</button>`;
-  } else if (S.mode === "ex") {
-    if (S.ask) {
-      nav = `<span class="note"><b>${N() - answered()} soru boş.</b> Boş sorular net hesabında yanlış sayılmaz.</span><span class="grow"></span>
-        <button type="button" class="btn" id="cancel">Sorulara dön</button><button type="button" class="btn primary" id="finish2">Yine de bitir</button>`;
-    } else {
-      nav += `<button type="button" class="btn warn" id="finish">Sınavı bitir</button>`;
-      if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
-    }
-  } else {
-    if (allDone) nav += `<button type="button" class="btn ${last ? "primary" : ""}" id="finish2">Sonuçları gör</button>`;
-    if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
-  }
-  $("quiz").innerHTML = `
-    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span><span class="chip src">slayt ${q.s}</span></div>
-    <p class="qtext">${q.q}</p>
-    <ul class="opts">${opts}</ul>
-    ${fb}
-    <div class="nav">${nav}</div>`;
-}
-
-function renderMap() {
-  $("map").innerHTML = S.order.map((qi, k) => {
-    let cls = "";
-    if (revealed(qi) && S.ans[qi] !== undefined) cls = status(qi);
-    else if (S.ans[qi] !== undefined) cls = "ans";
-    if (S.view === "q" && k === S.cur) cls += " cur";
-    return `<button type="button" class="${cls.trim()}" data-go="${k}" aria-label="Soru ${k + 1}">${k + 1}</button>`;
-  }).join("");
-}
-
-function renderRes() {
-  const c = counts(), n = N();
-  const net = c.ok - c.bad / 4;
-  const pct = Math.round(c.ok / n * 100);
-  const verdict = pct >= 85 ? "Sunuma hâkimsiniz." : pct >= 60 ? "İyi gidiyor. Zayıf konuları tekrar edin." : "Sunumu bir kez daha gözden geçirin.";
-  const per = TOPICS.map((name, t) => {
-    const ids = S.order.filter(i => Q[i].t === t);
-    if (!ids.length) return "";
-    const ok = ids.filter(i => status(i) === "ok").length;
-    const r = ok / ids.length;
-    return `<div class="trow"><span class="tn">${name}</span><span class="tv">${ok}/${ids.length}</span><span class="tb"><i class="${r < .5 ? "low" : r < .8 ? "mid" : ""}" style="width:${r * 100}%"></i></span></div>`;
-  }).join("");
-  const list = S.order.map((qi, k) => ({ qi, k })).filter(({ qi }) => S.filter === "all" || status(qi) !== "ok").map(({ qi, k }) => {
-    const q = Q[qi], p = S.perm[qi], st = status(qi), a = S.ans[qi];
-    const pill = st === "ok" ? `<span class="pill ok">doğru</span>` : st === "bad" ? `<span class="pill bad">yanlış</span>` : `<span class="pill blank">boş</span>`;
-    const yours = a === undefined ? "" : st === "bad" ? `<span>Cevabınız: <span class="wr">${LET[p.indexOf(a)]}) ${q.o[a]}</span></span>` : "";
-    return `<li><div class="rq"><span class="n">${k + 1}.</span><p>${q.q} ${pill}</p></div>
-      <div class="ra">${yours}<span>Doğru cevap: <b>${LET[p.indexOf(q.a)]}) ${q.o[q.a]}</b></span><span>${q.e} <i>(slayt ${q.s})</i></span></div></li>`;
-  }).join("") || `<li><span class="note">Yanlış veya boş soru yok.</span></li>`;
-  const miss = c.bad + c.blank;
-  $("results").innerHTML = `
-    <div class="score">
-      <div class="big">${c.ok}<small> / ${n}</small></div>
-      <div class="verdict"><h2>${verdict}</h2>
-        <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span></div>
-      </div>
-    </div>
-    <div class="actions">
-      ${miss ? `<button type="button" class="btn primary" id="retry">Yanlış ve boşları tekrar çöz (${miss})</button>` : ""}
-      <button type="button" class="btn ${miss ? "" : "primary"}" id="restart">Baştan başla, soruları karıştır</button>
-      <button type="button" class="btn" id="back">Sorulara dön</button>
-    </div>
-    <h3>Konulara göre</h3>
-    <div class="topics">${per}</div>
-    <div class="rvhead"><h3>Cevap anahtarı ve açıklamalar</h3>
-      <div class="seg" role="group" aria-label="Liste filtresi">
-        <button type="button" data-f="all" aria-pressed="${S.filter === "all"}">Tümü</button>
-        <button type="button" data-f="miss" aria-pressed="${S.filter === "miss"}">Yanlış ve boş</button>
-      </div></div>
-    <ul class="review">${list}</ul>`;
-}
-
-function choose(k) {
-  if (S.view !== "q" || S.done || S.ask) return;
-  const qi = S.order[S.cur];
-  if (S.mode === "pr" && S.ans[qi] !== undefined) return;
-  S.ans[qi] = S.perm[qi][k];
-  commit();
-  if (S.mode === "pr") ($("next") || $("finish2"))?.focus();
-}
-function go(k) {
-  if (k < 0 || k >= N()) return;
-  S.cur = k; S.view = "q"; S.ask = false; commit();
-}
-function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
-function commit() { save(); render(); }
-
-document.addEventListener("click", e => {
-  const b = e.target.closest("button");
-  if (!b) return;
-  if (b.dataset.k !== undefined) return choose(+b.dataset.k);
-  if (b.dataset.go !== undefined) { go(+b.dataset.go); $("quiz").scrollIntoView({ block: "nearest" }); return; }
-  if (b.dataset.f) { S.filter = b.dataset.f; return commit(); }
-  switch (b.id) {
-    case "m-pr": case "m-ex": {
-      const m = b.id === "m-pr" ? "pr" : "ex";
-      if (m === S.mode) return;
-      // Bitmiş bir denemede biçim değişirse yeni deneme başlar
-      S = S.done ? fresh(null, m) : Object.assign(S, { mode: m, ask: false });
-      return commit();
-    }
-    case "prev": return go(S.cur - 1);
-    case "next": return go(S.cur + 1);
-    case "finish": if (answered() < N()) { S.ask = true; return commit(); } return finish();
-    case "finish2": return finish();
-    case "cancel": S.ask = false; return commit();
-    case "tores": S.view = "res"; return commit();
-    case "back": S.view = "q"; return commit();
-    case "retry": S = fresh(S.order.filter(i => status(i) !== "ok"), S.mode); window.scrollTo({ top: 0 }); return commit();
-    case "restart": S = fresh(null, S.mode); window.scrollTo({ top: 0 }); return commit();
-  }
-});
-
-document.addEventListener("keydown", e => {
-  if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
-  const k = e.key.toLowerCase();
-  const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
-  if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
-  if (e.key === "ArrowRight") return go(S.cur + 1);
-  if (e.key === "ArrowLeft") return go(S.cur - 1);
-  if (e.key === "Enter" && e.target === document.body) {
-    const qi = S.order[S.cur];
-    if (S.ans[qi] !== undefined || S.done) go(S.cur + 1);
-  }
-});
-
-function start(data) {
-  S = valid(data && data.S) ? data.S : (load() || fresh());
-  render();
-}
-window.claude?.hot?.snapshot?.(() => ({ S }));
-window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+    e: "Üç ayak: <b>Arz güvenliği, Yerlileştirme, Öngörülebilir piyasa</b>.",
+    n: "Arz güvenliği kaynak ve güzergâh çeşitlendirmesini (LNG terminalleri, depolama, farklı tedarikçiler) kapsar. Yerlileştirme yerli kaynak ve teknoloji kullanımını hedefler. Öngörülebilir piyasa ise yatırımcının uzun vadeli karar verebilmesi için şeffaf ve istikrarlı kurallar demektir." },
+  { t: 5, s: 25, q: "Türkiye'nin 2035 yılına kadar ulaşmayı hedeflediği rüzgâr + güneş toplam kurulu gücü ne kadardır?",
+    o: ["40 GW", "48 GW", "82 GW", "120 GW", "190 GW"], a: 3,
+    e: "Rüzgâr ve güneş için 2035 hedefi <b>120 GW</b>'tır. Bu hedef, Ulusal Enerji Planı'ndaki 82 GW'tan yükseltilmiştir.",
+    n: "2035 yol haritası ayrıca 5 GW deniz üstü rüzgâr ve 7,5 GW depolama içerir; her yıl en az 2 GW'lık YEKA ihalesi öngörülür. 2025 sonunda rüzgâr + güneş 39,9 GW'tır, yani hedefin yaklaşık üçte biri tamamlanmıştır. Eski 2023 hedefleri (güneş 10 GW, rüzgâr 11,9 GW) aşılmıştır.",
+    g: { eski: "2019–2023 Stratejik Planı 2023 hedefleri: güneş 10.000 MW, rüzgâr 11.883 MW, hidrolik 32.037 MW, jeotermal + biyokütle 3.400 MW.", yeni: "2035 hedefi: rüzgâr + güneş 120 GW, deniz üstü rüzgâr 5 GW, depolama 7,5 GW. 2025 sonunda güneş 25,1 GW, rüzgâr 14,8 GW.", kaynak: "ETKB 2035 yenilenebilir hedef açıklaması (Ekim 2024); ETKB 2025 kurulu güç verileri" } },
+  { t: 5, s: 25, q: "Devletin büyük ölçekli rüzgâr ve güneş projeleri için alan belirleyip yarışma (ihale) ile yatırımcıya tahsis ettiği modelin adı nedir?",
+    o: ["YEKA (Yenilenebilir Enerji Kaynak Alanları)", "YEKDEM", "Lisanssız üretim", "Kapasite mekanizması", "ÇED"], a: 0,
+    e: "<b>YEKA</b> modelinde alan, şebeke bağlantısı ve izinler önceden hazırlanır; yatırımcı en düşük fiyatı vererek kapasiteyi kazanır.",
+    n: "YEKDEM bir fiyat desteği, YEKA ise alan ve kapasite tahsis modelidir. YEKA ihalelerinde çoğu zaman yerli ekipman üretimi veya Ar-Ge şartı da konur. 2035 hedefine ulaşmak için her yıl en az 2 GW'lık YEKA kapasitesi tahsis edilmesi planlanmaktadır." },
+]};
 </script>
+<script src="sinav.js"></script>
 </body>
 </html>
