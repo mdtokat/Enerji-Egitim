@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Enerji Görünümü Sınavı</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +44,7 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
 .wrap {
   max-width: 760px; margin: 0 auto;
   padding-block: 28px 48px;
@@ -159,7 +164,8 @@ kbd { font-family: var(--font-data); font-size: 12px; border: 1px solid var(--li
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header>
     <p class="eyebrow">SUNUM 1 · 1_2.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı eğitim sunumu (2022)</p>
@@ -517,3 +523,5 @@ function start(data) {
 window.claude?.hot?.snapshot?.(() => ({ S }));
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 </script>
+</body>
+</html>
