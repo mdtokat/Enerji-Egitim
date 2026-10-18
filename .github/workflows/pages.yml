@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # Çalışma notlarının web sürümü depoda tutulmuyor; yayından önce bölüm dosyalarından üretilir
+      - run: node calisma-notlari/build.js --html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .

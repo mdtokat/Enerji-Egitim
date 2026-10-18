@@ -5,18 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Elektrik Temel Kavramlar Sınavı</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
 <link rel="stylesheet" href="sinav.css">
 </head>
 <body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 5 · Elektrik Temel Kavramlar</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
 <div class="wrap">
-  <header>
-    <a class="home" href="../index.html">← Ana sayfa</a>
-    <p class="eyebrow">SUNUM 5 · 1_6.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020</p>
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 5</span> 1_6.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020</p>
     <h1>Elektrik Enerjisinde Temel Kavramlar <em>Sınavı</em></h1>
-    <p class="lede">35 soru, beşer şık. Akım, iletkenlik, doğru ve alternatif akım, etkin değer, gerilim, enerji, verim ve aktif–reaktif–görünür güç; kompanzasyon hesabı. Hesap sorularında gereken veriler soru içinde verilir. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
+    <p class="lede">Akım, iletkenlik, doğru ve alternatif akım, etkin değer, gerilim, enerji, verim ve aktif–reaktif–görünür güç; kompanzasyon hesabı.</p>
+    <ul class="facts"><li>35 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
   </header>
 
   <div class="bar">
@@ -24,20 +33,22 @@
       <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
       <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
     </div>
+    <p class="mhint" id="mhint"></p>
     <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
   </div>
-  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
 
   <main id="quiz" class="card" aria-live="polite"></main>
   <section id="results" class="card" hidden></section>
 
   <details class="map" id="mapbox">
     <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
     <div class="grid" id="map"></div>
   </details>
 
   <footer>
-    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
     <span>Kaynak: “Elektrik Enerjisinde Temel Kavramlar” sunumu (ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020). Net = doğru − yanlış ÷ 4.</span>
     <span><a href="../index.html">Ana sayfaya dön</a></span>
   </footer>
@@ -201,5 +212,6 @@ Q: [
 ]};
 </script>
 <script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
 </body>
 </html>

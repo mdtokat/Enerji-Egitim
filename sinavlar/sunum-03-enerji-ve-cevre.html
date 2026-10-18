@@ -5,18 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Enerji ve Çevre Sınavı</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
 <link rel="stylesheet" href="sinav.css">
 </head>
 <body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 3 · Enerji ve Çevre</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
 <div class="wrap">
-  <header>
-    <a class="home" href="../index.html">← Ana sayfa</a>
-    <p class="eyebrow">SUNUM 3 · 1_4.pdf · ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022</p>
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 3</span> 1_4.pdf · ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022</p>
     <h1>Enerji ve Çevre <em>Sınavı</em></h1>
-    <p class="lede">48 soru, beşer şık. Enerji kaynaklı hava kirleticileri, azaltım teknolojileri, çevre ve iklim mevzuatı, sera gazları, iklim müzakereleri ve Türkiye emisyon verileri. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
+    <p class="lede">Enerji kaynaklı hava kirleticileri, azaltım teknolojileri, çevre ve iklim mevzuatı, sera gazları, iklim müzakereleri ve Türkiye emisyon verileri.</p>
+    <ul class="facts"><li>48 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li></ul>
   </header>
 
   <div class="bar">
@@ -24,20 +33,22 @@
       <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
       <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
     </div>
+    <p class="mhint" id="mhint"></p>
     <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
   </div>
-  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
 
   <main id="quiz" class="card" aria-live="polite"></main>
   <section id="results" class="card" hidden></section>
 
   <details class="map" id="mapbox">
     <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
     <div class="grid" id="map"></div>
   </details>
 
   <footer>
-    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
     <span>Kaynak: “Enerji ve Çevre” sunumu (ETKB Çevre ve İklim Daire Başkanlığı, Şubat 2022). Güncel veriler: TÜİK Sera Gazı Emisyon İstatistikleri 1990–2024, Global Carbon Project, Resmî Gazete (2022–2026). Net = doğru − yanlış ÷ 4.</span>
     <span><a href="../index.html">Ana sayfaya dön</a></span>
   </footer>
@@ -263,5 +274,6 @@ Q: [
 ]};
 </script>
 <script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
 </body>
 </html>
