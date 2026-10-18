@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Etüt ve Projeler Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 12 · Etüt ve Projeler</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 12</span> 1_13.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Etüt ve Projeler <em>Sınavı</em></h1>
+    <p class="lede">Ön etüt, detaylı etüt ve fizibilite; detaylı etüdün kapsamı, raporlama, soru formu ve inceleme gezisi; ısıtma ve soğutma gün derecesi (HDD/CDD), özgül tüketim ve üretim–tüketim regresyonu; bina, tekstil ve seramik fabrikalarında etüt ölçümleri.</p>
+    <ul class="facts"><li>56 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Etüt ve Projeler” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum12-v1",
+topics: ["Etüt türleri ve ön etüt", "Detaylı etüdün kapsamı ve raporlama", "Soru formu ve inceleme gezisi", "Derece-gün ve özgül tüketim hesapları", "Etüt sırasında yapılan ölçümler"],
+Q: [
+  // Etüt türleri ve ön etüt
+  { t: 0, s: 2, q: "Sunumun açılış şemasında “Enerji Tasarrufu”nu çevreleyen unsurlar arasında hangisi <b>yer almaz</b>?",
+    o: ["Ürün fiyatlarının artırılması", "Üst yönetimin katkı ve desteği", "Enerji muhasebesi", "İzleme ve hedef belirleme", "Sermaye temini"], a: 0,
+    e: "Şemada enerji tasarrufunu besleyen unsurlar: <b>üst yönetimin katkı ve desteği, enerji muhasebesi, ön enerji etüdü, detaylı enerji etüdü, eğitim, sermaye temini, uygulama</b> ve <b>izleme ve hedef belirleme</b>.",
+    n: "Şema, etüdün tek başına tasarruf sağlamadığını gösterir: etüt yalnızca fırsatları ortaya çıkarır; tasarrufun gerçekleşmesi için üst yönetimin desteği, yatırım için sermaye, uygulama, personel eğitimi ve sonuçların izlenmesi gerekir. Bu döngü ISO 50001'deki Planla-Uygula-Kontrol et-Önlem al (PUKÖ) yapısına benzer." },
+  { t: 0, s: 3, q: "Sunuma göre enerji verimliliği etüt çalışmalarının amacı nedir?",
+    o: ["Mevcut durumu değerlendirip tasarruf odaklarını ve maliyet etkin önlemleri belirleyerek tasarruf potansiyelini periyodik olarak ortaya koymak", "İşletmenin vergi borçlarını hesaplamak", "Yalnızca yeni ekipman satın almak", "İşletmenin üretim kapasitesini iki katına çıkarmak", "Çalışanların performansını puanlamak"], a: 0,
+    e: "Etüt çalışmaları; <b>mevcut durumun değerlendirilmesi</b>, <b>enerji tasarrufu odaklarının belirlenmesi</b> ve verimliliği artırıcı <b>maliyet etkin önlemlerin</b> ortaya çıkarılması suretiyle tasarruf potansiyelinin <b>periyodik olarak</b> belirlenmesi amacıyla yapılır.",
+    n: "“Periyodik” sözcüğü önemlidir: etüt bir kerelik bir iş değildir. Üretim, ekipman ve enerji fiyatları değiştikçe tasarruf potansiyeli de değişir; bu nedenle mevzuat zorunlu etütleri belirli aralıklarla tekrarlatır. “Maliyet etkin” ise önerinin yatırımını makul sürede geri ödemesi anlamına gelir." },
+  { t: 0, s: 4, q: "Sunuma göre enerji etütleri hangi gruplara ayrılır?",
+    o: ["Ön etüt, detaylı etüt ve yapılabilirlik (fizibilite) çalışmaları", "Yıllık, aylık ve haftalık etüt", "Elektrik etüdü, yakıt etüdü ve su etüdü", "İç etüt ve dış etüt", "Teorik etüt ve deneysel etüt"], a: 0,
+    e: "Enerji etütleri <b>ön etüt</b>, <b>detaylı etüt</b> ve <b>yapılabilirlik (fizibilite) çalışmaları</b> olarak gruplandırılabilir.",
+    n: "Üç aşama giderek derinleşen bir huni gibidir: ön etüt fırsatları kabaca belirler, detaylı etüt ölçümlerle tasarrufu hesaplar, fizibilite ise seçilen büyük bir yatırımın (örneğin kojenerasyon) teknik ve ekonomik yapılabilirliğini ayrıntılı olarak inceler." },
+  { t: 0, s: 4, q: "Sunuma göre enerji etütlerini kimler yapabilir?",
+    o: ["Devlet kuruluşları, Enerji Verimliliği Danışmanlık (EVD) şirketleri veya işletmede etüt sertifikasına sahip bir çalışan (detaylı olmamak koşuluyla)", "Yalnızca elektrik dağıtım şirketleri", "Yalnızca ekipman satıcıları", "Yalnızca belediyeler", "Yalnızca üniversiteler"], a: 0,
+    e: "Etütler <b>devlet kuruluşları</b>, <b>Enerji Verimliliği Danışmanlık Şirketleri (EVD)</b> veya endüstriyel işletmede <b>“Enerji Etüt Sertifikası”na sahip bir çalışan</b> varsa bu kişi tarafından yapılabilir. Çalışanın yaptığı etüt <b>detaylı olmamak koşuluyla</b> kabul edilir.",
+    n: "Mevzuatta bu belge bugün “etüt-proje (EP) sertifikası” olarak geçer; EVD şirketlerinde etüt ve proje yapacak personelde de aranır. Ekipman satıcısının yaptığı “etüt”, kendi ürününü önermeye yönelik olabileceğinden bağımsız bir değerlendirme sayılmaz." },
+  { t: 0, s: 4, q: "Sunuma göre işletmedeki sertifikalı bir çalışanın yaptığı etüdün neden “detaylı olmaması” koşulu getirilmiştir?",
+    o: ["İşletmede yeterli ve kalibrasyonlu ölçüm cihazı bulunmayabileceği, çok detaylı ölçüm ve değerlendirme yapılamayabileceği için", "Çalışanların etüt yapması yasak olduğu için", "Detaylı etüt yalnızca yabancı firmalarca yapılabildiği için", "Çalışanın maaşı etüt maliyetini artırdığı için", "Detaylı etütlerin yalnızca kamu binalarında yapılması gerektiği için"], a: 0,
+    e: "Koşulun gerekçesi; işletmede <b>yeterli ve kalibrasyonlu ölçüm cihazı mevcut olmayabileceği</b>, <b>çok detaylı ölçüm alınamayacağı ve değerlendirme yapılamayacağıdır</b>.",
+    n: "Detaylı etüt; güç analizörü, baca gazı analizörü, ultrasonik debimetre, termal kamera gibi pahalı ve düzenli kalibrasyon isteyen bir cihaz parkı gerektirir. EVD şirketleri bu cihazları birçok işletmede kullanarak maliyetini paylaştırabilir; tek bir işletmenin aynı parkı tutması genellikle ekonomik değildir." },
+  { t: 0, s: 5, q: "Sunuma göre Ön Enerji Etüdü (ÖEE) esas olarak nedir?",
+    o: ["Yalnızca mevcut bilgilerin kullanıldığı, kısa sürede yapılabilen bir veri toplama işi", "Aylarca süren kaydedicili ölçüm çalışması", "Yatırımın ayrıntılı fizibilite raporu", "Ekipman yenileme ihalesinin hazırlanması", "ISO 50001 belgelendirme tetkiki"], a: 0,
+    e: "ÖEE esas olarak bir <b>veri toplama</b> işidir; etüt sırasında <b>yalnızca mevcut bilgiler kullanılır</b> ve <b>kısa sürede</b> yapılabilir. Enerji kullanımı, mal ve hizmet üretimi ve enerji yönetimi uygulamaları hakkında bilgi toplanır.",
+    n: "Mevcut bilgiler; faturalar, sayaç okumaları, üretim kayıtları, ekipman etiket değerleri ve işletme personelinden alınan bilgilerdir. ÖEE'nin değeri, sınırlı kaynakları detaylı etütte en çok getiri sağlayacak alanlara yönlendirmesidir." },
+  { t: 0, s: 6, q: "Ön etüt sırasında yerinde incelemede belirlenen enerjinin boşa harcandığı alanlara sunumda hangisi örnek <b>verilmemiştir</b>?",
+    o: ["Uzun süreli kaydedicili harmonik ölçümleri", "Aydınlatma sistemindeki aksaklıklar", "Tek cam uygulamaları", "Aşırı soğutma veya ısıtma", "Yalıtım eksiklikleri ve çalışmayan ekipmanlar"], a: 0,
+    e: "Örnekler: <b>aydınlatma aksaklıkları, tek cam uygulamaları, aşırı soğutma veya ısıtma, atık ısı geri kazanımı yapılabilecek alanlar, yalıtım eksiklikleri, çalışmayan ekipmanlar</b>. Planlamada belirlenen bölümlerde yalnızca <b>anlık ölçümler</b> yapılır; uzun süreli kaydedicili ölçümler detaylı etüdün işidir.",
+    n: "ÖEE'de “gözle görülen” israf yakalanır: boşta yanan lambalar, açık kalan kapılar, yalıtımsız vanalar, buhar kaçakları. Bunların bir kısmı yatırımsız veya çok düşük maliyetli önlemlerle hemen giderilebilir." },
+  { t: 0, s: 6, q: "Sunuma göre ön etütte ölçüm konusunda ne yapılır?",
+    o: ["Planlama safhasında belirlenen bölümlerde ihtiyaç duyulan anlık ölçümler yapılır", "Hiçbir ölçüm yapılmaz", "Tüm ekipmana bir hafta boyunca kaydedici bağlanır", "Yalnızca laboratuvarda numune analizi yapılır", "Yalnızca elektrik faturası okunur"], a: 0,
+    e: "Ön etütte <b>planlama safhasında belirlenen bölümlerde</b> ihtiyaç duyulan <b>anlık ölçümler</b> yapılır.",
+    n: "Anlık ölçüm (örneğin bir baca gazı analizi, bir yüzey sıcaklığı veya bir pens ampermetre okuması) fikir verir ama yük değişimlerini yakalamaz. Bu yüzden ÖEE'de tasarruflar yaklaşık hesaplanır; kesin tasarruf ve yatırım kararı detaylı etütteki uzun süreli ölçümlere dayanır." },
+  { t: 0, s: 7, q: "Sunuma göre ÖEE sonunda aşağıdakilerden hangisi ortaya <b>konmaz</b>?",
+    o: ["Seçilen projenin ayrıntılı mühendislik tasarımı ve ihale dosyası", "Enerji tasarrufu imkânları ve tasarruf edilecek enerji miktarı", "Basit geri ödeme süreleri", "Bakımla ilgili tavsiyeler", "Detaylı etüde ihtiyaç olup olmadığı ve hangi bölümleri kapsayacağı"], a: 0,
+    e: "ÖEE sonunda enerji yönetimi, dönüşümü, aydınlatma, ısıtma, iklimlendirme-havalandırma ve yalıtımda mevcut durum; <b>tasarruf imkânları, tasarruf miktarı ve basit geri ödeme süreleri</b>; <b>bakım tavsiyeleri</b>; <b>detaylı etüde gerek olup olmadığı ve kapsamı</b> ortaya konur. Ayrıntılı tasarım ve ihale dosyası fizibilite/proje aşamasının işidir.",
+    n: "ÖEE'de basit geri ödeme süresi kullanılması, analizin kaba olmasıyla uyumludur. İç karlılık oranı ve net bugünkü değer gibi ayrıntılı ekonomik analizler, detaylı etüt ve fizibilite raporlarında yer alır." },
+
+  // Detaylı etüdün kapsamı ve raporlama
+  { t: 1, s: 8, q: "Sunuma göre Detaylı Enerji Etüdü (DEE) nedir?",
+    o: ["Proseslerin, büyük enerji tüketen ekipmanın, bina kabuğunun ve aydınlatma, yalıtım, ısıtma, iklimlendirme, havalandırma sistemlerinin gerek duyulan sürelerde ölçümler alınarak incelenmesi", "Yalnızca mevcut faturaların gözden geçirilmesi", "Yalnızca işletme yöneticisiyle yapılan bir görüşme", "Bir enerji sertifikası sınavı", "Yalnızca bina projesinin çizilmesi"], a: 0,
+    e: "DEE; endüstriyel işletmelerde ve binalarda <b>proseslerin ve büyük enerji tüketen ekipmanların</b>, <b>bina kabuğunun</b>, aydınlatma, yalıtım, ısıtma, iklimlendirme ve havalandırma sistemlerinin <b>gerek duyulan sürelerde ölçümler alarak</b> incelenmesidir.",
+    n: "ÖEE ile DEE arasındaki temel fark ölçümdür: ÖEE mevcut bilgiye ve anlık ölçüme dayanır, DEE ise gerçek çalışma koşullarında ve yeterli süre boyunca alınan ölçümlere dayanarak tasarrufu sayısal olarak ortaya koyar." },
+  { t: 1, s: 8, q: "Detaylı etüdün ön etütle ilişkisi sunumda nasıl tanımlanmıştır?",
+    o: ["Genelde ÖEE'den sonra yapılır, ancak ön etütten tamamen bağımsız olarak da yapılabilir", "Ön etüt yapılmadan detaylı etüt kesinlikle yapılamaz", "Detaylı etüt ön etütten önce yapılmalıdır", "İkisi aynı anda ve aynı ekip tarafından yapılmak zorundadır", "Detaylı etüt yapıldıysa ön etüt yasal olarak zorunludur"], a: 0,
+    e: "Detaylı etütler normal olarak <b>ön etüt çalışmasını müteakip</b> yapılır; ancak <b>ön etütlerden tamamen bağımsız olarak da</b> yapılabilir.",
+    n: "Ön etüt yapılmadan detaylı etüde başlanacaksa, ön etüdün sağlayacağı bilgiler başka yoldan toplanmalıdır: sunum bunun için işletmeye bir soru formu gönderilmesini ve bir inceleme gezisi yapılmasını önerir." },
+  { t: 1, s: 8, q: "Sunuma göre detaylı etüt yapacak kuruluşun neye sahip olması gerekir?",
+    o: ["Yeterli miktarda taşınabilir ölçüm cihazına", "Kendi enerji santraline", "En az 100 çalışana", "İşletmenin hisselerine", "Bir ekipman üretim tesisine"], a: 0,
+    e: "Mevcut durumu değerlendirebilmek, enerji tüketimini ölçmek ve tasarruf potansiyelini tespit etmek için etüt yapacak kuruluşun <b>yeterli miktarda taşınabilir ölçüm cihazına</b> sahip olması gerekir.",
+    n: "Taşınabilir (portatif) cihazlar, işletmede sabit ölçüm noktası olmayan yerlerde ölçüm yapmayı ve sabit cihazların doğruluğunu kontrol etmeyi sağlar. Cihazların kalibrasyon belgeleri güncel olmalı ve etüt raporunun ekinde sunulmalıdır (8. ve 9. sunumlar)." },
+  { t: 1, s: 9, q: "Sunuma göre detaylı etütte enerji tüketimi yüksek olan alanlarda ölçümler nasıl yapılır?",
+    o: ["Hesaplamalara esas olacak detaylı ve uzun süreli ölçümler, gerektiğinde kaydedici cihazlar kullanılarak ve ön etütte belirlenen alanları kapsayacak şekilde", "Yalnızca tek bir anlık okuma ile", "Yalnızca etiket değerleri okunarak", "Yalnızca işletme kapalıyken", "Yalnızca operatörün beyanı alınarak"], a: 0,
+    e: "Enerji tüketimi yüksek alanlara ölçüm cihazları bağlanır; hesaplamalara esas olacak <b>detaylı ve uzun süreli ölçümler</b>, gerektiğinde <b>kaydedici cihaz</b> ve ekipman kullanılarak ve <b>ön etütte belirlenen alanları kapsayacak</b> şekilde yapılır.",
+    n: "Sunuma göre detaylı etüdün süresi; işletmenin veya bina kompleksinin büyüklüğüne ve bina grubundaki bina sayısına göre uzayabilir. Kayıt süresi, yükün değişim döngüsünü (vardiya, gün, hafta) kapsayacak kadar uzun olmalıdır." },
+  { t: 1, s: 10, q: "Sunuma göre detaylı etütte sistemlerin enerji tüketimleri hangi koşullarda belirlenir?",
+    o: ["Binanın veya endüstriyel işletmenin gerçek çalışma koşullarında", "Ekipmanın tam yükte deneme çalışmasında", "Üretici kataloğundaki nominal koşullarda", "Yalnızca hafta sonu tesis boşken", "Laboratuvar ortamında"], a: 0,
+    e: "Sistemlerin enerji tüketimleri binanın veya endüstriyel işletmenin <b>gerçek çalışma koşullarında</b> belirlenir.",
+    n: "Ekipmanlar çoğu zaman nominal (etiket) değerlerinden farklı yüklerde çalışır. Örneğin etiketi 75 kW olan bir motor %40 yükte çalışıyor olabilir; etiket değeriyle yapılan tasarruf hesabı bu durumda büyük ölçüde abartılı çıkar." },
+  { t: 1, s: 10, q: "Sunuma göre detaylı etütte proses ve ekipman değişikliklerini de kapsayacak çalışmalar kimlerin katılımıyla yapılır?",
+    o: ["Yardımcı işletmelerin dışında proses uzmanlarının da katılımıyla", "Yalnızca muhasebe personelinin katılımıyla", "Yalnızca güvenlik görevlilerinin katılımıyla", "Yalnızca ekipman satıcılarının katılımıyla", "Hiçbir işletme personeli katılmadan"], a: 0,
+    e: "Yardımcı işletmelerin (kazan, kompresör, soğutma vb.) dışında <b>proses uzmanlarının da katılımı</b> ile proses ve ekipman değişikliklerini de kapsayacak çalışmalar yapılır.",
+    n: "Yardımcı işletmeler genellikle her sektörde benzerdir; büyük tasarrufların bir kısmı ise prosesin kendisindedir (örneğin tekstilde boyama reçeteleri, seramikte pişirme eğrisi). Proses değişikliği ürün kalitesini etkileyebileceği için mutlaka proses uzmanıyla birlikte değerlendirilmelidir." },
+  { t: 1, s: 10, q: "Sunuma göre detaylı etütte enerji tüketimi açısından daha az önemli alanlar için ne söylenmektedir?",
+    o: ["İyileştirme mümkün olabilecekse bu alanlarda da araştırma ve ölçüm yapılabilir", "Bu alanlar kesinlikle incelenmez", "Bu alanlar yalnızca ön etütte incelenebilir", "Bu alanlar için yalnızca tahmin yapılır, ölçüm yasaktır", "Bu alanlar ayrı bir sözleşmeyle bir yıl sonra incelenir"], a: 0,
+    e: "Enerji tüketimi açısından <b>daha az önem arz eden ancak iyileştirme çalışmalarının mümkün olabileceği alanlarda da</b> araştırma ve ölçümler yapılabilir.",
+    n: "Öncelik büyük tüketicilerdedir, ancak küçük bir tüketicide yatırımsız bir önlem (zamanlayıcı, kapı otomatiği, ayar) çok kısa geri ödeme süresi verebilir. Etüt raporundaki önlem listesi bu nedenle hem büyük hem küçük fırsatları içerir." },
+  { t: 1, s: 11, q: "Sunuma göre detaylı etütte incelenmesi gereken “diğer bir husus” olarak hangisi vurgulanmıştır?",
+    o: ["Bakım-onarım sistemi; uygulanabilirse bilgisayar destekli sistem önerileri", "Personel servis güzergâhları", "Yemekhane menüsü", "Ürün ambalaj tasarımı", "Pazarlama stratejisi"], a: 0,
+    e: "Detaylı etütte incelenmesi gereken diğer bir husus <b>bakım-onarım sistemidir</b>. DEE sonucunda bu konuda öneriler geliştirilmeli, uygulanabilir görülürse <b>bilgisayar destekli sistemler</b> hakkında öneriler yapılmalıdır.",
+    n: "Kirli eşanjör yüzeyleri, arızalı buhar kapanları, kaçak yapan basınçlı hava hatları ve ayarı bozulmuş brülörler bakım eksikliğinin enerji faturası olarak geri dönmesidir. Bilgisayar destekli bakım yönetim sistemleri (CMMS) planlı ve kestirimci bakımı izlemeyi kolaylaştırır." },
+  { t: 1, s: 12, q: "Sunuma göre EVD şirketlerinin yaptığı detaylı etütlerde ayrıca neye dikkat edilir?",
+    o: ["İlgili işletme veya bina çalışanlarının görüş ve önerileri de dikkate alınır", "Çalışanlarla hiç görüşülmez", "Yalnızca genel müdürün görüşü alınır", "Yalnızca rakip işletmelerin verileri kullanılır", "Etüt yalnızca gece yapılır"], a: 0,
+    e: "EVD şirketlerince yapılan detaylı etütlerde ilgili endüstriyel işletme veya bina <b>çalışanlarının görüş ve önerileri de dikkate alınır</b>.",
+    n: "Ekipmanı her gün kullanan operatör, hangi makinenin boşta çalıştığını, hangi hattın sürekli kaçak yaptığını veya hangi ayarların neden değiştirildiğini en iyi bilen kişidir. Önerilerin uygulanmasında da çalışanların katılımı başarıyı artırır." },
+  { t: 1, s: 12, q: "Sunuma göre detaylı etüt çalışmasından sonraki raporlama sırası nasıldır?",
+    o: ["Ön rapor hazırlanır, işletme/bina yetkilileriyle tartışılıp değerlendirilir, ardından verilen formata uygun nihai rapor hazırlanır", "Doğrudan Bakanlığa sözlü bilgi verilir", "Yalnızca bir fatura kesilir", "Önce nihai rapor yazılır, sonra ölçüm yapılır", "Rapor yazılmaz, yalnızca ölçüm verileri teslim edilir"], a: 0,
+    e: "Detaylı etüt sonrası <b>ön rapor</b> hazırlanır; bu rapor ilgili işletme veya bina yetkilileriyle <b>tartışılıp değerlendirildikten sonra</b> verilen formata uygun <b>nihai rapor</b> hazırlanır.",
+    n: "Ön raporun tartışılması, yanlış varsayımları (çalışma saati, üretim miktarı, enerji fiyatı) ve işletme için uygulanamayacak önerileri ayıklar. Zorunlu sanayi etütlerinde nihai rapor Ek-12A formatına uymalıdır (9. sunum)." },
+  { t: 1, s: 12, q: "Sunuma göre detaylı etütte üst yönetim için ne hazırlanır ve ölçüm sonuçları nerede yer alır?",
+    o: ["Kısa ve özlü bir özet rapor; tüm ölçüm sonuçları ve hesaplarda kullanılan veriler nihai raporun içinde veya eklerinde", "Yalnızca bir sunum dosyası; ölçüm verileri imha edilir", "Uzun bir teknik ek; ölçüm verileri yalnızca EVD'de saklanır", "Yalnızca bir sözleşme; ölçüm sonuçları raporda yer almaz", "Bir basın bülteni; ölçüm verileri internette yayımlanır"], a: 0,
+    e: "Üst yönetimin çalışma ve sonuçları hakkında kısa ve özlü bilgi alabileceği bir <b>özet rapor</b> hazırlanır. Yapılan <b>tüm ölçüm sonuçları ve hesaplarda kullanılan veriler</b> nihai raporun <b>içinde veya eklerinde</b> yer alır.",
+    n: "Özet rapor, Ek-12A'daki “yönetici özeti”nin karşılığıdır: karar verici, önlemleri, yatırımı ve geri ödemeyi birkaç sayfada görmelidir. Ölçüm verilerinin eklerde bulunması ise hesapların başkaları tarafından doğrulanabilmesini sağlar." },
+
+  // Soru formu ve inceleme gezisi
+  { t: 2, s: 13, q: "Sunuma göre ön etüt yapılmadan detaylı etüde başlanacaksa ilk olarak ne yapılmalıdır?",
+    o: ["Etüt yapılacak işletme veya bina yönetimine bir soru formu gönderilmelidir", "Doğrudan tüm ekipmana kaydedici bağlanmalıdır", "İşletmenin enerjisi kesilmelidir", "Bakanlığa izin başvurusu yapılmalıdır", "Etüt iptal edilmelidir"], a: 0,
+    e: "Bina veya işletme hakkında bilgi alınması ve ön değerlendirme yapılması; zamanın iyi kullanılması, zaman kaybının önlenmesi ve etüdün başarılı olması açısından önemlidir. Bu nedenle yönetime bir <b>soru formu</b> gönderilmelidir.",
+    n: "Soru formu, ön etüdün “veri toplama” işlevini uzaktan üstlenir. Form doğru doldurulursa etüt ekibi sahaya hangi cihazlarla, kaç kişiyle ve hangi bölümlere öncelik vererek gideceğini önceden bilir." },
+  { t: 2, s: 14, q: "Sunuma göre <b>bina</b> için gönderilen soru formunda hangi bilgi istenmez?",
+    o: ["Üretim değerleri", "Aylık bazda enerji tüketim değerleri", "Çalışan sayısı ve bina doluluk oranı", "Kazan, ısıtma sistemi ve iletim hatları", "Enerji yönetim sistemi"], a: 0,
+    e: "Bina formunda: <b>aylık enerji tüketimleri, çalışan sayısı, bina doluluk oranı, kazan-ısıtma sistemi-iletim hatları, soğutma-iklimlendirme-havalandırma, yalıtım, aydınlatma</b> ve <b>enerji yönetim sistemi</b> bilgileri istenir. <b>Üretim değerleri</b> sanayi formuna özgüdür.",
+    n: "Binada tüketimi belirleyen ana değişkenler hava koşulları (derece-gün) ve kullanım yoğunluğudur (çalışan, doluluk); sanayide ise üretim miktarıdır. Bu nedenle bina analizinde tüketim derece-gün ile, sanayi analizinde üretimle ilişkilendirilir." },
+  { t: 2, s: 21, q: "Sunuma göre <b>endüstriyel işletme</b> için gönderilen soru formunda istenip bina formunda yer almayan bilgiler hangileridir?",
+    o: ["Üretim değerleri ile kompresör ve basınçlı hava sistemleri", "Aylık enerji tüketim değerleri", "Yalıtım", "Aydınlatma sistemi", "Enerji yönetim sistemi"], a: 0,
+    e: "Sanayi formunda aylık tüketimler, <b>üretim değerleri</b>, ısıtma ve soğutma sistemleri ile iletim hatları, yalıtım, aydınlatma, <b>kompresör ve basınçlı hava sistemleri</b> ve enerji yönetim sistemi bilgileri istenir.",
+    n: "Basınçlı hava sanayide en pahalı enerji taşıyıcılarından biridir: kompresöre verilen elektriğin yalnızca küçük bir kısmı faydalı işe dönüşür, kaçaklar ise çoğu tesiste üretilen havanın önemli bir bölümünü oluşturur. Bu yüzden sanayi formunda ayrı bir başlıktır." },
+  { t: 2, s: 15, q: "Sunuma göre bina yönetiminin doldurduğu soru formunun değerlendirilmesiyle hangi bilgi elde <b>edilemez</b>?",
+    o: ["Kazanın ölçülmüş baca gazı O₂ değeri", "Enerji tüketim değerlerindeki aylık değişiklikler", "Tüketim ile ısıtma derece gün değerleri arasındaki ilişki", "Tüketim ile soğutma derece gün değerleri arasındaki ilişki", "Spesifik (özgül) enerji tüketimi ve yıllara göre değişimi"], a: 0,
+    e: "Formdan <b>aylık tüketim değişiklikleri</b>, tüketimin <b>ısıtma ve soğutma derece gün</b> değerleriyle ilişkisi ve <b>özgül tüketim ile yıllara göre değişimi</b> elde edilebilir. Baca gazı O₂ değeri ancak sahada analizörle ölçülerek bulunur.",
+    n: "Form değerlendirmesi masa başı bir analizdir; tüketim verisi ile meteorolojik veriyi (MGM derece-gün değerleri) karşılaştırarak binanın hava koşullarına ne kadar duyarlı olduğunu ve beklenmeyen tüketim artışlarını ortaya çıkarır." },
+  { t: 2, s: 22, q: "Sunuma göre endüstriyel işletmenin doldurduğu soru formunun değerlendirilmesiyle hangi bilgiler elde edilir?",
+    o: ["Üretim-tüketim değerlerindeki aylık dalgalanmalar, üretim-tüketim ilişkisi ve özgül tüketimin yıllara göre değişimi", "Yalnızca işletmenin kârlılığı", "Çalışanların devamsızlık oranları", "Ekipmanın satın alma faturaları", "Kazanın yanma verimi"], a: 0,
+    e: "Sanayi formunun değerlendirilmesiyle <b>üretim-tüketim değerlerindeki aylık dalgalanmalar</b>, <b>üretim-tüketim ilişkisi</b> ve <b>özgül enerji tüketimi değerleri ile yıllar bazında değişimi</b> elde edilir.",
+    n: "Özgül tüketimin yıllar içinde artması, ekipmanın yaşlandığına, bakımın aksadığına veya ürün karışımının değiştiğine işaret edebilir. Bu bilgiler etüt ekibinin sahada nereye bakacağını belirler." },
+  { t: 2, s: 27, q: "Sunuma göre form değerlendirmesinden sonra işletmeye inceleme gezisi kimler tarafından yapılır?",
+    o: ["Enerji etüdüne katılacak kişilerden farklı mesleklerden iki mühendis", "Yalnızca işletmenin muhasebe müdürü", "Bakanlık müfettişleri", "Ekipman satış temsilcileri", "Tek bir teknisyen"], a: 0,
+    e: "Mutabık kalınan bir tarihte enerji etüdüne katılacak kişilerden oluşan <b>farklı mesleklerden iki mühendis</b> binaya veya işletmeye bir inceleme gezisi yapar.",
+    n: "Farklı meslekler (örneğin makine ve elektrik mühendisi) ısıl ve elektriksel sistemlerin birlikte değerlendirilmesini sağlar. Sunumdaki fotoğraflar da sahada ekiplerin kazan dairesi, pano, pompa ve fırın gibi farklı noktalarda birlikte ölçüm yaptığını gösterir." },
+  { t: 2, s: 28, q: "Sunuma göre inceleme gezisinin amaçları arasında hangisi <b>yoktur</b>?",
+    o: ["Önerilen yatırımların ihalesini sonuçlandırmak", "Etüt sırasında kullanılacak portatif cihazları belirlemek", "Portatif cihazların monte edilebileceği yerleri belirleyip personele göstermek", "Etüt için en uygun tarih ve süreyi belirlemek", "Soru formundaki tutarsızlık ve belirsizlikleri açığa kavuşturmak"], a: 0,
+    e: "Gezinin amaçları: işletmenin <b>büyüklüğü</b> hakkında bilgi edinmek, alan ve prosesleri <b>görsel değerlendirmek</b>, <b>gerekli portatif cihazları</b> ve <b>montaj yerlerini</b> belirlemek, <b>en uygun tarih ve süreyi</b> belirlemek, formdaki <b>tutarsızlıkları</b> gidermek. İhale, etüt sonrasındaki uygulama aşamasının işidir.",
+    n: "Montaj yerlerinin önceden belirlenip personele gösterilmesi, etüt günü zaman kaybını önler: örneğin ultrasonik debimetre için düz boru uzunluğu, güç analizörü için panoya güvenli erişim veya baca gazı ölçümü için ölçüm deliği önceden hazırlanabilir." },
+  { t: 2, s: 28, q: "Sunuma göre bir <b>bina</b> için detaylı etüdün tarihi ve süresi belirlenirken neye dikkat edilir?",
+    o: ["Bina yetkilileriyle birlikte, ısıtma ve soğutma sezonlarını da içine alan en uygun tarih ve süre belirlenir", "Etüt her zaman Ağustos ayında yapılır", "Bina boşken yapılması zorunludur", "Tarihi yalnızca etüt firması belirler", "Etüt süresi her zaman bir gündür"], a: 0,
+    e: "Binada, bina yetkilileri ile değerlendirilerek <b>ısıtma ve soğutma sezonlarını da içine alan</b> en uygun tarih ve süre belirlenir. Endüstriyel işletmede ise işletme yetkilileri ve <b>üretim mühendisleri</b> ile birlikte belirlenir.",
+    n: "Yalnızca yazın yapılan bir bina etüdü kazanın ve ısıtma sisteminin çalışmasını göremez; yalnızca kışın yapılan etüt ise iklimlendirmeyi kaçırır. Sanayide ise etüdün, üretimin normal seviyede olduğu bir döneme denk getirilmesi önemlidir." },
+  { t: 2, s: 29, q: "Sunuma göre detaylı etüt başladığında ölçümlerin yanı sıra standart veri toplama formlarıyla neler kaydedilir?",
+    o: ["Ölçülen ekipmanların etiket tüketim değerleri, çalışma koşulları, ortam ve hava sıcaklıkları; ayrıca operatörlerin çalışma tarzları", "Yalnızca çalışanların isimleri", "Yalnızca ekipmanların renkleri", "Yalnızca işletmenin banka bilgileri", "Hiçbir ek bilgi kaydedilmez"], a: 0,
+    e: "Standart veri toplama formlarıyla ölçülen ekipmanların <b>etiket enerji tüketim değerleri</b>, <b>çalışma koşulları</b>, <b>ortam ve hava sıcaklıkları</b> kaydedilir. Gerçek işletim koşullarında <b>operatör ve personelin çalışma tarzları</b> da kaydedilebilir.",
+    n: "Etiket değeri ile ölçülen değer birlikte yükleme oranını verir. Ortam ve hava sıcaklığı, ölçümün hangi koşulda alındığını belgeler; aynı kompresör veya chiller farklı ortam sıcaklıklarında farklı performans gösterir. Operatör davranışı ise yatırımsız tasarrufların kaynağıdır." },
+
+  // Derece-gün ve özgül tüketim hesapları
+  { t: 3, s: 20, q: "Sunumdaki tanıma göre gün-derece (G/D) neyi ölçer?",
+    o: ["24 saatlik periyodun ne kadarının sıcak ve ne kadarının soğuk geçtiğini", "Bir binanın günlük elektrik tüketimini", "Kazanın günlük çalışma saatini", "Güneşlenme süresini", "Rüzgâr hızını"], a: 0,
+    e: "Gün derece, <b>24 saatlik periyodun ne kadarının sıcak ve ne kadarının soğuk geçtiğini</b> ölçmeye yarayan birimdir.",
+    n: "Isıtma gün derecesi (HDD) soğuğun şiddetini, soğutma gün derecesi (CDD) sıcağın şiddetini toplam olarak ifade eder. Sunumdaki tanımlar Meteoroloji Genel Müdürlüğü'nün (MGM) gün-derece değerlendirmesinden alınmıştır." },
+  { t: 3, s: 20, q: "Sunumda verilen (Eurostat yöntemi) ısıtma gün derecesi formülü hangisidir?",
+    o: ["HDD = (18 °C − Tm) × d, eğer Tm ≤ 15 °C; Tm > 15 °C ise HDD = 0", "HDD = (Tm − 18 °C) × d, eğer Tm ≥ 15 °C", "HDD = (22 °C − Tm) × d, her zaman", "HDD = (15 °C − Tm) × d, eğer Tm ≤ 18 °C", "HDD = Tm × d"], a: 0,
+    e: "<b>HDD = (18 °C − Tm) × d</b>, eğer Tm ≤ 15 °C (ısıtma eşiği); Tm &gt; 15 °C ise HDD = 0. Tm günlük ortalama sıcaklık, d gün sayısıdır.",
+    n: "Formülde iki farklı sayı vardır: <b>18 °C taban (referans) sıcaklık</b>, <b>15 °C ise ısıtma eşiği</b>dir. Günlük ortalama 15 °C'nin üzerindeyse ısıtma gerekmediği kabul edilir; bu nedenle HDD hiçbir zaman 0 ile 3 arasında bir değer almaz (Tm = 15 °C'de 3, Tm = 15,1 °C'de 0). Hesap günlük yapılır, aylık ve yıllık değerler toplanarak bulunur." },
+  { t: 3, s: 20, q: "Sunumdaki örneğe göre Ankara'nın 29 Aralık 2005 günü ortalama sıcaklığı 2,0 °C'dir. O günün ısıtma gün derecesi (HDD) kaçtır?",
+    o: ["16", "13", "20", "2", "0"], a: 0,
+    e: "Tm = 2,0 °C ≤ 15 °C olduğundan HDD = 18 − 2 = <b>16</b>.",
+    n: "13, eşik değeri (15 °C) taban sıcaklık sanılarak bulunan hatalı sonuçtur; 20 ise 22 °C (soğutma eşiği) kullanılarak bulunur. Taban 18 °C'dir, 15 °C yalnızca HDD'nin sıfır olup olmadığına karar vermek için kullanılır." },
+  { t: 3, s: 20, q: "Bir haftanın günlük ortalama sıcaklıkları 4, 6, 10, 14, 15, 16 ve 17 °C'dir. Sunumdaki yönteme göre haftalık toplam ısıtma gün derecesi (HDD) kaçtır?",
+    o: ["41", "44", "26", "38", "56"], a: 0,
+    e: "Tm ≤ 15 °C olan günler: (18−4) + (18−6) + (18−10) + (18−14) + (18−15) = 14 + 12 + 8 + 4 + 3 = <b>41</b>. 16 ve 17 °C'lik günlerde Tm &gt; 15 °C olduğundan HDD = 0.",
+    n: "44, eşik göz ardı edilip 16 ve 17 °C'lik günler de (2 + 1) eklenerek bulunur. 38, 15 °C'lik gün yanlışlıkla dışarıda bırakılarak (eşik “&lt;” sanılarak) bulunur. 26 ise taban sıcaklık olarak 15 °C kullanılarak elde edilen hatalı sonuçtur." },
+  { t: 3, s: 20, q: "Sunumda verilen soğutma gün derecesi (CDD) formülü hangisidir?",
+    o: ["CDD = (Tm − 22) × d, eğer Tm &gt; 22 °C; Tm ≤ 22 °C ise CDD = 0", "CDD = (22 − Tm) × d, eğer Tm &lt; 22 °C", "CDD = (Tm − 18) × d, eğer Tm &gt; 15 °C", "CDD = (Tm − 15) × d, her zaman", "CDD = (18 − Tm) × d, eğer Tm ≤ 15 °C"], a: 0,
+    e: "<b>CDD = (Tm − 22) × d</b>, eğer Tm &gt; 22 °C (soğutma eşiği); Tm ≤ 22 °C ise CDD = 0.",
+    n: "Sunuma göre resmi olarak belirlenmiş bir soğutma eşiği olmamakla birlikte inşaat sektörü enerji yönetim pratiklerinde eşik 22 °C alınır. Isıtmadan farklı olarak burada taban ve eşik aynı değerdir (22 °C). Farklı kurumlar farklı tabanlar kullanabildiği için raporlarda hangi yöntemin kullanıldığı belirtilmelidir." },
+  { t: 3, s: 20, q: "Sunumdaki örneğe göre Ankara'nın 25 Ağustos 2005 günü ortalama sıcaklığı 25,9 °C'dir. O günün soğutma gün derecesi (CDD) kaçtır?",
+    o: ["3,9", "7,9", "10,9", "25,9", "0"], a: 0,
+    e: "Tm = 25,9 °C &gt; 22 °C olduğundan CDD = 25,9 − 22 = <b>3,9</b>.",
+    n: "7,9, taban olarak 18 °C kullanılarak; 10,9 ise 15 °C kullanılarak bulunan hatalı sonuçlardır. Aynı gün HDD = 0'dır, çünkü Tm &gt; 15 °C." },
+  { t: 3, s: 20, q: "Beş günün ortalama sıcaklıkları 21, 23, 25, 27 ve 22 °C'dir. Sunumdaki yönteme göre toplam soğutma gün derecesi (CDD) kaçtır?",
+    o: ["9", "8", "28", "10", "118"], a: 0,
+    e: "Yalnızca Tm &gt; 22 °C olan günler sayılır: (23−22) + (25−22) + (27−22) = 1 + 3 + 5 = <b>9</b>. 21 ve 22 °C'lik günlerde CDD = 0.",
+    n: "8, 21 °C'lik gün −1 olarak toplama katılarak bulunur; gün-derece negatif olamaz. 28 ise taban 18 °C alınarak bulunur. Aylık CDD, her günün değeri ayrı ayrı hesaplanıp toplanarak bulunur; aylık ortalama sıcaklıktan tek seferde hesaplamak sonucu değiştirebilir." },
+  { t: 3, s: 20, q: "Sunuma göre “göreceli” ısıtma gün derecesi nasıl tanımlanır?",
+    o: ["Güncel gün derece / uzun dönem ortalama gün derece", "Uzun dönem ortalama − güncel gün derece", "HDD / CDD", "Günlük HDD × 365", "HDD / bina alanı"], a: 0,
+    e: "Göreceli ısıtma gün dereceleri, <b>güncel gün derece ile uzun dönem ortalama gün derece arasındaki orandır</b>.",
+    n: "Oran 1'den küçükse kış uzun dönem ortalamasından ılık, büyükse sert geçmiştir. Örneğin bir yılın HDD'si 2.410, uzun dönem ortalaması 2.650 ise oran ≈ 0,91'dir; bu yıl tüketimin düşmüş olması verimlilik artışından değil, ılık kıştan kaynaklanıyor olabilir." },
+  { t: 3, s: 20, q: "Bir binanın yıllık ısıtma yakıt maliyeti 1.205.000 TL, o yılın toplam HDD değeri 2.410'dur. Sunumda anlatılan yöntemle bir HDD başına ısıtma maliyeti nedir ve gelecek yıl HDD 2.600 olursa beklenen ısıtma maliyeti ne olur (fiyatlar sabit)?",
+    o: ["500 TL/HDD; 1.300.000 TL", "500 TL/HDD; 1.205.000 TL", "2.000 TL/HDD; 5.200.000 TL", "0,002 TL/HDD; 5.200 TL", "463 TL/HDD; 1.300.000 TL"], a: 0,
+    e: "1 HDD başına ısıtma maliyeti = 1.205.000 / 2.410 = <b>500 TL/HDD</b>. Gelecek yıl beklenen maliyet = 500 × 2.600 = <b>1.300.000 TL</b>.",
+    n: "Sunuma göre ısıtma maliyeti yıllık HDD ile doğru orantılıdır; bu yüzden yıllık yakıt maliyeti yıllık HDD'ye bölünerek bulunan indis sonraki hesaplarda kullanılır. Gerçek tüketim beklenenden fazlaysa bina daha verimsiz çalışmıştır. Sıcak su gibi ısıtma dışı tüketim varsa önce bu taban tüketim çıkarılmalıdır." },
+  { t: 3, s: 20, q: "Sunuma göre gün derece toplamlarına neden ihtiyaç duyulur?",
+    o: ["Binaların ısıtma/soğutma enerji gereksinimini belirlemek, kışın sertliğini yıllara göre karşılaştırmak ve yeni binalarda yalıtım, ısıtma ve soğutma giderlerini hesaplamak için", "Yalnızca hava tahmini yapmak için", "Elektrik tarifesini belirlemek için", "Kazan basıncını ayarlamak için", "Çalışma saatlerini belirlemek için"], a: 0,
+    e: "Gün derece toplamları; binaların <b>ısıtma veya soğutma enerji gereksiniminin</b> bilinmesi, <b>kış mevsiminin sertliğinin</b> önceki ve uzun yıllarla karşılaştırılması ve <b>yeni binalarda yalıtım, ısıtma ve soğutma giderlerinin hesaplanması</b> için gereklidir.",
+    n: "Sunuma göre dış ortam sıcaklığı 15 °C'nin üzerindeyse ısıtma gereksizdir. TS 825 (binalarda ısı yalıtım kuralları) de illeri derece-gün değerlerine göre iklim bölgelerine ayırır; soğuk bölgelerde daha düşük U değerleri istenir." },
+  { t: 3, s: 19, q: "Sunumdaki AVM örneğinde Ocak ayında ısıtma derece gün 547, doğal gaz tüketimi 73.367,25 MCal'dir. Bu ayın derece-gün başına özgül enerji tüketimi nedir?",
+    o: ["≈ 134,1 MCal/IDG", "≈ 547 MCal/IDG", "≈ 0,0075 MCal/IDG", "≈ 225,5 MCal/IDG", "≈ 40.130 MCal/IDG"], a: 0,
+    e: "Özgül tüketim = 73.367,25 / 547 ≈ <b>134,13 MCal/IDG</b>.",
+    n: "Binada “üretim” yerine derece-gün kullanıldığında özgül tüketim, binanın soğuğa karşı ne kadar enerji harcadığını gösterir. Aynı AVM'de Aralık için 74.250 / 568 ≈ 130,7 MCal/IDG bulunur; en soğuk aylarda değerler birbirine yakındır." },
+  { t: 3, s: 19, q: "Sunumdaki AVM tablosunda Haziran ayında özgül tüketim 515,63 MCal/IDG ile en yüksek değere çıkmıştır (8 IDG, 4.125 MCal). Bunun en olası açıklaması nedir?",
+    o: ["Isıtmadan bağımsız taban tüketim (sıcak su vb.) çok küçük bir derece-gün değerine bölündüğü için", "Haziranda kazan verimi sıfıra düştüğü için", "Haziranda doğal gazın ısıl değeri arttığı için", "AVM'nin haziranda kapalı olduğu için", "Ölçüm cihazı kalibrasyonsuz olduğu için"], a: 0,
+    e: "Haziranda ısıtma ihtiyacı çok azdır (8 IDG), ancak sıcak su gibi <b>ısıtmadan bağımsız taban tüketim</b> sürer. Bu tüketim çok küçük bir sayıya bölündüğünde özgül tüketim yapay olarak yükselir: 4.125 / 8 ≈ 515,6 MCal/IDG.",
+    n: "Aynı nedenle Temmuz ve Ağustos'ta IDG = 0 iken 8.250 ve 10.725 MCal gaz tüketilmiştir; tabloda bu aylar için özgül değer hesaplanamadığından 0 yazılmıştır. Doğru analiz için önce taban tüketim ayrılmalı ya da tüketim–IDG regresyonu (y = a·IDG + b) kurulmalıdır." },
+  { t: 3, s: 19, q: "AVM örneğinde Temmuz (8.250 MCal) ve Ağustos (10.725 MCal) aylarının ortalaması ısıtma dışı taban tüketim kabul edilirse, Ocak ayında (73.367,25 MCal) yalnızca ısıtmaya giden doğal gaz yaklaşık ne kadardır?",
+    o: ["≈ 63.880 MCal", "≈ 73.367 MCal", "≈ 9.488 MCal", "≈ 54.392 MCal", "≈ 82.855 MCal"], a: 0,
+    e: "Taban tüketim = (8.250 + 10.725) / 2 = 9.487,5 MCal/ay. Isıtmaya giden = 73.367,25 − 9.487,5 ≈ <b>63.880 MCal</b>.",
+    n: "Bu düzeltmeyle Ocak'ın ısıtma özgül tüketimi 63.880 / 547 ≈ 116,8 MCal/IDG olur. 54.392 MCal, Temmuz ve Ağustos tüketimlerinin toplamı (ortalaması yerine) çıkarılarak bulunan hatalı sonuçtur. Isıtma ile ısıtma dışı tüketimi ayırmak, yalıtım veya kazan önlemlerinin tasarrufunu doğru hesaplamak için gereklidir." },
+  { t: 3, s: 25, q: "Sunumdaki A Fabrikası (tekstil, 2018) örneğinde aylık toplam enerji tüketimi ile üretim arasında y = 0,0024x + 1881,3 (y: GCal/ay, x: kg/ay; R² = 0,8294) bulunmuştur. Üretimin 2.000.000 kg olduğu bir ayda beklenen toplam enerji tüketimi nedir?",
+    o: ["≈ 6.681 GCal", "≈ 4.800 GCal", "≈ 1.881 GCal", "≈ 4.801.881 GCal", "≈ 3.762 GCal"], a: 0,
+    e: "y = 0,0024 × 2.000.000 + 1.881,3 = 4.800 + 1.881,3 = <b>6.681,3 GCal</b>.",
+    n: "4.800 GCal yalnızca üretime bağlı (değişken) kısımdır; 1.881,3 GCal ise üretimden bağımsız taban yüktür (aydınlatma, ısıtma, kayıplar, boşta çalışan ekipman). Bu üretimde taban yük toplamın yaklaşık %28'idir." },
+  { t: 3, s: 26, q: "Aynı A Fabrikası denklemine (y = 0,0024x + 1881,3; GCal/ay, x: kg/ay) göre üretim 500 ton/ay'a düştüğünde özgül enerji tüketimi yaklaşık kaç MCal/ton olur?",
+    o: ["≈ 6.160 MCal/ton", "≈ 2.400 MCal/ton", "≈ 3.340 MCal/ton", "≈ 3.081 MCal/ton", "≈ 6,16 MCal/ton"], a: 0,
+    e: "Tüketim = 0,0024 × 500.000 + 1.881,3 = 3.081,3 GCal. Özgül tüketim = 3.081,3 GCal / 500 ton ≈ 6,16 GCal/ton = <b>≈ 6.160 MCal/ton</b>.",
+    n: "2.000 ton/ay üretimde değer ≈ 3.340 MCal/ton'dur; üretim dörtte birine düşünce özgül tüketim yaklaşık iki katına çıkar. Sunumdaki “Üretim – Spesifik Enerji Tüketimi” grafiğinin üretim azaldıkça hızla yükselen bir eğri olmasının nedeni taban yüktür. 1 GCal = 1.000 MCal dönüşümüne dikkat edin." },
+  { t: 3, s: 25, q: "A Fabrikası regresyonunda R² = 0,8294 bulunmuştur. Buna göre aşağıdaki yorumlardan hangisi doğrudur?",
+    o: ["Aylık enerji tüketimindeki değişimin yaklaşık %83'ü üretim miktarıyla açıklanabilir", "Fabrikanın enerji verimi %82,94'tür", "Üretimin %82,94'ü kumaştır", "Tüketimin %82,94'ü buhardır", "Fabrika enerjisinin %17'sini israf etmektedir"], a: 0,
+    e: "R² (belirleme katsayısı), tüketimdeki değişimin ne kadarının üretimle açıklandığını gösterir: 0,8294 → yaklaşık <b>%83</b>.",
+    n: "Kalan %17'lik değişim; ürün çeşidi farklılıkları, mevsim (ısıtma), bakım durumu veya işletme alışkanlıkları gibi üretim dışı etkenlerden kaynaklanır. R² verimlilik değil, ilişkinin gücü hakkında bilgi verir." },
+
+  // Etüt sırasında yapılan ölçümler
+  { t: 4, s: 30, q: "Sunuma göre detaylı etütte bina dış kabuğuyla ilgili değerlendirme için hangi ölçümler yapılır?",
+    o: ["Bina dışından termal kamera çekimleri ve duvar U değerlerinin belirlenmesine yönelik sıcaklık ölçümleri", "Yalnızca bina yüksekliğinin ölçülmesi", "Yalnızca boya renginin belirlenmesi", "Elektrik panosu harmonik ölçümü", "Kazan baca gazı analizi"], a: 0,
+    e: "Dış kabuk için uygun saatlerde bina dışından binanın tamamı veya bölge bölge <b>termal kamera çekimleri</b> ve bina duvarlarının <b>U değerlerinin belirlenmesine yönelik sıcaklık ölçümleri</b> yapılır.",
+    n: "Termal kamera çekimi için iç-dış sıcaklık farkının büyük olduğu, güneşin yüzeyi ısıtmadığı saatler (sabah erken veya gece) seçilir. U değeri; iç ve dış ortam ile iç yüzey sıcaklıkları ölçülerek hesaplanır (8. ve 11. sunumlar)." },
+  { t: 4, s: 31, q: "Sunumdaki termal kamera örneklerinde aşağıdaki sorunlardan hangisi gösterilmemiştir?",
+    o: ["Motor sargısında kısa devre", "Pencereden soğuk hava sızıntısı", "Anlaşılamayan banyo sıcak su kaçağı", "Yalıtımsız bir vana", "Bloke olmuş bir buhar kapanı"], a: 0,
+    e: "Örneklerde <b>pencereden soğuk hava sızıntısı</b>, duvarda <b>anlaşılamayan banyo sıcak su kaçağı</b>, yaklaşık 181 °C yüzey sıcaklığında <b>yalıtımsız bir vana</b> ve <b>bloke olmuş bir buhar kapanı</b> gösterilmiştir.",
+    n: "Termal kamera, gözle görülemeyen ısı kayıplarını ve kaçakları hızlıca tarar. Yalıtımsız bir vana, aynı çaptaki yaklaşık 1 m yalıtımsız boru kadar ısı kaybedebilir; bu nedenle vana ve flanşlar için sökülüp takılabilen yalıtım ceketleri önerilir." },
+  { t: 4, s: 32, q: "Termal kamerayla incelenen bir buhar kapanında giriş tarafı buhar sıcaklığında (≈ 181 °C), çıkış tarafı ise belirgin şekilde soğuk görünmektedir. Bu görüntü en çok hangi arızaya işaret eder?",
+    o: ["Kapanın bloke olması (kondensi tahliye edememesi)", "Kapanın açık kalıp canlı buhar kaçırması", "Hattaki buhar basıncının sıfır olması", "Hattın aşırı yalıtılmış olması", "Kazanın tamamen durmuş olması"], a: 0,
+    e: "Bloke olmuş bir kapan kondensi tahliye edemez; kondens kapanın önünde birikir ve kapanın çıkışı <b>soğuk</b> kalır. Sunumda bu durum “bloke olmuş bir buhar kapanı” olarak gösterilmiştir.",
+    n: "Açık kalan (buhar kaçıran) kapanda ise çıkış tarafı da buhar sıcaklığına yakındır ve canlı buhar kaybı oluşur. Bloke kapan enerji kaybından çok proses sorunu yaratır: biriken kondens ısı transferini düşürür ve koç darbesine yol açabilir. Kesin teşhis için termal kamera ultrasonik dinleme ile desteklenir." },
+  { t: 4, s: 33, q: "Sunuma göre binadaki kazanın verimini hesaplamak için hangi ölçümler yapılır?",
+    o: ["Baca gazı kompozisyonu (O₂, CO), sıcaklığı ve debisi", "Yalnızca kazan dairesinin aydınlık seviyesi", "Yalnızca kazanın boyutları", "Kazan dairesindeki gürültü seviyesi", "Kazanın boya kalınlığı"], a: 0,
+    e: "Kazan verimini hesaplamak ve tasarruf imkânlarını belirlemek için <b>kazan baca gazı kompozisyonu (O₂, CO), sıcaklığı ve debisi</b> ölçülür.",
+    n: "O₂ değeri hava fazlalığını, CO değeri eksik yanmayı, baca gazı sıcaklığı ise bacadan atılan ısıyı gösterir. Yüksek O₂ ve yüksek baca sıcaklığı birlikte, brülör ayarı ve ekonomizer önlemlerinin işaretidir." },
+  { t: 4, s: 33, q: "Sunuma göre sıcak su ve buhar iletim hatlarında yalıtımsız alanlar için hangi ölçümler yapılır?",
+    o: ["Yüzey sıcaklığı, boru çapı, uzunluk ve ortam sıcaklığı", "Yalnızca borunun rengi", "Yalnızca boru üreticisinin adı", "Yalnızca boruda akan suyun pH değeri", "Yalnızca hattın montaj tarihi"], a: 0,
+    e: "Yalıtımsız alanlarda <b>sıcaklık, çap, uzunluk ve ortam sıcaklığı</b> ölçülür.",
+    n: "Bu dört değerle yalıtımsız borudan birim zamanda kaybedilen ısı hesaplanır; yıllık çalışma saati ve yakıt fiyatıyla çarpılarak yalıtımın tasarrufu ve geri ödeme süresi bulunur. Ekonomik yalıtım kalınlığı tank ve boru yalıtımı sunumunda ayrıca işlenir." },
+  { t: 4, s: 34, q: "Sunuma göre bina ısıtma/soğutma tüketimini etkileyen hangi kontrol konusu detaylı etütte incelenmez?",
+    o: ["Asansörlerin taşıma kapasitesinin artırılması", "Soğutulan alanlarda açık kapı unutulmasını önleyen otomatik kontrol olup olmadığı", "Kullanılmayan alanların gereksiz yere konfor şartlarına kadar ısıtılıp ısıtılmadığı", "Aydınlatma sistemlerinde otomatik kontrol olup olmadığı", "İklimlendirme ve havalandırmada debi ve sıcaklık ölçümleri"], a: 0,
+    e: "İncelenen konular: <b>soğutulan alanlarda açık kapı için otomatik kontrol</b>, <b>kullanılmayan alanların gereksiz ısıtılması</b> ve bunun otomatik kontrolü, <b>aydınlatmada otomatik kontrol</b> ve iklimlendirme-havalandırmada debi ve sıcaklık ölçümleri. Asansör kapasitesi bir enerji verimliliği konusu değildir.",
+    n: "Bu tür kontroller genellikle düşük yatırımlı, hızlı geri dönen önlemlerdir: kapı kontak anahtarı, hareket sensörü, bölgesel termostat ve zaman programı. Binalarda bina otomasyon sistemleri bu kontrolleri merkezi olarak yönetir." },
+  { t: 4, s: 35, q: "Sunuma göre atık ısı geri kazanımı olmayan bir tekstil fabrikasında yıkama ve merserize makineleri için hangi ölçümler yapılır?",
+    o: ["Atılan atık su debisi ve sıcaklığı; beslenen soğuk su debisi ve sıcaklığı; tüketilen buhar debisi ve basıncı", "Yalnızca makinenin ağırlığı", "Yalnızca kumaşın rengi", "Yalnızca motor devri", "Yalnızca aydınlık seviyesi"], a: 0,
+    e: "Sıcak suyla çalışan yıkama ve merserize makinelerinde <b>atılan atık su debisi ve sıcaklığı</b>, makinelere <b>beslenen soğuk su debisi ve sıcaklığı</b> ile <b>tüketilen buhar debisi ve basıncı</b> ölçülür.",
+    n: "Atık suyun taşıdığı ısı Q = m·c·ΔT ile hesaplanır. Bir eşanjörle bu ısının bir kısmı gelen soğuk suya aktarılırsa buhar tüketimi azalır; tasarruf, atık su ile soğuk su debisinin ve sıcaklıklarının ölçülmesiyle hesaplanabilir." },
+  { t: 4, s: 35, q: "Sunuma göre tekstilde “stenter” adı verilen gerdirmeli kurutma makinelerinde hangi ölçümler yapılır?",
+    o: ["Egzoz debisi ve sıcaklığı, kuru ve yaş termometre sıcaklıkları, kumaş kalınlığı, kumaş hızı ve makine özellikleri", "Yalnızca makinenin satın alma tarihi", "Yalnızca boyahanenin aydınlık seviyesi", "Yalnızca su sertliği", "Yalnızca kompresör basıncı"], a: 0,
+    e: "Stenter (ram) makinelerinde <b>egzoz debisi, sıcaklığı, kuru ve yaş termometre sıcaklıkları, kumaş kalınlığı, kumaş hızı</b> ve makine özellikleri ölçülür.",
+    n: "Kuru ve yaş termometre sıcaklıklarından egzoz havasının nemi bulunur. Egzoz nemi düşükse makine gereğinden fazla sıcak havayı atıyor demektir; egzoz debisini nem kontrolüyle azaltmak ve egzoz ısısını geri kazanmak stenterlerde başlıca tasarruf önlemleridir." },
+  { t: 4, s: 35, q: "Sunuma göre tekstil fabrikasında hav yakma makinelerinde hangi ölçüm yapılır?",
+    o: ["Atılan soğutma suyunun debisi ve sıcaklıkları", "Egzoz gazındaki SO₂ derişimi", "Kumaşın renk haslığı", "Motorun harmonik bozulması", "Fırın arabalarının ağırlığı"], a: 0,
+    e: "Hav yakma makinelerinden atılan <b>soğutma suyu debisi ve sıcaklıkları</b> ölçülür.",
+    n: "Soğutma suyu ılık olarak atılıyorsa bu su, ön ısıtılmış proses suyu olarak başka bir yerde (örneğin yıkama) kullanılabilir. Etütte “nereye ısı atılıyor, nerede ısıya ihtiyaç var?” sorusunun cevabı atık ısı fırsatlarını ortaya çıkarır." },
+  { t: 4, s: 36, q: "Sunuma göre atık ısı geri kazanımı olmayan bir seramik fabrikasında hangi ölçüm sayılmamıştır?",
+    o: ["Kumaş hızı", "Pişirme fırınlarından atılan egzoz gazı debi ve sıcaklıkları", "Fırın soğutma havası debi ve sıcaklıkları", "Fırın basınç değerleri ve yüzey sıcaklıkları", "Hammadde nem miktarı"], a: 0,
+    e: "Seramikte: <b>pişirme fırını egzoz gazı debi ve sıcaklıkları</b>, <b>fırın soğutma havası</b>, <b>fırın basıncı ve yüzey sıcaklıkları</b>, fırına giren-çıkan ürün sıcaklıkları, <b>hammadde nemi</b>, fırın taşıyıcı arabalarının özellikleri, fire oranı ve bozuk ürün düzeltme fırınları. Kumaş hızı tekstile özgüdür.",
+    n: "Fırın soğutma bölgesinden atılan sıcak hava, kurutucularda veya yanma havası ön ısıtmasında kullanılabilecek önemli bir atık ısı kaynağıdır. Fire oranı da enerji konusudur: fire olan ürün, harcanan pişirme enerjisinin boşa gitmesi demektir." },
+  { t: 4, s: 43, q: "Sunuma göre “tüm fabrikalarda” detaylı etüt sırasında yapılabilecek ölçümler arasında hangisi <b>yoktur</b>?",
+    o: ["Stenter makinelerinde kumaş kalınlığı ölçümü", "Kazan baca gazı kompozisyonu (O₂, CO), sıcaklığı ve debisi", "Kompresörlerin işletme koşulları, tüketimleri ve basınçlı hava sisteminde basınç kaybı ölçümleri", "Yalıtımsız alanlarda sıcaklık, çap, uzunluk ve ortam sıcaklığı", "Aydınlatma tüketimleri ve aydınlık seviyeleri"], a: 0,
+    e: "Tüm fabrikalar için: <b>kazan baca gazı</b>, <b>kompresörler ve basınçlı hava sistemi (basınç kaybı dahil)</b>, <b>yalıtım</b> ve <b>aydınlatma</b> ölçümleri. Stenter ölçümleri tekstile özgüdür.",
+    n: "Bu dört başlık her sektörde bulunan yardımcı işletmelerdir ve birçok etütte tasarruf önerilerinin önemli bir bölümü buradan çıkar. Basınçlı hava hattındaki basınç kaybı, kompresörün gereğinden yüksek basınçta çalıştırılmasına yol açar; kompresör çıkış basıncındaki her 1 bar artış elektrik tüketimini yaklaşık %6–8 artırır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
