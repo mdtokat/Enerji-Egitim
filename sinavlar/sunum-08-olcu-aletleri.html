@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ölçü Aletleri Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 8 · Ölçü Aletleri ve Ölçüm Teknikleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 8</span> 1_9.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Ölçü Aletleri ve Ölçüm Teknikleri <em>Sınavı</em></h1>
+    <p class="lede">Enerji etüdünde sıcaklık, debi, basınç, nem, elektrik, baca gazı, iletkenlik, devir ve ses ölçümleri; termokapl, PT100, pitot tüpü, ultrasonik akışölçer ve termal kamera.</p>
+    <ul class="facts"><li>51 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Ölçü Aletleri ve Ölçüm Teknikleri” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum8-v1",
+topics: ["Ölçümün önemi ve sıcaklık", "Duvar U değeri, katı ve sıvı akışı", "Gaz akışı ve basınç", "Nem ve elektriksel ölçümler", "Baca gazı, iletkenlik ve diğer ölçümler"],
+Q: [
+  // Ölçümün önemi ve sıcaklık
+  { t: 0, s: 2, q: "Sunuma göre enerji taraması (etüt) çalışmasının en önemli kısmı genellikle hangisidir?",
+    o: ["Tesisin tamamı ve üniteleri için doğru enerji ve malzeme denkliklerinin (balanslarının) hazırlanması", "Enerji faturalarının arşivlenmesi", "Yeni ekipman tekliflerinin toplanması", "Personel sayısının belirlenmesi", "Tesis yerleşim planının çizilmesi"], a: 0,
+    e: "Enerji taramasının en önemli kısmı, tesisin tamamı ve/veya üniteleri için <b>doğru enerji ve malzeme denkliklerinin</b> hazırlanmasıdır. Bu veriler olmadan tasarruf potansiyelinin büyüklüğünü ve değerini belirleyen kantitatif analiz hemen hemen olanaksızdır.",
+    n: "Denklik, “giren = çıkan + kayıp” mantığıyla kurulur (örneğin kazana giren yakıt enerjisi = buhar enerjisi + baca kaybı + yüzey kaybı + blöf kaybı). Hangi kalemin büyük olduğu ölçülmeden tasarruf önlemlerine öncelik vermek tahminden öteye geçmez. Çalışma notlarındaki kütle ve enerji denkliği bölümüyle birlikte çalışın." },
+  { t: 0, s: 2, q: "Sunuma göre tesislerde gerekli ölçüm cihazları bulunmuyorsa veya mevcut cihazların doğruluğu bilinmiyorsa ne yapılmalıdır?",
+    o: ["Portatif ölçüm cihazları kullanılarak temel bilgiler edinilmeli ve sabit cihazların doğruluğu kontrol edilmelidir", "Ölçüm yapılmadan tahmini değerlerle hesap yapılmalıdır", "Etüt çalışması iptal edilmelidir", "Sabit cihazların gösterdiği değerler doğru kabul edilmelidir", "Yalnızca fatura verileri kullanılmalıdır"], a: 0,
+    e: "Bu durumda <b>portatif ölçüm cihazlarının kullanılması</b> tarama çalışmasının en önemli kısmını oluşturur. Böylece temel bilgiler edinilir ve <b>sabit ölçüm cihazlarının doğrulukları kontrol edilebilir</b>.",
+    n: "Etüt deneyimi, birçok tesiste denklik için gerekli ölçüm noktalarının olmadığını ve olan cihazların doğruluğunun bilinmediğini göstermiştir. Portatif cihazların da kalibrasyon sertifikası güncel olmalıdır; aksi hâlde sabit cihazı “düzeltmek” için kullanılan referansın kendisi hatalı olabilir." },
+  { t: 0, s: 3, q: "Sunumda tesiste en sık yapılması gereken ölçümler arasında hangisi <b>sayılmaz</b>?",
+    o: ["Hammaddenin satın alma fiyatı", "Sıcaklıklar", "Gaz, sıvı ve katı maddelerin debileri", "Baca gazının sıcaklık ve bileşimi", "İletkenlik"], a: 0,
+    e: "Listede <b>sıcaklık, debi, basınç, baca gazı sıcaklık ve bileşimi, bağıl nem, elektrik büyüklükleri, aydınlık şiddeti, devir sayısı ve iletkenlik</b> yer alır. Satın alma fiyatı bir ölçüm değil, ticari veridir.",
+    n: "Bu liste aynı zamanda bir etüt ekipman çantasının içeriğidir: termometre ve termal kamera, ultrasonik debimetre, pitot tüpü ve manometre, baca gazı analizörü, nem ölçer, güç analizörü ve pens ampermetre, lüxmetre, takometre ve iletkenlik ölçer." },
+  { t: 0, s: 5, q: "Sunuma göre cıvalı cam termometreler hangi sıcaklığa kadar kullanılabilir?",
+    o: ["300 °C'ye kadar", "100 °C'ye kadar", "1.100 °C'ye kadar", "850 °C'ye kadar", "3.000 °C'ye kadar"], a: 0,
+    e: "Düşük sıcaklıklar için <b>alkollü</b>, <b>300 °C'ye kadar</b> olan sıcaklıklar için ise <b>cıvalı</b> cam termometreler kullanılabilir.",
+    n: "Alkol düşük kaynama noktası nedeniyle yüksek sıcaklıkta kullanılamaz ama düşük donma noktası sayesinde soğuk ortamlar için uygundur. Cıvalı termometrelerin kullanımı ise bugün sağlık ve çevre gerekçesiyle büyük ölçüde sonlandırılmıştır.",
+    g: { eski: "300 °C'ye kadar olan sıcaklıkların ölçülmesinde cıvalı cam termometreler kullanılabilir.", yeni: "Cıva Hakkında Minamata Sözleşmesi'ne göre cıvalı (elektronik olmayan) ölçüm cihazlarının üretim, ithalat ve ihracatı 2020'den itibaren sonlandırılmıştır; Türkiye sözleşmeyi 2022'de onaylamıştır. Sahada yerine PT100, termokapl veya dijital termometreler kullanılmaktadır.", kaynak: "Cıva Hakkında Minamata Sözleşmesi, Ek A; Çevre, Şehircilik ve İklim Değişikliği Bakanlığı" } },
+  { t: 0, s: 6, q: "Algılayıcı bölümü azotla doldurulmuş mekanik göstergeli termometreler nasıl çalışır?",
+    o: ["Sıcaklık artışı azot basıncını artırır; bu basınç körüklü veya yay benzeri sistemi genleştirerek göstergeyi hareket ettirir", "Azot, sıcaklıkla rengini değiştirir", "Azotun elektrik direnci sıcaklıkla değişir", "Azot, iki farklı metal arasında gerilim oluşturur", "Azot, kızılötesi ışınım yayar"], a: 0,
+    e: "Sıcaklık artışı <b>azot gazının basıncını artırır</b>; bu da borunun ucundaki <b>körüklü veya yay benzeri sistemin genleşmesine</b> ve mekanik bağlantılı göstergenin hareket etmesine neden olur.",
+    n: "Bu tip “gaz dolgulu” termometrelerde hazne ile gösterge kılcal bir boruyla bağlanarak birbirinden uzak yerlere konabilir; böylece sıcaklık uzaktan okunur. Kılcal borunun ezilmesi veya sızdırması cihazı kullanılamaz hâle getirir." },
+  { t: 0, s: 8, q: "Bir buhar hattında manometre 5 bar (gösterge) basınç, termometre ise 120 °C göstermektedir. Doymuş buhar için doğru yorum hangisidir?",
+    o: ["5 bar gösterge basıncında doymuş buhar yaklaşık 159 °C olmalıdır; termometre veya manometre hatalıdır", "Değerler tutarlıdır, işlem gerekmez", "Buhar kızgın buhardır", "Buhar sıcaklığı basınçtan bağımsızdır", "Termometre doğrudur, buhar 120 °C'de 5 bar olur"], a: 0,
+    e: "Doymuş buharda basınç ile sıcaklık birbirine bağlıdır. 5 bar gösterge (≈ 6 bar mutlak) basınçta buhar sıcaklığı <b>yaklaşık 159 °C</b> olmalıdır. 120 °C okuması, cihazlardan birinin <b>doğru değer göstermediğini</b> gösterir.",
+    n: "Sunumdaki “cihaz hat üzerinde mevcut ama doğru değer gösteriyor mu?” sorusu etütlerin temel refleksidir. Gösterge (bar g) ile mutlak basınç (bar a) arasındaki fark yaklaşık 1 bar'dır; buhar tablolarına mutlak basınçla girilir. 120 °C, yaklaşık 1 bar gösterge basıncındaki doymuş buhar sıcaklığıdır." },
+  { t: 0, s: 9, q: "Bir boru içinden akan akışkanın sıcaklığı sabit termometrelerle genellikle nasıl ölçülür?",
+    o: ["Boruya bir cep yapılır ve termometre haznesi bu cebin içine sokulur", "Termometre borunun dış yüzeyine bantla yapıştırılır", "Akışkandan numune alınıp laboratuvara gönderilir", "Borunun yalıtımı sökülerek elle yoklanır", "Boru içine doğrudan cıva dökülür"], a: 0,
+    e: "Sıcaklığı ölçülecek akışkanın içinden aktığı boruya <b>bir cep (termometre kovanı)</b> yapılır ve termometre haznesi <b>bu cep içine sokularak</b> ölçüm yapılır.",
+    n: "Cep, termometrenin basınçlı hat açılmadan sökülüp takılmasını sağlar. Doğru ölçüm için cep akışa yeterince dalmalı, içi ısı iletimini artırmak için yağ veya macunla doldurulmalı, cebin dışı yalıtılmalıdır; aksi hâlde termometre gerçek değerden düşük okur." },
+  { t: 0, s: 10, q: "Sunuma göre uygun termokapllar bağlanmış elektronik termometrelerle hangi sıcaklığa kadar ölçüm yapılabilir?",
+    o: ["1.100 °C'ye kadar", "300 °C'ye kadar", "100 °C'ye kadar", "600 °C'ye kadar", "3.000 °C'ye kadar"], a: 0,
+    e: "Elektronik termometreler, uygun seçilmiş termokapllar bağlanarak <b>1.100 °C'ye kadar</b> sıcaklık ölçümüne ve uygun cihazlarla değerlerin kaydedilmesine imkân sağlar.",
+    n: "Termokapl, iki farklı metalin birleşim noktasında sıcaklıkla orantılı küçük bir gerilim (Seebeck etkisi) oluşmasına dayanır. Ölçüm, birleşim noktası ile referans noktası arasındaki sıcaklık farkına bağlıdır; bu yüzden cihaz referans (soğuk uç) sıcaklığını ayrıca ölçerek düzeltme yapar." },
+  { t: 0, s: 13, q: "Sunumdaki termokapl tablosuna göre K tipi termokaplın pozitif ve negatif kabloları hangi alaşımlardır?",
+    o: ["Chromel (%90 Ni, %10 Cr) ve Alumel (%95 Ni, %2 Mn, %2 Al)", "Platin-rodyum ve saf platin", "Bakır ve konstantan", "Demir ve konstantan", "Nicrosil ve Nisil"], a: 0,
+    e: "K tipi termokaplda pozitif kablo <b>Chromel</b> (%90 Ni, %10 Cr), negatif kablo <b>Alumel</b> (%95 Ni, %2 Mn, %2 Al) alaşımıdır.",
+    n: "Tablodaki diğer tipler: J = demir/konstantan, T = bakır/konstantan, E = chromel/konstantan, N = nicrosil/nisil; R, S ve B ise platin-rodyum esaslıdır ve çok yüksek sıcaklıklarda (fırın, cam, çelik) kullanılır. K tipi ucuz ve geniş aralıklı olduğu için endüstride en yaygın termokapldır." },
+  { t: 0, s: 15, q: "PT100 tipi platin rezistans termometresinin direnci 0 °C'de ve 100 °C'de yaklaşık kaç ohm'dur?",
+    o: ["100 Ω ve 138,4 Ω", "0 Ω ve 100 Ω", "100 Ω ve 200 Ω", "38,4 Ω ve 100 Ω", "1.000 Ω ve 1.384 Ω"], a: 0,
+    e: "Sunuma göre PT100, <b>0 °C'de 100 Ω</b>, <b>100 °C'de 138,4 Ω</b> dirence sahiptir. Ölçüm, platin elemanın direncinin ölçülmesine dayanır.",
+    n: "Adındaki “100”, 0 °C'deki direnci gösterir; PT1000'in 0 °C direnci 1.000 Ω'dur. Güncel standart IEC 60751'e göre 100 °C değeri 138,5 Ω'dur. PRT'ler −200 ile +850 °C arasında çok iyi doğrulukla ölçer ve termokaplların aksine sensörle cihaz arasında özel (dengeleme) kablosu gerektirmez." },
+  { t: 0, s: 15, q: "Bir PT100 sensörünün direnci 119,2 Ω ölçülmüştür. 0–100 °C arasında direncin doğrusal değiştiği kabul edilirse (0 °C'de 100 Ω, 100 °C'de 138,4 Ω) sıcaklık yaklaşık kaç °C'dir?",
+    o: ["Yaklaşık 50 °C", "Yaklaşık 19 °C", "Yaklaşık 86 °C", "Yaklaşık 119 °C", "Yaklaşık 38 °C"], a: 0,
+    e: "Eğim = (138,4 − 100) / 100 = 0,384 Ω/°C. T = (119,2 − 100) / 0,384 = 19,2 / 0,384 ≈ <b>50 °C</b>.",
+    n: "Bu doğrusal yaklaşım dar aralıkta yeterlidir; geniş aralıkta IEC 60751'deki Callendar–Van Dusen denklemi kullanılır. İki telli bağlantıda kablo direnci de ölçüme eklenir (örneğin 0,4 Ω ≈ 1 °C hata); bu yüzden hassas ölçümlerde üç veya dört telli bağlantı tercih edilir." },
+  { t: 0, s: 16, q: "Çimento döner fırını gibi hareketli veya yanına yaklaşılamayan yüzeylerin sıcaklığını ölçmek için hangi cihaz uygundur?",
+    o: ["İnfrared pirometre (kızılötesi sıcaklık ölçer)", "Cıvalı cam termometre", "Cepli PT100", "Rotametre", "Bourdon tüplü manometre"], a: 0,
+    e: "Hareketli cihazların veya yaklaşılamayan yerlerin sıcaklığı <b>infrared pirometre</b> ile temassız ölçülür. Uygun filtrelerle ergimiş cam veya bakır sıcaklığı da ölçülebilir.",
+    n: "Sunuma göre 3.000 °C'ye kadar ölçen pirometreler vardır, ancak hassasiyet açısından düşük sıcaklıkları (örneğin 600 °C'ye kadar) bu aralığa uygun bir cihazla ölçmek daha doğrudur. Kızılötesi ölçümde yüzeyin yayıcılık (emisivite) değeri doğru girilmelidir: parlak metal yüzeyler düşük emisivite nedeniyle gerçek sıcaklıktan çok daha düşük okunur." },
+
+  // Duvar U değeri, katı ve sıvı akışı
+  { t: 1, s: 19, q: "Sunuma göre bir duvarın U değeri özel ölçüm cihazıyla hangi büyüklükler ölçülerek hesaplanır?",
+    o: ["Duvar ortalama yüzey sıcaklığı ile iç ve dış ortam sıcaklıkları", "Duvarın kalınlığı ve rengi", "Ortamın bağıl nemi ve basıncı", "Duvarın ağırlığı ve yoğunluğu", "Odadaki aydınlık seviyesi"], a: 0,
+    e: "Özel ölçüm cihazıyla <b>duvar ortalama sıcaklığı ile iç ve dış ortam sıcaklıkları</b> ölçülerek duvarın U değeri hesaplanabilir.",
+    n: "U değeri (W/m²K), 1 °C sıcaklık farkında duvarın 1 m²'sinden geçen ısı akısıdır; ne kadar düşükse yalıtım o kadar iyidir. Güvenilir sonuç için ölçüm, iç–dış sıcaklık farkının büyük ve kararlı olduğu kış gecelerinde, saatlerce kayıt alınarak yapılır; güneş alan cephelerde gündüz ölçümü yanıltıcıdır." },
+  { t: 1, s: 19, q: "Bir duvarda iç ortam sıcaklığı 20 °C, iç yüzey sıcaklığı 18 °C, dış ortam sıcaklığı 0 °C ölçülmüştür. İç yüzey ısı taşınım katsayısı 7,7 W/m²K alınırsa duvarın U değeri yaklaşık nedir?",
+    o: ["Yaklaşık 0,77 W/m²K", "Yaklaşık 7,7 W/m²K", "Yaklaşık 0,1 W/m²K", "Yaklaşık 15,4 W/m²K", "Yaklaşık 1,54 W/m²K"], a: 0,
+    e: "İç yüzeye gelen ısı akısı q = 7,7 × (20 − 18) = 15,4 W/m². U = q / (T<sub>iç</sub> − T<sub>dış</sub>) = 15,4 / 20 ≈ <b>0,77 W/m²K</b>.",
+    n: "7,7 W/m²K, TS 825'teki iç yüzey ısıl direncinin (R<sub>si</sub> = 0,13 m²K/W) tersidir. İç hava ile iç yüzey arasındaki fark ne kadar büyükse duvardan o kadar çok ısı kaçar: iyi yalıtılmış bir duvarda bu fark genellikle 1 °C'nin altındadır." },
+  { t: 1, s: 21, q: "Sunuma göre katı maddelerin taşınan miktarı genellikle hangi ekipmanlarla ölçülür?",
+    o: ["Yürüyen bantlar ve bant kantarları", "Rotametreler", "Pitot tüpleri", "Ultrasonik akışölçerler", "Orifis plakaları"], a: 0,
+    e: "Katı maddeler <b>yürüyen bantlar veya bant kantarları</b> gibi ekipmanlarla ölçülebilir. Gaz ve sıvılarda ise debi ile kanal kesitinden birim zamanda geçen miktar hesaplanır.",
+    n: "Bant kantarı, bandın altına yerleştirilen yük hücreleriyle bant üzerindeki yükü, bir hız algılayıcıyla da bant hızını ölçer; ikisinin çarpımı anlık debiyi (t/h) verir. Madencilikte ve çimentoda üretim ve özgül tüketim hesabının temeli bu ölçümdür; periyodik olarak test ağırlıklarıyla kalibre edilmelidir." },
+  { t: 1, s: 23, q: "Bant kantarı bulunmayan bir konveyörde, banttan dökülen malzeme 2 dakika boyunca bir kapta toplanmış ve kantarda 50 kg tartılmıştır. Bandın taşıma kapasitesi saatte kaç kg'dır?",
+    o: ["1.500 kg/h", "100 kg/h", "25 kg/h", "3.000 kg/h", "6.000 kg/h"], a: 0,
+    e: "Debi = 50 kg / 2 dk = 25 kg/dk. Saatte: 25 × 60 = <b>1.500 kg/h</b>.",
+    n: "Sunumdaki yöntem budur: belirli sürede taşınan malzeme toplanıp tartılır ve süreyle oranlanır. Bandın çalışma süresi bir kayıt sistemiyle biliniyorsa toplam taşınan miktar da hesaplanır (örneğin 16 saat × 1,5 t/h = 24 t/gün). Ölçüm, besleme düzensizse farklı zamanlarda birkaç kez tekrarlanmalıdır." },
+  { t: 1, s: 25, q: "Sunumda portatif sıvı debimetresi olarak hangisi verilmiştir?",
+    o: ["Ultrasonik akışölçer", "Sıvı sayacı", "Rotametre", "Orifis", "Bourdon tüpü"], a: 0,
+    e: "Sabit debimetreler: <b>sıvı sayaçları, rotametreler ve orifis</b>. Portatif debimetre: <b>ultrasonik akışölçer</b>.",
+    n: "Ultrasonik akışölçerin dönüştürücüleri borunun dışına kelepçelenir; boruyu kesmeden ve akışı durdurmadan ölçüm yapılır. Bu yüzden enerji etütlerinde pompa ve soğutma suyu devrelerinin debisini bulmak için en pratik cihazdır." },
+  { t: 1, s: 26, q: "Pervaneli sıvı sayaçları hangi prensiple çalışır?",
+    o: ["İç kısımdaki pervanenin dönme hızı mekanik veya elektronik ortama aktarılır", "Şamandıranın yükseldiği nokta skaladan okunur", "Plakanın iki tarafındaki basınç farkı ölçülür", "Ses dalgalarının geçiş süresi ölçülür", "Akışkanın elektrik iletkenliği ölçülür"], a: 0,
+    e: "Sıvı sayaçları, <b>iç kısımlarındaki pervanenin dönme hızının mekanik veya elektronik ortama aktarılması</b> esasıyla çalışır; pervane hızı akış hızıyla orantılıdır.",
+    n: "Su sayaçlarının çoğu bu tiptedir. Hareketli parçaları olduğu için zamanla aşınır ve düşük debilerde az okur; kirli akışkanlarda tıkanabilir. Önlerine süzgeç (filtre) takılması önerilir." },
+  { t: 1, s: 27, q: "Rotametre ile ilgili aşağıdakilerden hangisi doğrudur?",
+    o: ["Hattın dikey kısmına yerleştirilen cam boru ve içinde yüzen bir şamandıradan oluşur; şamandıranın dengede kaldığı nokta skaladan okunur", "Yatay borulara dışarıdan kelepçelenir", "Boru içine plaka yerleştirilerek basınç farkı ölçülür", "Pervanenin devir sayısı sayılır", "Yalnızca gazların sıcaklığını ölçer"], a: 0,
+    e: "Rotametre, hattın <b>dikey kısmına</b> yerleştirilmiş kesit alanı belli bir <b>cam boru ve içinde yüzen şamandıradan</b> oluşur. Şamandıra akış hızına bağlı olarak yükselir ve ağırlığı ile akışkanın kaldırma kuvvetinin eşit olduğu noktada sabit kalır; değer skaladan okunur.",
+    n: "Rotametrenin borusu yukarı doğru genişlediği için şamandıra yükseldikçe geçiş kesiti artar; bu yüzden “değişken kesitli akışölçer” olarak da bilinir. Skala belirli bir akışkan yoğunluğu için hazırlanmıştır; farklı yoğunluktaki akışkanda düzeltme gerekir." },
+  { t: 1, s: 28, q: "Orifis tipi debimetre debiyi nasıl belirler?",
+    o: ["Hatta yerleştirilen orifis plakasının iki tarafında oluşan basınç farkını ölçerek", "Şamandıranın yüksekliğini ölçerek", "Pervanenin dönme hızını ölçerek", "Borunun dış yüzey sıcaklığını ölçerek", "Akışkanın rengini analiz ederek"], a: 0,
+    e: "Akış hattına sabit olarak yerleştirilen bir <b>orifis plakası</b> ve plakanın <b>iki tarafında oluşan basınç farkını</b> tespit eden bir sistemle debi belirlenir.",
+    n: "Orifis, sıvılarda olduğu kadar buhar ve gaz ölçümünde de standart debimetredir. Plaka akışa kalıcı bir basınç kaybı ekler; bu da pompa veya fan enerjisi demektir. Orifis ölçümünün doğruluğu, plakanın öncesinde ve sonrasında yeterli düz boru uzunluğu olmasına bağlıdır." },
+  { t: 1, s: 28, q: "Bir orifis debimetresinde basınç farkı 4 katına çıkmıştır. Akışkanın yoğunluğu değişmediyse debi nasıl değişmiştir?",
+    o: ["2 katına çıkmıştır", "4 katına çıkmıştır", "16 katına çıkmıştır", "Değişmemiştir", "Yarıya inmiştir"], a: 0,
+    e: "Orifiste debi, basınç farkının karekökü ile orantılıdır: Q ∝ √ΔP. Basınç farkı 4 kat artarsa debi √4 = <b>2 kat</b> artar.",
+    n: "Karekök ilişkisi nedeniyle orifisler düşük debilerde hassasiyetini kaybeder: debi yarıya indiğinde basınç farkı dörtte bire düşer. Bu yüzden orifislerin ölçme oranı (en büyük/en küçük debi) genellikle 3:1–4:1 ile sınırlıdır." },
+  { t: 1, s: 29, q: "Transit süreli (geçiş zamanlı) ultrasonik akışölçer ile doğru ölçüm yapılabilmesi için hangi koşullar sağlanmalıdır?",
+    o: ["İletim hattı akışkanla tamamen dolu olmalı ve akışkan temiz (taneciksiz) olmalıdır", "Boru boş olmalı ve akışkan gaz olmalıdır", "Akışkan mutlaka çamurlu olmalıdır", "Boru dikey ve cam olmalıdır", "Akış durdurulmalı ve boru kesilmelidir"], a: 0,
+    e: "Ultrasonik akışölçer kapalı hatlardaki <b>temiz sıvıların</b> debisini ölçer; <b>hat akışkanla tamamen dolu</b> olmalı ve akışkanda <b>tanecikli yapı olmamalıdır</b>. Kirli sıvılar için benzer prensiple çalışan akışölçerler mevcuttur.",
+    n: "Kirli veya kabarcıklı sıvılar için Doppler tipi ultrasonik akışölçer kullanılır: ses dalgasının akışkandaki taneciklerden yansıyarak frekansının değişmesini ölçer. Ölçüm için borunun dış çapı, et kalınlığı ve malzemesi cihaza doğru girilmelidir; kalın kabuk bağlamış eski borularda hata büyüyebilir." },
+  { t: 1, s: 31, q: "Sunumdaki ultrasonik akışölçer yerleşim tablosuna göre bir akış kontrol vanasının <b>akış yönünde sonrasına</b> (vanadan sonra) dedektör yerleştirilecekse vana ile dedektör arasında en az ne kadar düz boru olmalıdır?",
+    o: ["30D", "5D", "10D", "50D", "Düz boruya gerek yoktur"], a: 0,
+    e: "Tabloya göre akış kontrol vanası dedektörün öncesinde (upstream) ise aralarında <b>L ≥ 30D</b> düz boru gerekir. Vana dedektörden sonra (downstream) ise L ≥ 10D yeterlidir.",
+    n: "Tablodaki diğer değerler: 90° dirsekten sonra ≥10D, dirsekten önce ≥5D; T parçasından sonra ≥50D; pompadan sonra ≥50D. D boru iç çapıdır. Vana, pompa ve T parçası akış profilini dirsekten daha fazla bozduğu için daha uzun düz boru ister." },
+  { t: 1, s: 31, q: "İç çapı 100 mm olan bir pompa çıkış hattında ultrasonik debi ölçümü yapılacaktır. Sunumdaki tabloya göre dedektör pompadan en az kaç metre uzağa yerleştirilmelidir?",
+    o: ["5 m", "1 m", "0,5 m", "3 m", "10 m"], a: 0,
+    e: "Pompadan sonra gereken düz boru uzunluğu <b>L ≥ 50D</b>'dir: 50 × 0,1 m = <b>5 m</b>.",
+    n: "Sahada bu kadar düz boru her zaman bulunmaz; o durumda en uzun düz bölüm seçilir ve ölçüm birkaç farklı noktada tekrarlanarak tutarlılık kontrol edilir. Pompa debisini bulmak, pompa verimini hesaplamanın ilk adımıdır (hidrolik güç = ρ × g × Q × H)." },
+
+  // Gaz akışı ve basınç
+  { t: 2, s: 35, q: "Kazan, fırın ve kurutuculardaki düşük basınçlı gaz akışlarının (sıcak hava, baca gazı, yanma havası) ölçümünde sabit cihaz yoksa ne kullanılır?",
+    o: ["Pitot tüpleri ve portatif basınç ölçerler", "Bourdon tüplü manometreler", "Rotametreler", "Pervaneli sıvı sayaçları", "İletkenlik ölçerler"], a: 0,
+    e: "Sabit ölçüm cihazlarının olmadığı yerlerde kapalı kanallardaki düşük basınçlı gazlar için <b>pitot tüpleri ve portatif basınç ölçerler</b> kullanılır.",
+    n: "Bu ölçümler kazan ve fırınlarda kütle ve enerji denkliğinin kurulması için gereklidir: baca gazı debisi bilinmeden baca kaybının miktarı hesaplanamaz. Sunuma göre gaz akışkanlar düşük basınçlı ve yüksek basınçlı olarak iki gruba ayrılır." },
+  { t: 2, s: 36, q: "Pitot tüpü ölçümünde toplam basınç (P<sub>t</sub>), statik basınç (P<sub>s</sub>) ve dinamik (hız) basıncı (P<sub>v</sub>) arasındaki ilişki hangisidir?",
+    o: ["P<sub>t</sub> = P<sub>s</sub> + P<sub>v</sub>", "P<sub>t</sub> = P<sub>s</sub> − P<sub>v</sub>", "P<sub>t</sub> = P<sub>s</sub> × P<sub>v</sub>", "P<sub>v</sub> = P<sub>t</sub> + P<sub>s</sub>", "P<sub>s</sub> = P<sub>t</sub> + P<sub>v</sub>"], a: 0,
+    e: "Toplam basınç, statik ve dinamik basıncın toplamıdır: <b>P<sub>t</sub> = P<sub>s</sub> + P<sub>v</sub></b>. Buradan hız basıncı <b>P<sub>v</sub> = P<sub>t</sub> − P<sub>s</sub></b> bulunur.",
+    n: "Pitot tüpünün ucundaki delik akışa karşı bakarak toplam basıncı, yan delikler statik basıncı alır. Manometre bu ikisinin farkını, yani hız basıncını doğrudan gösterir. Hız basıncından akış hızı v = √(2 × P<sub>v</sub> / ρ) ile bulunur." },
+  { t: 2, s: 36, q: "Bir hava kanalında pitot tüpüyle hız basıncı 60 Pa ölçülmüştür. Havanın yoğunluğu 1,2 kg/m³ ise ortalama hava hızı kaç m/s'dir? (v = √(2 × P<sub>v</sub> / ρ))",
+    o: ["10 m/s", "50 m/s", "100 m/s", "7,1 m/s", "72 m/s"], a: 0,
+    e: "v = √(2 × 60 / 1,2) = √100 = <b>10 m/s</b>.",
+    n: "Sıcak baca gazında yoğunluk düşer (200 °C'de havanın yoğunluğu ≈ 0,75 kg/m³); aynı hız basıncı daha yüksek hıza karşılık gelir. Bu yüzden pitot ölçümüyle birlikte gaz sıcaklığı da mutlaka ölçülmelidir." },
+  { t: 2, s: 36, q: "Kesiti 0,5 m × 0,4 m olan dikdörtgen bir hava kanalında ortalama hava hızı 10 m/s ölçülmüştür. Hava debisi kaç m³/h'tir?",
+    o: ["7.200 m³/h", "2 m³/h", "120 m³/h", "720 m³/h", "72.000 m³/h"], a: 0,
+    e: "Kesit alanı A = 0,5 × 0,4 = 0,2 m². Debi Q = v × A = 10 × 0,2 = 2 m³/s = 2 × 3.600 = <b>7.200 m³/h</b>.",
+    n: "Sunumun başındaki ilke: debi ölçülür veya hız ölçülüp kanal kesitiyle çarpılarak birim zamanda geçen miktar hesaplanır. Saniyeden saate çevirmeyi (× 3.600) unutmak en sık yapılan hatadır." },
+  { t: 2, s: 38, q: "Daire veya dikdörtgen kesitli bacalarda pitot tüpüyle hız ölçümü yapılırken ölçüm noktaları nasıl seçilir?",
+    o: ["Kesit eşit alanlara bölünür ve her alanın merkezinde ölçüm yapılarak ortalama alınır", "Yalnızca kanalın tam merkezinde tek ölçüm yapılır", "Yalnızca kanal duvarına bitişik noktada ölçülür", "Ölçüm noktası rastgele seçilir", "Kanalın dışında, çıkış ağzından 1 m uzakta ölçülür"], a: 0,
+    e: "Sunumdaki şekle göre daire kesitli bacalar <b>eşit yüzey alanlı daire kesitlerine</b>, dikdörtgen kesitliler ise <b>16–64 adet eşit dikdörtgen alana</b> bölünür ve ölçüm her alanın merkezinde yapılır.",
+    n: "Kanal içinde hız duvarlarda sıfıra yakın, merkezde en yüksektir; tek noktadan alınan ölçüm debiyi olduğundan büyük gösterir. Ortalama alınırken hız değerlerinin ortalaması alınmalıdır (hız basınçlarının ortalamasının karekökü değil)." },
+  { t: 2, s: 42, q: "Hava kanalının içine sokularak debi ölçümünde kullanılabilen, ısıtılmış bir telin soğuma etkisinden yararlanan cihaz hangisidir?",
+    o: ["Sıcak telli anemometre (hot wire anemometer)", "Pervaneli anemometre", "Bourdon tüpü", "Orsat cihazı", "Lüxmetre"], a: 0,
+    e: "Hava kanalı içine sokularak debi ölçümünde kullanılabilecek bir başka cihaz <b>sıcak telli anemometredir</b>.",
+    n: "Akan hava ısıtılmış teli soğutur; teli sabit sıcaklıkta tutmak için gereken akım hava hızıyla artar. Düşük hızlarda çok hassastır ve ince probu küçük bir delikten kanala sokulabilir. Tozlu ve yüksek sıcaklıklı baca gazlarında ise sensör kirlenip zarar görebileceği için pitot tüpü tercih edilir." },
+  { t: 2, s: 43, q: "Fan emiş ağzına veya baca ve egzoz kanallarının çıkış ağzına tutularak debi ölçümünde kullanılan cihaz hangisidir?",
+    o: ["Pervaneli anemometre (vane type anemometer)", "Sıcak telli anemometre", "Orifis plakası", "Rotametre", "Ultrasonik akışölçer"], a: 0,
+    e: "Fan emiş ağzına veya baca ve egzoz kanalı gibi kirli gazların atıldığı kanalların <b>çıkış ağzına tutularak</b> kullanılan cihaz <b>pervaneli anemometredir</b>.",
+    n: "Pervaneli anemometre ağız boyunca birkaç noktada gezdirilerek ortalama hız bulunur ve ağız alanıyla çarpılır. Sunumdaki huniler (davlumbazlar) küçük menfez ve difüzörlerde akışın tamamını pervaneden geçirerek doğrudan debi okumayı sağlar." },
+  { t: 2, s: 45, q: "Sunuma göre yüksek basınçlı buhar ve gaz ölçümlerinin çoğunda standart debimetre olarak ne kullanılır?",
+    o: ["Orifis plakası", "Pitot tüpü ve portatif manometre", "Pervaneli anemometre", "Rotametre", "Sıcak telli anemometre"], a: 0,
+    e: "Debi ve basıncın portatif pitot tüpü ve manometreyle ölçülemeyecek kadar yüksek olduğu durumlarda sabit debimetreler kullanılır; buhar ve gaz ölçümlerinin çoğunda standart debimetre <b>orifis plakasıdır</b>. Daha pahalı bir seçenek <b>Gilflo metredir</b>.",
+    n: "Buhar debisi ölçülmeden kazan verimi ve buharın hangi bölüme ne kadar gittiği bilinemez. Günümüzde vorteks debimetreler de buhar ölçümünde yaygındır. Buhar sayaçları sıcaklık ve basınç kompanzasyonlu olmalıdır; aksi hâlde basınç değiştikçe kütlesel debi yanlış hesaplanır." },
+  { t: 2, s: 46, q: "Yüksek basınçların ölçümünde emniyet açısından yaygın olarak kullanılan sabit cihaz hangisidir?",
+    o: ["Bourdon tüplü manometre", "Portatif U-tüp manometre", "Pitot tüpü", "Sıcak telli anemometre", "Sallamalı nem ölçer"], a: 0,
+    e: "Hava kanallarında portatif manometre kullanılabilir; <b>yüksek basınçlar</b> için ise emniyet açısından sabit cihazlar, özellikle <b>Bourdon tüplü manometreler</b> tercih edilir.",
+    n: "Bourdon tüpü, kesiti yassı ve kıvrık bir metal borudur; iç basınç arttıkça tüp düzleşmeye çalışır ve bu hareket dişliyle ibreye aktarılır. Basınçlı kaplardaki manometrelerin periyodik olarak kontrol edilmesi İSG mevzuatı açısından da zorunludur; manometre skalası normal çalışma basıncı skalanın ortalarına gelecek şekilde seçilmelidir." },
+
+  // Nem ve elektriksel ölçümler
+  { t: 3, s: 50, q: "Sunuma göre en bilinen nem ölçer hangisidir?",
+    o: ["Kuru ve yaş termometreli sallamalı nem ölçer (sling psychrometer)", "Bourdon tüplü manometre", "Orsat cihazı", "Rotametre", "Pervaneli anemometre"], a: 0,
+    e: "Kurutucular ve iklimlendirme sistemlerinde bağıl nem higrometre veya diğer nem ölçerlerle ölçülür; en bilineni <b>kuru ve yaş termometreli sallamalı nem ölçerdir (sling psychrometer)</b>.",
+    n: "Sallama işlemi yaş termometre fitili üzerinde yeterli hava akışı sağlar; hava hızı düşükse yaş termometre gerçek değerinden yüksek okur. Kurutucularda giren ve çıkan havanın nemi, havanın ne kadar suyu taşıdığını ve dolayısıyla kurutucunun verimini gösterir." },
+  { t: 3, s: 51, q: "Yaş termometre sıcaklığı ile ilgili aşağıdakilerden hangisi doğrudur?",
+    o: ["Buharlaşan nemin soğutma etkisini yansıtır ve normalde kuru termometre sıcaklığından düşüktür", "Her zaman kuru termometre sıcaklığından yüksektir", "Hava tahmin raporlarında verilen sıcaklıktır", "Havanın nem miktarından bağımsızdır", "Yalnızca suyun kaynama sıcaklığını ölçer"], a: 0,
+    e: "Yaş termometre, haznesi nemli bezle sarılmış standart bir termometredir. <b>Nemin buharlaşmasının soğutma etkisi</b> nedeniyle <b>kuru termometreden daha düşük</b> okur. İki sıcaklık arasındaki fark havadaki nem miktarıyla ilişkilidir.",
+    n: "Hava ne kadar kuruysa buharlaşma o kadar hızlı ve fark o kadar büyüktür. Kuru termometre sıcaklığı, standart termometreyle ölçülen ve hava tahminlerinde verilen sıcaklıktır. Bağıl nem, iki sıcaklık psikrometrik diyagrama girilerek bulunur." },
+  { t: 3, s: 52, q: "Sallamalı nem ölçerle kuru termometre de yaş termometre de 25 °C okunmuştur. Havanın bağıl nemi nedir?",
+    o: ["%100 (hava doymuştur)", "%0", "%50", "%25", "Bu bilgiyle hesaplanamaz"], a: 0,
+    e: "Kuru ve yaş termometre sıcaklıkları eşitse yaş fitilden buharlaşma olmuyor demektir; hava su buharıyla <b>doymuştur</b>, bağıl nem <b>%100</b>'dür.",
+    n: "Bu durumda kuru, yaş ve çiğ noktası sıcaklıkları birbirine eşittir. Psikrometrik diyagramda doyma eğrisi (%100 bağıl nem çizgisi) bu noktaları gösterir. Kurutucu egzozunda bağıl nemin doymaya yakın olması, kurutma havasının kapasitesinin iyi kullanıldığını gösterir; çok düşük bağıl nem ise gereğinden fazla hava ısıtılıp atıldığı anlamına gelir." },
+  { t: 3, s: 53, q: "Sunuma göre sıcaklık ve bağıl nemi aynı anda ölçen elektronik nem ölçerlerin dezavantajları nelerdir?",
+    o: ["Nem algılayıcı probun hassas olması, tozlu ortamlardan etkilenmesi ve zaman zaman kalibrasyon gerektirmesi", "Yalnızca analog gösterge kullanması", "Sıcaklık ölçememesi", "Çok ağır olup taşınamaması", "Yalnızca 0 °C'nin altında çalışması"], a: 0,
+    e: "Elektronik nem ölçerlerin dezavantajları: <b>nem algılayıcı probun hassas olması, tozlu ortamlardan etkilenmesi ve zaman zaman kalibrasyon gerektirmesi</b>.",
+    n: "Kapasitif nem sensörleri yüksek sıcaklıkta (örneğin 150 °C'nin üzerindeki kurutucu egzozlarında) ve yoğuşmalı ortamlarda zarar görebilir. Bu yüzden sunum, bu tür yerlerde nemin psikrometre prensibiyle termokapllar kullanılarak ölçülmesini önerir." },
+  { t: 3, s: 55, q: "Tekstil ram (gerdirmeli) kurutucusu bacası gibi sıcak ve kirli ortamlarda nem ölçümü sunuma göre nasıl yapılır?",
+    o: ["Sallamalı nem ölçer prensibiyle, elektronik termometre ve biri ıslatılmış iki uzun termokapl kullanılarak", "Elektronik nem probu bacaya doğrudan sokularak", "Pervaneli anemometre ile", "Lüxmetre ile", "Bourdon tüplü manometre ile"], a: 0,
+    e: "Bu ortamlarda nem ölçümü, <b>sallamalı nem ölçere benzetilerek</b>, <b>elektronik termometre ve iki adet uzun termokapl</b> yardımıyla yapılır: biri kuru, diğeri ıslak tutulan termokapllardan kuru ve yaş sıcaklıklar okunur.",
+    n: "Grafikte yaş termokaplın sıcaklığının zamanla kararlı bir değere oturduğu görülür; okuma bu kararlı değerde alınır. Ram kurutucularda egzoz neminin artırılması (aşırı egzoz havasının azaltılması) en etkili tasarruf önlemlerinden biridir, çünkü atılan her m³ sıcak hava yakıt demektir." },
+  { t: 3, s: 56, q: "Fabrikanın ana giriş veya dağıtım panolarındaki sabit gösterge ve sayaçlarla ilgili sunumdaki tespit hangisidir?",
+    o: ["Fabrika genelinin veya beslediği birden fazla ekipmanın toplam tüketimini gösterir; tek bir makine için portatif cihaz gerekir", "Her makinenin tüketimini ayrı ayrı gösterir", "Yalnızca reaktif enerjiyi ölçer", "Portatif cihazlardan her zaman daha doğrudur", "Harmonikleri ayrıntılı olarak kaydeder"], a: 0,
+    e: "Pano göstergeleri <b>ya fabrika genelini ya da beslediği birden fazla ekipmanın</b> tüketimini ve birkaç parametreyi gösterir. Ortak panodan beslenen tek bir makine veya çok parametreli bilgi için <b>portatif cihazlar</b> gerekir.",
+    n: "Sunumda sayılan portatif cihazlar: <b>pens ampermetreler, enerji analizörleri ve harmonik analizörleri</b>. Alt ölçüm (sub-metering) yapılmadan önemli enerji kullanımları ayrıştırılamaz; kalıcı alt sayaçlar kurmak ISO 50001 uygulamalarının ilk yatırımlarındandır." },
+  { t: 3, s: 56, q: "Sunuma göre ortak panodan beslenen bir makine hakkında ayrıntılı elektriksel bilgi toplamak için kullanılan portatif cihazlar arasında hangisi <b>yoktur</b>?",
+    o: ["Rotametre", "Pens ampermetre", "Enerji analizörü", "Harmonik analizörü", "Akım pensli güç kaydedici"], a: 0,
+    e: "Portatif elektriksel ölçüm cihazları <b>pens ampermetreler, enerji analizörleri ve harmonik analizörleridir</b>. Rotametre bir sıvı/gaz debimetresidir.",
+    n: "Enerji analizörü üç faz için akım pensleri ve gerilim problarıyla bağlanır; P, Q, S, cosφ, enerji ve harmonikleri kaydeder. Bağlantıda pens yönü (akış oku yüke doğru) ve faz sırası doğru olmalıdır; aksi hâlde güç eksi veya yanlış okunur." },
+
+  // Baca gazı, iletkenlik ve diğer ölçümler
+  { t: 4, s: 62, q: "Sunuma göre yanma verimini hesaplayabilmek için baca gazında hangi ölçümler yapılmalıdır?",
+    o: ["O₂, CO ve sıcaklık", "Yalnızca baca gazı rengi", "Yalnızca baca yüksekliği", "Bağıl nem ve aydınlık seviyesi", "Gerilim ve akım"], a: 0,
+    e: "Yanma verimini hesaplamak için baca gazında <b>O₂, CO ve sıcaklık</b> ölçümü yapılmalıdır. Yakma sistemi hakkında yorum yapılmak isteniyorsa <b>is veya kurum yoğunluğu</b> da ölçülmelidir.",
+    n: "O₂ hava fazlalığını, CO eksik yanmayı, baca gazı sıcaklığı ise bacadan atılan duyulur ısıyı gösterir. Hava fazlalık katsayısı yaklaşık λ = 21 / (21 − O₂) ile bulunur: %6 O₂ → λ ≈ 1,4, yani %40 fazla hava. Fazla hava baca kaybını artırır, yetersiz hava ise CO ve is oluşturur." },
+  { t: 4, s: 62, q: "Baca gazında O₂ oranı %6 ölçülmüştür. λ = 21 / (21 − O₂) bağıntısına göre hava fazlalık katsayısı ve fazla hava oranı yaklaşık nedir?",
+    o: ["λ ≈ 1,4; yaklaşık %40 fazla hava", "λ ≈ 0,7; yaklaşık %30 eksik hava", "λ ≈ 3,5; yaklaşık %250 fazla hava", "λ ≈ 1,06; yaklaşık %6 fazla hava", "λ ≈ 1,0; fazla hava yok"], a: 0,
+    e: "λ = 21 / (21 − 6) = 21 / 15 = <b>1,4</b>. Fazla hava oranı = (λ − 1) × 100 = <b>%40</b>.",
+    n: "Doğal gaz kazanlarında hedef genellikle %2–3 O₂ (λ ≈ 1,1–1,15) civarındadır. %6 O₂, gereğinden fazla havanın ısıtılıp bacadan atıldığını gösterir; brülör ayarı ile O₂'yi düşürmek, CO'yu yükseltmeden yapılmalıdır. Bu konu çalışma notlarındaki yakıtlar ve yanma bölümünde ayrıntılıdır." },
+  { t: 4, s: 63, q: "Orsat cihazıyla baca gazı analizinde oksijen ve karbondioksit hangi çözeltilerle emilir?",
+    o: ["Oksijen pirogallol, karbondioksit potasyum hidroksit (KOH) çözeltisiyle", "Oksijen KOH, karbondioksit pirogallol çözeltisiyle", "Her ikisi de saf suyla", "Oksijen sülfürik asit, karbondioksit tuzlu suyla", "Her ikisi de elektrokimyasal hücreyle"], a: 0,
+    e: "Orsat cihazında gaz örneğindeki <b>oksijen pirogallol</b>, <b>karbondioksit potasyum hidroksit</b> çözeltisi tarafından emilir. Numune hacmindeki azalmadan yüzdeler hesaplanır.",
+    n: "Orsat ve Fyrite cihazları sıvı çözeltili (kimyasal) analiz cihazlarıdır. Sunuma göre bu yöntemlerin yerini artık büyük ölçüde içlerinde elektrokimyasal hücreler bulunan portatif elektronik analizörler almıştır. Elektrokimyasal hücrelerin ömrü sınırlıdır (genellikle 2–3 yıl) ve periyodik kalibrasyon gerekir." },
+  { t: 4, s: 65, q: "Portatif elektronik baca gazı analizörleri analizleri hangi elemanlarla gerçekleştirir?",
+    o: ["Elektrokimyasal hücreler (elektrokimyasal piller)", "Pirogallol çözeltisi", "Cıvalı cam termometreler", "Pervaneli sayaçlar", "Filtre kâğıdı ve karşılaştırma cetveli"], a: 0,
+    e: "Elektronik baca gazı analizörleri tamamen portatiftir ve analizleri içlerindeki <b>elektrokimyasal hücreler (elektrokimyasal piller)</b> vasıtasıyla yapar.",
+    n: "Elektronik analizör O₂, CO, baca gazı ve ortam sıcaklığını ölçerek CO₂, hava fazlalığı ve yanma verimini yakıt türüne göre otomatik hesaplar. Ölçüm, baca gazı sıcaklığının en yüksek ve akışın en kararlı olduğu noktada, kazan kararlı çalışırken yapılmalıdır." },
+  { t: 4, s: 70, q: "İs veya kurum yoğunluğu ölçümünde kullanılan set hangi elemanları içerir?",
+    o: ["Baca gazı emiş pompası, filtre kâğıtları ve kurum yoğunluğu karşılaştırma cetveli", "Pitot tüpü ve eğik manometre", "Orsat cihazı ve pirogallol", "Platin elektrotlu prob ve iletkenlik ölçer", "Sıcak telli anemometre ve huni"], a: 0,
+    e: "İs/kurum yoğunluğu setinde <b>baca gazı emiş pompası, filtre kâğıtları, kurum yoğunluğu karşılaştırma cetveli</b>, delik tapaları, delik delme aparatı, metal prob ve kauçuk hortum bulunur.",
+    n: "Pompa ile belirli hacimde baca gazı filtre kâğıdından çekilir; kâğıttaki lekenin koyuluğu karşılaştırma cetveliyle (Bacharach ölçeği, 0–9) kıyaslanır. Yüksek is numarası; kötü atomizasyon, yetersiz hava veya kirli meme gibi brülör sorunlarını gösterir. Kurum, ısı transfer yüzeylerini kaplayarak kazan verimini düşürür." },
+  { t: 4, s: 71, q: "Sunuma göre aydınlık seviyesi ölçümünün amacı nedir?",
+    o: ["Yeterli aydınlatma düzeyini sağlamak ve aşırı aydınlatmayı azaltarak elektrik tasarrufu yapmak; değerleri standart tablolarla karşılaştırmak", "Yalnızca gürültü seviyesini belirlemek", "Baca gazı kaybını hesaplamak", "Kazan suyunun blöf zamanını belirlemek", "Motor devrini ölçmek"], a: 0,
+    e: "Aydınlık seviyesi; <b>çalışma alanında yeterli aydınlatmayı sağlamak</b> ve <b>aşırı aydınlatmayı azaltarak elektrik tasarrufu</b> yapmak için ölçülür ve standart tablolarla karşılaştırılır.",
+    n: "Sunuma göre bazı yerlerde elektrik tüketiminin büyük kısmını aydınlatma oluşturabilir (örneğin ofis binaları, depolar, alışveriş merkezleri). Lüxmetre ile ölçüm ve TS EN 12464-1 tablolarıyla karşılaştırma 6. sunumda da işlenmiştir." },
+  { t: 4, s: 72, q: "Sunuma göre enerji tasarrufu çalışmalarında devir sayısı ölçümü ne zaman gerekebilir?",
+    o: ["Sistemlerin gereğinden yüksek devirde çalıştırıldığı kanısı oluştuğunda", "Yalnızca motor satın alınırken", "Baca gazı analizi yapılırken", "Aydınlatma ölçümü sırasında", "Yalnızca elektrik kesintisi sırasında"], a: 0,
+    e: "Sistemlerin <b>gereğinden yüksek devirde çalıştırıldığı kanısı oluştuğunda</b> motor, bant, pompa, aspiratör ve baca gazı fanı gibi ekipmanın devir sayısı veya çizgisel hızı tespit edilir.",
+    n: "Fan ve pompalarda güç devrin küpüyle orantılıdır (P ∝ n³): devri %20 azaltmak gücü yaklaşık %49 düşürür (0,8³ ≈ 0,51). Devir ölçümü, kasnak değişimi veya frekans çevirici yatırımının fizibilitesinin temelidir." },
+  { t: 4, s: 74, q: "Kazan suyunun iletkenliği ölçülerek elde edilen değer ne amaçla kullanılır?",
+    o: ["Blöf miktarının hesaplanması ve blöf zamanının belirlenmesi", "Baca gazı O₂ oranının bulunması", "Buhar basıncının ölçülmesi", "Kazan yüzey sıcaklığının bulunması", "Brülör alevinin renginin belirlenmesi"], a: 0,
+    e: "Kazan suyunun iletkenliği, <b>blöf miktarının hesaplanmasında</b> ve <b>blöfün gerekli olup olmadığının ve zamanının tespitinde</b> kullanılır.",
+    n: "Buharlaşan su çözünmüş tuzları kazanda bırakır; tuz derişimi arttıkça iletkenlik yükselir. Sınır değer aşıldığında blöf yapılır. Gereğinden fazla blöf, sıcak suyun ve içindeki enerjinin atılması demektir; otomatik iletkenlik kontrollü blöf sistemi ve blöf ısısının geri kazanımı önemli tasarruf önlemleridir." },
+  { t: 4, s: 74, q: "Elektrotları arası 1 cm olan iletkenlik ölçer probunda iki platin elektrot arasındaki direnç 5.000 Ω ölçülmüştür. Sunumdaki bağıntıya (10⁶ / direnç) göre iletkenlik nedir?",
+    o: ["200 μS/cm", "5.000 μS/cm", "0,0002 μS/cm", "20 μS/cm", "2.000 μS/cm"], a: 0,
+    e: "İletkenlik = 10⁶ / 5.000 = <b>200 μS/cm</b> (mikrosiemens/cm).",
+    n: "Sunumdaki formülün sonucu mikrosiemens (μS) cinsindendir; 1 S = 10⁶ μS. Elektrot aralığı 1 cm'den farklı problarda prob üzerinde yazan düzeltme katsayısı (hücre sabiti) kullanılır. İletkenlik sıcaklıkla değiştiği için cihazlar sonucu genellikle 25 °C'ye göre düzeltir." },
+  { t: 4, s: 77, q: "Sunuma göre desibelmetreler basınçlı hava kaçaklarının yerini belirlemede hangi koşulda kullanılabilir?",
+    o: ["Fabrikanın tüm ses çıkaran cihazlarının çalışmadığı bir zamanda", "Üretimin en yoğun olduğu saatlerde", "Yalnızca kompresör çalışmıyorken", "Basınçlı hava hattı boşaltıldıktan sonra", "Yalnızca açık havada"], a: 0,
+    e: "Desibelmetreler esas olarak gürültü kirliliğini tespit için kullanılır; ancak <b>fabrikanın tüm ses çıkaran cihazlarının işletilmediği bir zamanda</b> basınçlı hava kaçaklarının yerini belirlemede de kullanılabilir.",
+    n: "Hat basınçlı olmalı, kompresör çalışmalı ama diğer makineler durmalıdır; aksi hâlde kaçağın sesi gürültüde kaybolur. Sunumun son slaytındaki ultrasonik kaçak dedektörleri ise kaçağın ultrasonik sesini algıladığı için üretim sırasında da kullanılabilir." },
+  { t: 4, s: 78, q: "Sunuma göre termal kameralar aşağıdakilerden hangisinin tespiti için <b>kullanılmaz</b>?",
+    o: ["Kazan suyunun iletkenliği", "Isı kaçakları ve yalıtım uygulamaları", "Motor ve dönen makinelerin yataklarındaki sorunlar", "Elektrik panolarında gevşek bağlantılar", "Kablolarda aşırı yük nedeniyle ısınma"], a: 0,
+    e: "Termal kameralar <b>ısı kaçakları, yalıtım uygulamaları, dönen makinelerin yatak sorunları</b> ve elektrik panolarında <b>aşırı yük nedeniyle ısınma veya gevşek bağlantıların</b> belirlenmesinde kullanılır. İletkenlik, iletkenlik ölçerle ölçülür.",
+    n: "Termal kamera da kızılötesi pirometre gibi yüzey emisivitesine duyarlıdır; parlak yalıtım saçları ve bakır baralar yansıma nedeniyle yanıltıcı görüntü verir. Elektrik panolarının termal kontrolü yük altında (en az %40 yük) ve uygun KKD ile yapılmalı; elektrik tesisatının termal kamera kontrolü kestirimci bakımın standart bir parçasıdır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
