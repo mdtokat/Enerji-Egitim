@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elektrik Temel Kavramlar Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home" href="../index.html">← Ana sayfa</a>
+    <p class="eyebrow">SUNUM 5 · 1_6.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020</p>
+    <h1>Elektrik Enerjisinde Temel Kavramlar <em>Sınavı</em></h1>
+    <p class="lede">35 soru, beşer şık. Akım, iletkenlik, doğru ve alternatif akım, etkin değer, gerilim, enerji, verim ve aktif–reaktif–görünür güç; kompanzasyon hesabı. Hesap sorularında gereken veriler soru içinde verilir. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Elektrik Enerjisinde Temel Kavramlar” sunumu (ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum5-v1",
+topics: ["Akım ve iletkenlik", "Doğru ve alternatif akım", "Gerilim ve elektromanyetizma", "Enerji ve verim", "Aktif, reaktif ve görünür güç"],
+Q: [
+  // Akım ve iletkenlik
+  { t: 0, s: 2, q: "Elektrik akımı en doğru şekilde nasıl tanımlanır?",
+    o: ["Bir noktadan birim zamanda geçen yük miktarı", "İki nokta arasındaki potansiyel farkı", "Birim zamanda yapılan iş", "Bir iletkenin akıma gösterdiği zorluk", "Çıkış gücünün giriş gücüne oranı"], a: 0,
+    e: "Akım, <b>bir noktadan birim zamanda geçen yük miktarıdır</b>: I = Q / t. Birimi amperdir (A).",
+    n: "Metal iletkenlerde akımı serbest elektronlar taşır; elektrolitlerde (akü, elektroliz banyosu) ise artı ve eksi iyonlar. Elektronların hareket yönü, devre şemalarında kullanılan “geleneksel akım yönünün” (artıdan eksiye) tersidir. Şıklardaki diğer tanımlar sırasıyla gerilim, güç, direnç ve verime aittir." },
+  { t: 0, s: 2, q: "Bir iletkenin kesitinden 5 saniyede 2 coulomb yük geçiyorsa akım kaç amperdir?",
+    o: ["0,4 A", "2,5 A", "3 A", "7 A", "10 A"], a: 0,
+    e: "I = Q / t = 2 C / 5 s = <b>0,4 A</b>.",
+    n: "Birimleri kontrol edin: coulomb ÷ saniye = amper. Tersinden düşünürsek 0,4 A'lik bir akım bir saatte 0,4 × 3.600 = 1.440 C yük taşır. Akülerin kapasitesi de bu mantıkla amper-saat (Ah) olarak verilir: 1 Ah = 3.600 C." },
+  { t: 0, s: 2, q: "1 amperlik akım hangi durumda oluşur?",
+    o: ["Bir noktadan 1 saniyede 1 coulomb yük geçtiğinde", "1 coulomb yük 1 joule enerjiyle taşındığında", "1 voltluk gerilim 1 saniye uygulandığında", "1 watt güç 1 saat harcandığında", "1 ohm direnç üzerinde 1 joule ısı oluştuğunda"], a: 0,
+    e: "Bir noktadan <b>1 saniyede 1 coulomb</b> yük geçtiğinde akım 1 amperdir.",
+    n: "Temel birimler zinciri: 1 A = 1 C/s, 1 V = 1 J/C, 1 W = 1 J/s = 1 V × 1 A, 1 Ω = 1 V/A. Bu dört eşitlik, elektrik hesaplarının neredeyse tamamında birim kontrolü için yeterlidir." },
+  { t: 0, s: 3, q: "Atomlarının dış (valans) yörüngesinde 4 elektron bulunan silisyum ve germanyum gibi maddeler hangi grupta yer alır?",
+    o: ["Yarı iletken", "İletken", "Yalıtkan", "Süper iletken", "Mıknatıs"], a: 0,
+    e: "Valans elektron sayısı <b>dört</b> olan elementler <b>yarı iletkendir</b>. Dörtten az olanlar iletken, dörtten fazla olanlar yalıtkan kabul edilir.",
+    n: "Yarı iletkenler enerji dönüşümünün kalbidir: güneş panelleri silisyum hücrelerden, inverterler ve frekans çeviriciler (VFD) ise silisyum veya silisyum karbür (SiC) yarı iletken anahtarlardan yapılır. Sunumda yalıtkanlar için “sekiz ve daha fazla” valans elektron ifadesi geçer; ders kitaplarında genellikle “dörtten fazla (5–8)” olarak verilir. Valans elektron kuralı kaba bir kuraldır; bir maddenin iletkenliğini gerçekte enerji bant aralığı belirler." },
+  { t: 0, s: 3, q: "Aşağıdakilerden hangisi yalıtkan maddelere örnek <b>değildir</b>?",
+    o: ["Bakır", "Cam", "Kauçuk", "Pamuk", "Kuru hava"], a: 0,
+    e: "Cam, kauçuk, pamuk, yağ ve hava <b>yalıtkandır</b>. <b>Bakır</b> ise valans yörüngesinde tek elektron bulunan çok iyi bir iletkendir.",
+    n: "Kablo seçiminde iletken (bakır veya alüminyum) ile yalıtkanın (PVC, XLPE) birlikte değerlendirilmesi gerekir. Yalıtkanın dayanabileceği sıcaklık, kablonun taşıyabileceği akımı belirler: XLPE yalıtımlı kablo 90 °C'ye, PVC yalıtımlı kablo 70 °C'ye dayanır; bu yüzden aynı kesitte XLPE daha fazla akım taşır." },
+
+  // Doğru ve alternatif akım
+  { t: 1, s: 5, q: "Zamanla yönü ve şiddeti değişmeyen akıma ne ad verilir?",
+    o: ["Doğru akım (DC)", "Alternatif akım (AC)", "Değişken doğru akım", "Üç fazlı akım", "Reaktif akım"], a: 0,
+    e: "Yönü ve şiddeti zamanla değişmeyen akım <b>doğru akımdır</b>; İngilizce Direct Current'tan DC kısaltmasıyla gösterilir.",
+    n: "Doğru akım ikiye ayrılır: düzgün doğru akımda (pil, akü) yön de şiddet de sabittir. Değişken doğru akımda (doğrultulmuş akım) yön sabit kalır ama şiddet dalgalanır. Doğrultmaç çıkışına kondansatör konarak dalgalanma azaltılır ve düzgün doğru akıma yaklaşılır." },
+  { t: 1, s: 5, q: "Aşağıdakilerden hangisi doğru akım (DC) üreten bir kaynak <b>değildir</b>?",
+    o: ["Transformatör", "Pil", "Akümülatör", "Doğrultmaç devresi", "Güneş pili"], a: 0,
+    e: "DC kaynakları: pil, akümülatör, dinamo, doğrultmaç devresi ve güneş pili. <b>Transformatör</b> yalnızca alternatif akımla çalışır; gerilimi yükseltir veya düşürür, DC üretmez.",
+    n: "Transformatörün çalışması değişen manyetik akıya dayanır; doğru akımda akı sabit olduğu için sekonderde gerilim indüklenmez. Bu yüzden güneş panellerinin ürettiği DC'nin şebekeye verilmesi için önce inverterle AC'ye çevrilmesi gerekir." },
+  { t: 1, s: 5, q: "Alternatif akımı doğru akıma çeviren devreye ne ad verilir?",
+    o: ["Doğrultmaç (redresör)", "İnverter", "Transformatör", "Alternatör", "Kondansatör"], a: 0,
+    e: "AC'yi DC'ye çeviren devre <b>doğrultmaç (redresör)</b>dür. Tersini (DC'yi AC'ye) <b>inverter</b> yapar.",
+    n: "Enerji verimliliğinde en yaygın güç elektroniği cihazı olan frekans çevirici (VFD) ikisini birden içerir: şebekeden gelen AC'yi önce doğrultur, sonra istenen frekansta yeniden AC'ye çevirir. Böylece motor devri değiştirilebilir. Pompa ve fanlarda devri %20 düşürmek gücü yaklaşık %50 azaltır (güç devrin küpüyle değişir)." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi doğru akımın yaygın kullanım alanlarından biri <b>değildir</b>?",
+    o: ["Şehir şebekesinde enerjinin uzun mesafelere dağıtımı", "Maden arıtma (elektroliz) ve maden kaplamacılığı", "Tren, tramvay ve metro gibi elektrikli taşıtlar", "Elektromıknatıslar", "Redresörlü kaynak makineleri"], a: 0,
+    e: "DC; haberleşme ve elektronik cihazlarda, redresörlü kaynak makinelerinde, elektroliz ve kaplamada, raylı taşıtlarda, elektromıknatıslarda ve DC motorlarda kullanılır. Şehir şebekesinde dağıtım <b>alternatif akımla</b> yapılır.",
+    n: "Elektroliz ve kaplamada DC zorunludur, çünkü iyonların tek yönde hareket etmesi gerekir. Bu tesislerde redresör verimi enerji tüketimini doğrudan etkiler; eski tristörlü redresörlerin modern yüksek frekanslı (IGBT'li) redresörlerle değiştirilmesi tipik bir verimlilik projesidir." },
+  { t: 1, s: 4, q: "Yönü değişmeyen ancak şiddeti zamanla dalgalanan akım (örneğin tam dalga doğrultulmuş akım) hangi gruba girer?",
+    o: ["Değişken doğru akım", "Düzgün doğru akım", "Alternatif akım", "Reaktif akım", "Kısa devre akımı"], a: 0,
+    e: "Yön sabit kaldığı sürece akım doğru akımdır; şiddeti dalgalanıyorsa <b>değişken doğru akım</b>, sabitse düzgün doğru akım adını alır.",
+    n: "Alternatif akımı doğru akımdan ayıran ölçüt şiddetin değişmesi değil, <b>yönün değişmesidir</b>. Sınavlarda “şiddeti değişen her akım alternatiftir” çeldiricisi sık kullanılır." },
+  { t: 1, s: 7, q: "Zamana bağlı olarak hem yönü hem şiddeti periyodik olarak değişen akıma ne ad verilir?",
+    o: ["Alternatif akım (AA / AC)", "Doğru akım", "Değişken doğru akım", "Statik elektrik", "Kaçak akım"], a: 0,
+    e: "Yönü ve şiddeti zamanla değişen akım <b>alternatif akımdır</b>; AA veya AC ile gösterilir.",
+    n: "Türkiye şebekesinin frekansı <b>50 Hz</b>'dir: akım saniyede 50 tam periyot yapar, yani yönünü saniyede 100 kez değiştirir. Bir periyodun süresi T = 1/f = 20 ms'dir. ABD ve bazı ülkeler 60 Hz kullanır; bu yüzden 60 Hz için tasarlanmış motorlar 50 Hz'de yaklaşık %17 daha yavaş döner." },
+  { t: 1, s: 8, q: "Alternatif akımın “etkin değeri” nasıl tanımlanır?",
+    o: ["Aynı dirençte, aynı sürede aynı ısıyı oluşturan doğru akımın değeri", "Bir periyottaki akımın ortalama değeri", "Akımın ulaştığı en yüksek anlık değer", "Tepeden tepeye değerin iki katı", "Akımın sıfırdan geçtiği andaki değeri"], a: 0,
+    e: "Etkin değer, bir dirençten aynı sürede <b>aynı ısıyı sağlayan doğru akımın büyüklüğüdür</b>. Bir periyottaki ortalama değer sıfır olduğu, maksimum değer ise yalnızca anlık oluştuğu için güç hesabında kullanılamaz.",
+    n: "Etkin değere İngilizcede RMS (root mean square, karesel ortalamanın karekökü) denir. Sinüs dalgasında etkin değer = tepe değer ÷ √2 ≈ 0,707 × tepe değer. Multimetre ve pens ampermetrelerin gösterdiği değerler etkin değerdir; harmonikli (bozuk dalga) ölçümlerde “True RMS” özellikli cihaz gerekir." },
+  { t: 1, s: 8, q: "Sinüs biçimli bir alternatif gerilimin tepe (maksimum) değeri 170 V ise etkin değeri yaklaşık kaç volttur?",
+    o: ["60 V", "85 V", "120 V", "170 V", "240 V"], a: 2,
+    e: "Etkin değer = tepe değer ÷ √2 = 170 × 0,707 ≈ <b>120 V</b>.",
+    n: "Bu örnek ABD şebekesine (120 V) aittir. Türkiye'de alçak gerilim şebekesi faz–nötr arasında 230 V, fazlar arasında 400 V etkin değerdedir (TS EN 60038). Tepe değerleri ise yaklaşık 325 V ve 566 V'tur; kondansatör ve yalıtım seçiminde etkin değer değil tepe değer dikkate alınır." },
+  { t: 1, s: 8, q: "Türkiye'de alçak gerilim şebekesinin faz–nötr gerilimi 230 V (etkin değer) ise gerilimin tepe değeri yaklaşık kaç volttur?",
+    o: ["163 V", "230 V", "325 V", "400 V", "460 V"], a: 2,
+    e: "Tepe değer = etkin değer × √2 = 230 × 1,414 ≈ <b>325 V</b>.",
+    n: "400 V ise fazlar arası etkin gerilimdir (230 × √3 ≈ 400). Üç fazlı sistemlerde faz–faz ve faz–nötr gerilimleri arasındaki √3 katsayısı güç hesabında da karşınıza çıkar: üç fazlı aktif güç P = √3 × U × I × cosφ." },
+  { t: 1, s: 9, q: "Alternatif akımın doğru akıma göre en önemli üstünlüklerinden biri hangisidir?",
+    o: ["Transformatörlerle kolayca yükseltilip düşürülebilmesi, böylece uzak mesafelere daha az kayıpla iletilebilmesi", "Akülerde doğrudan depolanabilmesi", "Elektroliz için zorunlu olması", "Hiç manyetik alan oluşturmaması", "Yönünün hiç değişmemesi"], a: 0,
+    e: "AC <b>transformatörlerle yükseltilip düşürülebilir</b>; yüksek gerilimde iletim akımı ve dolayısıyla kayıpları azaltır. Ayrıca AC üretmek daha ekonomiktir, AC jeneratörlerin verimi yüksektir ve asenkron motorlar basit yapılı olduğu için az arıza yapar.",
+    n: "AC'nin üstünlüğü klasik iletim için geçerlidir. Güç elektroniğindeki gelişmelerle bugün çok uzun mesafeli havai hatlarda ve deniz altı kablolarında yüksek gerilim doğru akım (HVDC) daha az kayıplı olduğu için tercih edilmektedir. Uzun deniz altı kablolarında AC'nin kapasitif şarj akımı kabloyu kullanılamaz hâle getirir.",
+    g: { eski: "AC transformatörle yükseltilebildiği için uzak mesafelere iletimde DC'ye üstündür.", yeni: "Şebeke dağıtımında AC hâlâ standarttır; ancak çok uzun mesafeli iletimde ve uzun deniz altı kablolarında bugün HVDC (yüksek gerilim doğru akım) tercih edilmektedir.", kaynak: "Güncel iletim teknolojisi (HVDC uygulamaları); IEC ve iletim sistemi işletmecilerinin uygulamaları" } },
+  { t: 1, s: 9, q: "Aynı gücü ileten bir hatta iletim gerilimi 10 katına çıkarılırsa, hat direnci aynı kaldığında hattaki ısı kaybı (I²R) nasıl değişir?",
+    o: ["100 kat azalır", "10 kat azalır", "Değişmez", "10 kat artar", "100 kat artar"], a: 0,
+    e: "Güç sabitken gerilim 10 kat artarsa akım 10 kat azalır. Kayıp akımın karesiyle orantılı olduğundan I²R kaybı <b>10² = 100 kat azalır</b>.",
+    n: "Bu yüzden elektrik santralde yaklaşık 10–20 kV'ta üretilir, iletim için 154 kV veya 380 kV'a yükseltilir, kullanıcıya yaklaşırken orta gerilime (34,5 kV) ve son olarak 400/230 V'a düşürülür. Bir işletme için de aynı ders geçerlidir: büyük motor yüklerini besleyen uzun kablolarda kesit artırmak kayıpları belirgin biçimde azaltır." },
+  { t: 1, s: 9, q: "Sanayide en yaygın kullanılan elektrik motoru türü olan asenkron (indüksiyon) motorun doğru akım motoruna göre üstünlüğü nedir?",
+    o: ["Yapısı daha basit olduğu için arıza yapma olasılığı daha düşüktür.", "Doğru akımla çalışır.", "Fırça ve kolektör içerir.", "Hiç reaktif güç çekmez.", "Devir ayarı hiç yapılamaz."], a: 0,
+    e: "Asenkron motorun yapısı DC motora göre <b>daha basittir</b>; fırça ve kolektör olmadığı için bakım ihtiyacı ve arıza olasılığı düşüktür.",
+    n: "Sanayide elektrik tüketiminin yaklaşık üçte ikisi elektrik motorlarındadır. Bu yüzden yüksek verimli motor (IE3, IE4) kullanmak ve frekans çeviriciyle devri ihtiyaca göre ayarlamak en etkili elektrik verimliliği önlemleridir. Asenkron motorlar mıknatıslanma için reaktif güç çeker; bu da güç faktörünü düşürür." },
+
+  // Gerilim ve elektromanyetizma
+  { t: 2, s: 10, q: "Bir iletkenden akım geçirilerek elde edilen manyetik alana ne ad verilir?",
+    o: ["Elektromanyetizma", "Statik elektrik", "Fotoelektrik etki", "Termoelektrik etki", "Piezoelektrik etki"], a: 0,
+    e: "Elektrik akımıyla elde edilen manyetik alana <b>elektromanyetizma</b> denir. Manyetik alan ayrıca doğal mıknatıslarla da elde edilebilir.",
+    n: "Elektromanyetizma; motor, jeneratör, transformatör, röle ve kontaktörün çalışma ilkesidir. Değişen manyetik alanın bir iletkende gerilim oluşturması (elektromanyetik indüksiyon) ise jeneratörlerin ve transformatörlerin temelidir." },
+  { t: 2, s: 11, q: "İki nokta arasındaki gerilim farkının 1 volt olması ne anlama gelir?",
+    o: ["1 coulomb yükü bu iki nokta arasında taşımak için 1 joule enerji gerekir.", "Bu iki nokta arasından 1 saniyede 1 coulomb yük geçer.", "Bu iki nokta arasında 1 watt güç harcanır.", "Bu iki nokta arasındaki direnç 1 ohm'dur.", "Bu iki nokta arasında 1 amper akım vardır."], a: 0,
+    e: "<b>1 V = 1 J / C</b>: 1 coulomb'luk yükü bir noktadan diğerine taşımak için 1 joule enerji gerekiyorsa aradaki gerilim 1 volttur.",
+    n: "Gerilim her zaman iki nokta arasında tanımlanır; “bir noktanın gerilimi” denince aslında bir referans noktasına (genellikle toprak) göre gerilim kastedilir. Gerilim akımı oluşturan “itici kuvvet”tir; akım ise bu kuvvetin etkisiyle oluşan yük akışıdır." },
+  { t: 2, s: 11, q: "2 coulomb'luk bir yükü iki nokta arasında taşımak için 24 joule enerji harcanıyorsa bu iki nokta arasındaki gerilim kaç volttur?",
+    o: ["0,083 V", "12 V", "22 V", "26 V", "48 V"], a: 1,
+    e: "V = W / Q = 24 J / 2 C = <b>12 V</b>.",
+    n: "Aynı ilişki enerji hesabına da çevrilebilir: W = V × Q. Bir akünün depoladığı enerji = gerilim × yük kapasitesi. Örneğin 12 V, 100 Ah'lik bir akü 12 × 100 = 1.200 Wh = 1,2 kWh enerji depolar." },
+
+  // Enerji ve verim
+  { t: 3, s: 12, q: "Güç ile enerji arasındaki ilişkiyi en doğru ifade eden hangisidir?",
+    o: ["Enerji = güç × süre; güç, birim zamanda yapılan enerji dönüşümüdür.", "Güç = enerji × süre", "Enerji ve güç aynı büyüklüktür.", "Enerji = güç ÷ süre", "Güç = enerji ÷ akım"], a: 0,
+    e: "<b>W = P × t</b>. Güç birim zamandaki enerji dönüşümüdür; bir cihaz ne kadar uzun çalışırsa o kadar fazla enerji dönüştürür.",
+    n: "Birimler: güç watt (W) veya kilowatt (kW), enerji watt-saat (Wh) veya kilowatt-saat (kWh) ile ölçülür. Elektrik faturası güce değil enerjiye (kWh) göre ödenir. Ancak büyük abonelerde ulaşılan en yüksek güç (talep, kW) için de ayrıca bedel ödenebilir; bu yüzden yüklerin aynı anda devreye girmesini önlemek (puant tıraşlama) maliyet düşürür." },
+  { t: 3, s: 12, q: "60 W gücündeki bir lamba bir yıl boyunca kesintisiz yanarsa yaklaşık ne kadar enerji tüketir?",
+    o: ["52,6 kWh", "525,6 kWh", "1.440 kWh", "5.256 kWh", "60 kWh"], a: 1,
+    e: "W = 60 W × 24 h/gün × 365 gün = 525.600 Wh = <b>525,6 kWh</b>.",
+    n: "Bir yılda 8.760 saat vardır; sürekli çalışan yükler için bu sayı ezberlenmeye değer. Örneğin 1 kW'lık sürekli bir kaçak (boşta çalışan bir fan veya hava kaçağı besleyen kompresör) yılda 8.760 kWh, yani yaklaşık 0,75 TEP enerji israf eder." },
+  { t: 3, s: 12, q: "Sürekli yanan 60 W'lık bir akkor lamba, aynı ışığı veren 9 W'lık bir LED lamba ile değiştirilirse yılda yaklaşık ne kadar enerji tasarruf edilir?",
+    o: ["Yaklaşık 51 kWh", "Yaklaşık 79 kWh", "Yaklaşık 447 kWh", "Yaklaşık 526 kWh", "Yaklaşık 4.470 kWh"], a: 2,
+    e: "Güç farkı 60 − 9 = 51 W. Yıllık tasarruf = 51 W × 8.760 h = 446.760 Wh ≈ <b>447 kWh</b>.",
+    n: "Tasarruf hesabında hep aynı yöntem kullanılır: (eski güç − yeni güç) × çalışma süresi. Bu tasarrufu TEP'e çevirmek için 1.000 kWh = 0,086 TEP katsayısı kullanılır: 447 kWh ≈ 0,038 TEP. Aydınlatmada armatür sayısı yüzlerle ifade edildiği için LED dönüşümü genellikle 1–3 yılda kendini öder." },
+  { t: 3, s: 13, q: "Bir elektrikli cihazın verimi nasıl tanımlanır?",
+    o: ["Çıkış gücünün giriş gücüne oranı", "Giriş gücünün çıkış gücüne oranı", "Kayıp gücün çıkış gücüne oranı", "Gerilimin akıma oranı", "Aktif gücün görünür güce oranı"], a: 0,
+    e: "Verim η = <b>P<sub>çıkış</sub> / P<sub>giriş</sub></b> = P<sub>çıkış</sub> / (P<sub>çıkış</sub> + P<sub>kayıp</sub>). Her zaman 1'den (%100'den) küçüktür.",
+    n: "Aktif gücün görünür güce oranı güç faktörüdür (cosφ); verimle karıştırılmamalıdır. Bir motorun verimi %95 ama güç faktörü 0,85 olabilir: verim enerjinin ne kadarının işe dönüştüğünü, güç faktörü ise şebekeden çekilen akımın ne kadarının aktif güç taşıdığını gösterir." },
+  { t: 3, s: 13, q: "Verimi %90 olan bir motor, verimi %70 olan bir dişli kutusu üzerinden bir pompayı çalıştırmaktadır. Motorun giriş gücü 1.200 W ise pompaya aktarılan güç kaç W'tır?",
+    o: ["756 W", "840 W", "960 W", "1.080 W", "1.920 W"], a: 0,
+    e: "Toplam verim η<sub>T</sub> = 0,90 × 0,70 = 0,63. Pompaya aktarılan güç = 0,63 × 1.200 = <b>756 W</b>.",
+    n: "Seri bağlı sistemlerde toplam verim, tek tek verimlerin çarpımıdır ve her zaman en kötü elemanın veriminden de düşüktür. Bu yüzden tahrik zincirinin tamamına bakmak gerekir: verimi düşük bir sonsuz vida dişli kutusunu doğrudan akuple bağlantı veya yüksek verimli helisel redüktörle değiştirmek, motoru değiştirmekten daha büyük kazanç sağlayabilir." },
+  { t: 3, s: 13, q: "Bir pompa sisteminde frekans çeviricinin verimi %97, motorun verimi %95, pompanın verimi %75'tir. Sistemin toplam verimi yaklaşık yüzde kaçtır?",
+    o: ["%69", "%75", "%89", "%95", "%267"], a: 0,
+    e: "η<sub>T</sub> = 0,97 × 0,95 × 0,75 ≈ 0,691, yani yaklaşık <b>%69</b>.",
+    n: "Verimler toplanmaz, çarpılır. Bu örnekte en büyük kayıp pompadadır (%25). Pompalarda verim, çalışma noktası en iyi verim noktasından (BEP) uzaklaştıkça hızla düşer; vana kısarak debi ayarlamak yerine devir ayarı yapmak pompayı verimli bölgede tutar." },
+  { t: 3, s: 13, q: "Giriş gücü 10 kW ve verimi %90 olan bir motorda kaybolan güç ne kadardır ve bu kayıp çoğunlukla hangi biçimde ortaya çıkar?",
+    o: ["1 kW; çoğunlukla ısı olarak", "9 kW; çoğunlukla ses olarak", "1 kW; çoğunlukla ışık olarak", "0,9 kW; çoğunlukla reaktif güç olarak", "11 kW; çoğunlukla titreşim olarak"], a: 0,
+    e: "Çıkış = 0,90 × 10 = 9 kW; kayıp = 10 − 9 = <b>1 kW</b>. Kayıplar sargı (bakır), demir, sürtünme ve vantilasyon kayıplarıdır ve çoğunlukla <b>ısıya</b> dönüşür.",
+    n: "Bu 1 kW, motor yılda 6.000 saat çalışıyorsa 6.000 kWh ısı demektir. IE2'den IE4 sınıfına geçmek bu tür bir motorda kayıpları yaklaşık %30–40 azaltabilir. Motor seçerken satın alma fiyatı değil, ömür boyu maliyet hesaplanmalıdır: bir motorun ömrü boyunca harcadığı elektriğin bedeli, satın alma fiyatının onlarca katıdır." },
+
+  // Aktif, reaktif ve görünür güç
+  { t: 4, s: 14, q: "Bir doğru akım devresine 24 V gerilim uygulanmış ve devreden 5 A akım geçiyorsa devrenin gücü kaç watt'tır?",
+    o: ["4,8 W", "19 W", "29 W", "120 W", "576 W"], a: 3,
+    e: "DC devrede P = V × I = 24 × 5 = <b>120 W</b>.",
+    n: "DC'de akım ve gerilim aynı fazda ve sabit olduğu için güç doğrudan çarpımdır. AC'de ise akım ile gerilim arasındaki faz farkı (φ) nedeniyle aktif güç P = V × I × cosφ olur; cosφ = 1 olan saf dirençli yüklerde iki ifade aynıdır." },
+  { t: 4, s: 14, q: "Alternatif akım devresinde ortalama (aktif) güç hangi formülle hesaplanır?",
+    o: ["P = V × I × cosφ", "P = V × I × sinφ", "P = V × I", "P = V / I", "P = V² × I"], a: 0,
+    e: "Aktif güç <b>P = V × I × cosφ</b> (W). cosφ cihazın güç faktörüdür. V × I × sinφ reaktif gücü (VAR), V × I görünür gücü (VA) verir.",
+    n: "Aktif güç gerçekten işe (ısı, ışık, mekanik iş) dönüşen güçtür ve sayaçta kWh olarak faturalanır. Güç faktörü düştükçe aynı aktif gücü taşımak için daha fazla akım gerekir; bu da kablo ve transformatör kayıplarını artırır." },
+  { t: 4, s: 14, q: "Yalnızca saf bobinden (veya yalnızca saf kondansatörden) oluşan bir AC devresinde aktif gücün ortalama değeri nedir?",
+    o: ["Sıfır", "V × I", "V × I × √2", "Sonsuz", "V × I / √2"], a: 0,
+    e: "Saf bobin ve saf kondansatörde akım ile gerilim arasında 90° faz farkı vardır; cos 90° = 0 olduğundan <b>aktif güç sıfırdır</b>. Bu elemanlar enerjiyi bir yarım periyotta depolayıp diğerinde kaynağa geri verir.",
+    n: "Aktif güç sıfır olsa da akım sıfır değildir: bobin şebekeden akım çeker ve bu akım hatlarda ısı kaybı oluşturur. Reaktif enerjinin bedelli olmasının nedeni budur. Motorlar, transformatörler ve balastlar endüktif yüklerdir; kondansatörler ve uzun yeraltı kabloları kapasitif davranır." },
+  { t: 4, s: 14, q: "Reaktif güç hangi formülle hesaplanır ve birimi nedir?",
+    o: ["Q = V × I × sinφ; VAR", "Q = V × I × cosφ; W", "Q = V × I; VA", "Q = V × I × tanφ; kWh", "Q = V / I; Ω"], a: 0,
+    e: "Reaktif güç <b>Q = V × I × sinφ</b>, birimi <b>VAR</b> (volt-amper reaktif). Aktif güç W, görünür güç VA ile ölçülür.",
+    n: "Reaktif güç, motorların ve transformatörlerin manyetik alanını kurmak için gereklidir; işe dönüşmez ama şebeke ile yük arasında gidip gelir. Yaygın uygulamada belirli kurulu gücün (örneğin 50 kVA) üzerindeki aboneler, endüktif reaktif enerji aktif enerjinin %20'sini veya kapasitif reaktif enerji %15'ini aşarsa reaktif enerji bedeli öder. Güncel eşikleri dağıtım şirketi ve EPDK mevzuatından kontrol edin." },
+  { t: 4, s: 15, q: "Görünür güç (S) ile aktif güç (P) ve reaktif güç (Q) arasındaki ilişki hangisidir?",
+    o: ["S² = P² + Q² (vektörel toplam)", "S = P + Q (aritmetik toplam)", "S = P − Q", "S = P × Q", "S = P / Q"], a: 0,
+    e: "Görünür güç, aktif ve reaktif gücün <b>vektörel toplamıdır</b>: S = √(P² + Q²) = V × I. Bu ilişki güç üçgeni ile gösterilir; cosφ = P / S.",
+    n: "Güç üçgeninde P yatay kenar, Q dik kenar, S hipotenüstür. Aritmetik toplam yanlıştır, çünkü P ve Q arasında 90° faz farkı vardır. Transformatör, jeneratör ve UPS'ler görünür güçle (kVA) boyutlandırılır, çünkü ısınmalarını taşıdıkları akım belirler." },
+  { t: 4, s: 16, q: "Bir yük 120 kW aktif güç ve 160 kVAR endüktif reaktif güç çekmektedir. Görünür güç ve güç faktörü nedir?",
+    o: ["S = 200 kVA, cosφ = 0,6", "S = 280 kVA, cosφ = 0,43", "S = 40 kVA, cosφ = 3", "S = 200 kVA, cosφ = 0,8", "S = 120 kVA, cosφ = 1"], a: 0,
+    e: "S = √(120² + 160²) = √(14.400 + 25.600) = √40.000 = <b>200 kVA</b>; cosφ = P / S = 120 / 200 = <b>0,6</b>.",
+    n: "3–4–5 üçgenini hatırlayın: 120–160–200 bunun 40 katıdır. cosφ = 0,6 çok düşük bir değerdir; yükün aynı aktif gücü cosφ = 1 ile çekseydi yalnızca 120 kVA'lık bir kaynak yeterdi. Modern tesislerde hedef genellikle cosφ ≥ 0,95'tir." },
+  { t: 4, s: 16, q: "600 V, 120 kVA etiket değerli bir jeneratör 120 kW'lık saf dirençli yükü 200 A ile sorunsuz besliyor. Aynı jeneratöre 120 kW aktif + 160 kVAR reaktif güç çeken bir yük bağlanırsa ne olur?",
+    o: ["Akım yaklaşık 333 A'e çıkar ve jeneratör aşırı yüklenir.", "Aktif güç aynı olduğu için hiçbir değişiklik olmaz.", "Akım 120 A'e düşer.", "Jeneratör daha az ısınır.", "Gerilim 1.000 V'a yükselir."], a: 0,
+    e: "Görünür güç 200 kVA olur: I = S / V = 200.000 / 600 ≈ <b>333 A</b>. Bu, jeneratörün 200 A'lik nominal akımını çok aşar; sargılar aşırı ısınır ve jeneratör zarar görür.",
+    n: "Ders: aktif güç aynı olsa bile düşük güç faktörü kaynak, kablo ve transformatörü akım bakımından aşırı yükler. Bu yüzden kaynak seçimi kW ile değil kVA ile yapılır. Reaktif güç kompanzasyonu, aynı altyapıyla daha fazla aktif güç taşımayı sağlar; mevcut bir trafoya yeni yük eklemeden önce güç faktörünü düzeltmek yatırımı erteleyebilir." },
+  { t: 4, s: 16, q: "120 kW aktif güç çeken ve güç faktörü 0,6 olan bir tesiste güç faktörünü 0,95'e çıkarmak için yaklaşık ne kadar kapasitif reaktif güç (kondansatör) gerekir? (tan(arccos 0,6) ≈ 1,333; tan(arccos 0,95) ≈ 0,329)",
+    o: ["Yaklaşık 40 kVAR", "Yaklaşık 80 kVAR", "Yaklaşık 120 kVAR", "Yaklaşık 160 kVAR", "Yaklaşık 200 kVAR"], a: 2,
+    e: "Q<sub>C</sub> = P × (tanφ₁ − tanφ₂) = 120 × (1,333 − 0,329) ≈ 120 × 1,004 ≈ <b>120 kVAR</b>. Reaktif güç 160 kVAR'dan yaklaşık 40 kVAR'a iner.",
+    n: "Kompanzasyon, endüktif yüklere paralel kondansatör bağlanarak yapılır; kondansatörün çektiği kapasitif reaktif güç, endüktif reaktif gücü yerinde karşılar. Sonuçta görünür güç 200 kVA'dan yaklaşık 126 kVA'ya, şebekeden çekilen akım da aynı oranda düşer. Aşırı kompanzasyon ise kapasitif reaktif enerji cezasına yol açar; bu yüzden kademeli ve otomatik kontrollü (reaktif güç rölesi) panolar kullanılır." },
+]};
+</script>
+<script src="sinav.js"></script>
+</body>
+</html>
