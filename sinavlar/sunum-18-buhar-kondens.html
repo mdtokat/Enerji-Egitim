@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buhar ve Kondens Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 18 · Buhar ve Kondens Sistemleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 18</span> 1_19.pdf · Atalay Tunçcan, Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı</p>
+    <h1>Buhar ve Kondens Sistemleri <em>Sınavı</em></h1>
+    <p class="lede">Buharın avantajları, 10 barg'da 477 + 186 = 664 kcal/kg, ısı transfer katsayıları; T–h diyagramı, gösterge ve mutlak basınç, 1608 ve 156 kat hacim; hız, eğim, testere dişi hat, branşman, pislik tutucu, koç darbesi, kondens cepleri, separatör ve hava atıcı; termostatik, termodinamik ve mekanik kapanlar, uygulama hataları ve arıza türleri; flaş buhar (%16) ve kondens geri kazanımı.</p>
+    <ul class="facts"><li>66 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Buhar ve Kondens Sistemleri” sunumu (Atalay Tunçcan, ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum18-v1",
+topics: ["Buharın özellikleri ve avantajları", "Buhar tabloları, T–h diyagramı ve buhar hacmi", "Buhar dağıtım hattı tasarımı", "Buhar kapanları", "Flaş buhar ve kondens geri kazanımı"],
+Q: [
+  // Buharın özellikleri ve avantajları
+  { t: 0, s: 2, q: "Sunuma göre buhar nedir ve nerede üretilir?",
+    o: ["Suyun gaz fazıdır; bir ısı kaynağıyla suyun ısıtılmasıyla buhar kazanında üretilir", "Havanın sıkıştırılmış hâlidir; kompresörde üretilir", "Suyun katı fazıdır; soğutma grubunda üretilir", "Doğal gazın yanma ürünüdür; brülörde üretilir", "Kondensin soğumuş hâlidir; besi suyu tankında üretilir"], a: 0,
+    e: "Sunum: “<b>Suyun gaz fazına buhar denir.</b> Bir ısı kaynağı ile su ısıtıldığında buhar üretilebilir ve kullanım noktasına iş yapması için gönderilir. <b>Buharın üretildiği yere buhar kazanı denir.</b>”",
+    n: "Proses şemasında buharın gizli ısısını ürüne “anında” bıraktığı vurgulanır (latent heat is released instantaneously). Buharın sanayide bu kadar yaygın olmasının nedeni, bu ısının sabit sıcaklıkta ve çok hızlı aktarılmasıdır." },
+  { t: 0, s: 3, q: "Aşağıdakilerden hangisi sunumda sayılan buhar avantajlarından biri <b>değildir</b>?",
+    o: ["Borularda akış için pompa gerektirir", "Temiz ve steril, sağlığa ve çevreye zararı yoktur", "Hijyeniktir ve zehirli değildir", "Yanıcı ve patlayıcı değildir", "Ex-proof ortamlarda güvenle kullanılabilir"], a: 0,
+    e: "Sunumdaki avantajlar: <b>temiz, steril, hijyenik, zehirli değil, çevre dostu</b>; <b>yanıcı ve patlayıcı değil</b>, Ex-proof ortamlarda güvenle kullanılabilir. Ayrıca buhar, sıcak su sistemlerindeki gibi <b>ilave pompaya ihtiyaç duymaz</b>.",
+    n: "Buhar kazandan çıkarken sahip olduğu basınç farkıyla kullanım noktasına kendiliğinden akar. Sıcak su veya kızgın yağ sistemlerinde ise sürekli çalışan sirkülasyon pompaları ek elektrik tüketir." },
+  { t: 0, s: 4, q: "Sunuma göre buhar borularda nasıl ilerler ve enerjisini aktardıktan sonra ne olur?",
+    o: ["Basınç farkıyla pompaya gerek kalmadan ilerler; enerjisini aktarınca yoğuşur ve kondens olur", "Pompayla basılır; enerjisini aktarınca kızgın buhara dönüşür", "Fanla üflenir; enerjisini aktarınca buz olur", "Basınç farkıyla ilerler; enerjisini aktarınca hava olur", "Yerçekimiyle akar; enerjisini aktarınca buharlaşır"], a: 0,
+    e: "Sunum: “Buhar, sıcak su sistemlerindeki gibi borularda akış sağlamak için ilave bir pompaya ihtiyaç duymaz. <b>Boru içerisinde basınç farkı ile</b> pompaya gerek kalmadan ilerler. <b>Enerjisini aktardığında yoğuşur, tekrar su olur; bu hâline kondens denir.</b>”",
+    n: "Ekipmanda buhar yoğuştukça hacmi yaklaşık bin kat küçülür ve orada düşük basınçlı bir bölge oluşur; bu, yeni buharın kendiliğinden ekipmana akmasını sağlar." },
+  { t: 0, s: 5, q: "Sunuma göre doymuş buharda basınç ile sıcaklık arasındaki ilişki nedir?",
+    o: ["Her sıcaklığa bir basınç, her basınca bir sıcaklık karşılık gelir; basıncı kontrol etmek sıcaklığı da kontrol etmektir", "Basınç ile sıcaklık birbirinden bağımsızdır", "Basınç arttıkça sıcaklık düşer", "Sıcaklık yalnızca debiye bağlıdır", "Basınç yalnızca boru çapına bağlıdır"], a: 0,
+    e: "Sunum: “<b>Doymuş buharın her sıcaklığına karşılık bir basınç, her basıncına karşılık ise bir sıcaklık</b> değeri vardır. Bu değerlere tablolardan ulaşmak mümkündür. <b>Basıncı kontrol etmek aynı zamanda sıcaklığı da kontrol etmektir.</b>”",
+    n: "Proses sıcaklığını ayarlamak için basınç düşürücü vana kullanılmasının nedeni budur. Proses gerektirdiğinden yüksek basınçlı buhar kullanmak hem yüzey sıcaklığını gereksiz yükseltir hem de flaş buhar ve yüzey kayıplarını artırır." },
+  { t: 0, s: 6, q: "Sunuma göre 10 barg basınçtaki 1 kg doymuş buharın gizli ısısı, hissedilir ısısı ve toplam enerjisi nedir?",
+    o: ["Gizli ısı 477 kcal/kg, hissedilir ısı 186 kcal/kg, toplam 664 kcal/kg", "Gizli ısı 186 kcal/kg, hissedilir ısı 477 kcal/kg, toplam 664 kcal/kg", "Gizli ısı 540 kcal/kg, hissedilir ısı 100 kcal/kg, toplam 640 kcal/kg", "Gizli ısı 2257 kcal/kg, hissedilir ısı 419 kcal/kg, toplam 2676 kcal/kg", "Gizli ısı 453 kcal/kg, hissedilir ısı 186 kcal/kg, toplam 639 kcal/kg"], a: 0,
+    e: "Sunum (10 barg): <b>gizli ısı 477 kcal/kg</b> (buharlaşma), <b>hissedilir ısı 186 kcal/kg</b>, <b>toplam 664 kcal/kg</b>.",
+    n: "Separatör slaytında aynı toplam yuvarlama farkıyla 663 kcal/kg olarak geçer. 2257 / 419 / 2676 ise atmosfer basıncındaki kJ/kg değerleridir; birimleri karıştırmamaya dikkat edin." },
+  { t: 0, s: 6, q: "Sunumdaki “Birim kütlede yüksek enerji barındırır” örneğinde 1 kg buharın enerjisi neye benzetilir?",
+    o: ["200 ml'lik 30 kupa çayın 90 °C ısıtılmasına (30 × 0,2 kg × 90 °C = 540 kcal)", "1 litre suyun kaynatılmasına", "Bir bardak çayın soğutulmasına", "10 kg buzun eritilmesine", "100 kupa kahvenin dondurulmasına"], a: 0,
+    e: "Şemada 1 kg buhar ile <b>30 kupa çay (200 ml)</b> karşılaştırılır: <b>30 adet × 0,2 kg × 90 °C = 540 kcal</b>.",
+    n: "Hesap Q = m · c · ΔT ile yapılır; suyun özgül ısısı 1 kcal/kg°C'dir. 1 kg buharın 664 kcal'lik enerjisinin büyük kısmı gizli ısıdır ve yalnızca yoğuşma sırasında açığa çıkar." },
+  { t: 0, s: 6, q: "Sunumdaki değerlere göre 10 barg buharın toplam enerjisinin yaklaşık yüzde kaçı gizli ısıdır?",
+    o: ["≈ %72", "≈ %28", "≈ %50", "≈ %95", "≈ %16"], a: 0,
+    e: "Gizli ısı / toplam = 477 / 664 ≈ <b>0,72 → %72</b>. Kalan ≈ %28 hissedilir ısıdır (186 / 664).",
+    n: "Isıtıcıda buharın yalnızca gizli ısısı kullanılır; hissedilir ısı kondensle birlikte çıkar. Kondens geri kazanımı ve flaş buhar kullanımı, toplamın dörtte birinden fazlasını oluşturan bu hissedilir ısıyı değerlendirmenin yoludur." },
+  { t: 0, s: 6, q: "Sunumdaki çay örneğinde 200 ml'lik 30 kupa çayı 90 °C ısıtmak için gereken ısı ne kadardır? (Suyun özgül ısısı 1 kcal/kg°C, yoğunluğu 1 kg/L)",
+    o: ["540 kcal", "54 kcal", "5.400 kcal", "664 kcal", "2.700 kcal"], a: 0,
+    e: "Q = m · c · ΔT = (30 × 0,2 kg) × 1 × 90 = 6 × 90 = <b>540 kcal</b>.",
+    n: "1 kg 10 barg buhar 664 kcal taşır; yani 540 kcal'lik çay ısıtma işi bir kilogramdan az buharla yapılabilir. Buhar sistemlerinin kompakt olmasının nedeni bu yüksek enerji yoğunluğudur." },
+  { t: 0, s: 7, q: "Sunumdaki “Sabit sıcaklıkta enerji transferi gerçekleşir” şemasına göre 10 barg buhar eşanjöre 184 °C girdiğinde kondens kaç °C çıkar?",
+    o: ["184 °C", "100 °C", "20 °C", "250 °C", "0 °C"], a: 0,
+    e: "Şema: <b>buhar 184 °C girer, sıcak kondens 184 °C çıkar</b>; buhar enerjisini sabit sıcaklıkta, yoğuşarak verir. Sıcak su veya yağda ise akışkan enerji verdikçe soğur (sıcak girer, soğuk çıkar).",
+    n: "Sabit sıcaklık, ısıtılan yüzeyin her yerinde aynı sıcaklık demektir; bu da ürünün eşit ısınmasını ve hassas sıcaklık kontrolünü sağlar. Sıcak su veya yağda girişten çıkışa sıcaklık düştüğü için yüzey sıcaklığı da değişkendir." },
+  { t: 0, s: 8, q: "Sunuma göre buhar, sıcak su ve suyun ısı transfer katsayıları hangisidir?",
+    o: ["Su ≈ 1000; sıcak su 1000–6000; buhar 6000–15000 W/(m²°C)", "Su 6000–15000; sıcak su 1000; buhar 100 W/(m²°C)", "Hepsi ≈ 1000 W/(m²°C)", "Buhar 10–50; su 1000 W/(m²°C)", "Sıcak su 20.000; buhar 2.000 W/(m²°C)"], a: 0,
+    e: "Sunum: <b>su ≈ 1000 W/(m²°C)</b>; <b>sıcak su 1000–6000 W/(m²°C)</b>; <b>buhar 6000–15000 W/(m²°C)</b>. Buharın yoğuşarak kondens olmasıyla gizli enerjisi ortaya çıkar; sudan daha hızlı enerji transferi sağlar.",
+    n: "Suda ısı transferi iletim ve konveksiyonla olur ve buhara göre yavaştır. Yüksek ısı transfer katsayısı, aynı ısı yükü için daha küçük ısıtma yüzeyi, yani daha küçük ve ucuz eşanjör demektir." },
+  { t: 0, s: 8, q: "Aynı ısı yükü ve aynı sıcaklık farkı için, ısı transfer katsayısı 10.000 W/(m²°C) olan buharlı bir ısıtıcıya karşılık 2.000 W/(m²°C) olan sıcak sulu bir ısıtıcıda gereken ısıtma yüzeyi kaç katı olur?",
+    o: ["5 katı", "Aynı", "1/5'i", "2 katı", "20 katı"], a: 0,
+    e: "Q = U · A · ΔT; Q ve ΔT sabitse A, U ile ters orantılıdır: A<sub>su</sub> / A<sub>buhar</sub> = 10.000 / 2.000 = <b>5</b>.",
+    n: "Gerçekte buharlı sistemde ΔT de genellikle daha büyüktür (sabit yoğuşma sıcaklığı), bu da yüzey avantajını artırır. Ancak kirli veya hava içeren buhar yüzeyinde yoğuşmayan gaz filmi katsayıyı ciddi biçimde düşürür; hava atıcıların önemi buradan gelir." },
+
+  // Buhar tabloları, T–h diyagramı, hacim
+  { t: 1, s: 9, q: "Sunumdaki T–h diyagramına göre atmosfer basıncında suyun 100 °C'deki entalpisi (h<sub>f</sub>), buharlaşma entalpisi (h<sub>fg</sub>) ve doymuş buhar entalpisi (h<sub>g</sub>) nedir?",
+    o: ["h<sub>f</sub> = 419,06 kJ/kg; h<sub>fg</sub> = 2257 kJ/kg; h<sub>g</sub> = 2676 kJ/kg", "h<sub>f</sub> = 2257; h<sub>fg</sub> = 419,06; h<sub>g</sub> = 2676 kJ/kg", "h<sub>f</sub> = 782; h<sub>fg</sub> = 2000; h<sub>g</sub> = 2782 kJ/kg", "h<sub>f</sub> = 100; h<sub>fg</sub> = 540; h<sub>g</sub> = 640 kJ/kg", "h<sub>f</sub> = 186; h<sub>fg</sub> = 477; h<sub>g</sub> = 663 kJ/kg"], a: 0,
+    e: "Diyagramda atmosfer basıncında: <b>h<sub>f</sub> = 419,06 kJ</b> (B noktası, 100 °C doymuş su), <b>h<sub>fg</sub> = 2257 kJ</b>, <b>h<sub>g</sub> = 2676 kJ</b> (C noktası, doymuş buhar). h<sub>g</sub> = h<sub>f</sub> + h<sub>fg</sub>.",
+    n: "A→B suyun ısınması (hissedilir ısı), B→C buharlaşma (gizli ısı, sabit sıcaklık), C→D kızgın buhar bölgesidir. 2257 kJ/kg ≈ 539 kcal/kg, 1 kg suyu atmosferde buharlaştırmak için gereken ısıdır." },
+  { t: 1, s: 9, q: "Sunumdaki T–h diyagramında suyun kritik noktası hangisidir?",
+    o: ["220,9 bar; 374,14 °C", "1,013 bar; 100 °C", "10 bar; 184 °C", "100 bar; 500 °C", "0 bar; 0 °C"], a: 0,
+    e: "Diyagramda kritik nokta: <b>220,9 bar; 374,14 °C</b>.",
+    n: "Kritik noktada doymuş su ile doymuş buhar arasındaki fark kaybolur; buharlaşma gizli ısısı sıfıra iner. Basınç arttıkça h<sub>fg</sub> küçülür; bu yüzden düşük basınçlı buhar, birim kütle başına daha fazla gizli ısı taşır." },
+  { t: 1, s: 10, q: "Sunuma göre mutlak basınç ile gösterge (gauge) basıncı arasındaki ilişki hangisidir?",
+    o: ["Mutlak basınç = gösterge basıncı + 1", "Mutlak basınç = gösterge basıncı − 1", "Mutlak basınç = gösterge basıncı × 10", "Gösterge basıncı = mutlak basınç + 1", "İkisi her zaman eşittir"], a: 0,
+    e: "Sunum: buhar tabloları <b>gösterge (g, gauge)</b> veya <b>mutlak (a, absolute)</b> basınca göre hazırlanmış olabilir. <b>Mutlak basınç = gösterge basıncı + 1</b> (bar).",
+    n: "Örneğin 10 barg = 11 bar(a). Tablodan değer okurken hangi basınç türünün kullanıldığına dikkat edilmezse doyma sıcaklığı ve entalpi yanlış okunur; 10 bar(a) ≈ 180 °C, 10 barg ≈ 184 °C'dir." },
+  { t: 1, s: 10, q: "Bir buhar hattındaki manometre 7 barg göstermektedir. Buharın mutlak basıncı nedir?",
+    o: ["8 bar(a)", "6 bar(a)", "7 bar(a)", "70 bar(a)", "0,7 bar(a)"], a: 0,
+    e: "Mutlak = gösterge + 1 = 7 + 1 = <b>8 bar(a)</b>.",
+    n: "Manometreler atmosfer basıncını sıfır kabul eder, yani gösterge basıncını okur. Termodinamik hesaplarda ve çoğu buhar tablosunda mutlak basınç kullanılır." },
+  { t: 1, s: 10, q: "Sunuma göre bir buhar tablosunda açıklayıcı bilgi yoksa tablonun gösterge basıncına göre hazırlandığı nasıl anlaşılır?",
+    o: ["100 °C karşılığında basınç alanında 0 bar, 0 kPa veya 0 atm yazıyorsa", "100 °C karşılığında 1,013 bar yazıyorsa", "100 °C karşılığında 1 atm yazıyorsa", "100 °C karşılığında 100 kPa yazıyorsa", "Tabloda hiç sıcaklık sütunu yoksa"], a: 0,
+    e: "Sunum: tabloda <b>100 °C karşılığında 0 bar, 0 kPa, 0 atm</b> varsa tablo <b>gösterge</b> basıncına göre; <b>1,013 bar, 1013 mbar, 100 kPa, 1 atm</b> varsa <b>mutlak</b> basınca göre hazırlanmıştır.",
+    n: "Sunumdaki örnek tabloda üst satırlar mutlak (0,30–0,95 bar a), vurgulanan satırdan itibaren gösterge basıncıdır: 0 barg → 100 °C, h<sub>f</sub> 419,06, h<sub>fg</sub> 2257,0, h<sub>g</sub> 2676,0 kJ/kg, özgül hacim 1,673 m³/kg." },
+  { t: 1, s: 10, q: "Sunumdaki buhar tablosuna göre 0,10 barg basınçta buharın doyma sıcaklığı ve özgül hacmi nedir?",
+    o: ["102,66 °C; 1,533 m³/kg", "100,00 °C; 1,673 m³/kg", "98,20 °C; 1,777 m³/kg", "91,78 °C; 2,217 m³/kg", "184 °C; 0,177 m³/kg"], a: 0,
+    e: "Tabloda 0,10 bar (gösterge) satırı: <b>102,66 °C</b>, h<sub>f</sub> 430,2, h<sub>fg</sub> 2250,2, h<sub>g</sub> 2680,2 kJ/kg, <b>özgül hacim 1,533 m³/kg</b>.",
+    n: "Basınç biraz artınca doyma sıcaklığı yükselir, buharlaşma ısısı (h<sub>fg</sub>) azalır, özgül hacim küçülür. Bu eğilimler tablonun tamamında geçerlidir." },
+  { t: 1, s: 11, q: "Sunumdaki “Islak ve kuru doymuş buhar” diyagramında h′ ile h″ arasındaki bölge ve aradaki fark (r) neyi ifade eder?",
+    o: ["Islak buhar bölgesini; r buharlaşma (gizli) ısısıdır", "Kızgın buhar bölgesini; r kızdırma ısısıdır", "Sıvı su bölgesini; r hissedilir ısıdır", "Buz bölgesini; r erime ısısıdır", "Kritik noktayı; r sıfırdır"], a: 0,
+    e: "Diyagramda su h′'ye kadar ısınır; h′ ile h″ arası <b>ıslak buhar</b> bölgesidir ve enerji verilmeye devam edilirse h″'de <b>kuru doymuş buhar</b> elde edilir. Aradaki fark <b>r = buharlaşma ısısı</b>dır.",
+    n: "Islak buhar içinde henüz buharlaşmamış su damlacıkları taşır; bu damlacıklar gizli ısı taşımaz. Bu yüzden ıslak buharın birim kütle enerjisi düşüktür ve hatlarda erozyon ile koç darbesine yol açar." },
+  { t: 1, s: 12, q: "Sunuma göre atmosfer basıncında 1 kg buharın hacmi, 1 kg suyun hacminin yaklaşık kaç katıdır?",
+    o: ["≈ 1608 katı", "≈ 156 katı", "≈ 16 katı", "≈ 100 katı", "Aynıdır"], a: 0,
+    e: "Atmosfer basıncında suyun özgül hacmi <b>0,00104 m³/kg</b>, buharın <b>1,673 m³/kg</b>'dır: 1,673 / 0,00104 ≈ <b>1608 kat</b>. Kütle aynıdır: 1 kg su = 1 kg buhar.",
+    n: "Bu büyük hacim farkı, buhar ekipmanda yoğuştuğunda neden hızla vakum oluştuğunu ve yeni buharın oraya kendiliğinden aktığını açıklar. Aynı nedenle atmosferik basınçta buhar dağıtmak çok büyük borular gerektirir." },
+  { t: 1, s: 13, q: "Sunuma göre 10 barg basınçta buharın hacmi suyun hacminin yaklaşık kaç katıdır ve bunun dağıtım tasarımındaki sonucu nedir?",
+    o: ["≈ 156 kat; yüksek basınç daha küçük boru çapı demektir", "≈ 1608 kat; yüksek basınç daha büyük boru çapı demektir", "≈ 156 kat; basıncın boru çapına etkisi yoktur", "≈ 16 kat; yüksek basınç daha uzun boru demektir", "≈ 1 kat; hacim değişmez"], a: 0,
+    e: "10 barg'da buharın özgül hacmi <b>0,177 m³/kg</b>'dır ve hacmi suyunkinin <b>≈ 156 katı</b>dır (atmosferdeki 1608 kata karşı). Sunum: “<b>Yüksek basınç daha küçük boru çapları demektir.</b>”",
+    n: "Bu yüzden buhar genellikle yüksek basınçta dağıtılır ve kullanım noktasında basınç düşürücü vanayla proses basıncına indirilir. Küçük çaplı boru hem ucuzdur hem de daha az yüzey kaybı verir." },
+  { t: 1, s: 13, q: "10 barg basınçta 500 kg buharın kapladığı hacim yaklaşık ne kadardır? (10 barg'da özgül hacim 0,177 m³/kg)",
+    o: ["≈ 88,5 m³", "≈ 836,5 m³", "≈ 0,52 m³", "≈ 177 m³", "≈ 8,85 m³"], a: 0,
+    e: "V = m × v = 500 × 0,177 = <b>88,5 m³</b>.",
+    n: "Aynı 500 kg buhar atmosfer basıncında 500 × 1,673 ≈ 836,5 m³ yer kaplardı; yani yaklaşık 9,5 kat daha fazla. 0,52 m³ ise 500 kg suyun hacmidir (0,00104 m³/kg)." },
+
+  // Buhar dağıtım hattı tasarımı
+  { t: 2, s: 14, q: "Sunuma göre bir buhar hattında buharla birlikte aşağıdakilerden hangisi <b>bulunmaz</b>?",
+    o: ["Yakıt", "Boru tabanında sürüklenen kondens", "Buharla sürüklenen su damlacıkları", "Hava ve yoğuşmayan gazlar", "Cüruf ve kir"], a: 0,
+    e: "Sunumda buhar hattında bulunanlar: <b>buhar, boru tabanında sürüklenen kondens, buharla sürüklenen su damlacıkları, hava ve yoğuşmayan gazlar, cüruf ve kir</b>.",
+    n: "Dağıtım hattı tasarımının amacı bu istenmeyenlerin her birini ayırmaktır: kondens için cep ve kapan, damlacıklar için separatör, hava için hava atıcı, kir için pislik tutucu." },
+  { t: 2, s: 15, q: "Sunuma göre yalıtımsız buhar borularının sonuçları nelerdir?",
+    o: ["Enerji kayıplarına ve iş kazalarına neden olur", "Yalnızca görüntü kirliliği yaratır", "Buharı kurutur ve verimi artırır", "Kondens oluşumunu azaltır", "Koç darbesini önler"], a: 0,
+    e: "Sunum: “<b>Yalıtımsız boru, enerji kayıplarına ve iş kazalarına neden olur.</b> İyi yapılmış izolasyon enerji kayıplarını engeller.”",
+    n: "Yalıtımsız boru yüzeyinden kaybedilen ısı borunun içinde kondens oluşturur; bu da daha fazla kapan yükü ve koç darbesi riski demektir. Vana ve flanşlar da sökülebilir yalıtım ceketleriyle kaplanmalıdır." },
+  { t: 2, s: 16, q: "Sunuma göre buhar borularındaki ısıl uzamaları karşılamak için ne kullanılır?",
+    o: ["Kompansatör veya omega", "Pislik tutucu", "Basınç düşürücü vana", "Konsantrik redüksiyon", "Hava atıcı"], a: 0,
+    e: "Sunumda boru uzamaları için <b>kompansatör veya omega</b> kullanımı gösterilir.",
+    n: "Çelik boru yaklaşık 1,2 mm/m/100 °C uzar; 100 m'lik bir hat ortam sıcaklığından 180 °C'ye ısındığında yaklaşık 19–20 cm uzar. Karşılanmayan uzama mesnetleri koparır, flanşlarda kaçağa ve boru sarkmalarına (su birikmesi) yol açar." },
+  { t: 2, s: 17, q: "Sunumda önerilen buhar hızlarından hangisi <b>yanlış</b> eşleştirilmiştir?",
+    o: ["Kızgın buhar: 20 m/s'ye kadar", "Islak buhar: 20 m/s'ye kadar", "Kuru buhar: 20–30 m/s", "Kuru buhar, yükselen eğim: 15–20 m/s", "Vakum buhar: 100 m/s'ye kadar"], a: 0,
+    e: "Önerilen hızlar: <b>ıslak buhar 20 m/s'ye kadar</b>; <b>kuru buhar 20–30 m/s</b>; <b>kuru buhar, yükselen eğim 15–20 m/s</b>; <b>kızgın buhar 60 m/s</b>; <b>vakum buhar 100 m/s'ye kadar</b>.",
+    n: "Kızgın buhar damlacık içermediği için erozyon riski yoktur, yüksek hız kabul edilir. Islak buharda ise hız arttıkça damlacıklar boru dirseklerini aşındırır ve kondensi sürükleyerek koç darbesine yol açar." },
+  { t: 2, s: 17, q: "Saatte 2.000 kg kuru doymuş buhar, 10 barg basınçta (özgül hacim 0,177 m³/kg) iç çapı 80 mm olan bir borudan geçmektedir. Buhar hızı yaklaşık ne kadardır?",
+    o: ["≈ 19,6 m/s", "≈ 9,8 m/s", "≈ 39,1 m/s", "≈ 196 m/s", "≈ 2,0 m/s"], a: 0,
+    e: "Hacimsel debi: 2.000 × 0,177 = 354 m³/h = 0,0983 m³/s. Kesit: π × 0,08² / 4 ≈ 0,00503 m². Hız: 0,0983 / 0,00503 ≈ <b>19,6 m/s</b>.",
+    n: "Bu hız, kuru buhar için önerilen 20–30 m/s aralığının hemen altındadır, yani boru uygun seçilmiştir. Hattın yükselen eğimli bir bölümü varsa orada önerilen 15–20 m/s sınırının da içindedir." },
+  { t: 2, s: 18, q: "Sunuma göre buhar hatlarına hangi yönde ve ne kadar eğim verilmelidir?",
+    o: ["Gidiş yönünde aşağı doğru, 1:100 ile 1:200 arasında", "Gidiş yönünde yukarı doğru, 1:10", "Eğim verilmez, tamamen yatay döşenir", "Gidiş yönünde aşağı doğru, 1:10.000", "Akışa ters yönde, 1:5"], a: 0,
+    e: "Sunum: “Buhar hatları <b>gidiş yönünde aşağı doğru hafif bir eğime</b> sahip olmalıdır.” <b>Buhar hatları eğimi 1:100 ile 1:200</b> arasında olmalıdır (şekilde 10 m'de 10 cm).",
+    n: "Eğim, oluşan kondensin buharla aynı yönde akarak kondens ceplerine ulaşmasını sağlar. Ters eğimde kondens buhara karşı akmak zorunda kalır, birikir ve koç darbesine yol açar." },
+  { t: 2, s: 18, q: "60 m uzunluğundaki yatay bir buhar hattına sunumda önerilen eğim veriliyor. Hattın başı ile sonu arasındaki kot farkı hangi aralıkta olmalıdır?",
+    o: ["0,3 m – 0,6 m", "3 m – 6 m", "0,03 m – 0,06 m", "6 m – 12 m", "0,6 m – 1,2 m"], a: 0,
+    e: "1:100 → 60 / 100 = <b>0,6 m</b>; 1:200 → 60 / 200 = <b>0,3 m</b>. Kot farkı 0,3–0,6 m arasında olmalıdır.",
+    n: "Uzun hatlarda bu kot farkı büyüdüğünden sunumda gösterildiği gibi “testere dişi” tasarım kullanılır: hat bölüm bölüm eğimle iner, her bölümün sonunda kondens cebi ve kapan bulunur, ardından hat yeniden yükseltilir." },
+  { t: 2, s: 19, q: "Sunuma göre uzun buhar hatlarında eğim nasıl sağlanabilir?",
+    o: ["Testere dişi gibi dizayn yapılarak", "Hattı tamamen düz döşeyerek", "Boru çapını sürekli küçülterek", "Kompansatör sayısını artırarak", "Hattı akışa ters eğimle döşeyerek"], a: 0,
+    e: "Sunum: “<b>Uzun buhar hatlarında testere dişi gibi dizayn yapılarak</b> eğimin verilmesi sağlanabilir.”",
+    n: "Her dişin en alt noktasında bir kondens cebi ve buhar kapanı bulunur; hat yükseldiği noktada kısa dikey bir yükselişle yeniden başlar. Böylece kilometrelerce uzunluktaki hatlarda bile toplam kot farkı makul kalır." },
+  { t: 2, s: 20, q: "Sunuma göre eğimle yükselen bir buhar borusunda ne yapılmalıdır?",
+    o: ["Buharın hızı yavaşlatılmalı (örn. 25 → 15 m/s) ve kondens ceplerinin sıklığı artırılmalıdır (≈ 15 m)", "Buhar hızı artırılmalı ve kondens cepleri kaldırılmalıdır", "Boru çapı küçültülmelidir", "Hava atıcılar sökülmelidir", "Kondens cepleri 200 m arayla konmalıdır"], a: 0,
+    e: "Sunum: “Eğim ile yükselen bir buhar borusunda <b>buharın hızı yavaşlatılmalı</b> ve <b>kondens ceplerinin sıklığı artırılmalıdır</b>.” Şekilde yatay hatta V = 25 m/s ve cepler <b>30–50 m</b>'de bir; yükselen hatta V = 15 m/s ve cepler <b>15 m</b>'de bir.",
+    n: "Yükselen hatta kondens buhara ters yönde, aşağı doğru akar. Buhar hızı yüksekse kondensi yukarı sürükler ve borunun kesitini tıkayan su tıkaçları oluşur. Daha büyük çap (düşük hız) ve sık drenaj bunu önler." },
+  { t: 2, s: 21, q: "Sunuma göre ekipmana giden buhar branşmanı ana borunun neresinden alınmalıdır?",
+    o: ["Üst noktasından", "Alt noktasından", "Yan alt noktasından", "Kondens cebinin içinden", "Fark etmez"], a: 0,
+    e: "Sunum: “Ekipmana giden buhar hatlarının branşmanı <b>borunun altından değil üst noktasından</b> alınmalıdır.”",
+    n: "Ana borunun tabanında kondens akar. Branşman alttan alınırsa bu kondens doğrudan ekipmana gider; ıslak buhar, düşük ısı transferi ve koç darbesine yol açar. Basınçlı havadaki “deve boynu” uygulaması da aynı mantıktadır." },
+  { t: 2, s: 22, q: "Sunumdaki pislik tutucu (Y tipi süzgeç) montajı için hangisi doğrudur?",
+    o: ["Yatay buhar hattında süzgeç sepeti yana bakacak şekilde (yatay) monte edilmelidir; aşağı bakarsa içinde kondens birikir", "Süzgeç sepeti her zaman aşağı bakmalıdır", "Pislik tutucu buhar hatlarında kullanılmaz", "Sepet yukarı bakacak şekilde monte edilmelidir", "Pislik tutucu kapandan sonra monte edilmelidir"], a: 0,
+    e: "Sunumdaki “yanlış montaj” şeklinde Y süzgecin sepeti aşağı doğru, “doğru montaj” şeklinde ise sepet <b>yana</b> doğrudur. Buhar hattında aşağı bakan sepet bir su cebi gibi davranır ve kondens toplar.",
+    n: "Sepette biriken kondens, buharla sürüklenerek koç darbesine ve ıslak buhara yol açar. Sıvı hatlarında (ör. kondens hattı) ise sepetin aşağı bakması uygundur; ayrım akışkana göredir." },
+  { t: 2, s: 23, q: "Sunuma göre koç darbelerinin önüne geçmek için çap değişimlerinde hangi tip redüksiyon kullanılmalıdır?",
+    o: ["Eksantrik (alt hizası düz)", "Konsantrik", "Ters eğimli", "Kör flanş", "Dik açılı dirsek"], a: 0,
+    e: "Sunumda <b>konsantrik</b> redüksiyon yanlış (çapın daraldığı yerde boru tabanında su birikir), <b>eksantrik</b> redüksiyon doğru gösterilir. Ayrıca <b>boru sarkmalarındaki su birikmeleri</b> de koç darbesine yol açar.",
+    n: "Eksantrik redüksiyon, boru tabanını aynı hizada tutarak kondensin engelsiz akmasını sağlar. Mesnet aralıklarının fazla olması veya ısıl uzamanın karşılanmaması boruyu sarkıtır; sarkan bölümde biriken su da buharla sürüklenip darbeye yol açar." },
+  { t: 2, s: 24, q: "Sunuma göre aşağıdakilerden hangisi kondens ceplerinin (drenaj noktalarının) konması gereken yerlerden biri <b>değildir</b>?",
+    o: ["Hattın en yüksek noktasında, iniş öncesinde", "Yaklaşık her 30–50 metrede bir", "Yükseliş öncesinde", "Vana öncesinde", "Hat sonlarında"], a: 0,
+    e: "Sunumdaki kondens cebi yerleri: <b>yaklaşık her 30–50 metrede bir</b>, <b>yükseliş öncesi</b>, <b>iniş sonrası</b>, <b>vana öncesi</b> ve <b>hat sonlarında</b>. Kondens alçak noktalarda birikir; hattın en yüksek noktası hava atıcı yeridir.",
+    n: "Kapalı bir vananın önünde biriken kondens, vana açıldığında buharla birlikte yüksek hızla hareket eder ve koç darbesine yol açar. Bu yüzden vana öncesi drenaj, özellikle devreye alma sırasında kritiktir." },
+  { t: 2, s: 25, q: "Sunuma göre kondens cebinin ölçüleri gerekenden küçük seçilirse ne olur?",
+    o: ["Yüksek hızdaki (örn. 30 m/s) buhar kondensi cebin üzerinden sürükler; kondens tamamen tahliye edilemez", "Kondens daha hızlı tahliye edilir", "Buhar hızı düşer", "Buhar kızgın hâle geçer", "Hiçbir etkisi olmaz"], a: 0,
+    e: "Sunum: “<b>Eğer kondens cebi ölçüleri olması gerekenden küçük seçilirse kondens tamamen tahliye edilemez.</b>” Şekilde 30 m/s hızdaki buharın kondensi cebin üzerinden sürüklediği gösterilir.",
+    n: "Uygulamada cep çapı, DN100'e kadar ana boru çapına eşit, daha büyük hatlarda ana boru çapının en az yarısı kadar seçilir. Cep yeterince derin olmalı ve kapan cebin dibinden değil biraz yukarısından bağlanmalıdır (pislik birikmesi için)." },
+  { t: 2, s: 26, q: "Sunumdaki “buhar sıkışması” şemasında anlatılan olay ve tehlikesi nedir?",
+    o: ["Yüksek hızlı buhar boru altındaki kondensi sürükleyerek yukarı kaldırır; boruyu tıkayan kondens darbe yaratır ve iş kazası olasılığını artırır", "Buhar boruda donar", "Kondens buhara dönüşerek boruyu soğutur", "Buhar hızı düşer ve enerji kaybı azalır", "Hava atıcı fazla buhar atar"], a: 0,
+    e: "Sunum: “<b>Yüksek hızlı buhar boru altındaki kondensi sürükleyerek yukarı kaldırır.</b> <b>Boruyu tıkayan kondens iş kazası olasılığını artırır.</b>” Şemada su tıkacının çarpmasıyla oluşan patlama (BAM!) ve geri dönen dalga (rebounding wave) gösterilir.",
+    n: "Buhar hızıyla hareket eden bir su tıkacı dirsek, vana veya hat sonuna çarptığında çok yüksek basınç darbesi oluşturur; boru mesnetleri kopabilir, vana gövdeleri çatlayabilir. Doğru eğim, yeterli cep ve çalışan kapan bunun temel önlemleridir." },
+  { t: 2, s: 27, q: "Sunuma göre buhar hattına separatör montajının amacı nedir?",
+    o: ["Islak buharı kuru buhara çevirmek (su damlacıklarını ayırmak)", "Buharı kızdırmak", "Buhar basıncını artırmak", "Havayı buhara karıştırmak", "Kondensi buharlaştırmak"], a: 0,
+    e: "Sunumdaki separatör montajında <b>ıslak buhar</b> separatöre girer, ayrılan su alttan (kapanla) tahliye edilir, çıkışta <b>kuru buhar</b> elde edilir.",
+    n: "Separatör, buharın yönünü ve hızını değiştirerek ağır su damlacıklarını ayırır. Özellikle kazan çıkışında (kazandan su sürüklenmesi) ve kuru buhar isteyen hassas ekipmanların girişinde kullanılır." },
+  { t: 2, s: 28, q: "Sunuma göre 10 barg basınçta %5 ıslak buharın birim kütle enerjisi ve kuru buhara göre kaybı nedir?",
+    o: ["639 kcal/kg; kayıp 24 kcal/kg (%3,6)", "663 kcal/kg; kayıp 0", "453 kcal/kg; kayıp 210 kcal/kg", "615 kcal/kg; kayıp 48 kcal/kg (%7,2)", "186 kcal/kg; kayıp 477 kcal/kg"], a: 0,
+    e: "Kuru buhar: 186 + 477 = <b>663 kcal/kg</b>. %5 ıslak buhar: gizli ısı 0,95 × 477 = 453 → 186 + 453 = <b>639 kcal/kg</b>. Fark <b>24 kcal/kg (%3,6)</b> birim kütlede enerji kaybıdır.",
+    n: "Islak buharda damlacıklar yalnızca hissedilir ısı taşır; gizli ısı yalnızca buharlaşmış kısımdadır. Kuruluk derecesi x ise toplam enerji h<sub>f</sub> + x · h<sub>fg</sub> olur." },
+  { t: 2, s: 28, q: "10 barg basınçta (hissedilir ısı 186 kcal/kg, gizli ısı 477 kcal/kg) %10 ıslak buharın birim kütle enerjisi ve kuru buhara (663 kcal/kg) göre kayıp oranı yaklaşık ne kadardır?",
+    o: ["≈ 615 kcal/kg; ≈ %7,2", "≈ 639 kcal/kg; ≈ %3,6", "≈ 597 kcal/kg; ≈ %10", "≈ 429 kcal/kg; ≈ %35", "≈ 663 kcal/kg; kayıp yok"], a: 0,
+    e: "Gizli ısı: 0,90 × 477 = 429,3. Toplam: 186 + 429,3 ≈ <b>615 kcal/kg</b>. Kayıp: 663 − 615,3 = 47,7 kcal/kg → 47,7 / 663 ≈ <b>%7,2</b>.",
+    n: "Islaklık oranı iki katına çıkınca kayıp da yaklaşık iki katına çıkar. ≈ 597 kcal/kg şıkkı toplamın %90'ı alınarak bulunur; ancak ıslaklık yalnızca gizli ısıyı etkiler, hissedilir ısı (186) değişmez." },
+  { t: 2, s: 28, q: "Bir tesise 10 barg basınçta saatte 3.000 kg buhar %5 ıslaklıkla ulaşmaktadır. Sunumdaki değere göre ıslaklık nedeniyle saatte ne kadar enerji eksik taşınmaktadır?",
+    o: ["72.000 kcal/h", "24.000 kcal/h", "144.000 kcal/h", "7.200 kcal/h", "1.917.000 kcal/h"], a: 0,
+    e: "Birim kayıp 24 kcal/kg: 3.000 × 24 = <b>72.000 kcal/h</b>.",
+    n: "Prosesin aynı ısıyı alabilmesi için daha fazla buhar gerekir; bu da kazanda daha fazla yakıt demektir. Bir separatörün yatırım maliyeti, bu kaybın yanında genellikle kısa sürede geri döner." },
+  { t: 2, s: 29, q: "Sunuma göre hava atıcılar nereye konmalıdır?",
+    o: ["Hat sonunda ve ekipmanlarda buhar girişinden en uzak noktaya", "Kazan çıkışındaki ilk dirseğe", "Kondens ceplerinin dibine", "Buhar girişinin hemen yanına", "Pislik tutucunun içine"], a: 0,
+    e: "Sunumdaki hava atıcı uygulaması: <b>hat sonu</b> ve ekipmanlarda <b>buhar girişinden en uzak noktaya</b> konur.",
+    n: "Buhar girdikçe havayı önüne katıp en uzak köşeye iter. Hava, buhar ile karışınca kısmi basınç yasası gereği karışımın sıcaklığı düşer ve yüzeyde yalıtkan bir film oluşturur; ısı transferi belirgin şekilde azalır, devreye alma süresi uzar." },
+
+  // Buhar kapanları
+  { t: 3, s: 30, q: "Sunumdaki ANSI/FCI 69-1-1989 tanımına göre buhar kapanı nedir?",
+    o: ["Hava ve yoğuşmayan gazların ve kondensin tahliyesini, buharın kapanlanmasını yardımcı enerjisiz yapan otomatik mekanizmalı vanadır", "Buharı kızdıran elektrikli ısıtıcıdır", "Basıncı düşüren el ile kumandalı vanadır", "Kondensi kazana basan pompadır", "Buharı kurutan separatördür"], a: 0,
+    e: "Tanım: buhar kapanları, <b>hava ve yoğuşmayan gazların tahliyesini</b>, <b>kondensin tahliyesini</b> ve <b>buharın kapanlanmasını</b> <b>yardımcı enerjisiz</b> olarak yapan <b>otomatik mekanizmaya sahip vanalardır</b>.",
+    n: "“Yardımcı enerjisiz” ifadesi, kapanın elektrik veya basınçlı hava gibi dış enerjiye ihtiyaç duymadan, yalnızca akışkanın kendi özellikleriyle (sıcaklık, yoğunluk, hız) çalıştığını anlatır." },
+  { t: 3, s: 31, q: "Sunuma göre <b>termostatik</b> buhar kapanları hangi prensiple çalışır?",
+    o: ["Buhar ile kondens arasındaki sıcaklık farkına göre", "Kondens ile flaş buhar arasındaki dinamik farka (Bernoulli) göre", "Kondens ile buhar arasındaki yoğunluk farkına göre", "Elektrik sinyaliyle", "Zaman ayarlı solenoidle"], a: 0,
+    e: "Kapan tipleri: <b>termostatik</b> (bimetalik, kapsüllü/denge basınçlı) → <b>buhar ve kondens arasındaki sıcaklık farkına</b> göre; <b>termodinamik</b> (disk) → kondens ve flaş buhar arasındaki <b>dinamik farka (Bernoulli)</b> göre; <b>mekanik</b> (ters kovalı, kollu şamandıralı, serbest şamandıralı) → kondens ve buhar arasındaki <b>yoğunluk farkına (kondensin varlığına)</b> göre çalışır.",
+    n: "Termostatik kapan kondens buhar sıcaklığının biraz altına soğuyunca açılır; bu nedenle kondensi hafif alt soğumuş tahliye eder ve kondensin hissedilir ısısının bir kısmından da yararlanılır." },
+  { t: 3, s: 31, q: "Sunumdaki sınıflandırmaya göre <b>disk tipi</b> buhar kapanı hangi gruptadır ve hangi prensiple çalışır?",
+    o: ["Termodinamik; kondens ile flaş buhar arasındaki dinamik fark (Bernoulli prensibi)", "Termostatik; sıcaklık farkı", "Mekanik; yoğunluk farkı", "Termostatik; yoğunluk farkı", "Mekanik; Bernoulli prensibi"], a: 0,
+    e: "Disk tipi kapan <b>termodinamik</b> gruptadır ve <b>kondens ile flaş buhar arasındaki dinamik farka (Bernoulli prensibi)</b> göre çalışır.",
+    n: "Disk altından yüksek hızla geçen flaş buhar, Bernoulli etkisiyle diski oturtur; disk üstündeki hazne buharla dolup basınç oluşturur ve kapan kapanır. Hazne soğuyup buhar yoğuşunca kapan yeniden açılır. Küçük, dayanıklı ve ucuzdur." },
+  { t: 3, s: 31, q: "Sunumdaki sınıflandırmaya göre aşağıdakilerden hangisi <b>mekanik</b> buhar kapanı değildir?",
+    o: ["Bimetalik", "Ters kovalı", "Kollu şamandıralı", "Serbest şamandıralı", "Hepsi mekaniktir"], a: 0,
+    e: "Mekanik kapanlar: <b>ters kovalı, kollu şamandıralı, serbest şamandıralı</b>. <b>Bimetalik</b> ve <b>kapsüllü (denge basınçlı)</b> kapanlar <b>termostatik</b> gruptadır.",
+    n: "Mekanik kapanlar kondens oluşur oluşmaz, alt soğuma beklemeden tahliye eder. Bu yüzden ısıtma yüzeyinde kondens birikmesinin istenmediği eşanjörlerde tercih edilirler." },
+  { t: 3, s: 32, q: "Sunuma göre termostatik buhar kapanlarının uygulama alanları hangileridir?",
+    o: ["Yüksek hava atma kabiliyeti nedeniyle hava atıcı olarak; refakat (izleme) hatlarında; ütü, aparey gibi kondens yükü az ekipmanlarda", "Ana buhar hatlarında kondens ceplerinde", "Yalnızca büyük eşanjörlerde", "Yalnızca kazan blöf hattında", "Yalnızca kızgın buhar hatlarında"], a: 0,
+    e: "Termostatik kapan uygulama alanları: <b>yüksek hava atma kabiliyeti nedeniyle hava atıcı olarak</b>; <b>kondensin enerjisinden de yararlandığı için izleme (refakat) hatlarında</b>; <b>kondens yükü az olan ütü ve aparey</b> gibi ekipmanlarda.",
+    n: "Refakat (izleme, tracing) hatları, viskoz akışkan taşıyan boruları veya enstrüman hatlarını donmaya karşı ısıtır. Kondensin kapan önünde biraz soğuması, onun hissedilir ısısının da bu ısıtmada kullanılması demektir." },
+  { t: 3, s: 33, q: "Sunuma göre termodinamik (disk) buhar kapanlarının uygulama alanı nedir?",
+    o: ["Ana buhar hatlarında kondens ceplerinde", "Hava atıcı olarak", "Refakat hatlarında", "Yalnızca ütülerde", "Büyük kapasiteli eşanjörlerin tamamında"], a: 0,
+    e: "Sunum: termodinamik buhar kapanı uygulama alanı — <b>ana buhar hatlarında kondens ceplerinde</b>.",
+    n: "Ana hat cepleri az miktarda kondensi yüksek basınçta tahliye eder; disk kapanın sağlamlığı, koç darbesine ve kızgın buhara dayanıklılığı bu iş için uygundur. Hava atma kabiliyeti ise sınırlıdır." },
+  { t: 3, s: 34, q: "Sunuma göre mekanik buhar kapanlarının başlıca uygulama alanı hangisidir?",
+    o: ["Eşanjörler", "Hava atıcılar", "Ütüler", "Refakat hatları", "Yalnızca vakum hatları"], a: 0,
+    e: "Sunumda mekanik buhar kapanlarının uygulamaları olarak <b>eşanjörler</b> gösterilir. Serbest şamandıralı kapanlar ayrıca ana hat kondens ceplerinde ve ısıtıcılarda kullanılır.",
+    n: "Eşanjörlerde kondens yükü yüksek ve değişkendir; kondensin oluştuğu anda tahliye edilmesi ısıtma yüzeyinin su altında kalmasını önler. Şamandıralı kapanlar bu sürekli ve oransal tahliyeyi yapar." },
+  { t: 3, s: 35, q: "Sunuma göre serbest şamandıralı buhar kapanlarının kullanım alanları hangileridir?",
+    o: ["Isıtıcılar, ana hat kondens cepleri ve eşanjörler", "Yalnızca ütüler", "Yalnızca hava atıcı olarak", "Yalnızca refakat hatları", "Kızgın buhar hatlarında hava atma"], a: 0,
+    e: "Sunumda serbest şamandıralı kapanın uygulamaları: <b>ısıtıcılar</b> (radyatör/ısıtıcı), <b>ana buhar hattı kondens cepleri</b> ve <b>eşanjörler</b>.",
+    n: "Serbest şamandıralı kapanda tek hareketli parça şamandıra küresidir; kondens seviyesine göre çıkış ağzını açıp kapatır. Çoğunda dahili termostatik hava atıcı bulunur ve devreye almada havayı da atar." },
+  { t: 3, s: 36, q: "Sunuma göre “grup kapanlama” ile ilgili hangisi doğrudur?",
+    o: ["Grup kapanlama genellikle önerilmez; her kondens çıkışına bir buhar kapanı takılmalıdır (individual trapping)", "Birden fazla ekipmanın kondensi tek kapanla tahliye edilmelidir", "Grup kapanlama enerji tasarrufu sağlar", "Kapan hiç kullanılmamalıdır", "Kapan yalnızca ana hatta konmalıdır"], a: 0,
+    e: "Sunum: “<b>Group trapping is typically not recommended</b>” — çözüm: <b>her kondens çıkışına bir buhar kapanı takılması</b> (individual trapping).",
+    n: "Paralel ekipmanların buhar tarafındaki basınçları birbirinden biraz farklıdır. Tek kapanda birleşince basıncı yüksek olan ekipmanın kondensi akar, basıncı düşük olanınki geri tepip ekipmanda birikir; o ekipmanın kapasitesi düşer." },
+  { t: 3, s: 37, q: "Sunumdaki “buhar kilitlenmesi” örneğinde doğru uygulama hangisidir?",
+    o: ["Kapanın ekipmanın kondens çıkışının hemen altına konması; uzun yükselen bir kondens hattından sonra konmaması", "Kapanın ekipmanın en üst noktasına konması", "Kapanın uzun bir yükselen hattın sonuna konması", "Kapanın tamamen kaldırılması", "Kapanın buhar girişine konması"], a: 0,
+    e: "Sunumda “yanlış” şekilde kondens çıkışı uzun bir yükselen hattan sonra kapana ulaşır ve kapan buharla <b>kilitlenir</b>; “doğru” şekilde kapan <b>ekipmanın kondens çıkışına, hemen altına</b> konur.",
+    n: "Kapan ile ekipman arasındaki hat buharla dolunca kapan buharı “görür” ve kapalı kalır; kondens ekipmanda birikir. Kapanı ekipmana yakın ve alçak noktaya koymak, kondensin yerçekimiyle kapana ulaşmasını sağlar." },
+  { t: 3, s: 44, q: "Sunuma göre buhar kapanı arıza türlerinden “kaçıran” kapan ne demektir?",
+    o: ["İç parçalardaki aşınma/bozulma nedeniyle canlı buharı kısmen veya tamamen kaçıran kapan; enerji kaybına neden olur", "Kondensi geçiremeyen, tamamen kapalı kalan kapan", "Basınca ve kapasiteye uygun seçilmemiş kapan", "Girişi çalışma sıcaklığının altında kalan kapan", "Hava atmayan kapan"], a: 0,
+    e: "Sunum: <b>KAÇIRAN</b> — buhar kapanının iç parçalarında meydana gelen aşınma/bozulma sebebiyle kapanın <b>canlı buharı kısmen veya tamamen kaçırması</b> durumudur. Üretilen buhar kaçaklar yoluyla boşa sarf edilir ve <b>enerji kaybına</b> neden olur.",
+    n: "Bakımsız tesislerde kapanların %15–30'u kaçırıyor olabilir. Kapanlar ultrasonik dinleme ve sıcaklık ölçümüyle periyodik olarak kontrol edilmeli, sonuçlar kapan envanterine işlenmelidir." },
+  { t: 3, s: 44, q: "Sunuma göre en tehlikeli buhar kapanı arıza türü hangisidir ve neden?",
+    o: ["Bloke; kapan kondensi geçiremez, kondens ekipmanda/hatta birikir ve koç darbesi riski oluşturur", "Kaçıran; çok enerji kaybettirir", "Yanlış seçim; otomatik cihazlarla bulunamaz", "Düşük sıcaklık; ürün kalitesini düşürür", "Hiçbiri tehlikeli değildir"], a: 0,
+    e: "Sunum: <b>BLOKE</b> — kapanın iç mekanizma arızası veya pislik sebebiyle kondensi geçiremediği, tamamen kapalı kaldığı durumdur. Kapan kondens tahliye edemez ve oluşan kondensi ekipman/ana hat içinde biriktirir. <b>Kapanın kendisi enerji kaybına yol açmasa da koç darbesi riski oluşturması nedeniyle en tehlikeli arıza türüdür.</b>",
+    n: "Bloke kapanın dolaylı enerji etkisi de vardır: kondens dolan eşanjör kapasite kaybeder ve operatörler genellikle by-pass veya drenaj vanasını açar; bu da canlı buhar kaçağına dönüşür." },
+  { t: 3, s: 44, q: "Sunuma göre otomatik cihazlarla bulunamayan, ancak personelin gözlemi ve tecrübesiyle tespit edilebilen kapan arızası hangisidir?",
+    o: ["Yanlış seçim", "Kaçıran", "Bloke", "Düşük sıcaklık", "Hava kilitlenmesi"], a: 0,
+    e: "Sunum: <b>YANLIŞ SEÇİM</b> — uygulamaya, çalışma basıncına ve kapasitesine göre buhar kapanlarının seçimi yapılmamaktadır. Bu bir arıza türü olmakla birlikte, sahada ölçüm yapan personelin gözlemlemesi/tecrübesi ile bulunabilmektedir; <b>cihazların otomatik bulabildiği bir arıza türü değildir</b>.",
+    n: "Örneğin eşanjörde termodinamik kapan veya ana hat cebinde aşırı büyük şamandıralı kapan yanlış seçimdir. Kapan çalışıyor görünür, ama ya kapasite yetmez ya da buhar kaçırmaya yatkın olur." },
+  { t: 3, s: 44, q: "Sunuma göre “düşük sıcaklık” kapan arızası neyi gösterir?",
+    o: ["Kapan girişindeki sıcaklık çalışma basıncındaki doyma sıcaklığının altındadır; geride kondens birikiyor ve tahliye yetersizdir", "Kapan canlı buhar kaçırıyordur", "Kapan tamamen doğru çalışıyordur", "Buhar kızgındır", "Kazan basıncı çok yüksektir"], a: 0,
+    e: "Sunum: <b>DÜŞÜK SICAKLIK</b> — buhar kapanı girişindeki sıcaklık, çalıştığı buhar basıncında olması gereken sıcaklığın altında ise bu durum <b>geride kondens biriktiğinin ve tahliyenin yeterli yapılmadığının</b> göstergesidir. Üretimde kalite sorunları ve açılan drain vanaları nedeniyle enerji kaybına yol açar.",
+    n: "Örneğin 10 barg hatta kapan girişi 184 °C yerine 120 °C ölçülüyorsa kapan önünde soğumuş kondens vardır. Operatörlerin bu sorunu drenaj vanasını açarak çözmeye çalışması, canlı buharın atmosfere atılması demektir." },
+  { t: 3, s: 44, q: "Bir buhar kapanından saatte 10 kg canlı buhar kaçmaktadır; tesis yılda 8.000 saat çalışmaktadır. Kazanda 1 kg buhar üretmek için suya 600 kcal verildiği, kazan veriminin %90 ve doğal gazın alt ısıl değerinin 8.250 kcal/m³ olduğu kabul edilirse yıllık doğal gaz kaybı yaklaşık ne kadardır?",
+    o: ["≈ 6.465 m³", "≈ 5.818 m³", "≈ 80.000 m³", "≈ 646 m³", "≈ 48.000 m³"], a: 0,
+    e: "Yıllık kaçan buhar: 10 × 8.000 = 80.000 kg. Enerji: 80.000 × 600 = 48.000.000 kcal. Yakıt enerjisi: 48.000.000 / 0,90 ≈ 53.333.000 kcal. Doğal gaz: 53.333.000 / 8.250 ≈ <b>6.465 m³/yıl</b>.",
+    n: "Kazan verimi ihmal edilirse ≈ 5.818 m³ bulunur; tasarruf ve kayıp hesaplarında yakıt tarafına geçerken her zaman kazan verimine bölünür. Tek bir küçük kaçıran kapanın yıllık maliyeti, yeni bir kapanın fiyatının çok üzerindedir." },
+
+  // Flaş buhar ve kondens geri kazanımı
+  { t: 4, s: 38, q: "Sunuma göre flaş buhar nedir?",
+    o: ["Yüksek basınçtaki sıcak kondensin birden alçak basınçlı bir ortama tahliyesi sırasında ortaya çıkan buharlaşmadır", "Kazanda yakıtın yanmasıyla oluşan buhardır", "Kızgın buharın soğumasıyla oluşan sudur", "Basınçlı havadaki su buharıdır", "Soğutma kulesinden çıkan buğudur"], a: 0,
+    e: "Sunum: “<b>Yüksek basınçtaki sıcak kondensin birden alçak basınçtaki bir ortama tahliyesi sırasında ortaya çıkan buharlaşmaya flaş buhar denir.</b>” Örnek olarak sıcak radyatör kapağı açılan otomobilden çıkan buhar gösterilir.",
+    n: "Flaş buhar, kapan çıkışlarında ve kondens tanklarının havalandırma borularından çıkan “duman” olarak görülür. Bu görüntü çoğu zaman yanlışlıkla kaçıran kapan sanılır; ayırt etmek için ultrasonik ölçüm gerekir." },
+  { t: 4, s: 39, q: "Sunumdaki T–h diyagramına göre 10 bar basınçtaki doymuş kondensin sıcaklığı ve entalpisi nedir?",
+    o: ["184 °C; 782 kJ/kg", "100 °C; 419 kJ/kg", "184 °C; 2782 kJ/kg", "374 °C; 2257 kJ/kg", "120 °C; 363 kJ/kg"], a: 0,
+    e: "Diyagramda 10 bar'da doymuş su (kondens): <b>184 °C, 782 kJ</b>; doymuş buhar: 184 °C, 2782 kJ. Atmosfer basıncında doymuş su: 100 °C, 419 kJ. Aradaki fark <b>363 kJ</b>'dür.",
+    n: "Kondens 10 bar'dan atmosfere indiğinde (X→Y) entalpisi sabit kalır, ancak atmosferde doymuş su ancak 419 kJ/kg tutabilir. Fazlası (363 kJ/kg) suyun bir kısmını buharlaştırır (Y noktası su + buhar bölgesindedir)." },
+  { t: 4, s: 40, q: "Sunuma göre 10 bar kondens atmosfer basıncına tahliye edildiğinde kg başına ne kadar ısı açığa çıkar?",
+    o: ["363 kJ/kg", "782 kJ/kg", "419 kJ/kg", "2257 kJ/kg", "184 kJ/kg"], a: 0,
+    e: "10 bar kondens 184 °C ve <b>782 kJ/kg</b>; atmosfer basıncında 100 °C ve <b>419 kJ/kg</b>. Fark: 782 − 419 = <b>363 kJ/kg</b> atık ısı açığa çıkar ve bu ısı farkı kondensten flaş buhar açığa çıkartır.",
+    n: "Şemada yüksek basınçtaki ve alçak basınçtaki “hissedilir (kondens) enerjisi” karşılaştırılır. Bu ısı geri kazanılmazsa flaş buhar olarak havaya karışır ve kaybolur." },
+  { t: 4, s: 41, q: "Sunuma göre flaş buhar oranı (%) hangi formülle hesaplanır?",
+    o: ["(h<sub>f</sub> yüksek − h<sub>f</sub> düşük) / h<sub>fg</sub> düşük", "(h<sub>g</sub> yüksek − h<sub>g</sub> düşük) / h<sub>f</sub> düşük", "h<sub>fg</sub> düşük / h<sub>f</sub> yüksek", "(h<sub>f</sub> yüksek + h<sub>f</sub> düşük) / h<sub>g</sub> yüksek", "h<sub>f</sub> düşük / h<sub>fg</sub> yüksek"], a: 0,
+    e: "Sunum: aradaki enerji farkının <b>düşük basınçtaki buharlaşma entalpisine</b> oranı kadar % cinsinden flaş buhar oluşur: <b>(yüksek basınçtaki hissedilen ısı h<sub>f</sub> − düşük basınçtaki hissedilen ısı h<sub>f</sub>) / düşük basınçtaki gizli ısı h<sub>fg</sub></b>.",
+    n: "Formül bir enerji dengesidir: açığa çıkan hissedilir ısı, düşük basınçta suyun bir kısmını buharlaştırmak için harcanır; 1 kg buhar için h<sub>fg</sub> kadar enerji gerekir. Paydada yüksek basıncın değil, düşük basıncın h<sub>fg</sub>'si kullanılır." },
+  { t: 4, s: 41, q: "Sunumdaki örneğe göre 10 bar kondensin atmosfer basıncına tahliyesinde oluşan flaş buhar oranı yaklaşık ne kadardır?",
+    o: ["≈ %16", "≈ %36", "≈ %3,6", "≈ %84", "≈ %50"], a: 0,
+    e: "Flaş oranı = (782 − 419) / 2257 = 363 / 2257 ≈ <b>%16</b>.",
+    n: "Yani 10 bar'dan atmosfere atılan her 100 kg kondensin yaklaşık 16 kg'ı buhar olarak çıkar; bu kütle kaybolursa hem enerji hem arıtılmış su kaybedilir. Flaş buhar, alçak basınçlı bir ısıtma hattında (ör. besi suyu ön ısıtma) kullanılabilir." },
+  { t: 4, s: 41, q: "5 barg basınçtaki doymuş kondens (h<sub>f</sub> = 670 kJ/kg) atmosfer basıncındaki bir kondens tankına (h<sub>f</sub> = 419 kJ/kg, h<sub>fg</sub> = 2257 kJ/kg) tahliye ediliyor. Flaş buhar oranı yaklaşık ne kadardır?",
+    o: ["≈ %11,1", "≈ %16,1", "≈ %29,7", "≈ %18,6", "≈ %37,5"], a: 0,
+    e: "Flaş oranı = (670 − 419) / 2257 = 251 / 2257 ≈ <b>%11,1</b>.",
+    n: "Basınç farkı azaldıkça flaş oranı düşer: 10 bar'dan %16, 5 barg'dan %11. Paydada her zaman düşük basınçtaki (tahliye edilen ortamdaki) buharlaşma entalpisi kullanılır." },
+  { t: 4, s: 41, q: "10 bar basınçtaki bir eşanjörden saatte 2.000 kg kondens atmosferik bir tanka tahliye edilmektedir. Sunumdaki flaş oranıyla (%16) saatte ne kadar flaş buhar oluşur ve tankta ne kadar sıvı kondens kalır?",
+    o: ["320 kg/h flaş buhar; 1.680 kg/h kondens", "160 kg/h flaş buhar; 1.840 kg/h kondens", "1.680 kg/h flaş buhar; 320 kg/h kondens", "32 kg/h flaş buhar; 1.968 kg/h kondens", "2.000 kg/h flaş buhar; kondens kalmaz"], a: 0,
+    e: "Flaş buhar: 2.000 × 0,16 = <b>320 kg/h</b>. Kalan kondens: 2.000 − 320 = <b>1.680 kg/h</b> (100 °C).",
+    n: "320 kg/h flaş buhar, kabaca 320 × 2257 ≈ 722.000 kJ/h ≈ 200 kW ısı demektir. Bu buhar havaya atılmak yerine flaş tankında toplanıp alçak basınçlı bir ısıtma hattına verilebilir." },
+  { t: 4, s: 42, q: "Aşağıdakilerden hangisi sunumda sayılan kondens geri kazanımı avantajlarından biri <b>değildir</b>?",
+    o: ["Kondens geri kazanımı kazan basıncını artırır", "Geri kazanılan kondens distile edilmiş olduğundan az kimyasal şartlandırma gerektirir", "Geri kazanılan kondens ön ısıtma yapmadan kazana geri verilebilir", "Kondensin içerdiği enerji flaş buhar olarak kullanılabilir", "Geri kazanılmayan kondens çevreye bırakılmadan önce yasal olarak arıtılmak zorundadır; geri kazanım bu yükü ortadan kaldırır"], a: 0,
+    e: "Sunumdaki maddeler: geri kazanılan kondens <b>distile</b> olduğundan <b>az kimyasal şartlandırma</b> gerektirir; geri kazanılmayan kondens çevreye bırakılmadan önce <b>yasal atık yönetmeliği gereği arıtılmak zorundadır</b>; geri kazanılan kondens <b>ön ısıtma yapmadan kazana</b> verilebilir; kondensin enerjisi <b>flaş buhar</b> olarak kullanılabilir. Kazan basıncı ile ilgisi yoktur.",
+    n: "Kondens hem sıcak (enerji) hem saf (su arıtma maliyeti) olduğu için iki kez değerlidir. Pasta grafikte kondens ısısının buharın toplam ısısı içindeki payı gösterilir; bu pay basınç arttıkça büyür ve 10 bar'da ≈ %28'dir (782 / 2782)." },
+  { t: 4, s: 43, q: "Sunuma göre kondens dönüşü olan bir buhar sisteminin avantajları hangileridir?",
+    o: ["Düşük su şartlandırması, gerektiği kadar ham su takviyesi, düşük yakıt tüketimi, düşük blöf miktarı", "Yüksek blöf, yüksek ham su tüketimi, yüksek yakıt tüketimi", "Yalnızca daha yüksek buhar basıncı", "Yalnızca daha düşük kazan yatırım maliyeti", "Daha fazla kimyasal kullanımı"], a: 0,
+    e: "Sunumdaki şemada kondens dönüşü olan sistemde: <b>kondens enerjisi geri kazanımı</b>, <b>düşük su şartlandırması</b>, <b>gerektiği kadar ham su takviyesi</b>, <b>düşük yakıt tüketimi</b> ve <b>düşük blöf miktarı</b> vurgulanır.",
+    n: "Kondens saf olduğu için kazandaki çözünmüş tuz derişimi yavaş artar ve blöf ihtiyacı azalır. Blöf de sıcak su atmak demek olduğundan, blöfün azalması ayrıca bir yakıt tasarrufudur." },
+  { t: 4, s: 43, q: "Bir tesiste saatte 5.000 kg kondens 90 °C'de besi suyu tankına geri döndürülüyor; geri döndürülmeseydi yerine 15 °C ham su kullanılacaktı. Kazan verimi %90 ve doğal gazın alt ısıl değeri 8.250 kcal/m³ ise saatte yaklaşık ne kadar doğal gaz tasarruf edilir? (c = 1 kcal/kg°C)",
+    o: ["≈ 50,5 m³/h", "≈ 45,5 m³/h", "≈ 375 m³/h", "≈ 5,05 m³/h", "≈ 60,6 m³/h"], a: 0,
+    e: "Isı: 5.000 × 1 × (90 − 15) = 375.000 kcal/h. Yakıt enerjisi: 375.000 / 0,90 ≈ 416.700 kcal/h. Doğal gaz: 416.700 / 8.250 ≈ <b>50,5 m³/h</b>.",
+    n: "Kazan verimi unutulursa ≈ 45,5 m³/h bulunur. Bu hesaba ayrıca ham su, su şartlandırma kimyasalları ve atık su arıtma maliyetlerinden sağlanan tasarruf da eklenmelidir; kondens geri kazanım projelerinin geri ödeme süresi bu yüzden kısadır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
