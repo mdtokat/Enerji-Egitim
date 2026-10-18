@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verimlilik Göstergeleri Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home" href="../index.html">← Ana sayfa</a>
+    <p class="eyebrow">SUNUM 4 · 1_5.pdf · Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Enerji Tasarrufu Potansiyeli, Özgül Tüketim ve Enerji Yoğunluğu <em>Sınavı</em></h1>
+    <p class="lede">42 soru, beşer şık. Enerji verimliliği göstergeleri, ODEX hesabı, Türkiye'de tüketim ve yoğunluk eğilimleri, sektörel özgül tüketimler ve gönüllü anlaşmalarda işletme enerji yoğunluğu hesabı. Hesap sorularında gereken veriler soru içinde verilir. Eskimiş veriler güncel değerlerle değiştirildi; hangi soruda güncelleme yapıldığı cevaptan sonra gösterilir. Her cevabın ardından bir öğretici not yer alır.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span>Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Enerji Tasarrufu Potansiyeli, Özgül Enerji Tüketimi ve Enerji Yoğunluğu” sunumu (E. Yalçın, EVÇED). Güncel veriler: ETKB, TÜİK, SHURA, EEA (2022–2026); Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik. Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum4-v1",
+topics: ["Göstergeler ve kullanım amaçları", "Enerji verimliliği endeksi (ODEX)", "Türkiye'de tüketim ve yoğunluk eğilimleri", "Sektörel göstergeler", "Gönüllü anlaşmalar ve işletme enerji yoğunluğu"],
+Q: [
+  // Göstergeler ve kullanım amaçları
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi enerji verimliliği göstergelerinin kullanım amaçları arasında <b>yer almaz</b>?",
+    o: ["Elektrik tarifelerinin belirlenmesi", "Ulusal ve uluslararası hedeflerin izlenmesi", "Enerji verimliliği programlarının değerlendirilmesi", "Enerji talep tahmin modellerine veri sağlanması", "Uluslararası karşılaştırmalar"], a: 0,
+    e: "Göstergeler hedeflerin izlenmesi, programların değerlendirilmesi, aksiyon planlarının yapılması, talep tahmin modellerine veri sağlanması ve uluslararası karşılaştırmalar için kullanılır. <b>Tarife belirleme</b> bunlardan biri değildir.",
+    n: "Göstergelerin en somut kullanımı ulusal eylem planlarının izlenmesidir. 1. Ulusal Enerji Verimliliği Eylem Planı (2017–2023) 23,9 Mtep tasarruf hedeflemiş, 24,6 Mtep gerçekleşmiştir. 2. Eylem Planı (2024–2030) ile 2030'a kadar enerji tüketiminin %16 azaltılması hedeflenmektedir. Bu hedeflerin tutup tutmadığı ancak doğru tanımlanmış göstergelerle ölçülebilir." },
+  { t: 0, s: 5, q: "Makro düzeyde “birincil enerji yoğunluğu” nasıl hesaplanır?",
+    o: ["Birincil enerji tüketimi ÷ sabit fiyatlarla GSYH", "Nihai enerji tüketimi ÷ nüfus", "Birincil enerji tüketimi ÷ nihai enerji tüketimi", "GSYH ÷ birincil enerji tüketimi", "Birincil enerji tüketimi ÷ kurulu güç"], a: 0,
+    e: "Birincil enerji yoğunluğu = <b>birincil enerji tüketimi (bin tep) ÷ GSYH (sabit fiyatlarla, örn. 2010 $)</b>. Nihai enerji yoğunluğunda payda aynıdır, pay nihai tüketimdir.",
+    n: "Payda cari değil sabit fiyatlı GSYH'dir; aksi hâlde enflasyon ve kur değişimi yoğunluğu yapay olarak düşürür. Birincil ile nihai yoğunluk arasındaki fark, dönüşüm sektörünün (santral, rafineri) verimliliğini yansıtır: verimli santraller birincil yoğunluğu nihai yoğunluktan daha hızlı düşürür." },
+  { t: 0, s: 6, q: "Sanayi sektörünün enerji yoğunluğu hesaplanırken paydada hangi büyüklük kullanılır?",
+    o: ["Sektörün sabit fiyatlarla katma değeri", "Ülkenin toplam GSYH'si", "Sektördeki çalışan sayısı", "Sektörün kurulu elektrik gücü", "Sektörün ihracat tutarı"], a: 0,
+    e: "Sanayi ve imalat alt sektörlerinde enerji yoğunluğu = <b>enerji tüketimi (bin tep) ÷ katma değer (sabit fiyatlarla)</b>.",
+    n: "Katma değer, sektörün ürettiği değerden ara girdilerin çıkarılmasıyla bulunur. Sektörel göstergelerde paydanın o sektörün kendi çıktısı olması gerekir; toplam GSYH ile bölmek sektörün kendi verimliliğini değil ekonomideki payını ölçer." },
+  { t: 0, s: 6, q: "Demir-çelik, çimento, kâğıt ve cam gibi enerji yoğun sektörlerde verimliliği izlemek için neden ton başına enerji (tep/ton) gibi fiziksel göstergeler tercih edilir?",
+    o: ["Fiyat ve kur değişimlerinden etkilenmeden birim ürünün enerji ihtiyacını doğrudan gösterdikleri için", "Katma değer verisi bu sektörlerde gizli tutulduğu için", "Bu sektörlerde enerji TEP ile ölçülemediği için", "Uluslararası karşılaştırma yapılmasını engelledikleri için", "Yalnızca elektrik tüketimini kapsadıkları için"], a: 0,
+    e: "Özgül (spesifik) enerji tüketimi, <b>bir ton ürün için harcanan enerjiyi</b> gösterir. Ürün fiyatları dalgalansa da bu gösterge yalnızca teknik verimlilik değişirse değişir.",
+    n: "Örnek: çelik fiyatı bir yıl %30 artarsa katma değer temelli yoğunluk düşer, ama fabrika hiç verimlileşmemiş olabilir. tep/ton ise bu yanılgıya düşmez. Bu yüzden ISO 50001 enerji performans göstergelerinde (EnPG) de üretim miktarı başına tüketim en sık kullanılan ölçüttür." },
+  { t: 0, s: 13, q: "Hizmet sektöründe enerji verimliliğini izlemek için kullanılan temel gösterge hangisidir?",
+    o: ["Çalışan başına enerji (elektrik) tüketimi, kWh/kişi", "Ton-km başına enerji tüketimi", "Konut başına iklim düzeltmeli tüketim", "Klinker başına ısı tüketimi", "Araç başına yakıt tüketimi"], a: 0,
+    e: "Hizmet sektöründe gösterge <b>çalışan başına enerji tüketimi (kWh/kişi)</b>'dir; ayrıca sektörün elektrik yoğunluğu (enerji ÷ katma değer) izlenir.",
+    n: "Hizmet binalarında (ofis, AVM, hastane, otel) tüketimin büyük kısmı elektriktir: aydınlatma, iklimlendirme ve bilgi işlem. Bu yüzden çalışan başına elektrik göstergesi, klima ve bilgisayar kullanımının yaygınlaşmasıyla hızla yükselir. m² başına tüketim de bina karşılaştırmalarında kullanılır." },
+  { t: 0, s: 14, q: "Yük taşımacılığının enerji verimliliği hangi gösterge ile izlenir?",
+    o: ["Ton-km başına enerji tüketimi", "Yolcu-km başına enerji tüketimi", "Konut başına enerji tüketimi", "Çalışan başına enerji tüketimi", "Katma değer başına elektrik tüketimi"], a: 0,
+    e: "Yük taşımacılığında <b>ton-km başına</b>, yolcu taşımacılığında <b>yolcu-km başına</b> enerji tüketimi kullanılır.",
+    n: "Ton-km, taşınan yükün (ton) taşındığı mesafeyle (km) çarpımıdır. 10 ton yükün 100 km taşınması 1.000 ton-km eder. Demiryolu ve denizyolu, ton-km başına karayolundan birkaç kat daha az enerji harcar; bu yüzden yükün raylı sisteme ve denize kaydırılması önemli bir verimlilik politikasıdır." },
+  { t: 0, s: 12, q: "Konut başına ve m² başına enerji tüketimi göstergelerinde neden “iklim düzeltmesi” yapılır?",
+    o: ["Soğuk veya ılık geçen yılların ısınma tüketimine etkisini ayıklayıp gerçek verimlilik değişimini görmek için", "Konut sayısındaki artışı gizlemek için", "Elektrik tüketimini doğal gaza çevirmek için", "Yaz aylarındaki tüketimi hesaptan çıkarmak için", "Farklı şehirlerdeki fiyat farklarını eşitlemek için"], a: 0,
+    e: "Isınma tüketimi havaya çok bağlıdır. İklim düzeltmesi, tüketimi <b>normal (referans) iklim koşullarına</b> göre yeniden hesaplar; böylece yalıtım ve verimli cihazların etkisi hava koşullarından ayrılır.",
+    n: "Düzeltme derece-gün ile yapılır. Isıtma derece-gün, günlük ortalama dış sıcaklığın belirli bir taban sıcaklığın (örneğin 15 °C) altında kaldığı derecelerin yıl boyunca toplamıdır. Kışı soğuk geçen yılda derece-gün yüksek, ılık geçen yılda düşüktür." },
+  { t: 0, s: 21, q: "Isıtma derece-gün değerinin referans değerin altında kaldığı (kışın ılık geçtiği) bir yılda, iklim düzeltmeli nihai enerji yoğunluğu gerçekleşen değere göre nasıl çıkar?",
+    o: ["Gerçekleşen değerden yüksek çıkar.", "Gerçekleşen değerden düşük çıkar.", "Gerçekleşen değere her zaman eşittir.", "Sıfır çıkar.", "Derece-gün yoğunluğu etkilemez."], a: 0,
+    e: "Ilık yılda ısınma tüketimi düşük gerçekleşir. Normal iklime göre düzeltilince tüketim yukarı çekilir, bu yüzden <b>iklim düzeltmeli yoğunluk gerçekleşenden yüksek</b> çıkar (Türkiye'de 2010 yılı örneği). Soğuk yılda ise tersi olur (2011).",
+    n: "Bu düzeltme olmadan ılık bir kış “verimlilik başarısı” gibi görünebilir. Bir işletmede ısıtma tüketimini değerlendirirken de aynı mantık geçerlidir: tasarruf iddiası, derece-gün farkı ayıklandıktan sonra ölçülmelidir (ISO 50015 / IPMVP yaklaşımı)." },
+
+  // ODEX
+  { t: 1, s: 8, q: "ODEX olarak adlandırılan enerji verimliliği endeksi hangi kapsamda geliştirilmiştir?",
+    o: ["Avrupa Birliği'nde ODYSSEE projesi kapsamında", "Uluslararası Enerji Ajansı'nın Dünya Enerji Görünümü raporunda", "BM İklim Değişikliği Çerçeve Sözleşmesi'nde", "ISO 50001 standardında", "OPEC'in petrol piyasası raporlarında"], a: 0,
+    e: "ODEX, AB'de <b>ODYSSEE projesi</b> kapsamında sektörel enerji verimliliği eğilimlerini izlemek için geliştirilmiştir.",
+    n: "ODYSSEE-MURE, AB ülkelerinin enerji verimliliği göstergelerini ve politikalarını (MURE) karşılaştırmalı olarak toplayan bir veri tabanıdır. Türkiye, göstergelerini bu yönteme uyumlu biçimde hesaplayarak AB ile karşılaştırma yapabilmektedir." },
+  { t: 1, s: 8, q: "ODEX değerinin yıllar içinde düşmesi ne anlama gelir?",
+    o: ["Enerji verimliliği iyileşmektedir.", "Enerji verimliliği kötüleşmektedir.", "Enerji tüketimi mutlaka azalmıştır.", "Üretim miktarı düşmüştür.", "Enerji fiyatları artmıştır."], a: 0,
+    e: "ODEX'teki <b>düşüş verimliliğin iyileşmesi</b> anlamına gelir. Örneğin ODEX 100'den 88,6'ya inmişse birim faaliyet başına enerji yaklaşık %11,4 azalmıştır.",
+    n: "ODEX bir “birim tüketim” endeksidir; toplam tüketimi değil, birim ürün veya faaliyet başına tüketimi izler. Bu yüzden üretim artarken toplam tüketim artsa bile ODEX düşebilir. Sınavlarda “endeks düştü, tüketim de düştü” çıkarımı sık yapılan bir hatadır." },
+  { t: 1, s: 8, q: "ODEX gibi endeksler, verimlilik değişimini neden enerji yoğunluğuna göre daha iyi ifade eder?",
+    o: ["Alt sektörlerin birim tüketimlerine dayandıkları için yapısal değişim ve fiyat etkilerinden daha az etkilenirler.", "Yalnızca elektrik tüketimini dikkate aldıkları için", "GSYH büyümesini iki kez hesaba kattıkları için", "Her yıl aynı değeri verdikleri için", "Nüfusa bölündükleri için"], a: 0,
+    e: "Enerji yoğunluğu, ekonominin yapısı değişince (örneğin hizmetlerin payı artınca) verimlilik değişmese de düşebilir. ODEX ise <b>her alt sektörün kendi birim tüketimini</b> izler ve bunları enerji paylarıyla ağırlıklandırır.",
+    n: "Yoğunluk değişimini üç etkiye ayırmak mümkündür: faaliyet (üretim hacmi), yapı (sektörlerin payı) ve verimlilik (birim tüketim). ODEX yalnızca üçüncüsünü yakalamaya çalışır. Politika değerlendirmesinde sorulan soru da budur: verimlilik önlemleri işe yaradı mı?" },
+  { t: 1, s: 7, q: "İmalat sanayiinde ODEX hesaplanırken enerji yoğun olmayan sektörlerde (gıda, tekstil, makine-teçhizat vb.) hangi birim tüketim göstergesi kullanılır?",
+    o: ["tep / sanayi üretim endeksi", "tep / ton ürün", "kWh / çalışan", "tep / ton-km", "tep / konut"], a: 0,
+    e: "Enerji yoğun sektörlerde (demir-çelik, çimento, kâğıt, cam) <b>tep/ton ürün</b>; enerji yoğun olmayan sektörlerde <b>tep/sanayi üretim endeksi</b> kullanılır. İmalat ODEX'i 10 alt sektörün endekslerinden hesaplanır.",
+    n: "Tekstil veya makine gibi sektörlerde binlerce farklı ürün vardır ve “ton ürün” anlamlı bir ortak birim değildir. Bu yüzden fiziksel üretimi temsil eden üretim endeksi kullanılır. Çimento ve çelikte ise ürün homojendir ve ton doğrudan kullanılabilir." },
+  { t: 1, s: 10, q: "Baz yılı 2013 = 100 olan bir ODEX hesabında 2014 yılı için kimya endeksi 98, demir-çelik endeksi 97'dir. 2014'te kimyanın enerji tüketimindeki payı %48, demir-çeliğin %52 ise 2014 ODEX değeri yaklaşık kaçtır?",
+    o: ["95,0", "97,0", "97,5", "98,0", "102,6"], a: 2,
+    e: "ODEX₂₀₁₄ = 100 × (98/100 × 0,48 + 97/100 × 0,52) = 47,04 + 50,44 ≈ <b>97,5</b> (sunumda 97,4 olarak yuvarlanmıştır).",
+    n: "ODEX zincirleme hesaplanır: her yıl bir önceki yılın ODEX değeri, alt sektör endekslerinin yıllık değişim oranlarının cari yıl enerji paylarıyla ağırlıklı ortalamasıyla çarpılır. Ağırlıkların her yıl güncellenmesi, büyüyen sektörlerin endekse daha fazla yansımasını sağlar." },
+  { t: 1, s: 10, q: "Bir önceki yıl ODEX = 97,4'tür. Bu yıl kimya endeksi 98'den 96'ya, demir-çelik endeksi 97'den 87'ye inmiştir. Enerji payları kimya %44, demir-çelik %56 ise bu yılın ODEX değeri yaklaşık kaçtır?",
+    o: ["86,9", "88,6", "90,9", "93,3", "95,6"], a: 2,
+    e: "ODEX = 97,4 × (96/98 × 0,44 + 87/97 × 0,56) = 97,4 × (0,431 + 0,502) = 97,4 × 0,933 ≈ <b>90,9</b>.",
+    n: "Hesabın püf noktası, alt sektör endekslerinin kendisini değil <b>yıllık değişim oranlarını</b> (96/98, 87/97) kullanmaktır. Endekslerin doğrudan ağırlıklı ortalaması alınırsa (96 × 0,44 + 87 × 0,56 = 90,96) bu örnekte sonuç yakın çıkar, ama paylar yıldan yıla çok değiştiğinde iki yöntem belirgin biçimde ayrışır." },
+  { t: 1, s: 11, q: "Bir yılın toplam enerji tüketimi 45 Mtep ve ODEX değeri 90,9 ise (baz yılı = 100) “Enerji tasarrufu = Tüketim × ((100 / ODEX) − 1)” formülüne göre baz yılına kıyasla tasarruf yaklaşık kaç Mtep'tir?",
+    o: ["0,45", "1,12", "4,50", "9,10", "40,9"], a: 2,
+    e: "45 × (100/90,9 − 1) = 45 × 0,1001 ≈ <b>4,50 Mtep</b>.",
+    n: "Formülün anlamı: verimlilik baz yılındaki gibi kalsaydı aynı faaliyet için 45 × 100/90,9 ≈ 49,5 Mtep harcanacaktı; gerçekleşen 45 Mtep olduğuna göre aradaki 4,5 Mtep verimlilik sayesinde tasarruf edilmiştir. Bu yöntem, ulusal eylem planlarındaki tasarrufun “yukarıdan aşağı” hesaplanmasında kullanılır." },
+  { t: 1, s: 33, q: "2000–2016 döneminde sektörel enerji verimliliği endekslerine göre verimliliği en hızlı iyileşen sektör hangisidir?",
+    o: ["Ulaştırma", "İmalat sanayii", "Konut", "Üçünde de iyileşme aynı hızda olmuştur", "Hiçbirinde iyileşme olmamıştır"], a: 0,
+    e: "Yıllık iyileşme: <b>ulaştırma %2,4</b>, imalat %1,8, konut %1,1; toplam ODEX'te yıllık %1,8.",
+    n: "Ulaştırmadaki iyileşmenin büyük kısmı demiryolu (ton-km başına yıllık %5,9) ve havayolunda (yolcu-km başına yıllık %7,7) yeni ve verimli taşıtlara geçişten gelmiştir. Konuttaki yavaş iyileşme ise yalıtımsız eski bina stokunun yavaş yenilenmesiyle açıklanır." },
+
+  // Türkiye'de tüketim ve yoğunluk eğilimleri
+  { t: 2, s: 17, q: "2000'den bu yana Türkiye'de nihai enerji tüketimindeki payı sürekli gerileyen, ancak hâlâ en büyük paya sahip olan sektör hangisidir?",
+    o: ["Sanayi", "Ulaştırma", "Konut", "Hizmet", "Tarım"], a: 0,
+    e: "Sanayinin payı 2000'de <b>%40</b>, 2016'da %34, 2024'te <b>%30,6</b>'dır; yine de en büyük paya sahip sektördür. Aynı dönemde ulaştırma ve hizmetlerin payı artmıştır.",
+    n: "Sanayinin payının düşmesi her zaman sanayinin küçüldüğü anlamına gelmez: sanayi tüketimi mutlak olarak artarken ulaştırma ve hizmet tüketimi daha hızlı arttığı için pay düşer. Payları yorumlarken toplam tüketimin de büyüdüğünü unutmayın: 2024'te nihai tüketim 127,2 Mtep'tir.",
+    g: { eski: "2000 → 2016: sanayi %40 → %34, ulaştırma %21 → %27, konut %25 → %20, hizmet %9 → %14, tarım %5 → %4.", yeni: "2024: nihai tüketim 127,2 Mtep, sanayi %30,6 ile ilk sırada. 2023: ulaştırma %27,4, konut %21,8.", kaynak: "ETKB verileri, SHURA Türkiye Enerji Dönüşümü Görünümü 2024 ve 2025" } },
+  { t: 2, s: 18, q: "Türkiye'de nihai enerji tüketiminde yakıt türleri arasında en büyük paya sahip olan hangisidir?",
+    o: ["Petrol ürünleri", "Doğal gaz", "Elektrik", "Kömür", "Biyoenerji ve atık"], a: 0,
+    e: "Nihai tüketimde en büyük pay <b>petrol ürünlerine</b> aittir: 2016'da %39; TÜİK enerji hesaplarına göre 2024'te %41,9. Onu elektrik (%22,4) ve doğal gaz (%22,0) izler.",
+    n: "Petrolün baskın olmasının nedeni ulaştırmadır: karayolu taşıtlarının neredeyse tamamı akaryakıt kullanır. Kömürün nihai tüketimdeki payı ise konutlarda doğal gaza geçişle 2000'deki %20'den belirgin biçimde düşmüştür. Elektrifikasyon (ısı pompası, elektrikli araç) ilerledikçe elektriğin payının artması beklenir.",
+    g: { eski: "2016: petrol %39, doğal gaz %21, elektrik %19, kömür %15, biyoenerji ve atık %2.", yeni: "2024: petrol ürünleri %41,9, elektrik %22,4, doğal gaz %22,0 (TÜİK enerji hesapları, nihai kullanım).", kaynak: "TÜİK, Enerji Hesapları 2024" } },
+  { t: 2, s: 20, q: "ETKB'nin 2022 verilerine göre Türkiye'nin birincil enerji yoğunluğu uluslararası ortalamalarla karşılaştırıldığında hangisi doğrudur?",
+    o: ["Dünya ortalamasının altında, OECD ve AB ortalamalarının üzerindedir.", "Dünya, OECD ve AB ortalamalarının hepsinin altındadır.", "Dünya, OECD ve AB ortalamalarının hepsinin üzerindedir.", "AB ortalamasının altında, OECD ortalamasının üzerindedir.", "Dünya ortalamasına tam olarak eşittir."], a: 0,
+    e: "2022'de Türkiye <b>0,132</b>, dünya ortalaması 0,169, OECD 0,097, AB 0,086 tep/bin 2015 $'dır. Türkiye dünya ortalamasından iyi, OECD ve AB'den kötüdür.",
+    n: "Türkiye'nin yoğunluğu 2022'de bir önceki yıla göre %6,2, 2023'te %4,5 iyileşmiştir. Ancak OECD ve AB ile fark, kısmen ekonominin yapısından (çimento, demir-çelik gibi enerji yoğun sanayinin ağırlığı) kaynaklanır. Bu yüzden yoğunluk karşılaştırmasını sektörel göstergelerle birlikte okumak gerekir.",
+    g: { eski: "2016 (IEA, tep/bin 2010 $): Türkiye ≈0,12, OECD ≈0,11, AB-28 ≈0,09, dünya ≈0,18.", yeni: "2022 (tep/bin 2015 $): Türkiye 0,132, dünya 0,169, OECD 0,097, AB 0,086. 2023'te Türkiye'nin yoğunluğu %4,5 daha iyileşti.", kaynak: "ETKB Enerji Verimliliği Raporu 2022; Avrupa Çevre Ajansı (EEA) Türkiye ülke profili 2025" } },
+  { t: 2, s: 19, q: "Bir ülkede GSYH yılda ortalama %4,9 büyürken birincil enerji tüketimi yılda %3,4 artıyorsa birincil enerji yoğunluğu yaklaşık nasıl değişir?",
+    o: ["Yılda yaklaşık %1,4 azalır.", "Yılda yaklaşık %1,4 artar.", "Yılda yaklaşık %8,3 artar.", "Değişmez.", "Yılda yaklaşık %4,9 azalır."], a: 0,
+    e: "Yoğunluk = enerji ÷ GSYH: 1,034 ÷ 1,049 ≈ 0,986, yani yılda yaklaşık <b>%1,4 azalma</b>. Türkiye'de 2000–2016 döneminde birincil ve nihai yoğunluk yılda ortalama %1,4 azalmıştır.",
+    n: "Oran büyüklüklerin değişimi için pratik kural: (1 + pay değişimi) ÷ (1 + payda değişimi) − 1. Küçük oranlarda bu yaklaşık olarak “pay artışı − payda artışı” (3,4 − 4,9 = −1,5) kadardır. Enerji tüketimi artarken yoğunluğun düşmesi göreli ayrışmadır." },
+  { t: 2, s: 23, q: "İmalat sanayiinde enerji yoğunluğu değişimi ayrıştırıldığında “sabit yapıda yoğunluk” %3,7 azalmış, yapısal değişikliklerin etkisi ise +%0,4 olmuştur. Gerçekleşen yoğunluk değişimi yaklaşık ne kadardır?",
+    o: ["Yaklaşık −%3,3", "Yaklaşık −%4,1", "Yaklaşık +%0,4", "Yaklaşık −%3,7", "Yaklaşık +%3,3"], a: 0,
+    e: "Gerçekleşen değişim ≈ sabit yapı (verimlilik) etkisi + yapısal etki = −3,7 + 0,4 ≈ <b>−%3,3</b>.",
+    n: "Sabit yapıda yoğunluk, alt sektörlerin payları değişmeseydi yoğunluğun ne olacağını gösterir ve verimlilik etkisini temsil eder. Yapısal etki, enerji yoğun sektörlerin payının değişmesinden gelir. Burada pozitif yapısal etki, enerji yoğun alt sektörlerin imalat içindeki payının arttığını, verimlilik kazanımının bir kısmını sildiğini gösterir." },
+  { t: 2, s: 24, q: "Türkiye'nin imalat sanayii enerji yoğunluğu, AB-28'in imalat sanayii katma değer yapısına göre düzeltildiğinde 0,23'ten 0,15 kep/€2005'e inmekte ve AB-28 değerinin altında kalmaktadır. Bu durum en iyi nasıl yorumlanır?",
+    o: ["Türkiye'nin yüksek imalat yoğunluğu büyük ölçüde enerji yoğun sektörlerin ağırlığından, yani sektör yapısından kaynaklanmaktadır.", "Türk sanayisi AB'ye göre çok verimsiz teknolojiler kullanmaktadır.", "AB-28'in verileri hatalıdır.", "Düzeltme yapılınca enerji tüketimi azalmıştır.", "Türkiye'de katma değer hesaplanmamaktadır."], a: 0,
+    e: "Aynı sektör yapısıyla karşılaştırıldığında Türkiye'nin yoğunluğu AB-28'den düşüktür. Yani fark <b>teknolojik verimsizlikten değil, yapıdan</b> (çimento, demir-çelik, seramik gibi sektörlerin büyük payından) gelmektedir.",
+    n: "Bu tür “yapı düzeltmeli” karşılaştırmalar, ülkeleri adil kıyaslamanın yoludur. Bir ülkenin yoğunluğu yüksek diye sanayisi verimsiz sayılmamalıdır; önce ne ürettiğine bakılmalıdır. Aynı mantık bir işletmeyi sektör ortalamasıyla kıyaslarken de geçerlidir: ürün karması farklıysa ham yoğunluk yanıltır." },
+  { t: 2, s: 22, q: "2000–2016 döneminde sektörel enerji yoğunluklarına bakıldığında yoğunluğu en hızlı <b>artan</b> sektör hangisidir?",
+    o: ["Ulaştırma (yıllık +%5,1)", "Sanayi (yıllık −%3,5)", "İmalat sanayii (yıllık −%2,5)", "Hizmet (yıllık +%0,1)", "Tarım (yıllık +%0,05)"], a: 0,
+    e: "Sanayi (−%3,5) ve imalat (−%2,5) yoğunluğu azalırken <b>ulaştırma yıllık %5,1</b>, hizmet %0,1, tarım %0,05 artmıştır.",
+    n: "Ulaştırmanın yoğunluğu artarken verimlilik endeksinin iyileşmesi çelişki gibi görünebilir. Açıklama şudur: yoğunluk, enerji tüketimini katma değere böler. Araç sayısı ve seyahat ekonomiden hızlı büyürse yoğunluk artar, ama taşıt başına ya da ton-km başına tüketim (ODEX'in ölçtüğü) yine de iyileşebilir." },
+
+  // Sektörel göstergeler
+  { t: 3, s: 25, q: "2000–2016 döneminde spesifik enerji tüketimi en hızlı azalan enerji yoğun sektör hangisidir?",
+    o: ["Demir-çelik (yıllık %3)", "Kâğıt (yıllık %0,4)", "Cam (yıllık %2,1)", "Çimento klinker ısı tüketimi (yıllık %0,3)", "Hiçbiri; hepsinde artış olmuştur"], a: 0,
+    e: "Yıllık azalma: <b>demir-çelik %3</b>, cam %2,1, kâğıt %0,4; çimentoda klinker ısı tüketimi %0,3, elektrik tüketimi %0,7.",
+    n: "Demir-çelikteki hızlı düşüşün başlıca nedeni, hurdayı elektrikle eriten elektrik ark ocaklarının (EAO) payının artmasıdır. EAO'da ton çelik başına enerji, cevherden üretim yapan yüksek fırın–bazik oksijen fırını rotasına göre birkaç kat düşüktür. Türkiye çelik üretiminin büyük bölümü EAO ile yapılır." },
+  { t: 3, s: 26, q: "Türkiye'deki entegre çimento fabrikalarında klinker üretiminin spesifik ısı tüketimi yaklaşık ne düzeydedir?",
+    o: ["Yaklaşık 80 kcal/kg klinker", "Yaklaşık 300 kcal/kg klinker", "Yaklaşık 800 kcal/kg klinker", "Yaklaşık 2.000 kcal/kg klinker", "Yaklaşık 8.000 kcal/kg klinker"], a: 2,
+    e: "2008–2016 döneminde klinker spesifik ısı tüketimi <b>yaklaşık 800–830 kcal/kg</b> düzeyinde seyretmiş ve yıllık %0,3 azalmıştır. Çimento üretiminde spesifik elektrik tüketimi yaklaşık 100 kWh/ton'dur.",
+    n: "Modern ön ısıtıcılı ve ön kalsinatörlü kuru sistemlerde en iyi değerler 700–750 kcal/kg civarındadır. Isı tüketiminin düşmesi zordur, çünkü kalkerin kalsinasyonu için gereken teorik enerji tek başına yaklaşık 400 kcal/kg'dır. Bu nedenle çimentoda en büyük fırsatlar atık ısıdan elektrik üretimi ve alternatif yakıt kullanımıdır." },
+  { t: 3, s: 27, q: "Konut sektöründe alan ısıtmasının toplam tüketimdeki payı 2000'de %68,7 iken 2016'da %59,9'a düşmüştür. Bunun başlıca nedenleri arasında hangisi <b>yer almaz</b>?",
+    o: ["Konut sayısının azalması", "Düşük verimli kömür sobalarından daha verimli gaz ısıtma sistemlerine geçilmesi", "Isı yalıtımı yönetmeliğinin devreye girmesi", "Binalarda yalıtım uygulamalarının yaygınlaşması", "Elektrikli cihaz kullanımının artmasıyla diğer kullanımların payının yükselmesi"], a: 0,
+    e: "Payın düşmesi verimli ısıtma sistemlerine geçiş, yalıtım ve elektrikli cihaz kullanımının artmasıyla açıklanır. <b>Konut sayısı azalmamış, artmıştır</b>.",
+    n: "Doğal gazlı kombi ya da yoğuşmalı kazanın verimi (%90–107) kömür sobasınınkinin (%40–60) yaklaşık iki katıdır. Aynı konforu yarı enerjiyle sağlar. Bina dış cephe yalıtımı ise ısı kaybını %30–50 azaltabilir. Binalarda Enerji Performansı Yönetmeliği yeni binalarda enerji kimlik belgesini zorunlu kılar." },
+  { t: 3, s: 28, q: "2000–2016 döneminde konut sektöründe kullanım alanlarına göre tüketimi en hızlı artan kalem hangisidir?",
+    o: ["Su ısıtma", "Alan ısıtma", "Pişirme", "Elektrikli ev aletleri ve aydınlatma", "Hiçbiri; hepsi azalmıştır"], a: 0,
+    e: "Yıllık artış: <b>su ısıtma %5,5</b>, elektrikli ev aletleri ve aydınlatma %4,3, alan ısıtma %1,2, pişirme %0,7.",
+    n: "Sıcak su tüketimi refah ve konfor beklentisiyle hızla artar. Güneş enerjili su ısıtıcıları (Türkiye bu alanda dünyanın önde gelen ülkelerindendir) ve ısı pompalı su ısıtıcılar bu artışı karşılamanın en verimli yollarıdır. Ev aletlerinde ise enerji etiketi (A sınıfı cihazlar) ve LED aydınlatma tüketimi belirgin biçimde düşürür." },
+  { t: 3, s: 30, q: "2000–2016 döneminde hizmet sektöründe elektrik yoğunluğu yıllık %2,3, çalışan başına elektrik tüketimi ise yıllık %3,5 artmıştır. Bu eğilimin en olası açıklaması nedir?",
+    o: ["Ofis, AVM ve otellerde iklimlendirme ve elektrikli cihaz kullanımının yaygınlaşması", "Hizmet sektöründe çalışan sayısının sıfırlanması", "Elektriğin hizmet sektöründe yasaklanması", "Doğal gazın tamamen elektrikle ikame edilmesi", "Hizmet sektörünün katma değerinin azalması"], a: 0,
+    e: "Klima, bilgi işlem, aydınlatma ve asansör gibi elektrik yükleri hizmet binalarında hızla yaygınlaştığı için <b>çalışan başına elektrik</b> artmıştır.",
+    n: "Hizmet binalarında en büyük tasarruf fırsatları: bina otomasyon sistemi ile iklimlendirmenin saat ve doluluk bazlı kontrolü, LED ve hareket sensörlü aydınlatma, değişken hızlı sürücülü (VSD) pompa ve fanlar ile soğutmada verimli (yüksek EER/SEER) cihazlardır." },
+  { t: 3, s: 31, q: "Türkiye'de ulaştırma sektörünün enerji tüketiminde karayolunun payı 2000'de %87 iken 2016'da kaça yükselmiştir?",
+    o: ["%64", "%78", "%87", "%94", "%99"], a: 3,
+    e: "Karayolunun payı <b>%94</b>'e yükselmiştir. Aynı dönemde demiryolunun payı %2,2'den %0,5'e, denizyolunun payı %1,6'dan %0,2'ye gerilemiştir.",
+    n: "Karayoluna bu kadar bağımlı olmak, ulaştırmanın neredeyse tamamen ithal petrole dayanması demektir. Yük ve yolcunun demiryoluna ve denizyoluna kaydırılması (modal kayma), ulaştırmada en etkili verimlilik ve emisyon azaltım politikalarından biridir; demiryolunda ton-km başına enerji tüketimi karayolundan birkaç kat düşüktür." },
+  { t: 3, s: 32, q: "Karayolunda araç başına enerji tüketimi göstergesinde kullanılan “binek araç eşdeğeri” katsayılarına göre 1 kamyon kaç binek araca eşdeğer sayılır?",
+    o: ["0,25", "1,5", "10", "12", "20"], a: 3,
+    e: "Katsayılar: binek araç 1,00; motosiklet 0,25; hafif yük aracı 1,50; otobüs 10,00; <b>kamyon 12,00</b>.",
+    n: "Farklı büyüklükteki araçları tek bir paydada toplamak için eşdeğer katsayılar kullanılır; TEP'in yakıtlar için yaptığını bu katsayılar araçlar için yapar. Karayolunda eşdeğer araç başına tüketim 2000–2016'da yıllık yalnızca %0,4 azalmıştır. Bu, araç filosunun ağırlaşmasının (SUV, kamyon) motor verimindeki iyileşmeyi kısmen sildiğini gösterir." },
+
+  // Gönüllü anlaşmalar
+  { t: 4, s: 34, q: "Enerji verimliliği mevzuatına göre gönüllü anlaşma yapmak isteyen bir endüstriyel işletme ne taahhüt etmelidir?",
+    o: ["Üç yıl içinde referans enerji yoğunluğunu ortalama en az %10 azaltmayı", "Bir yıl içinde enerji tüketimini %50 azaltmayı", "Beş yıl içinde ISO 14001 belgesi almayı", "Üç yıl içinde üretimini %10 artırmayı", "On yıl içinde tamamen yenilenebilir enerjiye geçmeyi"], a: 0,
+    e: "Gönüllü anlaşmada işletme, <b>üç yıl içinde referans enerji yoğunluğunu ortalama en az %10 azaltmayı</b> taahhüt eder.",
+    n: "Taahhüt toplam tüketim değil yoğunluk (birim üretim değeri başına enerji) üzerinedir; böylece büyüyen bir işletme de anlaşma yapabilir. Referans enerji yoğunluğu (REY), başvurudan önceki beş yılın enerji yoğunluklarının ortalamasıdır." },
+  { t: 4, s: 34, q: "Gönüllü anlaşma başvuruları hangi ay ve hangi kuruma yapılır?",
+    o: ["Her yıl Mayıs ayında Bakanlığa", "Her yıl Ocak ayında TÜİK'e", "Her yıl Ekim ayında EPDK'ya", "Her yıl Aralık ayında Sanayi ve Teknoloji Bakanlığına", "Her yıl Haziran ayında belediyeye"], a: 0,
+    e: "Başvurular Ek-7'deki formatta hazırlanan formla <b>her yıl Mayıs ayında Enerji ve Tabii Kaynaklar Bakanlığına</b> yapılır.",
+    n: "Yönetmelik 2020'de değiştirildi. Eski metinde başvuru her yıl Ekim ayında Genel Müdürlüğe yapılıyordu. Aynı değişiklikle destek oranı %20'den %30'a, üst sınır 100 bin TL'den 1 milyon TL'ye çıkarıldı. Eski kaynaklarda Ekim ve %20 ifadelerine rastlarsanız bunların güncel olmadığını bilin.",
+    g: { eski: "Eski metin (Madde 18): başvuru her yıl Ekim ayında Genel Müdürlüğe; destek %20, en fazla 100 bin TL.", yeni: "Güncel metin (Madde 13): başvuru her yıl Mayıs ayında Bakanlığa; destek enerji giderinin %30'u, en fazla 1 milyon TL.", kaynak: "Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelikte değişiklik (RG 25.01.2020)" } },
+  { t: 4, s: 35, q: "Gönüllü anlaşmada işletmenin enerji yoğunluğu “E / D” formülüyle hesaplanır. Buradaki D neyi ifade eder?",
+    o: ["Baz yılı fiyatlarıyla, bin TL cinsinden yıllık mal üretiminin ekonomik değerini", "Yıllık toplam enerji tüketimini (TEP)", "İşletmenin çalışan sayısını", "Yıllık elektrik faturası tutarını", "Fabrikanın kapalı alanını (m²)"], a: 0,
+    e: "D = (100 / Yi-ÜFE) × Σ(Pi × Fi): <b>sabit (baz yılı) fiyatlarla yıllık mal üretiminin ekonomik değeri</b>, bin TL. E ise TEP cinsinden yıllık toplam enerji tüketimidir.",
+    n: "Pi üretilen mal miktarı, Fi fabrika çıkış (satış) fiyatıdır; çarpımları cari fiyatlarla üretim değeridir. Bunu sektörün üretici fiyat endeksine (ÜFE) bölüp 100 ile çarpmak, değeri baz yılı fiyatlarına çevirir. Yönetmelikte baz yılı 2015'tir; Bakanlık gerekirse değiştirebilir." },
+  { t: 4, s: 35, q: "Enerji yoğunluğu hesabında cari fiyatlı üretim değeri neden sektörün üretici fiyat endeksine (ÜFE) bölünür?",
+    o: ["Fiyat artışlarını (enflasyonu) ayıklayıp reel üretim değerini bulmak için", "Enerji tüketimini TEP'e çevirmek için", "İhracat payını hesaplamak için", "Vergi matrahını belirlemek için", "Üretim miktarını tona çevirmek için"], a: 0,
+    e: "ÜFE'ye bölmek <b>enflasyondan arındırılmış (reel) üretim değerini</b> verir. Aksi hâlde yalnızca fiyatlar arttığı için yoğunluk düşmüş görünürdü.",
+    n: "Örnek: işletme aynı miktarı üretip aynı enerjiyi harcasa, ama fiyatlar %50 artsa, cari değerle hesaplanan yoğunluk %33 düşerdi. Hiçbir verimlilik iyileşmesi olmadan destek hak edilmiş gibi görünürdü. Reel değer kullanmak bu “sahte tasarrufu” önler." },
+  { t: 4, s: 45, q: "2015 = 100 bazlı sektör ÜFE değerleri 2010 için 74,7, 2019 için 112,8'dir. Endeks 2010 = 100 bazına çevrilirse 2019 değeri yaklaşık kaç olur?",
+    o: ["74,7", "112,8", "138,1", "151", "188"], a: 3,
+    e: "Yeni endeks = (112,8 / 74,7) × 100 ≈ <b>151</b>.",
+    n: "Bir endeksin baz yılını değiştirmek için her yılın değeri yeni baz yılının değerine bölünüp 100 ile çarpılır. Endeksin gösterdiği oransal değişim değişmez, yalnızca ölçeği değişir: 2010–2019 arasında fiyatlar %51 artmıştır." },
+  { t: 4, s: 48, q: "Bir işletmenin 2019 yılı cari fiyatlı üretim değeri 41.600 bin TL, sektör ÜFE'si (2010 = 100) 151, enerji tüketimi 6.700 TEP'tir. İşletmenin 2019 enerji yoğunluğu yaklaşık kaç TEP/bin TL'dir?",
+    o: ["0,161", "0,243", "0,296", "0,412", "4,12"], a: 1,
+    e: "Reel üretim değeri D = 41.600 / 151 × 100 ≈ 27.550 bin TL. Yoğunluk = 6.700 / 27.550 ≈ <b>0,243 TEP/bin TL</b>.",
+    n: "Önce reel değer, sonra bölme: sırayı karıştırmayın. Cari değerle hesaplanırsa 6.700 / 41.600 = 0,161 çıkar ve yoğunluk olduğundan çok düşük görünür. Sınavlarda bu çeldirici sık kullanılır." },
+  { t: 4, s: 51, q: "Bir işletmenin başvurudan önceki beş yıla ait enerji yoğunlukları 0,22 – 0,25 – 0,27 – 0,35 – 0,39 TEP/bin TL'dir. Referans enerji yoğunluğu (REY) yaklaşık kaçtır?",
+    o: ["0,22", "0,27", "0,296", "0,337", "0,39"], a: 2,
+    e: "REY = (0,22 + 0,25 + 0,27 + 0,35 + 0,39) / 5 = 1,48 / 5 = <b>0,296</b>.",
+    n: "REY'in birkaç yılın ortalaması olması, tek bir olağan dışı yılın (arıza, sipariş düşüşü) referansı bozmasını engeller. Yine de bu örnekte son iki yılda yoğunluk yükselmiştir; böyle bir eğilim, işletmeye görece kolay bir azaltım fırsatı sunar. Değerlendirme komisyonu bu yüzden REY'i ve taahhüt oranını birlikte puanlar." },
+  { t: 4, s: 52, q: "REY = 0,296 olan bir işletmenin izleme dönemindeki yoğunlukları 0,281, 0,271 ve 0,243 ise referansa göre ortalama azalma oranı yaklaşık ne kadardır ve %10 taahhüt karşılanmış mıdır?",
+    o: ["Yaklaşık −%10,3; taahhüt karşılanmıştır.", "Yaklaşık −%5,0; taahhüt karşılanmamıştır.", "Yaklaşık −%17,8; taahhüt karşılanmıştır.", "Yaklaşık −%3,1; taahhüt karşılanmamıştır.", "Yaklaşık +%10,3; yoğunluk artmıştır."], a: 0,
+    e: "Yıllık farklar: (0,281−0,296)/0,296 = −%5,0; (0,271−0,296)/0,296 = −%8,2; (0,243−0,296)/0,296 = −%17,8. Aritmetik ortalama ≈ <b>−%10,3</b>, yani %10 taahhüt karşılanmıştır.",
+    n: "Desteğe hak kazanmak için iki şart birlikte aranır: üç yılın ortalama azalması taahhüt oranına ulaşmalı ve izleme döneminin son yılındaki yoğunluk REY'in en az taahhüt oranı kadar altında olmalıdır. Bu örnekte son yıl −%17,8 ile ikinci şart da sağlanmıştır." },
+  { t: 4, s: 36, q: "Gönüllü anlaşma başvuruları P = 0,6 × REYP + 0,4 × EYAP formülüyle puanlanır. Bu formüle göre hangi işletme daha yüksek puan alma eğilimindedir?",
+    o: ["Referans enerji yoğunluğu yüksek olan ve yüksek azaltım oranı taahhüt eden işletme", "Enerji yoğunluğu en düşük olan işletme", "Çalışan sayısı en fazla olan işletme", "Başvurusunu en erken yapan işletme", "En az azaltım taahhüt eden işletme"], a: 0,
+    e: "Puanın <b>%60'ı referans enerji yoğunluğuna, %40'ı taahhüt edilen azaltım oranına</b> göre verilir; ikisi de en yüksek değere göre 100 üzerinden normalize edilir.",
+    n: "Formülün mantığı, kıt destek bütçesini en büyük tasarruf potansiyeline yönlendirmektir: yoğunluğu yüksek işletmelerde aynı yüzde azaltım daha çok TEP tasarrufu demektir. Puanlar sıralanır ve gönüllü anlaşma yapılacak işletmeler en yüksek puandan başlanarak Bakan onayıyla belirlenir." },
+  { t: 4, s: 42, q: "Gönüllü anlaşma dönemi sonunda taahhüdünü yerine getiren işletmeye hangi destek ödenir?",
+    o: ["Anlaşma yılına ait enerji giderinin %30'u, en fazla 1 milyon TL", "Yatırım tutarının %70'i, sınırsız", "Enerji giderinin %10'u, en fazla 100 bin TL", "Tüm vergi borcunun silinmesi", "Üç yıl boyunca bedava elektrik"], a: 0,
+    e: "Taahhüdünü sağlayan işletmeye <b>anlaşmanın yapıldığı yıla ait enerji giderinin %30'u</b>, Bakanlık ödeneği yeterliyse ve <b>1 milyon TL'yi geçmemek</b> kaydıyla ödenir.",
+    n: "Destek ödemesine esas enerji gideri, yeminli mali müşavirce onaylanmış belgelerle kanıtlanır. Gönüllü anlaşma, verimlilik artırıcı proje (VAP) desteğinden farklıdır: VAP'ta belirli bir projenin yatırım maliyeti desteklenir, gönüllü anlaşmada ise işletmenin genel yoğunluk performansı ödüllendirilir." },
+  { t: 4, s: 39, q: "Bir gönüllü anlaşmanın yürürlük tarihi, yani izleme döneminin başlangıcı ne zamandır?",
+    o: ["Başvuruyu takip eden yılın 1 Ocak günü", "Başvurunun yapıldığı gün", "Anlaşmanın imzalandığı ayın sonu", "Başvuru yılının 1 Haziran günü", "Destek ödemesinin yapıldığı gün"], a: 0,
+    e: "Yürürlük tarihi <b>başvuruyu takip eden mali yılın başı olan 1 Ocak</b>'tır; taahhütler ve izleme dönemi bu tarihten itibaren başlar.",
+    n: "Mayıs'ta başvuran bir işletme için izleme dönemi ertesi yılın 1 Ocak'ında başlar ve üç yıl sürer. İzleme döneminin ilk yılı içinde işletme, destek hesabına esas olacak başvuru yılı enerji giderini gösteren belgeleri Bakanlığa gönderir." },
+  { t: 4, s: 40, q: "Gönüllü anlaşma döneminde işletme sınırları içinde devreye alınan bir güneş santralinin ürettiği ve işletmede kullanılan elektrik, enerji yoğunluğu hesabında nasıl değerlendirilir?",
+    o: ["Bir defaya mahsus olmak üzere yıllık toplam enerji tüketiminden düşülür.", "Tüketime iki kat olarak eklenir.", "Hiç dikkate alınmaz.", "Üretim değerine (D) eklenir.", "Yalnızca santral ithal ekipmanla kurulduysa düşülür."], a: 0,
+    e: "Hidrolik, rüzgâr, jeotermal, güneş veya biyokütleden ve atık yakma tesislerinden üretilip işletmede kullanılan enerji, tesis anlaşma döneminde devreye alınmışsa <b>bir defaya mahsus</b> toplam tüketimden düşülür: E = Et − Eyk.",
+    n: "Kojenerasyon tesisleri için ek şartlar vardır: verimin tebliğdeki asgari değerin üzerinde olması ve tesisin yurt içinde imal edilmiş sayılması (toplam maliyetin %70'inden fazlasının yurt içi imalat olması). Üretim ve tüketim noktası işletme sınırları içinde olmalıdır. Böylece mevzuat yerli ve yenilenebilir öz üretimi de teşvik eder." },
+]};
+</script>
+<script src="sinav.js"></script>
+</body>
+</html>
