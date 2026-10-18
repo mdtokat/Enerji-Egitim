@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talep Tarafı Yönetimi Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 7 · Talep Tarafı Yönetimi</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 7</span> 1_8.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020</p>
+    <h1>Elektrik Enerjisinde Verimlilik ve Talep Tarafı Yönetimi <em>Sınavı</em></h1>
+    <p class="lede">Kayıp ve kaçak; üretim, iletim ve dağıtımda verimlilik; kojenerasyon; SCADA ve sayaçlar; tek terimli, çift terimli ve çok zamanlı tarife analizi.</p>
+    <ul class="facts"><li>38 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Elektrik Enerjisinde Verimlilik; Talep Tarafı Yönetimi” sunumu (ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum7-v1",
+topics: ["İzleme, kayıp ve kaçak", "Üretimde verimlilik ve kojenerasyon", "İletim ve dağıtım", "SCADA ve sayaçlar", "Tarife analizi"],
+Q: [
+  // İzleme, kayıp ve kaçak
+  { t: 0, s: 2, q: "Sunuma göre işletmeler için izlenmesi zorunlu hâle gelen değerler arasında hangisi <b>sayılmaz</b>?",
+    o: ["Çalışanların vardiya sayısı", "Gerilim dalgalanmaları", "Enerji tüketimleri", "Güç faktörü", "Frekans ve akımdaki değişimler"], a: 0,
+    e: "Sunumda izlenmesi zorunlu değerler <b>gerilim dalgalanmaları, enerji tüketimleri, güç faktörü, frekans ve akımdaki değişimler</b> olarak sayılır. Vardiya sayısı bir elektriksel büyüklük değildir.",
+    n: "Sunumun ana fikri: “Ölçmek ve izlemek enerji verimliliği uygulamaları için esastır.” Ölçülmeyen tüketim yönetilemez; enerji izleme sistemleri tüketim maliyetini hesaplamak, anormal tüketimi yakalamak ve tasarrufu doğrulamak için hızla yaygınlaşmaktadır. ISO 50001 enerji yönetim sistemi de önemli enerji kullanımlarının ölçülmesini ve izlenmesini şart koşar." },
+  { t: 0, s: 3, q: "Elektrik iletim ve dağıtım hatları boyunca trafo ve kabloların iç dirençleri nedeniyle oluşan enerjiye ne ad verilir?",
+    o: ["Kayıp", "Kaçak", "Reaktif enerji", "Puant", "Sözleşme gücü"], a: 0,
+    e: "Trafo ve iletim–dağıtım hatlarındaki kabloların <b>iç dirençleri nedeniyle</b> oluşan enerjiye <b>kayıp</b> denir. Bu, fiziksel (teknik) bir kayıptır.",
+    n: "Teknik kayıplar ısı olarak ortaya çıkar ve tamamen sıfırlanamaz; ancak gerilim seviyesini yükseltmek, iletken kesitini büyütmek, yüksek verimli trafo kullanmak ve reaktif gücü kompanze etmek bunları azaltır. Kaçak ise teknik değil, ticari (teknik olmayan) bir kayıptır." },
+  { t: 0, s: 3, q: "Sunumdaki tanıma göre “kaçak” elektrik nedir?",
+    o: ["Kuruluşun haberi olmadan bir hattan sayaç kullanılmadan alınan elektrik", "Kabloların iç direnci nedeniyle ısıya dönüşen elektrik", "Transformatörlerin boşta çektiği elektrik", "Kompanzasyon panosunun tükettiği elektrik", "Puant saatlerinde tüketilen elektrik"], a: 0,
+    e: "Kaçak, <b>kuruluş veya şirketin haberi olmadan bir elektrik hattından sayaç kullanmadan alınan</b> elektriktir.",
+    n: "Kaçak; sayaçsız bağlantı, sayaca müdahale ve hatalı ölçüm gibi nedenlerle oluşan ticari kayıptır. Akıllı sayaçlar ve enerji izleme sistemleri, besleme noktasındaki enerji ile sayaçlardan okunan enerjiyi karşılaştırarak kaçak olan bölgeleri bulmayı kolaylaştırır. Sunuma göre enerji izleme sistemleriyle hem kayıp hem kaçak asgariye çekilebilir." },
+  { t: 0, s: 4, q: "Sunuma göre üretimden nihai kullanıma kadar verimlilik artışı sağlanırken hangi koşuldan fedakârlık edilmemelidir?",
+    o: ["Kalite ve güvenilirlikten", "Üretim maliyetlerinden", "Sistem kayıplarından", "Puant tüketimden", "Reaktif güçten"], a: 0,
+    e: "Hedef, <b>kalite ve güvenilirlikten fedakârlık etmemek koşuluyla</b> üretimden nihai kullanıma kadar verimliliği artırmak, üretim maliyetlerini ve sistem kayıplarını en aza indirmektir.",
+    n: "Verimlilik uğruna kesinti sayısı veya gerilim kalitesi kötüleşirse ekonomik zarar tasarruftan büyük olabilir. Bu yüzden dağıtım şirketleri hem kayıp–kaçak hem de kesinti süresi ve sıklığı (SAIDI, SAIFI gibi kalite göstergeleri) hedefleriyle düzenlenir." },
+  { t: 0, s: 5, q: "Sunumdaki “üretimden kullanım alanına kadar enerji kayıpları” grafiğine göre birincil enerjiden son kullanıma kadar yaklaşık ne kadar enerji kaybolmaktadır?",
+    o: ["Yaklaşık %80", "Yaklaşık %20", "Yaklaşık %2,8", "Yaklaşık %15", "Yaklaşık %50"], a: 0,
+    e: "Grafikte birincil enerjiden başlayarak iletim, dönüştürme verimliliği, hat kayıpları, üretim prosesleri ve motor–sürücü–bina aşamalarındaki kayıplarla kullanışlı enerjinin <b>yaklaşık %80'inin</b> kaybolduğu gösterilir.",
+    n: "En büyük basamak dönüştürme (santral) verimliliğidir: termik santrallerde yakıt enerjisinin yarıdan fazlası ısı olarak atılır. Zincirin sonundaki her kayıp, başındaki birincil enerjiyi katlanarak artırır. Bu yüzden son kullanıcıdaki tasarruf, santraldeki tasarruftan daha büyük birincil enerji tasarrufu sağlar." },
+  { t: 0, s: 5, q: "Bir enerji zincirinde santral verimi %38, iletim verimi %97,2, dağıtım verimi %92, motor verimi %90 ve pompa verimi %70'tir. Birincil enerjinin yaklaşık yüzde kaçı pompa çıkışında faydalı işe dönüşür?",
+    o: ["Yaklaşık %21", "Yaklaşık %38", "Yaklaşık %63", "Yaklaşık %77", "Yaklaşık %4"], a: 0,
+    e: "Verimler çarpılır: 0,38 × 0,972 × 0,92 × 0,90 × 0,70 ≈ 0,214 → <b>yaklaşık %21</b>. Kayıp ≈ %79, yani grafikteki “%80 kayıp” ile uyumludur.",
+    n: "Zincirdeki en düşük verimli halka (burada santral) toplam verimi belirleyici biçimde düşürür. Seri verimlerde toplam verim her zaman en düşük tekil verimden de küçüktür." },
+  { t: 0, s: 5, q: "Santral verimi %38, iletim verimi %97,2 ve dağıtım verimi %92 ise tesiste tüketilmesi önlenen 1 kWh elektrik, santralde yaklaşık kaç kWh birincil enerji tasarrufu sağlar?",
+    o: ["Yaklaşık 2,9 kWh", "1 kWh", "Yaklaşık 0,34 kWh", "Yaklaşık 1,1 kWh", "Yaklaşık 9 kWh"], a: 0,
+    e: "Tüketiciye ulaşan pay = 0,38 × 0,972 × 0,92 ≈ 0,34. Birincil enerji tasarrufu = 1 / 0,34 ≈ <b>2,9 kWh</b>.",
+    n: "Bu çarpan, elektrik tasarrufunun neden değerli olduğunu gösterir: son kullanıcıda kazanılan her kWh, santralde yaklaşık üç kat yakıt tasarrufu demektir. Enerji istatistiklerinde ve yönetmeliklerde elektriğin birincil enerjiye çevrilmesinde bu nedenle ısıl değerden farklı katsayılar kullanılır." },
+
+  // Üretimde verimlilik ve kojenerasyon
+  { t: 1, s: 6, q: "Sunuma göre güvenilir enerji arzının öncelikli koşulu nedir?",
+    o: ["Kaynak çeşitlendirmesi yanında yerli enerji kaynaklarına ağırlık verilmesi", "Elektriğin tamamının ithal doğal gazdan üretilmesi", "Yalnızca tek bir büyük santralden üretim yapılması", "Dağıtım şebekesinin yalnızca alçak gerilimle işletilmesi", "Tüm tüketicilerin tek terimli tarifeye geçirilmesi"], a: 0,
+    e: "Güvenilir enerji arzının öncelikli koşulu, <b>kaynak çeşitlendirmesi yanında yerli enerji kaynaklarına ağırlık verilmesidir</b>. Kaynaklar değerlendirilirken çevreye duyarlı, yüksek verimli teknolojiler kullanılmalıdır.",
+    n: "Türkiye birincil enerjide büyük ölçüde ithalata (özellikle doğal gaz ve petrol) bağımlıdır. Yerli linyit, hidrolik, rüzgâr, güneş ve jeotermal kaynakların payını artırmak hem arz güvenliğini hem de cari dengeyi iyileştirir. 1. sunumdaki güncel arz ve kurulu güç verileriyle birlikte düşünün." },
+  { t: 1, s: 7, q: "Sunumda üretimde verimlilik kapsamında desteklenen tesisler arasında hangisi <b>yer almaz</b>?",
+    o: ["Düşük verimli eski fuel-oil santralleri", "HES'ler", "Rüzgâr türbinleri", "Jeotermal kaynak kullanımı", "Yüksek verimli kojenerasyon tesisleri"], a: 0,
+    e: "Sunuma göre HES, rüzgâr, güneş, jeotermal gibi <b>yenilenebilir kaynaklar</b> ile <b>yüksek verimli ve daha az emisyona yol açan kojenerasyon</b> tesisleri desteklenmektedir. Düşük verimli eski santraller desteklenmez.",
+    n: "Yenilenebilir elektrik üretimi YEKDEM (Yenilenebilir Enerji Kaynakları Destekleme Mekanizması) ve YEKA (Yenilenebilir Enerji Kaynak Alanı) ihaleleriyle desteklenir. Yüksek verimli kojenerasyon ise enerji verimliliği mevzuatı ve lisanssız üretim imkânlarıyla teşvik edilir." },
+  { t: 1, s: 8, q: "Kojenerasyon tesislerinin elektrik enerjisinde tasarruf sağlamasının sunumda belirtilen nedeni hangisidir?",
+    o: ["Tüketim bölgelerinin yanına kurulduklarından iletim ve dağıtım hat kayıplarının olmaması", "Yalnızca gece çalıştırılmaları", "Reaktif güç üretmemeleri", "Yakıt kullanmadan elektrik üretmeleri", "Yalnızca çok yüksek gerilimde üretim yapmaları"], a: 0,
+    e: "Kojenerasyon tesisleri ucuz ve kaliteli enerji üretir ve <b>tüketim bölgelerinin yanına kurulduklarından iletim ve dağıtım hat kayıpları olmaz</b>; bu da elektrikte tasarruf sağlar.",
+    n: "Kojenerasyonun asıl kazancı atık ısının değerlendirilmesidir: elektrik ve ısı ayrı ayrı üretildiğinde toplam verim %50–60 civarındayken kojenerasyonda %80–90'a çıkabilir. Bu konu çalışma notlarındaki kojenerasyon bölümünde ayrıntılı işlenir." },
+  { t: 1, s: 8, q: "Sanayi tesislerinin kendi elektrik ve buhar ihtiyaçlarını karşılamak için kurdukları kojenerasyon santralleri sunumda hangi model kapsamında anılır?",
+    o: ["Otoprodüktörlük", "Serbest tüketicilik", "Son kaynak tedarik", "Çift terimli tarife", "Ring şebeke"], a: 0,
+    e: "Sunuma göre sanayi tesisleri kendi enerji ve buhar ihtiyaçlarını karşılamak amacıyla <b>otoprodüktörlük</b> modeli kapsamında kojenerasyon santralleri kurmuş ve bu santraller yaygınlaşmıştır.",
+    n: "Otoprodüktör, ürettiği elektriği öncelikle kendi ihtiyacı için kullanan üreticidir. Bugünkü mevzuatta bu ayrı bir lisans türü değildir; ayrıntı için “Güncellendi” kutusuna bakın.",
+    g: { eski: "Sanayi tesisleri kojenerasyon santrallerini otoprodüktörlük modeli kapsamında kurmaktadır.", yeni: "6446 sayılı Elektrik Piyasası Kanunu (2013) ile otoprodüktör lisansı kaldırıldı; mevcut lisanslar üretim lisansına dönüştürüldü. Sanayi tesisleri bugün üretim lisansı alarak veya Elektrik Piyasasında Lisanssız Elektrik Üretim Yönetmeliği kapsamında (öz tüketim amaçlı, verimliliği yüksek kojenerasyon dâhil) üretim yapmaktadır.", kaynak: "6446 sayılı Elektrik Piyasası Kanunu; EPDK Elektrik Piyasasında Lisanssız Elektrik Üretim Yönetmeliği" } },
+
+  // İletim ve dağıtım
+  { t: 2, s: 9, q: "Sunumdaki iletim hatları tablosuna göre hangi gerilim seviyeleri “Çok Yüksek Gerilim (ÇYG)” olarak adlandırılır?",
+    o: ["380.000 V ve 220.000 V", "154.000 V ve 66.000 V", "33.000 V ve 12.000 V", "380/230 V", "66.000 V ve 33.000 V"], a: 0,
+    e: "Tabloya göre <b>380 kV ve 220 kV</b> çok yüksek gerilim (ÇYG), <b>154 kV ve 66 kV</b> yüksek gerilim (YG) iletim seviyeleridir.",
+    n: "Türkiye iletim şebekesinin omurgası 380 kV (nominal 400 kV) ve 154 kV hatlardır; 220 kV ve 66 kV hatların payı çok küçüktür. İletim şebekesini TEİAŞ işletir. Gerilim yükseldikçe aynı gücü taşımak için gereken akım ve dolayısıyla I²R kaybı azalır." },
+  { t: 2, s: 10, q: "Sunumdaki dağıtım hatları tablosuna göre orta gerilim (OG) seviyeleri hangileridir?",
+    o: ["33.000 V ve 12.000 V", "380.000 V ve 220.000 V", "154.000 V ve 66.000 V", "380/230 V", "1.000 V ve 690 V"], a: 0,
+    e: "Dağıtımda <b>33 kV ve 12 kV orta gerilim (OG)</b>, <b>380/230 V alçak gerilim (AG)</b> seviyeleridir.",
+    n: "Sunumdaki 380/230 V değeri eski standarttır; bugün alçak gerilim şebekesi TS IEC 60038'e uygun olarak 400/230 V nominal değerle tanımlanır. Dağıtım şebekesinde 34,5 kV ve 10,5 kV gibi seviyelere de rastlanır. Dağıtımı bölgesel dağıtım şirketleri (EDAŞ'lar) yapar." },
+  { t: 2, s: 9, q: "Sunuma göre Türkiye'de elektrik enerjisi iletimindeki kayıp oranı yaklaşık ne kadardır?",
+    o: ["%2,8", "%15", "%7–8", "%80", "%0,5"], a: 0,
+    e: "Sunuma göre iletimdeki kayıp oranı <b>yaklaşık %2,8</b> civarındadır ve kaynak ile tüketim merkezleri arasındaki uzaklıklar göz önüne alındığında <b>kabul edilebilir</b> düzeydedir.",
+    n: "Türkiye'de üretim çoğunlukla doğu ve güneydoğuda (hidroelektrik), batıda (termik, rüzgâr) yoğunlaşırken tüketimin büyük kısmı Marmara'dadır; bu uzun iletim mesafesi demektir. Sunum, bu oranın iletimde güncel teknolojilerin kullanıldığını gösterdiğini belirtir." },
+  { t: 2, s: 9, q: "Bir yılda iletim şebekesine 300 TWh enerji verilmiş ve iletim kayıp oranı %2,8 olmuştur. İletimde kaybolan enerji ne kadardır?",
+    o: ["8,4 TWh", "2,8 TWh", "84 TWh", "0,84 TWh", "291,6 TWh"], a: 0,
+    e: "Kayıp = 300 TWh × 0,028 = <b>8,4 TWh</b>. Tüketim tarafına ulaşan enerji 291,6 TWh'tir.",
+    n: "8,4 TWh, yaklaşık 1.000 MW gücündeki bir santralin bir yıl boyunca kesintisiz üretiminin (1.000 MW × 8.760 h ≈ 8,8 TWh) neredeyse tamamına eşittir. Yüzde olarak küçük görünen kayıplar ülke ölçeğinde çok büyük enerji miktarlarına karşılık gelir." },
+  { t: 2, s: 9, q: "Aynı gücü taşıyan ve direnci değişmeyen bir iletim hattının gerilimi 154 kV'tan 380 kV'a yükseltilirse hattaki I²R kaybı yaklaşık ne kadar azalır?",
+    o: ["Yaklaşık %84", "Yaklaşık %41", "Yaklaşık %59", "Yaklaşık %16", "Değişmez"], a: 0,
+    e: "Güç sabitken akım gerilimle ters orantılıdır; kayıp akımın karesiyle orantılıdır. Yeni kayıp / eski kayıp = (154 / 380)² ≈ 0,164. Kayıp yaklaşık <b>%84 azalır</b>.",
+    n: "Uzun mesafeli iletimde çok yüksek gerilimin tercih edilmesinin nedeni budur. %16 seçeneği kaybın azaldığı oranı değil, kalan payı gösterir; %59 ise kare alınmadan yapılan hatalı hesaptır (1 − 154/380)." },
+  { t: 2, s: 10, q: "Sunuma göre Türkiye'de elektrik dağıtımındaki kayıp ve kaçak oranı Avrupa ile karşılaştırıldığında nasıldır?",
+    o: ["Avrupa'da %7–8 iken Türkiye'de %15'ler seviyesindedir", "Avrupa'da %15 iken Türkiye'de %7–8'dir", "Her ikisinde de %2,8'dir", "Türkiye'de kaçak yoktur, yalnızca teknik kayıp vardır", "Avrupa'da %30, Türkiye'de %15'tir"], a: 0,
+    e: "Sunuma göre dağıtımdaki kayıp ve kaçak oranı <b>Avrupa ülkelerinde %7–8</b>, <b>Türkiye'de %15'ler</b> seviyesindedir; bu oranın <b>yarısı teknik kayıp, yarısı kaçak</b> elektrik kullanımıdır.",
+    n: "Ülke ortalaması bölgeler arasındaki büyük farkları gizler: batıdaki dağıtım bölgelerinde oran Avrupa ortalamasına yakınken bazı Güneydoğu bölgelerinde kaçak kullanım nedeniyle çok daha yüksektir. EPDK her dağıtım bölgesi için ayrı kayıp–kaçak hedefi belirler.",
+    g: { eski: "Türkiye'de dağıtımdaki kayıp ve kaçak oranı %15'ler seviyesindedir.", yeni: "Türkiye geneli teknik ve teknik olmayan kayıp oranı 2023'te yaklaşık %11'e gerilemiştir; ancak bölgeler arası fark büyüktür.", kaynak: "TEDAŞ 2024 Yılı Faaliyet Raporu (2023 kayıp oranı %11,02); EPDK Elektrik Piyasası Gelişim Raporları" } },
+  { t: 2, s: 10, q: "Bir dağıtım bölgesine bir yılda 1.000 GWh enerji girmiş ve kayıp–kaçak oranı %15 olmuştur. Sunumdaki “yarısı teknik kayıp, yarısı kaçak” varsayımıyla kaçak kullanım ne kadardır?",
+    o: ["75 GWh", "150 GWh", "15 GWh", "7,5 GWh", "850 GWh"], a: 0,
+    e: "Toplam kayıp–kaçak = 1.000 × 0,15 = 150 GWh. Yarısı kaçak: <b>75 GWh</b>; diğer 75 GWh teknik kayıptır.",
+    n: "Bu iki bileşenin çözümü farklıdır: teknik kayıp şebeke yatırımı (kesit, trafo, gerilim seviyesi, kompanzasyon) ile, kaçak ise sayaç denetimi, akıllı sayaç ve enerji izleme ile azaltılır. Kaçağın bedeli tarifeler yoluyla dolaylı olarak tüm tüketicilere yansır." },
+  { t: 2, s: 11, q: "Sunuma göre iletim ve dağıtım kayıplarının aşağıya çekilmesi hangi yollarla mümkündür?",
+    o: ["Verimliliğin artırılması, doğru planlama, projelendirme ve işletme", "Yalnızca elektrik fiyatlarının artırılması", "Gerilim seviyelerinin düşürülmesi", "Kompanzasyonun kaldırılması", "Yalnızca yeni santral kurulması"], a: 0,
+    e: "Kayıpların aşağıya çekilmesi <b>verimliliğin artırılması, doğru planlama, projelendirme ve işletme</b> ile mümkündür.",
+    n: "Gerilim seviyesini düşürmek ve kompanzasyonu kaldırmak akımı artırır, dolayısıyla kayıpları büyütür. Kayıp azaltımı yalnızca teknik bir konu değil, planlamadan işletmeye kadar bütün yaşam döngüsünü kapsayan bir yönetim konusudur." },
+  { t: 2, s: 12, q: "Sunuma göre iletim kayıp oranının düşürülmesi veya muhafaza edilmesi için aşağıdakilerden hangisi <b>önerilmez</b>?",
+    o: ["Yeni santrallerin bölgesel yük–üretim dengesinden bağımsız olarak, tüketim merkezlerinden mümkün olduğunca uzağa kurulması", "Yeni santrallerin bölgesel yük–üretim dengelerini gözeten üretim–iletim planlarına uygun yapılması", "Gerekli yeni iletim yatırımlarının zamanında devreye alınması", "Uygun kompanzasyon yatırımlarının zamanında yapılması", "Bölgesel yük–üretim dengesinin planlamada dikkate alınması"], a: 0,
+    e: "Sunuma göre oran; <b>santrallerin bölgesel yük–üretim dengelerini gözeten planlara uygun yapılması</b>, <b>yeni iletim yatırımlarının zamanında devreye alınması</b> ve <b>uygun kompanzasyon yatırımlarının zamanında yapılması</b> ile düşürülebilir veya korunabilir.",
+    n: "Üretimin tüketime yakın olması iletim mesafesini ve kayıpları azaltır; dağıtık üretim (çatı GES'leri, kojenerasyon) bu yüzden şebeke kayıplarını da düşürebilir. Ancak yerel üretim tüketimi çok aşarsa ters yönlü güç akışı yeni kayıplar ve gerilim sorunları doğurabilir." },
+  { t: 2, s: 13, q: "Sunuma göre elektrik dağıtım sisteminde verimliliğin artırılması için yapılması gerekenler arasında hangisi <b>yoktur</b>?",
+    o: ["Ring şebekelerin azaltılması", "İyi bir işletme yapılması", "Tüketiciye sunulan enerjinin devamlılığının sağlanması", "Gerilim düşümlerinin azaltılması", "Yük akışları takip edilerek yeni taleplerin değerlendirilmesi"], a: 0,
+    e: "Sunumda ring şebekelerin <b>artırılması</b> önerilir. Diğer maddeler: iyi işletme, enerji devamlılığı, gerilim düşümlerinin azaltılması ve yük akışlarının takibiyle yeni taleplerin değerlendirilmesi.",
+    n: "Ring (halka) şebekede bir tüketici iki yönden beslenebilir: bir hat arızalandığında enerji diğer yönden verilir ve kesinti süresi kısalır. Ayrıca yük iki yola bölündüğünden hat akımları ve kayıplar azalır." },
+
+  // SCADA ve sayaçlar
+  { t: 3, s: 14, q: "SCADA kısaltmasının açılımı ve Türkçe karşılığı hangisidir?",
+    o: ["Supervisory Control and Data Acquisition: denetleyici kontrol ve veri toplama", "System Control and Distribution Analysis: sistem kontrol ve dağıtım analizi", "Smart Consumption and Demand Adjustment: akıllı tüketim ve talep ayarı", "Supply Chain and Data Archive: tedarik zinciri ve veri arşivi", "Station Capacity and Daily Allocation: istasyon kapasitesi ve günlük dağıtım"], a: 0,
+    e: "SCADA, <b>Supervisory Control and Data Acquisition</b>, yani denetleyici kontrol ve veri toplama sistemidir.",
+    n: "SCADA sahadaki ölçüm cihazlarından (sayaç, analizör, PLC, RTU) verileri toplar, merkezde gösterir, kaydeder ve uzaktan kumanda imkânı verir. Bir enerji izleme sistemi çoğunlukla SCADA'nın enerji odaklı bir uygulamasıdır." },
+  { t: 3, s: 14, q: "Sunuma göre SCADA sistemleri hangi tüketimlerin bilgisayar aracılığıyla takip edilmesi, raporlanması ve kontrol edilmesi için kurulur?",
+    o: ["Elektrik, yakıt, buhar ve su tüketimleri ile güç faktörü ve enerji kalitesi", "Yalnızca elektrik tüketimi", "Yalnızca personel giriş–çıkışları", "Yalnızca hammadde stokları", "Yalnızca su tüketimi"], a: 0,
+    e: "SCADA; <b>elektrik, yakıt, buhar, su</b> gibi tüketimler ile <b>güç faktörü ve enerji kalitesi</b> hakkındaki bilgilerin bilgisayar aracılığıyla takip edilmesi, raporlanması, iyileştirilmesi ve kontrol edilmesi için kurulan merkezi sistemdir.",
+    n: "Sunuma göre sistem ayrıca dağıtım otomasyonu, yük yönetimi, arıza ihbar sistemi ve iş yönetimi gibi modern işletme sistemlerini içerir. Tek bir ekranda tüm enerji türlerinin görülmesi, örneğin buhar kaçağının hangi vardiyada başladığını anında gösterir." },
+  { t: 3, s: 15, q: "Sunumda SCADA sistemlerinin sıklıkla kullanıldığı yerler arasında hangisi <b>sayılmaz</b>?",
+    o: ["Mesken tipi tek abone sayacı", "Elektrik dağıtım tesisleri", "Su toplama, arıtma ve dağıtım tesisleri", "Bina otomasyonu", "Proses tesisleri"], a: 0,
+    e: "Sunumda SCADA'nın sıklıkla kullanıldığı yerler: <b>elektrik dağıtım tesisleri, su toplama–arıtma–dağıtım tesisleri, hava kirliliği kontrolü, bina otomasyonu ve proses tesisleri</b>.",
+    n: "SCADA çok noktadan veri toplanan, geniş alana yayılmış veya sürekli izlenmesi gereken sistemlerde anlamlıdır. Tek bir mesken sayacı ise dağıtım şirketinin uzaktan okuma sistemine bağlanabilir ama kendi başına bir SCADA uygulaması değildir." },
+  { t: 3, s: 16, q: "Sunumdaki SCADA rapor örnekleri arasında hangisi <b>yer almaz</b>?",
+    o: ["Çalışan performans değerlendirmesi", "Günlük yük eğrisi – güç değişimleri", "Cos(φ) değişimi", "Kurulu güç – gerçek tüketim karşılaştırması", "Enerjinin bölümlere dağılımı"], a: 0,
+    e: "Rapor örnekleri: <b>günlük yük eğrisi, gerilim ve akım değişimleri, cosφ değişimi, aylık/yıllık tüketim trendleri karşılaştırması, kurulu güç–gerçek tüketim karşılaştırması ve enerjinin bölümlere dağılımı</b>.",
+    n: "Enerjinin bölümlere dağılımı raporu, maliyetin hangi bölüme yükleneceğini ve önemli enerji kullanımlarını (ISO 50001) belirler. Aylık trend karşılaştırmaları ise üretim miktarına göre normalize edilmezse yanıltıcı olabilir; bu yüzden özgül tüketim (kWh/ton) ile birlikte izlenmelidir." },
+  { t: 3, s: 16, q: "SCADA yük eğrisine göre bir tesisin aylık ortalama gücü 600 kW, en yüksek (puant) gücü 1.000 kW'tır. Tesisin yük faktörü nedir?",
+    o: ["0,6", "1,67", "0,4", "400 kW", "1.600 kW"], a: 0,
+    e: "Yük faktörü = ortalama güç / en yüksek güç = 600 / 1.000 = <b>0,6</b>.",
+    n: "Yük faktörü 1'e ne kadar yakınsa tesis kurulu altyapısını o kadar verimli kullanır. Düşük yük faktörü, kısa süreli yüksek puantlar demektir: bu puantlar sözleşme gücünü, trafo ve kablo boyutunu ve çift terimli tarifede güç bedelini belirler. Yük kaydırma ve puant tıraşlama ile yük faktörü yükseltilebilir." },
+  { t: 3, s: 17, q: "Elektrik sayaçlarında enerji miktarının temel birimi nedir ve neyi ifade eder?",
+    o: ["Watt-saat (Wh); watt olarak çekilen güç ile saat olarak sürenin çarpımı", "Watt (W); birim zamanda yapılan iş", "Volt-amper (VA); gerilim ile akımın çarpımı", "Amper-saat (Ah); akım ile sürenin çarpımı", "VAR; reaktif güç"], a: 0,
+    e: "Sayaçlar enerjiyi <b>watt-saat (Wh)</b> olarak ölçer: watt olarak çekilen güç × saat olarak süre. Pratikte bin katı olan <b>kWh</b> veya milyon katı olan <b>MWh</b> kullanılır.",
+    n: "Güç (W) ile enerji (Wh) sık karıştırılır: güç anlık bir değerdir, enerji güç ile sürenin çarpımıdır. Sanayi sayaçları aktif enerjinin (kWh) yanında endüktif ve kapasitif reaktif enerjiyi (kVARh) ve en yüksek demandı (kW) de kaydeder." },
+  { t: 3, s: 17, q: "2.000 W gücündeki bir elektrikli ısıtıcı günde 3 saat çalışmaktadır. 30 günde tükettiği enerji kaç kWh'tir?",
+    o: ["180 kWh", "6 kWh", "60 kWh", "180.000 kWh", "1.800 kWh"], a: 0,
+    e: "Günlük enerji = 2 kW × 3 h = 6 kWh. 30 günde: 6 × 30 = <b>180 kWh</b>.",
+    n: "Hesaba başlamadan önce gücü kW'a çevirmek (2.000 W = 2 kW) birim hatalarını önler. 180.000 seçeneği Wh cinsinden doğru sayıdır ama kWh değildir. Aynı ısıtma ihtiyacını COP'si 3 olan bir ısı pompası yaklaşık 60 kWh ile karşılar." },
+  { t: 3, s: 17, q: "Sunuma göre analog sayaç ile elektronik (akıllı) sayaç arasındaki fark faturaya nasıl yansır?",
+    o: ["Analog sayaçta tüketim tek toplam değer olarak, elektronik sayaçta gündüz, puant ve gece olmak üzere üç zaman dilimine ayrılarak görülebilir", "Analog sayaç reaktif enerjiyi ölçer, elektronik sayaç ölçmez", "Elektronik sayaçlar yalnızca DC ölçer", "Analog sayaçta tüketim saatlik olarak ayrıntılı görülür", "Aralarında faturaya yansıyan hiçbir fark yoktur"], a: 0,
+    e: "Analog sayaçlarda tüketim <b>zaman ayrımı yapılmadan toplam bir değer</b> olarak faturada yer alır. Elektronik (akıllı) sayaçta ise tüketim <b>sabah, akşam ve gece</b> olmak üzere <b>üç aşamaya ayrılmış</b> olarak görülebilir.",
+    n: "Üç zamanlı faturalandırma için abonenin çok zamanlı tarifeyi seçmesi gerekir; elektronik sayaç bunu teknik olarak mümkün kılar ama otomatik olarak uygulanmaz. Uzaktan okumalı akıllı sayaç sistemleri (OSOS) ayrıca saatlik veya 15 dakikalık tüketim profilini kaydeder; bu veri yük kaydırma kararları için çok değerlidir." },
+
+  // Tarife analizi
+  { t: 4, s: 18, q: "Yalnızca tüketilen elektrik enerjisi miktarı (kWh) üzerinden bedel alınan tarife hangisidir?",
+    o: ["Tek terimli tarife", "Çift terimli tarife", "Puant tarife", "Reaktif tarife", "Sözleşme gücü tarifesi"], a: 0,
+    e: "<b>Tek terimli tarife</b>, yalnızca tüketilen enerji miktarı (kWh) üzerinden bedel alınmasına dayanır. Abone grubuna (mesken, sanayi, ticarethane, resmi daire, şantiye, tarımsal sulama vb.) göre fiyat değişir.",
+    n: "Sunuma göre tek terimli tarifeyi seçen sanayi aboneleri genellikle tek vardiya (günde 8 saat) çalışan, yani bağlı gücüne göre az enerji tüketen abonelerdir. Yük faktörü düşük olan aboneler için güç bedeli ödememek daha avantajlıdır." },
+  { t: 4, s: 19, q: "Çift terimli tarifede tüketim bedeli hangi iki bileşen üzerinden alınır?",
+    o: ["Tüketilen enerji (kWh) ve sözleşme gücü (kW)", "Aktif enerji (kWh) ve reaktif enerji (kVARh)", "Gündüz ve gece tüketimi", "Gerilim (V) ve akım (A)", "Kurulu güç (kVA) ve frekans (Hz)"], a: 0,
+    e: "Çift terimli tarife <b>hem tüketilen enerji miktarı (kWh) hem de sözleşme gücü (kW)</b> üzerinden bedel alınan tarifedir.",
+    n: "Sözleşme gücünün aşılması hâlinde aşan kısım için güç aşım bedeli ödenir. Sözleşme gücü, SCADA veya sayaç kayıtlarındaki gerçek en yüksek demanda göre ayarlanmalıdır: gereğinden yüksek seçilirse her ay boşa güç bedeli ödenir, düşük seçilirse aşım bedeli çıkar." },
+  { t: 4, s: 19, q: "Sunuma göre çift terimli tarifenin amacı nedir?",
+    o: ["Büyük güç çeken tüketicilerin sistemden çektiği gücün bilinmesi ve bu gücün onlar için hazır tutulması", "Küçük tüketicilerin faturalarının artırılması", "Reaktif enerjinin tamamen ücretsiz kullanılması", "Tüketimin yalnızca gece saatlerine kaydırılması", "Sayaç kullanımının kaldırılması"], a: 0,
+    e: "Çift terimli tarifenin amacı, <b>büyük güç çeken tüketicilerle yapılan anlaşmalarla sistemden çekilen gücün bilinmesi ve bu gücün onlar için hazır tutulmasıdır</b>. Güç bedeli alınmasına karşın aktif enerji birim fiyatında indirim yapılır.",
+    n: "Şebeke, abonenin en yüksek gücünü her an karşılayacak kapasitede kurulmalıdır; güç bedeli bu kapasitenin maliyetini karşılar. Çok vardiyalı, yük faktörü yüksek sanayi tesisleri için çift terimli tarife genellikle daha ekonomiktir." },
+  { t: 4, s: 19, q: "Bir tesis için tek terimli tarife 3,20 TL/kWh; çift terimli tarife 3,00 TL/kWh enerji bedeli ve 500 kW sözleşme gücü için 60 TL/kW-ay güç bedelidir (varsayımsal fiyatlar). Aylık tüketim hangi değerin üzerinde olursa çift terimli tarife daha ucuz olur?",
+    o: ["150.000 kWh", "30.000 kWh", "300.000 kWh", "15.000 kWh", "500.000 kWh"], a: 0,
+    e: "Aylık güç bedeli = 500 × 60 = 30.000 TL. Çift terimlide her kWh 0,20 TL ucuzdur. Başa baş tüketim = 30.000 / 0,20 = <b>150.000 kWh/ay</b>; bunun üzerinde çift terimli tarife avantajlıdır.",
+    n: "Örneğin 200.000 kWh/ay tüketimde tek terimli fatura 640.000 TL, çift terimli fatura 600.000 + 30.000 = 630.000 TL olur. 150.000 kWh/ay, 500 kW gücün ayda 300 saat (≈ %41 yük faktörü) kullanılmasına karşılık gelir; tek vardiyalı tesisler bu eşiğin altında, çok vardiyalı tesisler üstünde kalır. Gerçek tarifeleri EPDK'nın güncel tarife tablolarından alın." },
+  { t: 4, s: 20, q: "Sunumdaki puant (çok zamanlı) tarifeye göre yüksek tarifenin uygulandığı saat aralığı hangisidir?",
+    o: ["17:00 – 22:00", "06:00 – 17:00", "22:00 – 06:00", "08:00 – 12:00", "00:00 – 06:00"], a: 0,
+    e: "Çok zamanlı tarifede <b>06:00–17:00 normal (gündüz)</b>, <b>17:00–22:00 yüksek (puant)</b>, <b>22:00–06:00 düşük (gece)</b> tarife uygulanır.",
+    n: "Bu saat dilimleri bugün de EPDK'nın çok zamanlı tarife uygulamasında aynıdır. Saatler, Türkiye elektrik sisteminin günlük yük eğrisi dikkate alınarak belirlenmiştir: gündüz normal, akşam pahalı, gece ucuz." },
+  { t: 4, s: 21, q: "Sunuma göre 17:00–22:00 saatleri arasında elektrik fiyatının en yüksek olmasının nedeni hangisidir?",
+    o: ["Aydınlatma ve sanayi yükünün üst üste gelmesi ve maliyeti en yüksek santrallerin devreye alınması", "Gece saatlerinde santrallerin kapatılması", "Bu saatlerde iletim hatlarının bakıma alınması", "Güneş santrallerinin en yüksek üretimi bu saatlerde yapması", "Bu saatlerde reaktif enerji tüketiminin sıfır olması"], a: 0,
+    e: "Akşam saatlerinde <b>aydınlatma ve sanayi yükü üst üste gelir</b>; tüketim en yüksektir. Bu talebi karşılamak için <b>üretim veya işletme maliyeti en yüksek santraller</b> devreye alınır ve üretim maliyeti yükselir.",
+    n: "Güneş santrallerinin hızla yaygınlaşmasıyla öğle saatlerinde piyasa fiyatları belirgin biçimde düşerken, güneşin battığı akşam saatlerinde net talep hızla yükselir (“ördek eğrisi”). Bu yüzden akşam puantı hâlâ en pahalı zaman dilimidir; batarya depolama ve talep tarafı katılımı bu tepeyi düşürmek için kullanılır." },
+  { t: 4, s: 20, q: "Puant tarifeyle ilgili sunumdaki öneriye göre özellikle fazla enerji harcayan elektrikli cihazlar hangi saatten sonra kullanılmalıdır?",
+    o: ["22:00'den sonra", "06:00'dan sonra", "17:00'den sonra", "12:00'den sonra", "Saatin önemi yoktur"], a: 0,
+    e: "Sunuma göre fazla enerji harcayan elektrikli cihazların <b>22:00'den sonra</b>, yani düşük (gece) tarife diliminde kullanılması gerekir.",
+    n: "Bu, talep tarafı yönetiminin en basit biçimi olan yük kaydırmadır: toplam tüketim değişmez ama pahalı saatten ucuz saate taşınır. Sanayide su pompalama (depoya), kırma–öğütme, buz veya soğuk su depolama, elektrikli araç şarjı gibi zamanı esnek yükler gece dilimine kaydırılabilir." },
+  { t: 4, s: 20, q: "Bir tesis 50 kW gücündeki öğütme değirmenini her gün 4 saat puant saatlerinde çalıştırmaktadır. Puant fiyatı 4,50 TL/kWh, gece fiyatı 2,00 TL/kWh ise (varsayımsal fiyatlar) değirmen gece dilimine kaydırılırsa günlük tasarruf ne kadar olur?",
+    o: ["500 TL", "200 TL", "900 TL", "250 TL", "1.300 TL"], a: 0,
+    e: "Günlük enerji = 50 kW × 4 h = 200 kWh. Fiyat farkı = 4,50 − 2,00 = 2,50 TL/kWh. Tasarruf = 200 × 2,50 = <b>500 TL/gün</b>.",
+    n: "Yük kaydırmada enerji miktarı değil maliyet azalır; bu yüzden TEP olarak bir tasarruf görünmez, ama fatura düşer ve şebekenin puant yükü azalır. Yılda 300 iş günüyle bu örnek yaklaşık 150.000 TL eder. Kaydırmanın gece vardiyası personeli, gürültü ve depolama kapasitesi gibi işletme kısıtları da hesaba katılmalıdır." },
+  { t: 4, s: 18, q: "2026 yılında mesken abonelerinde yıllık tüketimi hangi sınırı aşanlar sübvansiyonlu düşük tarifeden yararlanamaz ve tüketimleri son kaynak tedarik tarifesiyle faturalanır?",
+    o: ["4.000 kWh", "1.000 kWh", "5.000 kWh", "10.000 kWh", "Böyle bir sınır yoktur"], a: 0,
+    e: "EPDK kararıyla 1 Ocak 2026'dan itibaren mesken aboneleri için yıllık tüketim sınırı <b>4.000 kWh</b> olarak uygulanmaktadır (2025'te 5.000 kWh idi). Bu sınırı aşan tüketiciler devlet desteği olmadan, son kaynak tedarik tarifesiyle faturalanır.",
+    n: "Sunumdaki tek terimli tarife bilgisi abone gruplarına göre farklı fiyatları anlatır; güncel uygulamada buna tüketim miktarına bağlı bir ayrım eklenmiştir. Bu sınır, yaklaşık aylık 333 kWh'e denk gelir. Amaç, yüksek tüketimli abonelere sübvansiyonsuz fiyat uygulayarak verimli kullanımı teşvik etmektir.",
+    g: { eski: "Tek terimli tarifede abone grubuna (mesken, sanayi vb.) göre farklı fiyat ödenir.", yeni: "Mesken grubunda ayrıca yıllık tüketim sınırı uygulanır: 2026 için 4.000 kWh. Sınırı aşanlar son kaynak tedarik tarifesiyle, devlet desteği olmadan faturalanır.", kaynak: "EPDK Kurul Kararı, 30 Ekim 2025 (1 Ocak 2026'dan itibaren geçerli)" } },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
