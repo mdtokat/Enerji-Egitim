@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kütle ve Enerji Denklikleri Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 10 · Kütle ve Enerji Denklikleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 10</span> 1_11.pdf · Doç. Dr. Filiz Karacan, Enerji Verimliliği ve Çevre Dairesi Başkanlığı, 2026</p>
+    <h1>Kütle ve Enerji Denklikleri <em>Sınavı</em></h1>
+    <p class="lede">Yanma ve fazla hava, sistem türleri ve yatışkın hal, toplam ve bileşen kütle denklikleri, stokiyometri ve çözümlü yanma örnekleri, alt ve üst ısıl değer, adyabatik alev sıcaklığı, fırın enerji denkliği, yüzey kayıpları ve buhar enerjisi.</p>
+    <ul class="facts"><li>69 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>2026 sunumu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Kütle ve Enerji Denklikleri” sunumu (Doç. Dr. Filiz Karacan, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı, Tanıtım, Eğitim ve Etüt Dairesi). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum10-v1",
+topics: ["Yanma ve fazla hava", "Kütle denkliği kavramları", "Yanma proseslerinde kütle denkliği", "Enerji denkliği ve yanma ısıları", "Fırın enerji denkliği ve kayıplar"],
+Q: [
+  // Yanma ve fazla hava
+  { t: 0, s: 2, q: "Sunuma göre yanma nedir?",
+    o: ["Yakıttaki karbon ve hidrojenin havadaki oksijenle tepkimeye girerek karbondioksit, su buharı ve ısı açığa çıkarması olayı", "Yakıtın oksijensiz ortamda ısıtılarak gaz hâline getirilmesi", "Suyun buharlaşarak ısı alması", "Yakıttaki azotun oksijenle birleşerek ısı soğurması", "Yakıtın mekanik olarak öğütülmesi"], a: 0,
+    e: "Yanma; yakıttaki <b>karbon ve hidrojenin havadaki oksijenle</b> tepkimeye girmesi sonucu <b>CO₂, su buharı ve ısı</b> açığa çıkması olayıdır: C + O₂ → CO₂ + enerji; 2H₂ + O₂ → 2H₂O + enerji.",
+    n: "Yanma bir yükseltgenme (oksitlenme) tepkimesidir. Oksijensiz ortamda ısıtma gazlaştırma veya piroliz olur; bu yanma değildir. Kükürt de yanar (S + O₂ → SO₂) ama ısıya katkısı küçüktür; asıl önemi baca gazında SO₂ emisyonu ve düşük sıcaklıkta asit yoğuşmasıdır." },
+  { t: 0, s: 3, q: "Sunumda sayılan yanma tepkimesi özellikleri arasında hangisi <b>yanlıştır</b>?",
+    o: ["Yanma sonucunda kütle azalır; çıkanların kütlesi girenlerden azdır", "Yanma kimyasal bir olaydır, yeni maddeler oluşur", "Yanma ekzotermiktir, ısı açığa çıkar", "Yanma diğer birçok kimyasal tepkimeye göre hızlıdır", "Tam yanmada genellikle CO₂ ve H₂O, eksik yanmada CO, is ve yanmamış hidrokarbonlar oluşur"], a: 0,
+    e: "Yanmada <b>kütle korunur</b>: girenlerin toplam kütlesi çıkanların toplam kütlesine eşittir. Katı yakıt yanınca “azalmış” görünmesinin nedeni ürünlerin gaz olarak uzaklaşmasıdır.",
+    n: "Bu ilke kütle denkliğinin temelidir: yakıt + hava kütlesi = baca gazı + kül/cüruf kütlesi. Ölçülen akımlarla kurulan denklik tutmuyorsa ya ölçüm hatası ya da ölçülmeyen bir akım (kaçak, sızıntı) vardır." },
+  { t: 0, s: 4, q: "Yakıttaki karbon ve hidrojenin en yüksek yükseltgenme kademesine kadar tam yanması için gereken oksijen miktarına ne denir ve sunuma göre ne işe yarar?",
+    o: ["Teorik (stokiyometrik) oksijen; yanma veriminin belirlenmesinde mevcut yanma koşullarının karşılaştırılacağı referans noktasıdır", "Fazla oksijen; baca gazı sıcaklığını gösterir", "Artık oksijen; yalnızca emisyon izninde kullanılır", "Atmosferik oksijen; havanın nemini gösterir", "Aktif oksijen; kazan suyunun kalitesini belirler"], a: 0,
+    e: "Bu miktara <b>teorik oksijen</b> veya <b>stokiyometrik oksijen</b> denir. Stokiyometrik oran, yanma veriminin belirlenmesinde mevcut yanma şartlarının karşılaştırılacağı <b>referans noktasını</b> oluşturur.",
+    n: "Pratikte yanma hiçbir zaman ideal olmadığından, tam yanmaya ulaşmak için teorik havadan daha fazla hava verilir. Ne kadar fazla verildiği, teorik değere göre ölçülür: fazla hava oranı = (verilen hava − teorik hava) / teorik hava." },
+  { t: 0, s: 4, q: "Sunumdaki yanma çeşitleri ile tanımları doğru eşleştirilmiş seçenek hangisidir?",
+    o: ["Az hava ile yanma: stokiyometrik miktardan az hava; fazla hava ile yanma: stokiyometrikten fazla hava; tam yanma: stokiyometrik miktarda hava", "Tam yanma: her zaman %50 fazla hava ile yanma", "Az hava ile yanma: yalnızca katı yakıtlarda görülür", "Fazla hava ile yanma: oksijensiz yanma", "Tam yanma: yakıtın yarısının yanması"], a: 0,
+    e: "Sunuma göre: <b>az hava ile yanma</b> stokiyometrik miktardan daha az, <b>fazla hava ile yanma</b> daha fazla hava ile; <b>tam yanma</b> stokiyometrik miktardaki hava ile yanmadır.",
+    n: "Az hava ile yanmada yakıtın bir kısmı CO, is ve yanmamış hidrokarbon olarak bacadan atılır; hem enerji kaybı hem güvenlik riski doğar. Fazla havada ise fazla hava gereksiz yere ısıtılıp bacadan atılır. Endüstriyel brülörlerde hedef, CO oluşturmadan mümkün olan en düşük fazla havadır." },
+  { t: 0, s: 5, q: "Sunuma göre “% fazla O₂” ile “% fazla hava” oranı arasındaki ilişki nedir?",
+    o: ["Birbirine eşittir", "% fazla hava, % fazla O₂'nin 4,76 katıdır", "% fazla O₂, % fazla havanın 21 katıdır", "Aralarında ilişki yoktur", "% fazla hava her zaman % fazla O₂'den küçüktür"], a: 0,
+    e: "<b>% Fazla O₂ = % Fazla hava</b>. Hava sabit bileşimli olduğundan (hacimce %21 O₂, %79 N₂), fazla O₂'nin teorik O₂'ye oranı fazla havanın teorik havaya oranıyla aynıdır.",
+    n: "Fazla O₂ = hava ile giren O₂ − teorik O₂; fazla hava = ocağa giren hava − teorik hava. Her iki tarafta da aynı 4,76 (= 100/21) çarpanı bulunduğu için oran değişmez. Mutlak miktarlar ise farklıdır: 1 mol fazla O₂, 4,76 mol fazla hava demektir." },
+  { t: 0, s: 5, q: "Kuru baca gazında %4 O₂ ölçülmüştür (yanmamış yakıt yoktur). Sunumdaki bağıntıya göre fazla hava oranı ve hava fazlalık katsayısı (λ) yaklaşık nedir?",
+    o: ["Fazla hava ≈ %23,5; λ ≈ 1,24", "Fazla hava ≈ %4; λ ≈ 1,04", "Fazla hava ≈ %19; λ ≈ 0,81", "Fazla hava ≈ %81; λ ≈ 1,81", "Fazla hava ≈ %525; λ ≈ 6,25"], a: 0,
+    e: "Fazla hava (%) = O₂ / (21 − O₂) × 100 = 4 / 17 × 100 ≈ <b>%23,5</b>. λ = O₂ / (21 − O₂) + 1 = 21 / (21 − O₂) ≈ <b>1,24</b>.",
+    n: "λ'nın iki yazımı aynıdır: O₂/(21 − O₂) + 1 = 21/(21 − O₂). Sunumdaki Sankey diyagramlarından birinin de %4 O₂ için çizildiğini hatırlayın. Doğal gaz kazanlarında iyi ayar genellikle %2–3 O₂ (λ ≈ 1,1–1,15) civarıdır." },
+  { t: 0, s: 5, q: "Kuru baca gazında %3 O₂ ve %82 N₂ ölçülmüştür. Sunumdaki m = 1 / (1 − 3,76 × O₂/N₂) bağıntısına göre m ve fazla hava yaklaşık kaçtır?",
+    o: ["m ≈ 1,16; yaklaşık %16 fazla hava", "m ≈ 0,86; yaklaşık %14 eksik hava", "m ≈ 1,04; yaklaşık %4 fazla hava", "m ≈ 2,16; yaklaşık %116 fazla hava", "m ≈ 0,14; yaklaşık %86 eksik hava"], a: 0,
+    e: "3,76 × 3 / 82 = 0,1376 → m = 1 / (1 − 0,1376) = 1 / 0,8624 ≈ <b>1,16</b>. Fazla hava ≈ (m − 1) × 100 ≈ <b>%16</b>.",
+    n: "Aynı veriyle O₂/(21 − O₂) formülü 3/18 ≈ %16,7 verir; iki yöntem birbirine yakındır. N₂'li formül, azotun tamamının havadan geldiğini kabul eder ve baca gazında N₂ ölçülmüşse daha doğru sonuç verir. Sunumda m “fazla hava (oksijen) oranı” olarak adlandırılmıştır; sayısal olarak λ gibi 1'den büyük bir katsayıdır, fazla hava yüzdesi (m − 1) × 100'dür." },
+  { t: 0, s: 5, q: "Sunumdaki nota göre fazla O₂ oranının baca gazı bileşiminden pratik formüllerle hesaplanabilmesi için hangi koşul sağlanmalıdır?",
+    o: ["Baca gazında yanmamış yakıt (CO, CH₄, C₂H₆ vb.) bulunmamalıdır", "Baca gazı sıcaklığı 100 °C'nin altında olmalıdır", "Yakıt mutlaka katı olmalıdır", "Baca gazında hiç azot bulunmamalıdır", "Ölçüm yaş temelde yapılmalıdır"], a: 0,
+    e: "Pratik formüller ancak yanma sonucunda baca gazında <b>yanmamış yakıt (CO, CH₄, C₂H₆ vb.) bulunmadığında</b> doğru sonuç verir.",
+    n: "Yanmamış yakıt varsa baca gazındaki O₂'nin bir kısmı aslında “bu yakıt yansaydı harcanacak” oksijendir. Sunumdaki hekzan örneğinde bu düzeltme yapılmadan formül %52 civarı fazla hava verir; yanmamış hekzanın harcayacağı O₂ çıkarılınca sonuç %30 civarına iner. Formüllerde O₂ ve N₂ <b>kuru temelde</b> hacimce yüzdedir." },
+
+  // Kütle denkliği kavramları
+  { t: 1, s: 7, q: "Sunuma göre aşağıdakilerden hangisi kütle denkliklerinin amaçları arasında <b>yer almaz</b>?",
+    o: ["Ürün satış fiyatını belirlemek", "Sisteme giren ve çıkan madde miktarlarını belirlemek", "Bilinmeyen akış hızlarını, bileşimleri veya kayıpları hesaplamak", "Reaksiyon verimini, dönüşüm oranını ve fazla/eksik maddeyi bulmak", "Hatalı ölçüm veya kaçakları tespit etmek"], a: 0,
+    e: "Kütle denkliklerinin amaçları: giren-çıkan madde miktarlarını belirlemek; bilinmeyen akış hızlarını, bileşimleri, kayıpları hesaplamak; reaksiyon verimi, dönüşüm, fazla/eksik madde; birikme analizi; proses tasarımı, ölçek büyütme ve kontrol; <b>hatalı ölçüm veya kaçak tespiti</b>. Satış fiyatı bir ticari karardır.",
+    n: "Etütte en pratik kullanım, ölçülemeyen bir akımı denklikten bulmaktır: örneğin kazana giren besleme suyu ve çıkan buhar ölçülüyorsa blöf miktarı farktan hesaplanır. Denklik kapanmıyorsa sayaçlardan biri hatalıdır veya bir kaçak vardır." },
+  { t: 1, s: 8, q: "Sunuma göre aşağıdakilerden hangisi enerji denkliklerinin amaçlarından biridir?",
+    o: ["Fırın, kazan, reküperatör ve ekonomizer gibi ekipmanları boyutlandırmak; kayıp enerjileri ve atık ısı geri kazanım potansiyelini belirlemek", "Yalnızca hammadde stok miktarını bulmak", "Personel vardiya planını hazırlamak", "Ürün ambalaj tasarımını yapmak", "Yalnızca kimyasal bileşimi belirlemek"], a: 0,
+    e: "Enerji denkliklerinin amaçları: gerçekte kullanılan enerjiyi hesaplamak; sıcaklık, entalpi, ısı ve enerji değişimlerini belirlemek; <b>fırın, kazan, reküperatör, ekonomizer boyutlandırmak</b>; yakıt tüketimi ve verimi değerlendirmek; <b>kayıp enerjileri ve atık ısı geri kazanım potansiyelini</b> belirlemek; güvenli ve ekonomik işletme koşullarını sağlamak.",
+    n: "Reküperatör baca gazı ısısıyla yanma havasını, ekonomizer ise kazan besleme suyunu ısıtır. İkisinin boyutu, baca gazında ne kadar duyulur ısı olduğuna bağlıdır; bu da ancak enerji denkliğiyle bilinir." },
+  { t: 1, s: 10, q: "Sunuma göre Sankey diyagramları ne için kullanılır?",
+    o: ["Enerjinin kaynaklarından kullanımlarına kadar olan enerji akışlarını ve kayıpları göstermek için", "Yalnızca ürün akış hızlarını zaman ekseninde çizmek için", "Elektrik devre şemalarını çizmek için", "Kazan suyunun kimyasal analizini göstermek için", "Yalnızca fatura tutarlarını karşılaştırmak için"], a: 0,
+    e: "Sankey diyagramları <b>enerjinin kaynaklarından kullanımlarına kadar olan enerji akışlarını</b> gösterir; enerji verimliliğini artırmak, kayıpları azaltmak ve sürdürülebilir enerji stratejileri geliştirmek için fayda sağlar.",
+    n: "Diyagramda okların genişliği enerji miktarıyla orantılıdır; en kalın kayıp oku, önceliğin nereye verilmesi gerektiğini bir bakışta gösterir. Sankey diyagramı enerji denkliğinin görsel hâlidir: giren okların toplamı, çıkan faydalı enerji ve kayıp oklarının toplamına eşittir." },
+  { t: 1, s: 11, q: "Sunumdaki Sankey diyagramına göre baca gazında %4 O₂ ile yanmada, üst ısıl değere göre %100 giren enerjinin dağılımı hangisidir?",
+    o: ["Kazan verimi %79; kuru baca gazı kaybı %8, nem kaybı %7, radyasyon ve konveksiyon kaybı %3, blöf kaybı %3", "Kazan verimi %93; kayıplar toplam %7", "Kazan verimi %74; kuru baca gazı kaybı %13", "Kazan verimi %100; kayıp yok", "Kazan verimi %50; kuru baca gazı kaybı %40"], a: 0,
+    e: "%4 O₂'de: giren enerji (üst ısıl değer) %100, alt ısıl değer %93; kayıplar <b>nem %7, kuru baca gazı %8, radyasyon-konveksiyon %3, blöf %3</b>; <b>kazan verimi %79</b> (100 − 7 − 8 − 3 − 3 = 79).",
+    n: "Nem kaybı (%7), üst ve alt ısıl değer arasındaki farka karşılık gelir (100 − 93): yanmada oluşan suyun buharlaşma gizli ısısı bacadan gider. Bu kayıp ancak yoğuşmalı ekonomizer veya yoğuşmalı kazanla geri kazanılabilir." },
+  { t: 1, s: 12, q: "Aynı kazan baca gazında %10 O₂ ile çalıştığında Sankey diyagramına göre kazan verimi %74'e düşmektedir. Bu düşüşe neden olan kayıp kalemi hangisidir?",
+    o: ["Kuru baca gazı kaybı %8'den %13'e çıkmıştır", "Blöf kaybı %3'ten %8'e çıkmıştır", "Nem kaybı %7'den %12'ye çıkmıştır", "Radyasyon kaybı %3'ten %8'e çıkmıştır", "Alt ısıl değer %93'ten %88'e düşmüştür"], a: 0,
+    e: "%10 O₂'de <b>kuru baca gazı kaybı %13</b>'tür (%4 O₂'de %8). Nem %7, radyasyon %3, blöf %3 aynı kalmış; verim 79'dan <b>74</b>'e düşmüştür.",
+    n: "Fazla hava arttıkça bacadan atılan kuru gaz kütlesi artar; ısıtılan ama işe yaramayan bu gaz kuru baca gazı kaybını yükseltir. Alt ısıl değer yakıtın özelliğidir, hava ayarıyla değişmez. Bu iki diyagram, “O₂'yi düşür” önerisinin sayısal kanıtıdır." },
+  { t: 1, s: 12, q: "Sankey diyagramlarına göre O₂ %10'dan %4'e düşürüldüğünde kazan verimi %74'ten %79'a çıkmaktadır. Aynı faydalı ısı için yakıt tüketimi yaklaşık yüzde kaç azalır?",
+    o: ["Yaklaşık %6,3", "Yaklaşık %5,0", "Yaklaşık %21", "Yaklaşık %79", "Yaklaşık %0,5"], a: 0,
+    e: "Yakıt tüketimi verimle ters orantılıdır: tasarruf = 1 − η_eski / η_yeni = 1 − 74 / 79 ≈ <b>%6,3</b>.",
+    n: "Yaygın hata, verim farkını (5 puan) doğrudan tasarruf oranı saymaktır. Doğru formül: tasarruf = (η_yeni − η_eski) / η_yeni = 5 / 79. Örneğin yılda 1.000.000 Sm³ gaz yakan bir kazanda bu ayar yaklaşık 63.000 Sm³ tasarruf demektir; brülör ayarı genellikle yatırım gerektirmeyen bir önlemdir." },
+  { t: 1, s: 11, q: "%4 O₂'li Sankey diyagramında kazan verimi üst ısıl değere göre %79'dur. Alt ısıl değer %93 olduğuna göre alt ısıl değere göre kazan verimi yaklaşık kaçtır?",
+    o: ["Yaklaşık %85", "Yaklaşık %79", "Yaklaşık %73", "Yaklaşık %93", "Yaklaşık %100"], a: 0,
+    e: "Alt ısıl değere göre verim = 79 / 93 ≈ <b>%85</b>.",
+    n: "Aynı kazan için verim, hangi ısıl değere göre hesaplandığına bağlı olarak farklı çıkar. Türkiye'de ve Avrupa'da kazan verimleri genellikle alt ısıl değere göre verilir; bu yüzden yoğuşmalı kazanlarda %100'ün üzerinde verim değerleri görülebilir. Etüt raporunda hangi temelin kullanıldığı mutlaka belirtilmelidir." },
+  { t: 1, s: 13, q: "Sunuma göre kütle ve enerji alışverişi açısından sistem türleri ve tanımları doğru eşleştirilmiş seçenek hangisidir?",
+    o: ["İzole sistem: çevreyle hiçbir alışveriş yok; kapalı sistem: kütle giriş-çıkışı yok ama ısı ve iş alışverişi var; açık sistem: hem madde hem enerji giriş-çıkışı var", "Kapalı sistem: hem madde hem enerji akışı var", "Açık sistem: hiçbir alışveriş yok", "İzole sistem: yalnızca kütle akışı var", "Kapalı sistem: yalnızca kütle akışı var, enerji akışı yok"], a: 0,
+    e: "<b>İzole sistem</b>: çevresiyle ısı, iş ve kütle alışverişi yoktur (Q = 0, W = 0). <b>Kapalı sistem</b>: kütle giriş-çıkışı yoktur ama ısı (Q) ve iş (W) alışverişi olabilir. <b>Açık sistem</b>: hem madde hem enerji giriş-çıkışı olabilir.",
+    n: "Kazanlar, fırınlar, eşanjörler ve kurutucular sürekli akışlı <b>açık sistemlerdir</b>. Kapalı sisteme örnek, ağzı kapalı bir kapta ısıtılan su; izole sisteme yaklaşık örnek ise iyi yalıtılmış bir termostur." },
+  { t: 1, s: 15, q: "Sunuma göre adyabatik ve izotermal sistemler nasıl tanımlanır?",
+    o: ["Adyabatik: sistemle çevresi arasında ısı alışverişi yok; izotermal: reaksiyon sabit sıcaklıkta gerçekleşiyor ve çevreyle ısı alışverişi var", "Adyabatik: sabit sıcaklık; izotermal: ısı alışverişi yok", "İkisi de kütle alışverişi olmayan sistemlerdir", "Adyabatik: sabit basınç; izotermal: sabit hacim", "Adyabatik: yalnızca sıvı; izotermal: yalnızca gaz sistemleri"], a: 0,
+    e: "<b>Adyabatik sistem</b>: sistemle çevresi arasında ısı alışverişi yoktur. <b>İzotermal sistem</b>: reaksiyon sabit sıcaklıkta gerçekleşir; bu sıcaklığın korunması için çevreyle ısı alışverişi söz konusudur.",
+    n: "Adyabatik kabul, “adyabatik alev sıcaklığı” hesabının temelidir: açığa çıkan ısının tamamı gazları ısıtır. İzotermal sistemde ise ekzotermik tepkimenin ısısı soğutmayla uzaklaştırılır (örneğin ceketli reaktörler)." },
+  { t: 1, s: 14, q: "Yatışkın (kararlı) hâlde çalışan bir sistem için hangisi doğrudur?",
+    o: ["Birikim sıfırdır (dm/dt = 0); sisteme giren madde miktarı çıkan madde miktarına eşittir", "Sistemde zamanla madde birikir", "Sistemdeki maddelerin bileşimi zamanla değişir", "Giren madde çıkan maddeden her zaman büyüktür", "Sisteme hiç madde girmez"], a: 0,
+    e: "Yatışkın hâlde <b>birikim = 0</b>, yani dm/dt = 0'dır: <b>giren = çıkan</b>. Yatışkın olmayan hâlde birikim ≠ 0'dır; giren ≠ çıkan olur ve sistemdeki maddelerin bileşimi zamanla değişir.",
+    n: "Bir tankın dolması veya bir fırının ilk ısınma dönemi yatışkın olmayan hâle örnektir. Etüt ölçümleri, denkliklerin basit “giren = çıkan” biçiminde kurulabilmesi için sistem kararlı rejimdeyken yapılmalıdır; devreye alma veya yük değişimi sırasında alınan ölçümler yanıltıcıdır." },
+  { t: 1, s: 16, q: "Sunuma göre kütle denkliği hesaplarında ilk iş ve ikinci iş nedir?",
+    o: ["İlk iş sistemin (kontrol hacminin) ve sınırlarının belirlenmesi, ikinci iş bir baz (temel) seçilmesidir", "İlk iş baca gazı analizörünün kalibrasyonu, ikinci iş raporun yazılmasıdır", "İlk iş yakıt fiyatının öğrenilmesi, ikinci iş verim hesabıdır", "İlk iş enerji denkliğinin kurulması, ikinci iş kütle denkliğidir", "İlk iş sıcaklık ölçümü, ikinci iş basınç ölçümüdür"], a: 0,
+    e: "<b>İlk iş</b>: sistemin (kontrol hacminin) belirlenmesi ve sistem sınırlarının saptanması. <b>İkinci iş</b>: bir baz (temel) seçilmesi.",
+    n: "Kontrol hacmi, içinden kütle ve enerji akışlarının geçtiği, belirli bir sınırla çevrili sistemdir. Baz, hesaplamanın üzerine kurulduğu miktardır: örnek çözümlerde “1 mol C”, “1 mol CO” veya “100 mol kuru baca gazı” seçilmiştir. 100 mol baca gazı seçmek, yüzdeleri doğrudan mol sayısı olarak kullanmayı sağlar." },
+  { t: 1, s: 17, q: "Sunuma göre tepkimeye girmeyen bileşenlere ne ad verilir ve yanma için örneği nedir?",
+    o: ["İnert madde; yanma havasındaki azot", "Katalizör; yakıttaki karbon", "Ürün; baca gazındaki CO₂", "Reaktan; havadaki oksijen", "Yakıt; doğal gazdaki metan"], a: 0,
+    e: "Tepkimeye girmeyen bileşenlere <b>inert madde</b> denir. Örnek: yakma işleminde kullanılan havadaki <b>azot (N₂)</b>.",
+    n: "İnert bileşen, kütle denkliğinde “bağlayıcı bileşen” olarak çok kullanışlıdır: girişteki ve çıkıştaki miktarı aynı olduğu için bilinmeyen akımları bulmayı sağlar. Hekzan örneğinde, baca gazındaki N₂'den yola çıkarak (N₂ × 21/79) giren hava oksijeni hesaplanmıştır. Çok yüksek sıcaklıklarda azotun küçük bir kısmı NOₓ'e dönüşür; ancak bu, kütle denkliğinde ihmal edilir." },
+  { t: 1, s: 18, q: "Sunuma göre kütle denkliklerinde yüzdeler hangi temelde alınır?",
+    o: ["Katı ve sıvılarda kütlece yüzde, gazlarda hacimce (molce) yüzde; katı ve sıvılarda mol yüzdesi kullanılırsa açıkça belirtilmelidir", "Her durumda kütlece yüzde", "Her durumda hacimce yüzde", "Katılarda hacimce, gazlarda kütlece yüzde", "Yalnızca ağırlıkça ppm"], a: 0,
+    e: "Yüzdeler <b>katı ve sıvılarda kütlece</b>, <b>gazlarda hacimce (molce)</b> alınır. Katı ve sıvılar için mol yüzdesi kullanılabilir ancak bu durum açıkça belirtilmelidir.",
+    n: "İdeal gazlarda aynı sıcaklık ve basınçta hacim oranı mol oranına eşittir; bu yüzden baca gazı analizörlerinin verdiği %O₂ ve %CO₂ doğrudan mol yüzdesidir. Havanın %21 O₂ / %79 N₂ bileşimi de hacimcedir; kütlece yaklaşık %23 O₂ / %77 N₂'dir." },
+  { t: 1, s: 20, q: "Sunumdaki bileşen kütle denkliğinin genel biçimi hangisidir?",
+    o: ["(Giren) − (Çıkan) + (Tepkimeyle üretilen) − (Tepkimeyle tüketilen) = (Birikim)", "(Giren) + (Çıkan) = (Birikim)", "(Giren) × (Çıkan) = 1", "(Üretilen) − (Tüketilen) = (Giren)", "(Giren) − (Birikim) = (Üretilen) × 2"], a: 0,
+    e: "Bileşen kütle denkliği: <b>(Giren) − (Çıkan) + (Üretilen) − (Tüketilen) = (Birikim)</b>. Toplam kütle denkliğinde ise üretim-tüketim terimi yoktur: (Giren) − (Çıkan) = (Birikim).",
+    n: "Toplam kütle kimyasal tepkimede korunur, ama tek tek bileşenlerin kütleleri korunmaz: yanmada CH₄ ve O₂ tüketilir, CO₂ ve H₂O üretilir. Bu yüzden tepkimeli sistemlerde bileşen denkliklerine üretim ve tüketim terimleri eklenir. Element (atom) denklikleri ise tepkimede de korunur." },
+  { t: 1, s: 21, q: "Yatışkın hâldeki bir boru hattında giriş akışı 10 m³/h ve yoğunluğu 1.000 kg/m³'tür. Çıkış akışının yoğunluğu 800 kg/m³ ise sunumdaki kütle denkliğine (F₁ρ₁ = F₂ρ₂) göre çıkış hacimsel akış hızı nedir?",
+    o: ["12,5 m³/h", "8 m³/h", "10 m³/h", "1,25 m³/h", "80 m³/h"], a: 0,
+    e: "Kütlesel debi korunur: 10 × 1.000 = F₂ × 800 → F₂ = 10.000 / 800 = <b>12,5 m³/h</b>.",
+    n: "Yatışkın hâlde korunan büyüklük kütlesel debidir (kg/h), hacimsel debi değil. Yoğunluk sıcaklıkla değiştiğinden, özellikle gazlarda ısınan akışın hacmi artar. Bu nedenle gaz debileri normal (Nm³) veya standart (Sm³) koşullara çevrilerek karşılaştırılır." },
+
+  // Yanma proseslerinde kütle denkliği
+  { t: 2, s: 22, q: "Metanın tam yanma denklemi CH₄ + 2O₂ → CO₂ + 2H₂O'dur. Buna göre denklemdeki katsayılar ne ifade eder?",
+    o: ["Stokiyometrik katsayılar; 1 molekül metanın 2 molekül oksijenle birleşerek 1 molekül CO₂ ve 2 molekül su oluşturduğunu gösterir", "Bileşenlerin kütlece yüzdeleri", "Bileşenlerin sıcaklıkları", "Tepkimenin hız sabitleri", "Bileşenlerin ısıl değerleri"], a: 0,
+    e: "Denklemdeki katsayılar <b>stokiyometrik katsayılardır</b> ve <b>atom denkliklerinin</b> sonucudur: teorik olarak 1 molekül metan, 2 molekül oksijenle birleşerek 1 molekül CO₂ ve 2 molekül su oluşturur.",
+    n: "Katsayılar mol oranıdır, kütle oranı değildir. Denkleştirme sırası: önce C (CO₂ katsayısı), sonra H (H₂O katsayısı), en son O (O₂ katsayısı) bulunur. CₙHₘ için O₂ ihtiyacı n + m/4 mol'dür: CH₄ için 1 + 1 = 2; C₃H₈ için 3 + 2 = 5." },
+  { t: 2, s: 23, q: "Sunumdaki örnekte CH₄ + 2O₂ → CO₂ + 2H₂O denkleminin kütle denkliği 12+4 + 2×32 = 12+32 + 2×18 şeklinde gösterilmiştir. Her iki tarafın toplamı kaç gramdır ve bu neyi kanıtlar?",
+    o: ["80 g = 80 g; yanmada kütle korunur, her elementin toplam kütlesi sabit kalır", "48 g = 80 g; yanmada kütle artar", "80 g = 44 g; yanmada kütle azalır", "16 g = 16 g; yalnızca metanın kütlesi korunur", "64 g = 36 g; oksijen tükenir"], a: 0,
+    e: "Sol taraf 16 + 64 = <b>80 g</b>; sağ taraf 44 + 36 = <b>80 g</b>. Yanma denklemleri kütlenin korunumu ilkesine göre denkleştirilir; tepkimeye giren her elementin toplam kütlesi sabit kalır.",
+    n: "Bu hesaptan pratik bir oran çıkar: 16 kg metan yandığında 44 kg CO₂ oluşur, yani 1 kg CH₄ başına 44/16 = 2,75 kg CO₂. Doğal gazın emisyon faktörünün temeli budur. Mol sayısı korunmayabilir (burada 3 mol → 3 mol korunmuş olsa da propanda 6 mol → 7 mol olur); korunan, kütle ve atom sayısıdır." },
+  { t: 2, s: 24, q: "Sunumdaki Örnek-1'de 1 mol karbon teorik miktarda havayla tamamen CO₂'ye yakılmaktadır. Baca gazının bileşimi nedir?",
+    o: ["%21 CO₂, %79 N₂ (toplam 4,76 mol baca gazı)", "%50 CO₂, %50 N₂", "%100 CO₂", "%11,7 CO₂, %88,3 N₂", "%21 O₂, %79 N₂"], a: 0,
+    e: "Teorik O₂ = 1 mol; teorik hava = 1 × 100/21 = 4,76 mol; havayla giren N₂ = 4,76 − 1 = 3,76 mol. Baca gazı: 1 mol CO₂ + 3,76 mol N₂ = 4,76 mol → <b>%21 CO₂, %79 N₂</b>.",
+    n: "Karbonun yanmasında mol sayısı değişmez (1 mol O₂ → 1 mol CO₂); bu yüzden baca gazındaki CO₂ oranı havadaki O₂ oranına (%21) eşittir. Bu değer saf karbon için CO₂max'tır. Hidrojen içeren yakıtlarda kuru baca gazındaki CO₂max daha düşüktür (doğal gazda yaklaşık %11,7)." },
+  { t: 2, s: 23, q: "1 mol metan (CH₄ + 2O₂ → CO₂ + 2H₂O) teorik havayla yakılmaktadır. Kuru baca gazındaki CO₂ oranı (CO₂max) yaklaşık kaçtır?",
+    o: ["Yaklaşık %11,7", "Yaklaşık %21", "Yaklaşık %9,5", "Yaklaşık %33", "Yaklaşık %50"], a: 0,
+    e: "Teorik O₂ = 2 mol → N₂ = 2 × 3,76 = 7,52 mol. Kuru baca gazı (su hariç) = 1 mol CO₂ + 7,52 mol N₂ = 8,52 mol. CO₂ = 1 / 8,52 ≈ <b>%11,7</b>.",
+    n: "Su da dahil edilirse (yaş temel) toplam 10,52 mol olur ve CO₂ ≈ %9,5 çıkar; analizörler gazı genellikle kurutarak ölçtüğü için kuru temel kullanılır. Fazla hava arttıkça CO₂ oranı CO₂max'tan uzaklaşır; bu yüzden CO₂ ölçümü de O₂ ölçümü gibi hava fazlalığını gösterir." },
+  { t: 2, s: 22, q: "Propanın tam yanma denklemi C₃H₈ + 5O₂ → 3CO₂ + 4H₂O'dur. 1 mol propanın teorik yanması için kaç mol hava gerekir?",
+    o: ["Yaklaşık 23,8 mol", "5 mol", "18,8 mol", "4,76 mol", "105 mol"], a: 0,
+    e: "Teorik O₂ = 5 mol; teorik hava = 5 × 4,76 = <b>23,8 mol</b> (5 mol O₂ + 18,8 mol N₂).",
+    n: "Gazlarda mol oranı hacim oranına eşit olduğu için 1 m³ propan için yaklaşık 23,8 m³ hava gerekir; metan için bu değer 2 × 4,76 = 9,52 m³'tür. LPG brülörlerinin doğal gaz brülörlerinden farklı ayarlanmasının ve meme çaplarının farklı olmasının nedeni budur." },
+  { t: 2, s: 22, q: "Etanın tam yanmasında 1 mol C₂H₆ için kaç mol oksijen gerekir?",
+    o: ["3,5 mol (C₂H₆ + 7/2 O₂ → 2CO₂ + 3H₂O)", "2 mol", "3 mol", "5 mol", "7 mol"], a: 0,
+    e: "C: 2 → 2 CO₂ (2 mol O₂); H: 6 → 3 H₂O (1,5 mol O₂). Toplam <b>3,5 mol O₂</b>: C₂H₆ + 7/2 O₂ → 2CO₂ + 3H₂O. Pratik formül: n + m/4 = 2 + 6/4 = 3,5.",
+    n: "Sunumun 36. slaytındaki tabloda etan tepkimesi “C₂H₆ + 3,5O₂” yerine yazım hatasıyla “3SO₂” olarak, bütan tepkimesi de “5H₂O” yerine “5H₂” olarak görünmektedir. Doğru denklemler 22. slayttaki gibidir: C₂H₆ + 7/2 O₂ → 2CO₂ + 3H₂O ve C₄H₁₀ + 13/2 O₂ → 4CO₂ + 5H₂O. Sınavda denklemi atom denkliğiyle kendiniz kontrol edin." },
+  { t: 2, s: 23, q: "Sunumdaki genel yanma reaksiyonu CₘHₙOᵦNcSf + a(O₂ + 3,76N₂) → xCO₂ + yH₂O + zN₂ + dO₂ + eSO₂ şeklindedir. Burada “3,76” neyi ifade eder?",
+    o: ["Havada 1 mol O₂ başına bulunan N₂ mol sayısını (79/21)", "Yakıttaki karbon atomu sayısını", "Fazla hava oranını", "Suyun mol kütlesini", "Kükürdün ısıl değerini"], a: 0,
+    e: "Hava hacimce %21 O₂ ve %79 N₂ kabul edilir: 79 / 21 = <b>3,76 mol N₂ / mol O₂</b>. Bu yüzden 1 mol O₂ içeren hava miktarı 1 + 3,76 = 4,76 mol'dür.",
+    n: "Denklemdeki “dO₂” terimi baca gazındaki fazla (artık) oksijeni gösterir; teorik yanmada d = 0'dır. Yakıttaki kükürt SO₂'ye, yakıttaki azot (c) N₂'ye geçer. Mol sayıları (x, y, z, d, e) element denklikleri kurularak bulunur." },
+  { t: 2, s: 25, q: "Sunumdaki Örnek-2'de n-hekzan (C₆H₁₄) fazla havayla yakılmakta, kuru baca gazında %0,268 C₆H₁₄ (yanmamış), %7,6 O₂ ve %9,1 CO₂ bulunmaktadır. 100 mol kuru baca gazı temelinde yanan hekzan neden 9,1 / 6 = 1,517 mol olarak bulunur?",
+    o: ["Her mol hekzan yandığında 6 mol CO₂ oluşur; baca gazındaki CO₂'nin tamamı yanan hekzandan gelir", "Hekzanın mol kütlesi 6 g/mol olduğu için", "Baca gazında 6 farklı bileşen olduğu için", "Hava fazlalık katsayısı 6 olduğu için", "Hekzan molekülünde 6 hidrojen atomu bulunduğu için"], a: 0,
+    e: "C₆H₁₄ + 19/2 O₂ → 6CO₂ + 7H₂O denklemine göre <b>1 mol hekzan yanınca 6 mol CO₂</b> oluşur. Baca gazındaki 9,1 mol CO₂'nin kaynağı yanan hekzandır: 9,1 / 6 = <b>1,517 mol</b>.",
+    n: "Bu, karbon atom denkliğidir. Fırına giren toplam yakıt = yanan + yanmadan bacaya giden = 1,517 + 0,268 = 1,785 mol. Kuru baca gazındaki N₂ ise 100 − 0,268 − 7,6 − 9,1 = 83,03 mol'dür." },
+  { t: 2, s: 26, q: "Aynı hekzan örneğinde baca gazındaki N₂ 83,03 mol'dür. Havayla fırına giren O₂ miktarı nasıl bulunur ve kaç moldür?",
+    o: ["O₂ = N₂ × 21/79 = 83,03 × 21/79 ≈ 22,07 mol", "O₂ = N₂ × 79/21 ≈ 312 mol", "O₂ = N₂ / 4,76 ≈ 17,4 mol", "O₂ = baca gazındaki O₂ = 7,6 mol", "O₂ = N₂ − CO₂ ≈ 73,9 mol"], a: 0,
+    e: "Azot inerttir ve tamamı havadan gelir. Havadaki O₂/N₂ oranı 21/79 olduğundan: O₂ = 83,03 × 21/79 ≈ <b>22,07 mol</b>.",
+    n: "Reaksiyona giren O₂ = 22,07 − 7,6 (bacadaki artık O₂) = 14,47 mol. Bu, inert bileşen yönteminin tipik uygulamasıdır: hava debisi ölçülmeden, yalnızca baca gazı analiziyle giren hava miktarı bulunabilir. Sahada aynı yöntemle brülöre giren hava debisi tahmin edilir." },
+  { t: 2, s: 26, q: "Hekzan örneğinde fırına giren toplam yakıt 1,785 mol, hekzanın teorik O₂ ihtiyacı 9,5 mol O₂/mol ve havayla giren O₂ 22,07 mol'dür. Fazla hava oranı nedir?",
+    o: ["Yaklaşık %30", "Yaklaşık %7,6", "Yaklaşık %53", "Yaklaşık %130", "Yaklaşık %14"], a: 0,
+    e: "Teorik O₂ = 1,785 × 9,5 = 16,96 mol. Fazla hava (%) = (22,07 − 16,96) / 16,96 × 100 ≈ <b>%30,1</b>.",
+    n: "Teorik O₂, yanmamış kısım da dahil <b>fırına giren yakıtın tamamı</b> için hesaplanır; çünkü fazla hava, yakıtın tamamını yakmaya yetecek havanın ne kadar üstünde hava verildiğini ölçer. Yalnızca yanan 1,517 mol kullanılırsa teorik O₂ 14,4 mol çıkar ve fazla hava yanlış olarak %53 bulunur." },
+  { t: 2, s: 28, q: "Hekzan örneğinde bacadaki 0,268 mol yanmamış hekzan yansaydı 0,268 × 9,5 ≈ 2,55 mol O₂ daha harcanacaktı. Bu düzeltmeyle baca gazındaki O₂ 7,6 − 2,55 = 5,05 mol alınırsa O₂ / (21 − O₂) formülü fazla hava için yaklaşık ne verir?",
+    o: ["Yaklaşık %31,6", "Yaklaşık %56,7", "Yaklaşık %24", "Yaklaşık %5,05", "Yaklaşık %76"], a: 0,
+    e: "Fazla hava (%) = 5,05 / (21 − 5,05) × 100 = 5,05 / 15,95 × 100 ≈ <b>%31,6</b>. Sunumda yuvarlamalar nedeniyle küçük fark oluştuğu belirtilmiştir (ayrıntılı yöntem %30,1).",
+    n: "Düzeltme yapılmadan 7,6 / (21 − 7,6) ≈ %56,7 bulunurdu; yani yanmamış yakıt varken pratik formül fazla havayı olduğundan çok yüksek gösterir. Bu fark, formülün “baca gazında yanmamış yakıt yoksa” geçerli olduğu notunun sayısal kanıtıdır." },
+  { t: 2, s: 27, q: "Hekzan örneğinde yanan 1,517 mol hekzandan (1 mol C₆H₁₄ → 7 mol H₂O) oluşan su miktarı nedir ve neden baca gazı analizinde görünmez?",
+    o: ["Yaklaşık 10,62 mol; analiz kuru temelde yapıldığı için su buharı yüzdelere dahil değildir", "Yaklaşık 9,1 mol; CO₂ ile aynıdır", "Yaklaşık 1,52 mol; analizörde ayrıca gösterilir", "Sıfır; hekzan yanınca su oluşmaz", "Yaklaşık 83 mol; azotun içine karışır"], a: 0,
+    e: "H₂O = 1,517 × 7 ≈ <b>10,62 mol</b>. Baca gazı bileşimi <b>kuru temelde</b> verildiği için bu su “100 mol kuru baca gazı”nın dışındadır: 100 mol kuru gaza karşılık 10,62 mol su buharı vardır.",
+    n: "Baca gazı analizörleri numuneyi soğutup suyunu ayırarak ölçer; bu yüzden sonuçlar kuru temeldedir. Su buharının miktarı ise nem nedeniyle olan kaybın (Sankey'deki %7) ve yoğuşma noktasının hesabında önemlidir." },
+
+  // Enerji denkliği ve yanma ısıları
+  { t: 3, s: 29, q: "Enerjinin korunumu ilkesi (termodinamiğin 1. kanunu) nasıl ifade edilir?",
+    o: ["Enerji yoktan var, vardan yok edilmez; bir hâlden diğer hâle dönüşür", "Enerji her dönüşümde yok olur", "Isı her zaman soğuk cisimden sıcak cisme kendiliğinden geçer", "Enerji yalnızca elektrik olarak var olabilir", "Kütle enerjiye dönüşmez, enerji ise kütleye dönüşür"], a: 0,
+    e: "Termodinamiğin 1. kanunu: fiziksel ve kimyasal olaylar sırasında <b>enerji yoktan var, vardan yok edilmez, bir hâlden diğer hâle dönüşür</b>. Enerji, bir sistemin iş yapabilme yeteneğinin ölçüsüdür.",
+    n: "“Kayıp enerji” yok olmaz, faydalı olmayan bir biçime dönüşür (örneğin bacadan atılan ısı). Enerji denkliğinde bu kayıplar da sayılarak giren enerji = faydalı enerji + kayıplar eşitliği kurulur. Isının kendiliğinden sıcaktan soğuğa geçmesi ise 2. kanunun konusudur." },
+  { t: 3, s: 30, q: "Sunuma göre enerjinin korunumu ilkesinin uygulanması neden maddenin korunumuna göre daha zordur?",
+    o: ["Enerji ısı, iş, potansiyel ve kinetik enerji, iç enerji, entalpi, gizli ısı, tepkime ve yanma ısısı gibi farklı biçimlerde bulunabildiği için", "Enerji ölçülemediği için", "Enerjinin birimi olmadığı için", "Enerji yalnızca katılarda bulunduğu için", "Enerji denkliği hiçbir zaman kapanmadığı için"], a: 0,
+    e: "Enerji <b>ısı, iş, potansiyel enerji, kinetik enerji, iç enerji, entalpi, gizli ısı, tepkime ısısı, yanma ısısı</b> vb. farklı şekillerde olabildiği için korunum ilkesinin uygulanması daha zordur.",
+    n: "Kütle denkliğinde tek bir birim (kg veya mol) yeterlidir. Enerji denkliğinde ise her biçimin ayrı hesaplanması ve aynı birime (kJ veya kcal) çevrilmesi gerekir. Sanayi fırın ve kazanlarında kinetik ve potansiyel enerji genellikle ihmal edilir; denklik duyulur ısı, gizli ısı ve yanma ısısı üzerine kurulur." },
+  { t: 3, s: 31, q: "Sunuma göre enerji denkliği kurulurken hangi sıra doğrudur?",
+    o: ["Önce kütle denkliği hesapları yapılır; enerji denkliğine esas ölçümler sistem sabit, yatışkın koşullarda çalışırken alınır", "Önce enerji denkliği kurulur, kütle denkliğine gerek yoktur", "Ölçümler devreye alma sırasında yapılmalıdır", "Kütle denkliği enerji denkliğinden sonra yapılır ve isteğe bağlıdır", "Enerji denkliği için yalnızca yakıt faturası yeterlidir"], a: 0,
+    e: "Enerji denkliği için giren-çıkan maddelerin miktarları bilinmelidir; bu nedenle <b>önce kütle denkliği</b> hesapları yapılır. Ölçümler sistem <b>sabit, denge (yatışkın) koşullarında</b> çalışırken alınmalıdır. Ardından kontrol hacmi seçilir, akış diyagramı çizilir, akımlar işaretlenir ve veriler yazılır.",
+    n: "Örneğin baca gazı kaybını hesaplamak için önce baca gazı miktarı (kütle denkliğinden) bilinmelidir. Kararlı rejim şartı, ölçümlerin bir “an” değil, temsil edici bir çalışma durumunu yansıtması içindir." },
+  { t: 3, s: 32, q: "Sunuma göre standart koşullar ve normal koşullar nasıl tanımlanmıştır?",
+    o: ["Standart koşullar: 1 atm ve 15,6 °C; normal koşullar: 1 atm ve 0 °C", "Standart koşullar: 1 atm ve 0 °C; normal koşullar: 1 atm ve 25 °C", "Her ikisi de 1 atm ve 20 °C", "Standart koşullar: 10 bar ve 100 °C", "Normal koşullar: 0 atm ve 0 K"], a: 0,
+    e: "Sunuma göre <b>standart koşullar: 1 atm basınç ve 15,6 °C</b>; <b>normal koşullar: 1 atm basınç ve 0 °C</b>. Enerji denkliğinde duyulur ısılar için kolaylık olması açısından genellikle <b>ortam sıcaklığı referans sıcaklık</b> olarak seçilir.",
+    n: "15,6 °C, 60 °F'ın karşılığıdır ve petrol-gaz sektöründe kullanılır. Gaz hacmi verilirken koşulun belirtilmesi şarttır: aynı gaz miktarı Nm³ (0 °C) cinsinden Sm³'ten yaklaşık %5 daha küçük bir sayı verir. Türkiye'de doğal gaz faturalarında kullanılan Sm³, 15 °C ve 1,01325 bar koşullarına göredir." },
+  { t: 3, s: 32, q: "Sunuma göre sıcaklık ile ısı arasındaki fark hangisidir?",
+    o: ["Sıcaklık termometreyle ölçülen ve derece ile verilen bir niceliktir; ısı kalorimetreyle ölçülen ve cal veya joule gibi enerji birimiyle verilen bir büyüklüktür", "Sıcaklık ve ısı aynı kavramdır", "Isı derece ile, sıcaklık joule ile ölçülür", "Sıcaklık yalnızca gazlarda, ısı yalnızca katılarda vardır", "Isı kütleden bağımsızdır, sıcaklık kütleye bağlıdır"], a: 0,
+    e: "<b>Sıcaklık</b>: termometreyle ölçülen ve herhangi bir derece ile verilen nicelik. <b>Isı</b>: kalorimetreyle ölçülen ve enerji birimiyle (cal, joule) verilen büyüklük. 1 cal, 1 g suyun sıcaklığını 1 °C yükseltir (1 cal ≈ 4,18 J).",
+    n: "Aynı sıcaklıktaki iki cisimden kütlesi büyük olan daha fazla ısı içerir. Isı miktarı Q = m × c × ΔT ile hesaplanır; yani sıcaklık farkı ısının yalnızca bir çarpanıdır. Mühendislikte genellikle birim kütle başına ısıdan (kJ/kg) söz edilir." },
+  { t: 3, s: 33, q: "Sunuma göre özgül ısı ile ısı kapasitesi arasındaki ilişki nedir? Suyun özgül ısısı 1 cal/g·°C ve mol kütlesi 18 g/mol ise ısı kapasitesi kaçtır?",
+    o: ["Isı kapasitesi = özgül ısı × molekül ağırlığı; 18 cal/mol·°C", "Isı kapasitesi = özgül ısı / molekül ağırlığı; 0,056 cal/mol·°C", "İkisi aynıdır; 1 cal/mol·°C", "Isı kapasitesi = özgül ısı + molekül ağırlığı; 19 cal/mol·°C", "Isı kapasitesi = özgül ısı × 4,18; 4,18 cal/mol·°C"], a: 0,
+    e: "Özgül ısı birim kütleyi, ısı kapasitesi (sunumdaki tanımıyla) 1 mol maddeyi 1 °C ısıtan ısıdır. <b>Isı kapasitesi = özgül ısı × molekül ağırlığı</b> = 1 × 18 = <b>18 cal/mol·°C</b>.",
+    n: "Sunumdaki örnek çözümlerde ısı kapasiteleri mol başına verilmiştir (örneğin N₂ için 7,0 cal/mol·K); bu nedenle mol sayılarıyla çarpılır. Sunuma göre ısı kapasitesi yalnızca sıcaklığın fonksiyonudur; yüksek sıcaklık hesaplarında ortalama değerler kullanılır (Örnek-3'te CO₂ için 13,51 cal/mol·°C)." },
+  { t: 3, s: 34, q: "Sunuma göre tepkime ısısının işareti nasıl belirlenir?",
+    o: ["Endotermik (ısı alan) tepkimede pozitif, ekzotermik (ısı veren) tepkimede negatif işaretlidir", "Ekzotermik tepkimede pozitif, endotermik tepkimede negatiftir", "Her zaman pozitiftir", "Her zaman negatiftir", "Tepkime ısısının işareti sıcaklığa bağlı olarak keyfi seçilir"], a: 0,
+    e: "Tepkime ısısı, tepkime sırasında gözlenen entalpi değişimidir: tepkime <b>endotermik (ısı alan) ise pozitif</b>, <b>ekzotermik (ısı açığa çıkaran) ise negatif</b> işaretlidir.",
+    n: "Yanma ekzotermik olduğundan entalpi değişimi negatiftir (ΔH < 0); ancak mühendislikte ısıl değerler “açığa çıkan ısı” olarak pozitif sayılarla verilir. Enerji denkliğinde bu ısı, “sistemde üretilen enerji” terimi olarak girer." },
+  { t: 3, s: 35, q: "10.000 kg/h su bir eşanjörde 15 °C'den 85 °C'ye ısıtılmaktadır. Suyun özgül ısısı 1 kcal/kg·°C ise sunumdaki yatışkın hâl enerji denkliğine (Q = m × Cp × (T₁ − T₀)) göre gerekli ısı nedir?",
+    o: ["700.000 kcal/h", "850.000 kcal/h", "150.000 kcal/h", "70.000 kcal/h", "1.000.000 kcal/h"], a: 0,
+    e: "Q = 10.000 × 1 × (85 − 15) = <b>700.000 kcal/h</b>.",
+    n: "700.000 kcal/h ≈ 814 kW'tır (1 kW = 860 kcal/h). Bu tür basit denklik, bir eşanjörün ısıl gücünü yalnızca debi ve sıcaklık ölçümüyle bulmayı sağlar; sunumda da ultrasonik debimetre ve sıcaklık ölçerle chiller kapasitesinin bulunması bu ilkeye dayanır." },
+  { t: 3, s: 36, q: "Sunuma göre bileşimi bilinen karışım bir yakıtın ısıl değeri nasıl bulunur?",
+    o: ["Karışımı oluşturan bileşenlerin yanma ısılarının ağırlıklı toplamı alınarak", "Yalnızca en çok bulunan bileşenin ısıl değeri alınarak", "Bileşenlerin ısıl değerleri çarpılarak", "Her durumda kalorimetre deneyi yapılarak", "Yakıtın yoğunluğu 1.000 ile çarpılarak"], a: 0,
+    e: "Yakıt bir karışımsa, <b>karışımı oluşturan bileşenlerin yanma ısılarının ağırlıklı toplamı</b> yakıtın ısıl değerini verir.",
+    n: "Örneğin hacimce %95 metan, %5 etan içeren bir gazın ısıl değeri ≈ 0,95 × H(CH₄) + 0,05 × H(C₂H₆) olur. Gazlarda ağırlık hacim (mol) oranı, sıvılarda kütle oranıdır. Katı yakıtlarda bileşim (yapı) bilinmediğinden bu yöntem kullanılamaz; ısıl değer deneysel olarak bulunur." },
+  { t: 3, s: 36, q: "Sunuma göre gaz, sıvı ve katı yakıtlarda ısıl değer genellikle hangi birimle verilir ve katı yakıtlarda nasıl bulunur?",
+    o: ["Gazlarda kcal/m³, sıvılarda kcal/kg; katı yakıtlarda yapı bilinmediği için alt ve üst ısıl değerler ancak deneysel olarak bulunur", "Hepsinde kcal/m³; katılarda bileşenlerin ağırlıklı toplamıyla", "Gazlarda kcal/kg, sıvılarda kcal/m³; katılarda tahminle", "Hepsinde kWh; katılarda ısıl değer yoktur", "Gazlarda kcal/L, sıvılarda kcal/m³; katılarda yoğunlukla"], a: 0,
+    e: "Isıl değer <b>gazlarda genellikle kcal/m³</b>, <b>sıvı yakıtlarda kcal/kg</b> olarak verilir. Katı yakıtlar C, H, O, N, S içeren organik bileşikler ve mineral madde içerir; yapıları bilinmediği için <b>alt ve üst ısıl değerler ancak deneysel olarak</b> bulunabilir.",
+    n: "Katı yakıtlardaki mineral maddeler yanmaz ve kül oluşturur. Kömürün ısıl değeri kalorimetre bombasıyla ölçülür; kalitesi nem, kül, uçucu madde ve sabit karbon analizleriyle değerlendirilir. Aynı kömür türünün ısıl değeri partiden partiye değiştiğinden, etütlerde tedarikçi analiz raporu istenmelidir." },
+  { t: 3, s: 36, q: "Sunumdaki yanma ısıları tablosunda kütle başına (kJ/kg) en yüksek reaksiyon ısısına sahip yakıt hangisidir?",
+    o: ["Hidrojen", "Karbon", "Metan", "Bütan", "Karbonmonoksit"], a: 0,
+    e: "Tabloda <b>hidrojen</b> yaklaşık <b>141.886 kJ/kg</b> ile en yüksek değere sahiptir; metan ~55.900, propan ~50.000, karbon ~32.796, CO ~10.108 kJ/kg'dır.",
+    n: "Hidrojen kütle başına çok enerjiktir ama çok hafif olduğu için hacim başına enerjisi düşüktür (tabloda ~12.109 kJ/Nm³; metanın üçte biri kadar). Bu yüzden aynı ısı için hidrojende çok daha büyük hacimsel debi gerekir. Hidrokarbonlarda hidrojen oranı arttıkça kütle başına ısıl değer artar." },
+  { t: 3, s: 37, q: "Üst yanma ısısı (üst ısıl değer) ile alt yanma ısısı (alt ısıl değer) arasındaki fark nedir?",
+    o: ["Üst ısıl değerde yanma ürünlerindeki su buharının yoğuşma gizli ısısı dahildir; alt ısıl değer bu gizli ısı çıkarılarak bulunur", "Alt ısıl değer her zaman üst ısıl değerden büyüktür", "Fark yakıttaki kül miktarından kaynaklanır", "Üst ısıl değer yalnızca katı yakıtlar için tanımlıdır", "İkisi arasında fark yalnızca birim farkıdır"], a: 0,
+    e: "Yanma sonunda su buharı yoğuşarak gizli ısısını da verirse bulunan değer <b>üst yanma ısısı</b>dır. Bu değerden suyun gizli ısısı çıkarıldığında <b>alt yanma ısısı</b> elde edilir: Q₁ (alt) = Q₂ (üst) − λ.",
+    n: "Fark, yakıttaki hidrojen oranına bağlıdır: doğal gazda yaklaşık %10, fuel-oilde %6–7, kok kömüründe çok küçüktür. Sunumdaki Sankey diyagramında üst ısıl değer %100, alt ısıl değer %93'tür; aradaki %7 nem kaybıdır. Klasik kazanlarda baca gazı yoğuşturulmadığından alt ısıl değer esas alınır." },
+  { t: 3, s: 38, q: "Sunumdaki gösterimde H₂ + ½O₂ → H₂O(g) + Q₁ ve H₂ + ½O₂ → H₂O(s) + Q₂'dir. Doğru ilişki hangisidir?",
+    o: ["Q₂ = Q₁ + λ (λ: suyun yoğuşma gizli ısısı); Q₁ alt, Q₂ üst ısıl değerdir", "Q₁ = Q₂ + λ; Q₁ üst ısıl değerdir", "Q₁ = Q₂; gizli ısı yoktur", "Q₂ = Q₁ − λ; Q₂ alt ısıl değerdir", "Q₁ × Q₂ = λ"], a: 0,
+    e: "Ürün su buharı (g) ise açığa çıkan ısı <b>Q₁ = alt ısıl değer</b>; ürün sıvı su (s) ise <b>Q₂ = üst ısıl değer</b>. Su buharının sıvıya dönüşürken verdiği ısı Q₃ = λ'dır: <b>Q₂ = Q₁ + λ</b>, yani Q₁ = Q₂ − Q₃.",
+    n: "Alt ısıl değerde yoğuşma gizli ısısı geri kazanılmaz; üst ısıl değerde dahil edilir. Suyun buharlaşma gizli ısısı 100 °C'de yaklaşık 2.257 kJ/kg (≈ 539 kcal/kg), 25 °C'de yaklaşık 2.442 kJ/kg'dır." },
+  { t: 3, s: 41, q: "Sunuma göre teorik (adyabatik) alev sıcaklığı nedir ve hangi kabullerle hesaplanır?",
+    o: ["Yanma kamarasından çıkan gazların ulaşabileceği maksimum sıcaklıktır; çevreye ısı kaybı olmadığı, açığa çıkan ısının tamamının gazları ısıttığı, tam yanma olduğu ve cüruf olmadığı kabul edilir", "Baca gazının bacadan çıktığı ölçülen sıcaklıktır", "Brülörün kapatıldığı andaki ortam sıcaklığıdır", "Yakıtın tutuşma sıcaklığıdır", "Kazan suyunun kaynama sıcaklığıdır"], a: 0,
+    e: "Adyabatik alev sıcaklığı, yanma kamarasından çıkan gazların ulaşabileceği <b>maksimum sıcaklıktır</b>. Yanmanın adyabatik olduğu, çevreye ısı kaybı olmadığı, tepkime ısısının tamamının gazların duyulur ısısını yükselttiği, tam yanma olduğu ve cüruf vb. atık olmadığı kabul edilerek hesaplanır.",
+    n: "Bu sıcaklık, yanma odasında kullanılan malzemelerin (refrakter, metal) erime ve dayanım sıcaklıkları için önemlidir. Gerçek alev sıcaklığı ısı kayıpları, eksik yanma ve yüksek sıcaklıkta CO₂ ve H₂O'nun ayrışması (disosiyasyon) nedeniyle adyabatik değerden düşüktür." },
+  { t: 3, s: 41, q: "Sunuma göre alev sıcaklığının daha yüksek olması isteniyorsa ne yapılabilir?",
+    o: ["Yakıt ve hava ön ısıtılır; daha da yüksek sıcaklık için oksijence zenginleştirilmiş hava kullanılır", "Fazla hava artırılır", "Yakıta su eklenir", "Yanma odası yalıtımı sökülür", "Baca çekişi artırılır"], a: 0,
+    e: "Daha yüksek sıcaklık için <b>yakıt ve hava ön ısıtılır</b>. Daha da fazlası istenirse, hava ile giren N₂'nin ısınmak için çektiği duyulur ısıyı azaltmak amacıyla <b>oksijence zenginleştirilmiş hava</b> kullanılabilir.",
+    n: "Havanın %79'u azot olduğundan yanma ısısının büyük kısmı bu inert gazı ısıtmaya gider. Oksijence zenginleştirme cam, çelik ve çimento gibi yüksek sıcaklık gerektiren proseslerde kullanılır; ancak yüksek alev sıcaklığı termal NOₓ oluşumunu artırır. Fazla havayı artırmak ise alev sıcaklığını düşürür." },
+  { t: 3, s: 43, q: "Sunumdaki Örnek-3'te 1 mol CO teorik havayla yakılmaktadır (CO + ½O₂ → CO₂). Hava ile giren N₂ ve baca gazının toplam mol sayısı nedir?",
+    o: ["N₂ = 0,5 × 79/21 ≈ 1,88 mol; baca gazı = 1 mol CO₂ + 1,88 mol N₂ = 2,88 mol", "N₂ = 3,76 mol; baca gazı = 4,76 mol", "N₂ = 0,5 mol; baca gazı = 1,5 mol", "N₂ = 1,88 mol; baca gazı = 3,38 mol (O₂ dahil)", "N₂ = 0 mol; baca gazı = 1 mol"], a: 0,
+    e: "Teorik O₂ = 0,5 mol; havayla giren N₂ = 0,5 × 79/21 ≈ <b>1,88 mol</b>. Teorik yanmada artık O₂ yoktur: baca gazı = 1 mol CO₂ + 1,88 mol N₂ = <b>2,88 mol</b>.",
+    n: "Teorik havada baca gazında O₂ kalmaz; O₂'nin tamamı CO ile tepkimeye girer. Bu örnekte enerji denkliği için önce mol sayıları bulunmuş, sonra her bileşen ısı kapasitesiyle çarpılmıştır: önce kütle denkliği, sonra enerji denkliği kuralının uygulamasıdır." },
+  { t: 3, s: 44, q: "Örnek-3'te hava 400 °C'de, CO 300 °C'de girmekte, ortam 15 °C'dir. cp(O₂) = 7,4, cp(N₂) = 7,0, cp(CO) = 7,0 cal/mol·K ve CO'nun alt yanma ısısı 67.636 cal/mol'dür. Baca gazının duyulur ısısı yaklaşık kaçtır?",
+    o: ["Yaklaşık 76.100 cal", "Yaklaşık 67.600 cal", "Yaklaşık 8.500 cal", "Yaklaşık 59.100 cal", "Yaklaşık 318.600 cal"], a: 0,
+    e: "Hava duyulur ısısı = (0,5 × 7,4 + 1,88 × 7,0) × (400 − 15) = 16,86 × 385 ≈ 6.491 cal. CO duyulur ısısı = 1 × 7,0 × (300 − 15) = 1.995 cal. Toplam = 6.491 + 1.995 + 67.636 ≈ <b>76.122 cal</b>.",
+    n: "Yatışkın hâl denkliği: giren duyulur ısılar + yanma ısısı = çıkan baca gazının duyulur ısısı (ısı kaybı olmadığı kabul edilir). Ön ısıtma sayesinde baca gazına yanma ısısının üzerine yaklaşık 8.500 cal daha eklenmiştir; ön ısıtmanın alev sıcaklığını yükseltmesi budur. 318.600 değeri, sonucun joule cinsinden karşılığıdır (76.120 × 4,186 ≈ 318.638 J)." },
+  { t: 3, s: 45, q: "Örnek-3'te baca gazı duyulur ısısı 76.120 cal'dir. Ortalama ısı kapasiteleri cp(CO₂) = 13,51 ve cp(N₂) = 8,18 cal/mol·°C alınırsa, (1 × 13,51 + 1,88 × 8,18) × (T − 15) = 76.120 eşitliğinden baca gazı (adyabatik alev) sıcaklığı yaklaşık kaçtır?",
+    o: ["Yaklaşık 2.650 °C", "Yaklaşık 400 °C", "Yaklaşık 1.000 °C", "Yaklaşık 5.635 °C", "Yaklaşık 26.500 °C"], a: 0,
+    e: "1 × 13,51 + 1,88 × 8,18 ≈ 28,89 cal/°C. T − 15 = 76.120 / 28,89 ≈ 2.635 → <b>T ≈ 2.650 °C</b>.",
+    n: "Sunumda soru tersinden sorulmuştur: “gazlar bacayı 2.650 °C'de terk ederse duyulur ısı nedir?” ve sonuç 76.120 cal bulunarak denkliğin kapandığı gösterilmiştir. Bu sıcaklık, ısı kaybı olmadığı kabulüyle ulaşılabilecek en yüksek değerdir. Yüksek sıcaklık hesabında düşük sıcaklık cp değerleri (7,0) yerine ortalama değerlerin (8,18) kullanıldığına dikkat edin." },
+
+  // Fırın enerji denkliği ve kayıplar
+  { t: 4, s: 39, q: "Sunuma göre bir yanma kamarasının enerji denkliğinde dikkate alınması gereken ısılar arasında hangisi <b>yoktur</b>?",
+    o: ["Fabrika aydınlatmasının elektrik tüketimi", "Giren ve çıkan akımların duyulur ısıları", "Giren ve çıkan akımlardaki suyun gizli ısısı", "Yanma ısısı", "Isı kaybı ve kullanılan ısı"], a: 0,
+    e: "Dikkate alınması gereken ısılar: <b>1) giren ve çıkan akımların duyulur ısıları, 2) suyun gizli ısısı, 3) yanma ısısı, 4) ısı kaybı, 5) kullanılan ısı</b>. Fabrika aydınlatması yanma kamarasının kontrol hacminde değildir.",
+    n: "Kontrol hacminin sınırı neyin denkliğe gireceğini belirler. Yanma kamarasına giren akımlar yakıt ve hava; çıkanlar baca gazı, cüruf ve kül, faydalı ısı ve yüzey kayıplarıdır. Yakıt içindeki nem ve havanın nemi de girişte suyun gizli ısısı olarak hesaba katılır." },
+  { t: 4, s: 40, q: "Sunuma göre bir yanma kamarasında ısı kayıpları hangi şekillerde olur?",
+    o: ["Yüksek sıcaklıkta çıkan baca gazı ve duvarlardan duyulur ısı; baca gazındaki CO (tam yanmamış bileşenler); baca gazındaki su buharının gizli ısısı", "Yalnızca brülörün elektrik tüketimi", "Yalnızca yakıt tankındaki buharlaşma", "Yalnızca kül taşıma bandının sürtünmesi", "Yalnızca operatörün açtığı kapılar"], a: 0,
+    e: "Isı kayıpları: <b>yüksek sıcaklıkta çıkan baca gazı ve ocaktan duvarlara duyulur ısılar</b>; <b>baca gazındaki CO</b> (tam yanmamış bileşenler); <b>baca gazındaki su buharının gizli ısısı</b>. Ayrıca yakıtın bir kısmı hiç yanmadan cürufa geçebilir.",
+    n: "Yakıtın yanmadan cürufa geçmesi büyük boyutlardaysa, sunuma göre yeni bir fırın tasarımı veya yeni bir yakıt kullanımı gerekebilir. CO kaybı, karbonun CO₂ yerine CO'ya kadar yükseltgenmesinden kaynaklanır; 1 kg C, CO₂'ye yanarsa yaklaşık 32.800 kJ, CO’ya yanarsa bunun yalnızca yaklaşık %30’u kadar ısı verir." },
+  { t: 4, s: 40, q: "Sunuma göre fazla hava miktarının belirlenmesi neden bir “denge değerlendirmesi”dir?",
+    o: ["Fazla hava CO'yu azaltır ama fırına giren gaz miktarını artırıp gaz sıcaklığını düşürür ve ısı geri kazanımını zorlaştırır; bu yüzden bir miktar CO'ya denge açısından katlanılabilir", "Fazla hava her zaman zararsızdır, sınırsız artırılabilir", "Fazla hava her zaman yasaktır", "Fazla hava yalnızca elektrik tüketimini etkiler", "Fazla havanın verime hiçbir etkisi yoktur"], a: 0,
+    e: "Yanma havası artırıldığında CO kaybı belirli oranlarda azalır. Ancak fazla hava arttıkça fırına giren gaz miktarı artar, bu gazın ısınması nedeniyle <b>sonuçtaki gaz sıcaklığı düşer</b>; düşük sıcaklıktaki baca gazından <b>ısı geri kazanım verimi de azalır</b>. Bu yüzden bir miktar CO'ya denge açısından katlanılabilir.",
+    n: "Pratikte optimum, CO'nun sınır değerin (çoğu brülörde birkaç yüz ppm) hemen altında kaldığı en düşük O₂ seviyesidir. Sürekli O₂ ölçümüne dayalı otomatik hava/yakıt oranı kontrolü (O₂ trim), bu dengeyi yük değiştikçe korur. Ancak CO güvenlik açısından da risklidir; “katlanılabilir” CO düşük ve kontrollü olmalıdır." },
+  { t: 4, s: 46, q: "Sunumdaki reküperatörsüz yakma fırını enerji denkliğinde fırına giren ve çıkan toplam ısı nasıl yazılır?",
+    o: ["Giren: Q_T = Q_yakıt (Q1-2); çıkan: Q_T = Q_m (malzemeye aktarılan, Q3) + Q_baca gazı (Q4) + Q_yüzey (Q5)", "Giren: Q_baca gazı; çıkan: Q_yakıt", "Giren: Q_m + Q_yüzey; çıkan: Q_yakıt", "Giren ve çıkan yalnızca Q_m'dir", "Giren: Q_yüzey; çıkan: Q_m × Q_baca"], a: 0,
+    e: "Fırına giren toplam ısı <b>Q_T = Q_ya</b> (yakıtla giren enerji, Q1-2). Fırından çıkan toplam ısı <b>Q_T = Q_m + Q_baca gazı + Q_yüzey</b>: malzemeye aktarılan (Q3), baca gazının duyulur ısısı (Q4) ve sıcak yüzeylerden kaybolan ısı (Q5).",
+    n: "Fırın verimi = Q_m / Q_yakıt'tır. Reküperatörsüz çalışmada yanma havası ortam sıcaklığında girdiği için ayrı bir giriş terimi yazılmamıştır. Reküperatör eklenince baca gazından alınan ısı havayla geri döner; yakıt ihtiyacı aynı Q_m için azalır." },
+  { t: 4, s: 46, q: "Bir fırına yakıtla 10.000.000 kJ/h enerji girmektedir. Malzemeye aktarılan ısı 4.500.000 kJ/h, baca gazının duyulur ısısı 4.000.000 kJ/h'dir. Enerji denkliğine göre sıcak yüzeylerden kaybolan ısı ve fırın verimi nedir?",
+    o: ["1.500.000 kJ/h; verim %45", "5.500.000 kJ/h; verim %55", "1.500.000 kJ/h; verim %85", "8.500.000 kJ/h; verim %45", "500.000 kJ/h; verim %40"], a: 0,
+    e: "Q_yüzey = Q_yakıt − Q_m − Q_baca = 10.000.000 − 4.500.000 − 4.000.000 = <b>1.500.000 kJ/h</b>. Verim = Q_m / Q_yakıt = 4,5 / 10 = <b>%45</b>.",
+    n: "Bu tabloda en büyük kayıp baca gazıdır (%40); öncelikli önlem baca gazı ısısının reküperatörle yanma havasına geri kazanılması ve fazla havanın düşürülmesidir. Yüzey kaybının farktan bulunması pratik ama risklidir: tüm ölçüm hataları bu kalemde toplanır. Mümkünse yüzey kaybı ayrıca hesaplanarak denklik kontrol edilmelidir." },
+  { t: 4, s: 47, q: "Bir fırına 500 kg/h fuel-oil beslenmektedir. Alt ısıl değer 40.000 kJ/kg, yakıt 100 °C'ye ön ısıtılmış, ortam 20 °C ve sıvı yakıtın özgül ısısı 2,1 kJ/kg·K'dir. Q_yakıt = m × (H₀ + Cp × (T_yakıt − T₀)) bağıntısına göre yakıtla giren enerji nedir?",
+    o: ["20.084.000 kJ/h", "20.000.000 kJ/h", "84.000 kJ/h", "20.105.000 kJ/h", "40.168 kJ/h"], a: 0,
+    e: "Q_yakıt = 500 × (40.000 + 2,1 × (100 − 20)) = 500 × (40.000 + 168) = <b>20.084.000 kJ/h</b>.",
+    n: "Yakıtın duyulur ısısı (168 kJ/kg) yanma ısısının yanında küçüktür (%0,4); bu nedenle çoğu hesapta ihmal edilir. Fuel-oil esas olarak akışkanlığı ve atomizasyonu iyileştirmek için ısıtılır. Sunumda verilen özgül ısılar: sıvı yakıtlar 2,1, LPG 2,5, kömür 1,3 kJ/kg·K." },
+  { t: 4, s: 48, q: "Bir tav fırınında saatte 2.000 kg çelik 20 °C'den 1.200 °C'ye ısıtılmaktadır. Çeliğin ortalama özgül ısısı 0,5 kJ/kg·°C ise malzemeye aktarılan enerji (Q_m) nedir?",
+    o: ["1.180.000 kJ/h", "1.200.000 kJ/h", "2.360.000 kJ/h", "1.180 kJ/h", "590.000 kJ/h"], a: 0,
+    e: "Q_m = m × C × (T_m − T₀) = 2.000 × 0,5 × (1.200 − 20) = <b>1.180.000 kJ/h</b>.",
+    n: "Sunumda bu bağıntı özgül ısının sıcaklıkla değişmediği yaklaşımıyla verilmiştir. Çelikte özgül ısı sıcaklıkla belirgin değişir (yaklaşık 750 °C civarındaki faz dönüşümünde büyük artış görülür); hassas hesaplarda entalpi tabloları kullanılır. Fırın verimi, Q_m'nin yakıtla giren enerjiye oranıdır." },
+  { t: 4, s: 49, q: "Sunuma göre baca gazının duyulur ısısı (Q4) hangi iki bileşenden oluşur?",
+    o: ["Kuru baca gazının duyulur ısısı (Q4d) ve baca gazındaki su buharının duyulur ısısı (Q4w)", "Yakıtın alt ve üst ısıl değeri", "Radyasyon ve konveksiyon kaybı", "Malzemeye aktarılan ısı ve yüzey kaybı", "Blöf kaybı ve kondens kaybı"], a: 0,
+    e: "<b>Q4 = Q4d + Q4w</b>: Q4d kuru baca gazının, Q4w baca gazındaki su buharının duyulur ısısıdır. Q4d = F × G' × (Cp₁ × t₁ − Cp₀ × t₀) bağıntısıyla hesaplanır.",
+    n: "Su buharı, yakıtın yanmasından (Gwr) ve yanma havasının neminden (Gwa) gelir. Cp değerleri baca gazındaki bileşenlerin yüzdelerine ve sıcaklığa bağlı olarak hesaplanmalıdır. Bu bağıntılar, sunumdaki örnekte proses suyu tonu başına (kJ/ton) yazılmıştır; F yakıt miktarıdır (Nm³/ton)." },
+  { t: 4, s: 49, q: "Gerçek baca gazı hacmi G' = G₀' + A₀ × (m − 1) bağıntısıyla hesaplanır. Teorik kuru baca gazı hacmi 8,5 Nm³/Nm³ yakıt, teorik hava 9,5 Nm³/Nm³ yakıt ve fazla hava oranı m = 1,2 ise G' nedir?",
+    o: ["10,4 Nm³/Nm³ yakıt", "8,5 Nm³/Nm³ yakıt", "19,9 Nm³/Nm³ yakıt", "11,4 Nm³/Nm³ yakıt", "1,9 Nm³/Nm³ yakıt"], a: 0,
+    e: "G' = 8,5 + 9,5 × (1,2 − 1) = 8,5 + 1,9 = <b>10,4 Nm³/Nm³ yakıt</b>.",
+    n: "A₀ × (m − 1) terimi, fazla hava olarak bacaya giden ek gaz hacmidir. %20 fazla hava, baca gazı hacmini burada yaklaşık %22 artırmıştır; kuru baca gazı kaybı da aynı oranda artar. Sankey diyagramındaki %4 → %10 O₂ geçişinde kuru baca gazı kaybının %8'den %13'e çıkması bu ilişkinin sonucudur." },
+  { t: 4, s: 51, q: "Sunuma göre sıcak yüzeylerden kaybolan ısı (Q5) hangi bağıntıyla hesaplanır?",
+    o: ["Q = U × A × (T_y − T₀); U = U_r + U_c (radyasyon ve konveksiyon ısı transfer katsayılarının toplamı)", "Q = m × Cp × ΔT; m baca gazı debisi", "Q = H₀ × m_yakıt", "Q = U × A / (T_y − T₀)", "Q = σ × T⁴ yalnızca"], a: 0,
+    e: "Sıcak yüzeyler ortamla ışınım ve taşınım yoluyla ısı alışverişi yapar: <b>Q = U × A × (T_y − T₀)</b>; burada <b>U = U_r + U_c</b> (kJ/h·m²·°C), A yüzey alanı (m²), T_y yüzey ve T₀ ortam sıcaklığıdır.",
+    n: "Yüzey sıcaklığı termal kamera veya temaslı termometreyle, alan ise ölçüyle bulunur. Yalıtım önlemlerinin tasarruf hesabı bu bağıntıyla yapılır: yalıtım sonrası yüzey sıcaklığı düşer, hem ΔT hem de U (özellikle radyasyon kısmı) azalır." },
+  { t: 4, s: 51, q: "Bir fırın duvarında toplam ısı transfer katsayısı U = 50 kJ/h·m²·°C, yüzey alanı 20 m², yüzey sıcaklığı 120 °C ve ortam sıcaklığı 20 °C'dir. Yüzey ısı kaybı nedir?",
+    o: ["100.000 kJ/h", "120.000 kJ/h", "10.000 kJ/h", "5.000 kJ/h", "1.000.000 kJ/h"], a: 0,
+    e: "Q = U × A × (T_y − T₀) = 50 × 20 × (120 − 20) = <b>100.000 kJ/h</b>.",
+    n: "100.000 kJ/h ≈ 27,8 kW'tır; yılda 8.000 saat çalışan bir fırında bu yaklaşık 222.000 kWh ısı demektir. Yalıtım iyileştirilip yüzey sıcaklığı 50 °C'ye indirilirse hem ΔT (100 → 30 °C) hem de U düşer; kayıp dörtte birin altına iner." },
+  { t: 4, s: 52, q: "Sunumdaki emisivite değerlerine göre aşağıdaki yüzeylerden hangisi en az ışınımla ısı kaybeder?",
+    o: ["Parlatılmış alüminyum (ε ≈ 0,1)", "Boyalı çelik (ε ≈ 0,8–0,9)", "Paslı çelik (ε ≈ 0,4–0,7)", "Refrakter malzeme (ε ≈ 0,4–0,8)", "Oksitlenmiş alüminyum (ε ≈ 0,2–0,3)"], a: 0,
+    e: "Radyasyon ısı transfer katsayısı emisiviteyle (E) doğru orantılıdır. En düşük emisivite <b>parlatılmış alüminyumda (ε ≈ 0,1)</b>dır; aynı sıcaklıktaki boyalı çeliğe göre yaklaşık 8–9 kat daha az ışınımla ısı kaybeder.",
+    n: "Boru ve tank yalıtımlarının dışının alüminyum sacla kaplanmasının bir nedeni de budur. Ancak düşük emisivite termal kamera ölçümünü yanıltır: parlak alüminyum yüzey olduğundan çok daha soğuk görünür (8. sunum). Alüminyum zamanla oksitlenince emisivitesi 0,2–0,3'e çıkar." },
+  { t: 4, s: 52, q: "Sunumdaki bağıntıya göre U_r = (20,4 × E / (T_y − T₀)) × [((T_y + 273)/100)⁴ − ((T₀ + 273)/100)⁴] şeklindedir. E = 0,9, T_y = 120 °C ve T₀ = 20 °C için U_r yaklaşık kaçtır?",
+    o: ["Yaklaşık 30 kJ/h·m²·°C", "Yaklaşık 3 kJ/h·m²·°C", "Yaklaşık 300 kJ/h·m²·°C", "Yaklaşık 18 kJ/h·m²·°C", "Yaklaşık 0,9 kJ/h·m²·°C"], a: 0,
+    e: "(393/100)⁴ = 3,93⁴ ≈ 238,5; (293/100)⁴ = 2,93⁴ ≈ 73,7; fark ≈ 164,8. U_r = (20,4 × 0,9 / 100) × 164,8 = 0,1836 × 164,8 ≈ <b>30,3 kJ/h·m²·°C</b>.",
+    n: "Sıcaklıklar dördüncü kuvvette ve mutlak (K) olarak girer; bu yüzden yüksek yüzey sıcaklıklarında radyasyon kaybı hızla büyür. Aynı yüzey parlak alüminyumla (E = 0,1) kaplansaydı U_r ≈ 3,4 olurdu. Toplam U bulmak için bu değere konveksiyon katsayısı U_c eklenir." },
+  { t: 4, s: 53, q: "Konveksiyonla ısı transfer katsayısı U_c = B × (T_y − T₀)^0,25'tir. Düşey bir yüzeyde (B = 5,22) yüzey ile ortam arasındaki sıcaklık farkı 81 °C ise U_c nedir?",
+    o: ["Yaklaşık 15,7 kJ/h·m²·°C", "Yaklaşık 5,22 kJ/h·m²·°C", "Yaklaşık 423 kJ/h·m²·°C", "Yaklaşık 47 kJ/h·m²·°C", "Yaklaşık 1,74 kJ/h·m²·°C"], a: 0,
+    e: "81^0,25 = 3 (çünkü 3⁴ = 81). U_c = 5,22 × 3 ≈ <b>15,7 kJ/h·m²·°C</b>.",
+    n: "B, yüzeyin şekline ve konumuna bağlı bir faktördür: düşey yüzeyler ve geniş silindirler 5,22; yukarıya bakan yatay yüzeyler 6,12; yatay silindirler 4,32. Yukarı bakan yatay yüzeyde sıcak hava rahat yükseldiği için doğal taşınım en güçlüdür. Rüzgârlı dış ortamda zorlanmış taşınım nedeniyle gerçek değer daha yüksek olur." },
+  { t: 4, s: 54, q: "Sunuma göre buhar sistemlerinde enerji hesapları neye dayanır ve kısmen yoğuşmuş (ıslak) buharın enerjisi nasıl hesaplanır?",
+    o: ["Faz değişimine (gizli ısıya) dayanır; Q_x = m_buhar × (h_sıvı + x × h_fg), x kuruluk derecesidir", "Yalnızca suyun duyulur ısısına dayanır; Q = m × 4,18 × ΔT", "Buharın kinetik enerjisine dayanır; Q = ½mv²", "Buharın basıncına dayanır; Q = P × V", "Buharın renk değişimine dayanır"], a: 0,
+    e: "Buhar sistemlerinde enerji hesapları <b>faz değişimine</b> dayanır; asıl enerji suyun buharlaşırken aldığı, yoğuşurken geri verdiği <b>gizli ısıdır</b>. Islak buharın enerjisi: <b>Q_x = m_buhar × (h_sıvı + x × h_fg)</b>.",
+    n: "x = 1 doymuş kuru buhar, x = 0 doymuş sıvıdır. Kuruluk derecesi düşük buhar, aynı kütle için daha az gizli ısı taşır; bu yüzden buhar hatlarında su ayırıcılar ve kondenstoplar kullanılır. Endüstriyel proseslerin çoğunda buharla taşınan ısı yoğuşturularak kullanılır." },
+  { t: 4, s: 54, q: "Bir buhar hattında 2.000 kg/h ıslak buhar akmaktadır. Bu basınçta h_sıvı = 763 kJ/kg, h_fg = 2.015 kJ/kg ve kuruluk derecesi x = 0,9'dur. Buharın taşıdığı enerji nedir?",
+    o: ["Yaklaşık 5.153.000 kJ/h", "Yaklaşık 5.556.000 kJ/h", "Yaklaşık 1.526.000 kJ/h", "Yaklaşık 4.030.000 kJ/h", "Yaklaşık 2.576 kJ/h"], a: 0,
+    e: "Q_x = 2.000 × (763 + 0,9 × 2.015) = 2.000 × (763 + 1.813,5) = 2.000 × 2.576,5 ≈ <b>5.153.000 kJ/h</b>.",
+    n: "Buhar tamamen kuru olsaydı (x = 1): 2.000 × 2.778 = 5.556.000 kJ/h olurdu. Yani %10 nem, taşınan enerjiyi yaklaşık %7 azaltır ve bu enerji kazanda yine de yakıt olarak harcanmıştır. Verilen değerler yaklaşık 10 bar(a) doymuş buhara karşılık gelir; gerçek hesaplarda buhar tabloları kullanılmalıdır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
