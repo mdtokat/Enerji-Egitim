@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Etüt Raporu Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 9 · Etüt Raporları ve Sanayi Etüt Rapor Formatı</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 9</span> 1_10.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Etüt Raporları ve Sanayi Etüt Rapor Formatı <em>Sınavı</em></h1>
+    <p class="lede">Etüt raporu mevzuatı (Ek-12A, Ek-13A, 70 puan barajı), ISO 50001/50002/50006 çerçevesi, yönetici özeti, önlem tabloları ve geri ödeme, son 3 yılın tüketim ve regresyon analizleri, sistem incelemeleri ve ekler.</p>
+    <ul class="facts"><li>56 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Etüt Raporları ile İlgili Mevzuat ve Sanayi Sektörü Etüt Rapor Çerçevesi” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum9-v1",
+topics: ["Mevzuat ve rapor metodolojisi", "Kapak, yönetici özeti ve ölçüm planı", "Önlem tabloları ve ekonomik analiz", "Enerji yönetimi, tüketim analizleri ve indeksler", "Sistem incelemeleri, önlemler ve ekler"],
+Q: [
+  // Mevzuat ve rapor metodolojisi
+  { t: 0, s: 9, q: "Bakanlığın etüt raporlarını değerlendirip uygun bulunmayanların yenilenmesini isteyebileceği hüküm hangi düzenlemede yer alır?",
+    o: ["Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik, Md. 10", "Elektrik Piyasası Kanunu", "Binalarda Enerji Performansı Yönetmeliği", "Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği", "Ölçü ve Ayar Kanunu"], a: 0,
+    e: "Verimlilik Yönetmeliği'nin <b>10. maddesi</b> endüstriyel işletmelerde ve hizmet binalarında yapılacak etütlerin usul ve esaslarını düzenler. 25.01.2020 tarihli değişiklikle eklenen <b>(d) bendine</b> göre Bakanlık etüt raporlarını değerlendirir ve uygun bulmadıklarının <b>yenilenmesini</b> isteyebilir.",
+    n: "Yönetmeliğin dayanağı 5627 sayılı Enerji Verimliliği Kanunu'dur. Kanun ve yönetmelik “kimin” etüt yaptırmak zorunda olduğunu, Usul ve Esaslar ise raporun “nasıl” hazırlanacağını ve puanlanacağını belirler. Bu ayrımı akılda tutmak mevzuat sorularında işinizi kolaylaştırır." },
+  { t: 0, s: 9, q: "Bakanlığa etüt raporlarını değerlendirme ve yenilenmesini isteme yetkisi veren (d) bendi Verimlilik Yönetmeliği'ne hangi tarihte eklenmiştir?",
+    o: ["25 Ocak 2020", "27 Ekim 2011", "2 Mayıs 2007", "1 Ocak 2015", "21 Eylül 2024"], a: 0,
+    e: "Sunumda bentin yanında <b>(Ek: RG-25/1/2020-31019)</b> ibaresi yer alır; yani hüküm <b>25 Ocak 2020</b> tarihli ve 31019 sayılı Resmî Gazete ile eklenmiştir.",
+    n: "27 Ekim 2011 yönetmeliğin ilk yayım tarihi, 2 Mayıs 2007 ise 5627 sayılı Kanun'un yayım tarihidir. Yönetmelik sonraki yıllarda da (örneğin 21 Eylül 2024) değişikliğe uğramıştır; sınavda mevzuat tarihleri sorulduğunda “Ek” ve “Değişik” ibarelerine dikkat edin." },
+  { t: 0, s: 10, q: "Uygulama Usul ve Esaslarına göre zorunlu <b>sanayi</b> enerji etüt raporu hangi ekteki formata uygun hazırlanır?",
+    o: ["Ek-12A", "Ek-12", "Ek-13", "Ek-13A", "Ek-10"], a: 0,
+    e: "Zorunlu etüt raporları <b>Ek-12</b> (örnek zorunlu <b>bina</b> enerji etüt raporu formatı) veya <b>Ek-12A</b> (örnek zorunlu <b>sanayi</b> enerji etüt raporu formatı) formatlarına uygun hazırlanır.",
+    n: "Ezber kuralı: “A” harfi sanayiyi gösterir. Ek-12 / Ek-12A rapor <b>formatıdır</b>; Ek-13 / Ek-13A ise Bakanlığın raporu puanladığı <b>değerlendirme şablonudur</b>. Sunumun tamamı Ek-12A'yı (sanayi) anlatır; bina formatının ayrıca indirilip incelenmesi önerilir." },
+  { t: 0, s: 10, q: "Bakanlık zorunlu etüt raporlarını hangi şablonlara göre değerlendirir?",
+    o: ["Ek-13 veya Ek-13A", "Ek-12 veya Ek-12A", "ISO 50001 tetkik listesi", "TS EN 16247 kontrol listesi", "Enerji kimlik belgesi formu"], a: 0,
+    e: "Zorunlu etütler Bakanlık tarafından <b>Ek-13 veya Ek-13A</b>'daki şablonlara göre <b>100 puan üzerinden</b> değerlendirilir.",
+    n: "Ek-13 bina, Ek-13A sanayi etütlerinin değerlendirme şablonudur. Raporu hazırlayan EVD şirketi veya enerji yöneticisi, raporu teslim etmeden önce bu şablonla kendi raporunu puanlayarak eksiklerini görebilir." },
+  { t: 0, s: 11, q: "Bakanlığın değerlendirmesinde 100 üzerinden 68 puan alan bir zorunlu etüt raporu için ne olur?",
+    o: ["Düzeltilmek üzere etüdü yaptıran işletme, kurum veya kuruluşa iade edilir", "Kabul edilir, puan yalnızca kayda alınır", "EVD şirketinin yetki belgesi iptal edilir", "Rapor reddedilir ve aynı işletmede 4 yıl etüt yapılamaz", "Rapor otomatik olarak 70 puana yuvarlanır"], a: 0,
+    e: "Değerlendirme sonucu <b>70 puanın altında</b> olan etütler, <b>düzeltilmek üzere</b> etüdü yaptıran işletme, kurum veya kuruluşa <b>iade edilir</b>. 68 &lt; 70 olduğundan rapor iade edilir.",
+    n: "Baraj “70'in altı”dır; tam 70 puan alan rapor iade edilmez. İade, etüdün baştan yapılması anlamına gelmez; eksik bölümlerin tamamlanması ve raporun yeniden sunulması istenir." },
+  { t: 0, s: 12, q: "Zorunlu enerji etüt rapor formatlarına Bakanlığın internet sitesinde hangi yol izlenerek ulaşılır?",
+    o: ["Mevzuat → Enerji Verimliliği Mevzuatı → Usul ve Esaslar → Eğitim ve Sertifikalandırma Faaliyetleri Hakkında Uygulama Usul ve Esasları", "Duyurular → İhale İlanları", "Yayınlar → Dergiler", "İstatistikler → Enerji Denge Tabloları", "Basın → Haberler"], a: 0,
+    e: "Formatlar <b>www.enerji.gov.tr</b> ana sayfasında <b>Mevzuat → Enerji Verimliliği Mevzuatı → Usul ve Esaslar → Enerji Verimliliği Eğitim ve Sertifikalandırma Faaliyetleri Hakkında Uygulama Usul ve Esasları</b> altında yer alır.",
+    n: "Rapor formatı ve değerlendirme şablonu doğrudan bir yönetmelikte değil, Usul ve Esasların eklerinde bulunur. Usul ve Esaslar zaman zaman revize edilir (belge numarasındaki “Rev.” ibaresi); rapor yazmadan önce sitedeki son revizyonun kullanılması gerekir." },
+  { t: 0, s: 13, q: "Sunuma göre etüt raporunun <b>kapsamı</b> hangi standardın içeriğini sağlamalıdır?",
+    o: ["ISO 50001", "ISO 9001", "ISO 14064", "ISO 45001", "ISO 17025"], a: 0,
+    e: "Rapor kapsamı <b>ISO 50001</b> standart içeriğini sağlayacak; ısı ve elektrik üretim, dağıtım ve kullanım profillerinin en az %80'ini temsil edecek düzeyde ve önceliklendirilmiş olmalıdır.",
+    n: "ISO 50001 (güncel sürümü ISO 50001:2018) enerji yönetim sistemi standardıdır. ISO 9001 kalite, ISO 14064 sera gazı, ISO 45001 iş sağlığı ve güvenliği, ISO/IEC 17025 ise deney ve kalibrasyon laboratuvarlarının yeterliliği ile ilgilidir." },
+  { t: 0, s: 13, q: "Sunuma göre etüt raporu ısı ve elektrik üretim, dağıtım ve kullanım profillerinin en az yüzde kaçını temsil etmelidir?",
+    o: ["%80", "%50", "%60", "%95", "%100"], a: 0,
+    e: "Rapor kapsamı ısı ve elektrik üretim, dağıtım ve kullanım profillerinin <b>en az %80'ini</b> temsil edecek düzeyde ve önceliklendirilmiş içerikte olmalıdır.",
+    n: "Bu, Pareto (80/20) yaklaşımıdır: tüketimin büyük kısmı az sayıda önemli enerji kullanımında (ÖEK) toplanır. Önce büyük tüketiciler ölçülüp analiz edilir, küçük tüketiciler toplu olarak tahmin edilebilir." },
+  { t: 0, s: 13, q: "Yıllık toplam enerji tüketimi 12.000 TEP olan bir fabrikanın etüt raporunda, sunumdaki kapsam kuralına göre en az kaç TEP'lik tüketimi temsil eden sistemler incelenmelidir?",
+    o: ["9.600 TEP", "6.000 TEP", "8.000 TEP", "10.800 TEP", "2.400 TEP"], a: 0,
+    e: "En az %80 kuralı: 12.000 × 0,80 = <b>9.600 TEP</b>.",
+    n: "2.400 TEP, kapsam dışında kalabilecek en fazla tüketimdir. Kapsamı belirlerken her sistemin tüketimi (ölçüm, sayaç veya hesapla) bir tabloya dökülüp büyükten küçüğe sıralanır ve kümülatif pay %80'e ulaşana kadar sistemler kapsama alınır." },
+  { t: 0, s: 13, q: "Sunuma göre etüt raporunun <b>metodolojisi</b> hangi standarda uygun planlanmış ve ölçümlenmiş olmalıdır?",
+    o: ["ISO 50002", "ISO 50006", "ISO 50015", "ISO 14001", "ISO 50003"], a: 0,
+    e: "Rapor metodolojisi; <b>ISO 50002</b>'ye uygun şekilde planlanmış ve ölçümlemeleri gerçekleştirilmiş enerji etüdünün, aynı standartta belirtilen asgari gereksinimleri ve içeriği karşılamalıdır.",
+    n: "ISO 50002 enerji etüdü (enerji denetimi, “energy audit”) standardıdır. ISO 50003 enerji yönetim sistemi belgelendirme kuruluşlarına, ISO 50015 ise enerji performansının ölçüm ve doğrulamasına (M&amp;V) yöneliktir.",
+    g: { eski: "Rapor metodolojisi ISO 50002'ye uygun olmalıdır (sunumun hazırlandığı dönemde geçerli sürüm ISO 50002:2014).", yeni: "ISO 50002:2014 geri çekilmiş; yerine Haziran 2025'te yayımlanan ISO 50002-1:2025 “Enerji etütleri — Bölüm 1: Genel gereklilikler” gelmiştir. Binalar ve prosesler için ayrıntılı kılavuzlar ISO 50002 serisinin diğer bölümlerinde verilmektedir.", kaynak: "ISO, ISO 50002-1:2025 standart sayfası (iso.org/standard/83645)" } },
+  { t: 0, s: 13, q: "Sunuma göre enerji tüketimini etkileyen üretim ve diğer faktörlerin ilişkisinin analizi ve <b>baz tüketim profilinin</b> oluşturulması hangi standarda dayanır?",
+    o: ["ISO 50006", "ISO 50002", "ISO 50001", "ISO 50047", "ISO 14067"], a: 0,
+    e: "Referans tüketimler; <b>ISO 50006</b> standart içeriğini asgari düzeyde karşılayacak şekilde, enerji tüketimini etkileyen üretim ve diğer faktörlerin ilişkisinin analizi ve <b>baz tüketim profilinin</b> oluşturulmasıyla belirlenir.",
+    n: "ISO 50006 enerji performans göstergeleri (EnPG/EnPI) ve enerji referans çizgisi (baseline) ile ilgilidir. Raporun üç ayağını şöyle ezberleyin: 50001 = kapsam (yönetim sistemi), 50002 = metodoloji (etüt), 50006 = referans tüketim (baz çizgi).",
+    g: { eski: "Referans tüketimler ISO 50006 içeriğini karşılamalıdır (sunum döneminde geçerli sürüm ISO 50006:2014).", yeni: "ISO 50006'nın ikinci baskısı ISO 50006:2023 olarak Mayıs 2023'te yayımlanmıştır; enerji performans göstergeleri ve enerji referans çizgileri kullanılarak enerji performansının değerlendirilmesine yönelik rehberlik içerir.", kaynak: "ISO, ISO 50006:2023 standart sayfası (iso.org/standard/79367)" } },
+  { t: 0, s: 13, q: "Sunuma göre etüt raporu hangi nitelikte planlanmalıdır?",
+    o: ["Fayda ve sonuç odaklı, kapsamı ve örnekleme metotları belirgin, metodolojik ve gerçekçi ölçüm-hesap-analiz içeren", "Mümkün olduğunca kısa ve yalnızca öneri listesinden oluşan", "Yalnızca fatura verilerine dayanan", "Yalnızca ekipman kataloglarındaki nominal değerlerle hazırlanan", "Ölçüm yerine işletme beyanını esas alan"], a: 0,
+    e: "Etüt raporu; <b>fayda ve sonuç odaklı, anlaşılır, kapsamı ve örnekleme metotları belirgin</b>, içeriği bölümlendirilmiş, metodolojik ve sistematik analiz içeren, <b>ölçüm-hesaplama-analiz ve yorumlamaları gerçekçi</b> bir içerikte planlanmalıdır.",
+    n: "Değerlendirme şablonunda puan kaybının sık nedenleri: ölçüm yerine katalog değeri kullanmak, ölçüm süresini ve yöntemini belirtmemek, tasarruf hesabında varsayımları açıklamamak ve önerilerin işletmeye özgü olmaması." },
+
+  // Kapak, yönetici özeti ve ölçüm planı
+  { t: 1, s: 14, q: "Sunuma göre etüt raporunun kapak sayfasında aşağıdakilerden hangisinin yer alması <b>gerekmez</b>?",
+    o: ["İşletmenin son üç yıllık enerji faturaları", "Raporu hazırlayan EVD firmasının unvanı ve logosu", "Rapor hazırlayan sertifikalı personelin listesi ve sertifika numaraları", "Raporun revizyon numarası ve tarihi", "İşletme fabrikasının genel görseli"], a: 0,
+    e: "Kapakta <b>EVD firmasının unvanı ve logosu</b>, etüt yapılan işletmenin unvanı ve <b>fabrika genel görseli</b>, <b>sertifikalı personel listesi ve sertifika numaraları</b>, <b>revizyon numarası</b> ve <b>rapor tarihi</b> yer alır. Faturalar kapakta değil, enerji tüketimleri bölümünde analiz edilir.",
+    n: "Ek-12A'nın kapak dipnotlarına göre fabrika tarafından hazırlanan raporlarda hazırlayanın <b>enerji yöneticisi sertifika numarası</b>, EVD şirketi tarafından hazırlanan raporlarda ise hazırlayanların <b>eğitim-etüt-proje sertifikası</b> numaraları yazılır; tarih ay ve yıl olarak (örneğin “Ocak 2022”) verilir." },
+  { t: 1, s: 2, q: "Ek-12A kapak sayfası dipnotlarına göre EVD şirketi tarafından hazırlanan bir raporda hazırlayanların hangi sertifika numaraları yazılır?",
+    o: ["Eğitim-etüt-proje sertifikası numaraları", "Enerji kimlik belgesi uzmanlık numaraları", "Elektrik mühendisleri odası sicil numaraları", "ISO 50001 baş denetçi belge numaraları", "TÜRKAK akreditasyon numaraları"], a: 0,
+    e: "Fabrikalar tarafından hazırlanan raporlarda hazırlayanın <b>enerji yöneticisi sertifika numarası</b>, EVD şirketi tarafından hazırlanan raporlarda ise hazırlayanların <b>eğitim-etüt-proje sertifikası numaraları</b> yazılır.",
+    n: "Enerji yöneticisi sertifikası ile etüt-proje sertifikası farklı eğitimlerle alınır. Etüt-proje sertifikası, EVD (enerji verimliliği danışmanlık) şirketlerinde etüt ve proje çalışmaları yapacak personele verilir." },
+  { t: 1, s: 15, q: "Etüt raporundaki “Referans Değerler ve Kısaltmalar” bölümünde hangi bilgiler verilir?",
+    o: ["Enerji birim fiyatları, emisyon dönüşüm faktörleri, döviz kurları gibi raporda kullanılan referans değerler ve kısaltmaların açıklamaları", "Önerilen projelerin şematik çizimleri", "Termal kamera görüntüleri", "Ölçüm cihazlarının kalibrasyon sertifikaları", "Etüt ekibinin özgeçmişleri"], a: 0,
+    e: "Bu bölümde raporda kullanılan referans değerlerin (<b>enerji birim fiyatları, emisyon dönüşüm faktörleri, döviz kurları</b> vb.) detayı ve kısaltmaların neye karşılık geldiği açıklanır.",
+    n: "Tasarruf (TL) ve emisyon azalımı (ton CO₂e) hesapları bu değerlere dayanır. Değerler başta bir kez tanımlanırsa okuyucu tüm hesapları izleyebilir ve fiyat değiştiğinde hesaplar kolayca güncellenebilir." },
+  { t: 1, s: 16, q: "Yönetici özetinde yer alması gereken işletmeye ait kurumsal bilgiler arasında hangisi <b>sayılmaz</b>?",
+    o: ["Çalışanların maaş bordroları", "Kuruluş tarihi ve yeri", "Yılda kaç gün ve kaç vardiya çalışıldığı", "Ana hammaddeler ve prosesin tipi", "Ağırlıklı enerji türü ve enerji yönetim ekibi"], a: 0,
+    e: "Kurumsal bilgiler: <b>kuruluş tarihi, yeri, ana üretimler, sermaye şekli, yıllık çalışma günü ve vardiya sayısı, çalışan sayısı, proses tipi, ana hammaddeler, tevsi yılları, ağırlıklı enerji türü, enerji yönetim ekibi</b> ve tüketim bilgileri. Maaş bordroları istenmez.",
+    n: "Çalışma günü ve vardiya sayısı, tasarruf hesaplarında yıllık çalışma saatini belirler (örneğin 3 vardiya × 330 gün ≈ 7.920 saat). Bu süre yanlış alınırsa tüm tasarruf ve geri ödeme hesapları hatalı çıkar." },
+  { t: 1, s: 19, q: "Ek-12A'daki endüstriyel işletme bilgileri formunda “enerji yönetim birimi” bilgisini hangi işletmeler verir?",
+    o: ["Kamu kesimi dışında olup üç yıllık ortalama toplam enerji tüketimi 50.000 TEP ve üzeri olanlar", "Yıllık tüketimi 1.000 TEP'in altında olanlar", "Yalnızca kamu kurumları", "Yalnızca ISO 50001 belgesi olanlar", "Tüm organize sanayi bölgeleri"], a: 0,
+    e: "Formun dipnotuna göre bu bilgi, <b>kamu kesimi dışında olup üç yıllık toplam ortalama enerji tüketimi 50.000 TEP ve üzeri</b> olanlar tarafından verilir.",
+    n: "Verimlilik Yönetmeliği'ne göre bu büyüklükteki endüstriyel işletmelerin tek bir enerji yöneticisi yerine bir <b>enerji yönetim birimi</b> kurması gerekir. Formdaki tüketim değerleri ise son üç yılın ortalaması olarak yazılır." },
+  { t: 1, s: 20, q: "Etüt raporunun “Çalışmanın Kapsamı” bölümünde ne belirtilir?",
+    o: ["Etüt kapsamına alınması uygun bulunan konular, çalışılan bölümler, ölçüm ve analiz konuları", "Yalnızca etüdün hangi tarihlerde yapıldığı", "Yalnızca etüt ücretinin ödeme koşulları", "İşletmenin satış hedefleri", "Önerilen projelerin iç karlılık oranları"], a: 0,
+    e: "Kapsam bölümünde <b>etüde alınması uygun bulunan konular</b>, <b>çalışma yapılan bölümler</b> ve <b>ölçüm ve analiz konuları</b> ön değerlendirmeli ve açıklamalı olarak belirtilir. Tarihler ayrı bir başlıkta (“Çalışmanın Tarihi”) verilir.",
+    n: "Kapsam, raporun sınırlarını çizer: neyin incelendiği kadar neyin neden incelenmediği de yazılmalıdır. Böylece okuyucu %80 temsil kuralının sağlanıp sağlanmadığını kontrol edebilir." },
+  { t: 1, s: 21, q: "Sunumdaki örnek ölçüm planında <b>15 kW ve üzeri</b> motorların ölçümü nasıl yapılmıştır?",
+    o: ["Enerji analizörü ile 10 dakika kayıt", "Pens ampermetre ile anlık", "SCADA sistemi ile 1 saat kayıt", "Kızgın tel anemometre ile 2 farklı anda", "Baca gazı analizörü ile 3 farklı anda"], a: 0,
+    e: "Örnek tabloda <b>15 kW altı motorlar pens ampermetre ile anlık</b>, <b>15 kW ve üzeri motorlar enerji analizörü ile 10 dakika kayıt</b> alınarak ölçülmüştür.",
+    n: "Pens ampermetre yalnızca akımı verir; güç faktörü ve gerçek güç için enerji analizörü gerekir. Büyük motorlarda yük dalgalanmasını yakalamak için kayıtlı ölçüm yapılır; küçük motorlarda anlık akım ölçümü, motor yükleme oranını tahmin etmeye yeterli kabul edilir." },
+  { t: 1, s: 21, q: "Sunumdaki örnek ölçüm planına göre en uzun kayıt süresi hangi ölçüm için öngörülmüştür?",
+    o: ["Trafo (enerji analizörü ile 2 saat kayıt)", "Basınçlı hava elektrik (30 dk kayıt)", "Kojenerasyon elektrik (1 saat kayıt)", "15 kW ve üzeri motorlar (10 dk kayıt)", "Chiller elektrik (30 dk kayıt)"], a: 0,
+    e: "Örnek tabloda <b>trafo 2 saat</b>, kojenerasyon elektrik 1 saat (SCADA), basınçlı hava elektrik ve debi ile chiller elektrik 30 dk, 15 kW ve üzeri motorlar 10 dk kayıtla ölçülmüştür.",
+    n: "Trafo yükü tesisin toplam yük profilini yansıttığı için daha uzun kayıt gerekir; pratikte trafo ve ana besleme için bir haftalık kayıt bile tercih edilir. Kojenerasyonda ise ölçüm cihazı bağlamak yerine mevcut SCADA kayıtlarından yararlanılmıştır." },
+  { t: 1, s: 21, q: "Sunumdaki örnek ölçüm planında basınçlı hava debisi hangi cihazla ölçülmüştür?",
+    o: ["Daldırma tip debimetre (30 dk kayıt)", "Ultrasonik debimetre (anlık)", "Pitot tüpü (anlık)", "Kızgın tel anemometre (2 farklı anda)", "Pervaneli sayaç (1 saat kayıt)"], a: 0,
+    e: "Basınçlı hava debisi <b>daldırma tip debimetre</b> ile <b>30 dk kayıt</b> alınarak ölçülmüştür. Aynı sürede basınçlı hava elektrik tüketimi de enerji analizörüyle kaydedilmiştir.",
+    n: "Debi ve elektrik eş zamanlı kaydedilince kompresörün <b>spesifik enerji tüketimi</b> (kW / (Nm³/dk)) hesaplanabilir. Chiller debisi ise ultrasonik debimetreyle, fan debisi kızgın tel anemometreyle ölçülmüştür." },
+  { t: 1, s: 22, q: "Sunuma göre etüt çalışmasında kullanılan ölçüm cihazları için yönetici özetinde hangi bilgi verilmelidir?",
+    o: ["TÜRKAK akredite ölçüm cihazlarının marka, model, seri numarası, kalibrasyon durumu ve kullanıldığı yerler", "Yalnızca cihazların satın alma fiyatları", "Cihazların garanti süreleri", "Yalnızca cihazların menşe ülkesi", "Cihazları kullanan personelin vardiya çizelgesi"], a: 0,
+    e: "Yönetici özetinde etütte kullanılan <b>TÜRKAK akredite ölçüm cihazlarının marka, model, seri numarası, kalibrasyon durumu ve kullanıldığı yerler</b> verilir. Örnek tabloda kalibrasyon tarihi, geçerlilik süresi ve kalibrasyonu yapan kurum da istenir.",
+    n: "Kalibrasyonun TÜRKAK tarafından akredite edilmiş bir laboratuvarda yapılması, ölçümün ulusal ve uluslararası referanslara izlenebilirliğini gösterir. Kalibrasyon belgeleri ayrıca raporun eklerinde sunulur." },
+  { t: 1, s: 24, q: "Sunumdaki örnek kumaş fabrikasında elektrik toplam enerji tüketiminin %13,0'ını, toplam enerji maliyetinin ise %44,8'ini oluşturmaktadır. Elektriğin birim enerji maliyeti tesis ortalamasının yaklaşık kaç katıdır?",
+    o: ["≈ 3,4 katı", "≈ 0,3 katı", "≈ 1,0 katı", "≈ 5,8 katı", "≈ 31,8 katı"], a: 0,
+    e: "Maliyet payı / tüketim payı = 44,8 / 13,0 ≈ <b>3,4</b>. Yani bir birim elektrik enerjisi, tesis ortalamasının yaklaşık 3,4 katı pahalıdır.",
+    n: "Aynı fabrikada buharın payı tüketimde %67,9 iken maliyette %29,9'dur (oran ≈ 0,44), fuel-oil'in oranı ise 25,4 / 19,2 ≈ 1,3'tür. Bu yüzden tüketim (TEP) dağılımı ile maliyet (TL) dağılımı birlikte verilir: miktarca küçük görünen elektrik, maliyette en büyük kalem olabilir ve önlemlerin önceliğini değiştirir." },
+  { t: 1, s: 24, q: "Yönetici özetinde sistemlerin genel değerlendirmesi hangi referansa göre yapılmalıdır?",
+    o: ["Benzer çalışma şartlarında elde edilebilecek iyi performans değerlerine göre", "Ekipmanın satın alındığı yıldaki fiyatına göre", "Yalnızca üretici kataloğundaki nominal değerlere göre", "Rakip işletmenin satış rakamlarına göre", "Bir önceki etüt raporundaki öneri sayısına göre"], a: 0,
+    e: "Etüt kapsamında incelenen, ölçülen ve analiz edilen sistemlerin genel değerlendirmesi özet tablo hâlinde sunulur ve mevcut işletim şartları <b>benzer çalışma şartlarında elde edilebilecek iyi performans değerlerine</b> göre değerlendirilir.",
+    n: "Örnek tablonun sütunları: parametre, birim, hesaplanan değer, benzer şartlarda iyi performans değeri ve yorum. Hesaplanan değer ile iyi performans değeri arasındaki fark, iyileştirme potansiyelinin ilk göstergesidir." },
+  { t: 1, s: 25, q: "Sunumdaki örnek performans tablosunda bir buhar kazanının verimi %82 hesaplanmıştır. Tabloya göre benzer çalışma şartlarındaki iyi performans değeri ve yorum nedir?",
+    o: ["&gt;%95; kazanlar çok eski, yüksek oranda iyileştirme potansiyeli var", "&gt;%70; performans iyi seviyede", "&gt;%82; değişiklik gerekmez", "&gt;%60; kazan aşırı verimli çalışıyor", "&lt;%50; ölçüm hatalı"], a: 0,
+    e: "Örnek tabloda buhar kazanı verimi için iyi performans değeri <b>&gt;%95</b> verilmiş; %82 hesaplanan değer için “kazanların çok eski olması da dikkate alınarak <b>yüksek oranda iyileştirme potansiyeli</b> mevcuttur” yorumu yapılmıştır.",
+    n: "Aynı tabloda üretim-tüketim korelasyonu 0,5 (iyi: &gt;0,8; üretim dışı faktörler analiz edilmeli), kompresör spesifik enerji tüketimi 6,6 kW/(Nm³/dk) (iyi: &lt;6,5) ve soğutma COP'si 6,5 (iyi: &gt;5) değerleri yer alır. Kazan verimini artırmanın yolları: ekonomizer, hava fazlalığı ayarı, yalıtım ve blöf ısısı geri kazanımı." },
+  { t: 1, s: 25, q: "Bir kompresörün ölçümünde elektrik gücü 99 kW, ürettiği hava debisi 15 Nm³/dk bulunmuştur. Spesifik enerji tüketimi nedir ve sunumdaki örnek tablonun iyi performans değeri (&lt;6,5) ile karşılaştırıldığında durum nedir?",
+    o: ["6,6 kW/(Nm³/dk); iyi performans sınırının hemen üzerinde", "0,15 kW/(Nm³/dk); çok iyi", "1.485 kW/(Nm³/dk); çok kötü", "6,6 kW/(Nm³/dk); sınırın çok altında, mükemmel", "15,0 kW/(Nm³/dk); kabul edilemez"], a: 0,
+    e: "Spesifik enerji tüketimi = 99 / 15 = <b>6,6 kW/(Nm³/dk)</b>. İyi performans değeri &lt;6,5 olduğu için kompresör sınırın <b>hemen üzerindedir</b>; sunumdaki örnek tablo bu değeri “performans iyi seviyede” diye yorumlamıştır.",
+    n: "Bu göstergede küçük değer iyidir: aynı havayı daha az elektrikle üretmek anlamına gelir. Değer yükseliyorsa basınç gereğinden yüksek ayarlanmış, kaçaklar artmış, emiş havası sıcak veya kompresör boşta çok çalışıyor olabilir." },
+
+  // Önlem tabloları ve ekonomik analiz
+  { t: 2, s: 26, q: "Önlem tablosundaki “uygulama vadesi” sınıflandırmasına göre uygulanması 1–2 yıl içinde öngörülen bir öneri nasıl gösterilir?",
+    o: ["OV (orta vade)", "KV (kısa vade)", "UV (uzun vade)", "AV (acil vade)", "SV (sürekli vade)"], a: 0,
+    e: "Uygulama vadesi: <b>1 yıldan az</b> için kısa vade <b>KV</b>, <b>1–2 yıl</b> için orta vade <b>OV</b>, <b>2–5 yıl</b> için uzun vade <b>UV</b> olarak belirtilir.",
+    n: "Ek-12A'da vade, önerinin <b>uygulanmasının öngörüldüğü süreyi</b> ifade eder; pratikte geri ödeme süresi kısa ve yatırımı düşük öneriler (kaçak giderme, ayar, yalıtım) KV'de, büyük yatırımlar (kojenerasyon, kazan yenileme) UV'de yer alır." },
+  { t: 2, s: 26, q: "Bir enerji verimliliği önleminin yatırım maliyeti 900.000 TL, yıllık parasal tasarrufu 600.000 TL'dir. Basit geri ödeme süresi kaç yıldır ve sunumdaki vade sınıflarından hangisinin aralığına düşer?",
+    o: ["1,5 yıl; OV (1–2 yıl)", "0,67 yıl; KV (1 yıldan az)", "1,5 yıl; UV (2–5 yıl)", "3 yıl; UV (2–5 yıl)", "15 yıl; vade dışında"], a: 0,
+    e: "Basit geri ödeme süresi = yatırım / yıllık tasarruf = 900.000 / 600.000 = <b>1,5 yıl</b>; bu değer <b>1–2 yıl</b> aralığına, yani OV sınıfının aralığına düşer.",
+    n: "Basit geri ödeme süresi paranın zaman değerini, enerji fiyat artışlarını ve önlemin ömrünü dikkate almaz. Bu yüzden Ek-12A tabloda geri ödeme süresinin yanında iç karlılık oranı, net bugünkü değer ve ekonomik ömür de istenir." },
+  { t: 2, s: 26, q: "Sunuma göre önlem tablosunda “uygulama zorluğu” hangi derecelerle ifade edilir?",
+    o: ["Kolay, orta, zor", "A, B, C, D", "Düşük, yüksek", "1'den 10'a kadar puan", "Acil, önemli, ertelenebilir"], a: 0,
+    e: "Uygulama zorluğu <b>kolay, orta, zor</b> olarak belirtilir.",
+    n: "Zorluk; üretimin durdurulması gerekip gerekmediği, montaj alanı, mühendislik ihtiyacı ve tedarik süresi gibi etkenlere bağlıdır. Geri ödemesi kısa ama zor bir önlem, geri ödemesi biraz daha uzun ama kolay bir önlemden sonra gelebilir; “uygulama öncelik düzeyi” sütunu bu dengeyi yansıtır." },
+  { t: 2, s: 26, q: "Ek-12A'ya göre enerji verimliliği önlemleri özet tablosunda aşağıdakilerden hangisi <b>istenmez</b>?",
+    o: ["Önlemi uygulayacak firmanın ticari unvanı", "Tasarruf miktarı (kWh, TEP vb.)", "CO₂ eşdeğeri azalım miktarı", "İç karlılık oranı ve net bugünkü değer", "Önlemin öngörülen ekonomik ömrü"], a: 0,
+    e: "Tabloda önlem adı, tasarrufun enerji türü, <b>tasarruf miktarı</b>, <b>CO₂e azalımı</b>, yatırım maliyeti, basit geri ödeme süresi, uygulama vadesi, uygulama zorluğu, <b>İKO ve NBD</b>, <b>ekonomik ömür</b> ve uygulama öncelik düzeyi yer alır. Uygulayıcı firma bilgisi istenmez.",
+    n: "Örnek tabloda tasarruf miktarı “miktar – orijinal birim (…/yıl) – TEP/yıl – TL/yıl” sütunlarıyla, emisyon azalımı ton/yıl olarak verilir. Önlemler EVÖ-1, EVÖ-2… şeklinde numaralandırılır." },
+  { t: 2, s: 28, q: "Ek-12A'da alternatif/yenilenebilir enerji önlemleri tablosunda, enerji verimliliği önlemleri tablosundan farklı olarak hangi bilgiler istenir?",
+    o: ["Kapasite ve önlemle sağlanabilecek yıllık elektrik ve/veya ısı enerjisi miktarı", "Yalnızca yatırım maliyeti", "Yalnızca uygulama zorluğu", "Ekipmanın imal yılı", "Ölçüm cihazının seri numarası"], a: 0,
+    e: "Alternatif/yenilenebilir önlemler tablosunda diğer sütunlara ek olarak <b>kapasite</b> ve <b>önlemle sağlanabilecek yıllık elektrik ve/veya ısı enerjisi miktarı</b> istenir. Örnek tabloda nominal verim, ısıl kapasite (kWt) ve elektriksel kapasite (kWe) sütunları vardır.",
+    n: "Fotovoltaik veya kojenerasyon bir tüketimi azaltmaz, enerji <b>üretir</b>; bu nedenle tasarruf, üretilen enerjinin şebekeden veya kazandan alınmayan karşılığı olarak hesaplanır. Bunun için önce kapasite ve yıllık üretim belirlenmelidir." },
+  { t: 2, s: 28, q: "Sunumda alternatif/yenilenebilir enerji önlemlerine örnek olarak hangisi <b>verilmemiştir</b>?",
+    o: ["Kazan brülörünün hava ayarının yapılması", "Fotovoltaik", "Isı pompası", "Trijenerasyon", "Solarwall"], a: 0,
+    e: "Örnekler: <b>fotovoltaik, solar termal, ısı pompası, kojenerasyon, trijenerasyon, Solarwall</b> vb. Brülör hava ayarı alternatif enerji değil, klasik bir enerji verimliliği önlemidir.",
+    n: "Solarwall, güneşe bakan cepheye yerleştirilen delikli metal panellerle havalandırma havasını güneşle ön ısıtan bir sistemdir. Trijenerasyon ise kojenerasyona absorpsiyonlu soğutma eklenerek elektrik, ısı ve soğutmanın birlikte üretilmesidir." },
+  { t: 2, s: 26, q: "Yatırım maliyeti 1.000.000 TL olan bir önlem 3 yıl boyunca her yıl 400.000 TL tasarruf sağlamaktadır. İskonto oranı %10 alınırsa net bugünkü değer (NBD) yaklaşık kaçtır?",
+    o: ["≈ −5.000 TL", "≈ +200.000 TL", "≈ +994.700 TL", "≈ −200.000 TL", "≈ +1.200.000 TL"], a: 0,
+    e: "Tasarrufların bugünkü değeri = 400.000 × (1/1,1 + 1/1,1² + 1/1,1³) = 400.000 × 2,4869 ≈ 994.740 TL. NBD = 994.740 − 1.000.000 ≈ <b>−5.260 TL</b>, yani yaklaşık −5.000 TL.",
+    n: "Basit geri ödeme süresi 2,5 yıl ile kabul edilebilir görünse de önlem ömrü 3 yılla sınırlıysa NBD negatiftir: yatırım, paranın zaman değeri hesaba katıldığında kendini tam ödemez. Ek-12A'nın İKO, NBD ve ekonomik ömrü birlikte istemesinin nedeni budur. +200.000 TL, iskonto yapılmadan bulunan değerdir." },
+  { t: 2, s: 26, q: "Önlem tablosunda istenen “iç karlılık oranı” (İKO) neyi ifade eder?",
+    o: ["Projenin net bugünkü değerini sıfır yapan iskonto oranını", "Yıllık tasarrufun yatırım maliyetine oranını", "Yatırımın kaç yılda geri döndüğünü", "Projenin enerji tasarruf yüzdesini", "Bankadan alınan kredinin faiz oranını"], a: 0,
+    e: "İKO, proje ömrü boyunca nakit akışlarının <b>net bugünkü değerini sıfır yapan iskonto oranıdır</b>.",
+    n: "İKO, işletmenin sermaye maliyetinden (beklenen getiri oranından) büyükse proje karlıdır. NBD tutar (TL) verirken İKO oran (%) verir; ikisi birlikte farklı büyüklükteki projeleri karşılaştırmayı sağlar." },
+  { t: 2, s: 30, q: "Yönetici özetinde tüm verimlilik ve alternatif/yenilenebilir önlemleri bir arada gösteren tablonun amacı nedir?",
+    o: ["Enerji türü bazında toplam tasarruf oranlarını göstermek", "Ölçüm cihazlarının kalibrasyon tarihlerini göstermek", "İşletmenin organizasyon şemasını vermek", "Sadece yatırım maliyetlerini toplamak", "Üretim miktarlarını aylara göre dağıtmak"], a: 0,
+    e: "Bu tablo, tüm önlemleri içerir ve <b>enerji türünde toplam tasarruf oranlarını</b> gösterir. Örnek tabloda her enerji türü (fuel-oil, doğal gaz, kömür, elektrik) için orijinal birimde ve TEP cinsinden mevcut tüketim, tasarruf miktarı (TEP/yıl), parasal tasarruf (TL/yıl) ve enerji tasarruf oranı (%) yer alır.",
+    n: "Önlemler birbirini etkileyebilir: örneğin kazan verimi artırılıp ardından buhar tüketimi azaltılırsa, ikinci önlemin yakıt tasarrufu azalır. Toplam tasarruf hesaplanırken önlemlerin etkileşimi dikkate alınmalı, tasarruflar körü körüne toplanmamalıdır." },
+
+  // Enerji yönetimi, tüketim analizleri ve indeksler
+  { t: 3, s: 31, q: "Etüt raporunun “Enerji Yönetimi” bölümündeki değerlendirme nasıl yapılmalıdır?",
+    o: ["Etüt esnasında işletme yetkilileri ile görüş ve bilgi alışverişi yapılarak", "Yalnızca işletmenin internet sitesindeki bilgilere dayanarak", "İşletmeye gitmeden, faturalardan", "Yalnızca Bakanlığın kayıtlarından", "Rakip firmalarla görüşülerek"], a: 0,
+    e: "Değerlendirme, <b>etüt esnasında işletme yetkilileri ile görüş ve bilgi alışverişi yapılarak</b> gerçekleştirilmelidir. Mevcut yöntemlerdeki eksiklikler ve aksaklıklar ile bunların giderilmesine yönelik öneriler ve beklenen sonuçlar açıklanır.",
+    n: "İncelenecek konular: enerji politikasının içselleştirilmesi, enerji yönetiminin organizasyona entegrasyonu, eğitim faaliyetleri, enerji performans takibinin düzeyi, kurum içi ve dışı iletişim ve verimlilik projelerine sağlanan bütçe desteği. Bunlar ISO 50001'in temel maddeleriyle örtüşür." },
+  { t: 3, s: 32, q: "Sunuma göre “Enerji Tüketimleri” bölümünde etüt tarihinden önceki kaç yıla ait veriler analiz edilmelidir?",
+    o: ["Son 3 yıl", "Son 1 yıl", "Son 5 yıl", "Son 10 yıl", "Yalnızca etüt yılı"], a: 0,
+    e: "Etüt tarihinden önceki <b>son üç yıla</b> ait veriler, aylık bazda tablo ve grafiklerle sunulmalı, analiz edilmeli ve değerlendirilmelidir.",
+    n: "Yönetici özetinde ise yalnızca etüt tarihinden <b>önceki yılın</b> tüketim ve maliyet analizi istenir. Üç yıllık veri, mevsimsellik ve trendlerin görülmesini, regresyonun daha güvenilir kurulmasını sağlar." },
+  { t: 3, s: 32, q: "Sunuma göre enerji tüketimine mevsimsel etkiler varsa analizlere ne eklenmelidir?",
+    o: ["HDD ve CDD (ısıtma ve soğutma derece-gün) dahil edilerek çoklu regresyon analizleri", "Yalnızca aylık ortalama elektrik fiyatları", "Personel izin çizelgeleri", "Döviz kuru değişimleri", "Ölçüm cihazlarının kalibrasyon tarihleri"], a: 0,
+    e: "Mevsimsel etkiler varsa analizlere <b>HDD (ısıtma derece-gün) ve CDD (soğutma derece-gün)</b> değerleri dahil edilerek <b>çoklu regresyon</b> analizleri yapılmalıdır.",
+    n: "Derece-gün, dış hava sıcaklığının bir denge sıcaklığından ne kadar ve kaç gün saptığının toplamıdır; ısıtma veya soğutma ihtiyacının göstergesidir. Çoklu regresyon tüketimi hem üretime hem iklime bağlar: örneğin E = a·Üretim + b·CDD + c. Sunumda örnek olarak “Soğutma Derece Gün CDD – Enerji Tüketimi” grafiği verilmiştir." },
+  { t: 3, s: 34, q: "Ek-12A'daki sıvı, katı ve gaz yakıt tüketim tablosuyla ilgili dipnot ne söyler?",
+    o: ["Tablo işletmede kullanılan her yakıt türü için aynı formatta fakat ayrı ayrı hazırlanır", "Tüm yakıtlar tek tabloda toplanarak verilir", "Yalnızca en çok kullanılan yakıt için hazırlanır", "Yakıt tüketimleri yalnızca TL cinsinden verilir", "Katı yakıtlar tabloya dahil edilmez"], a: 0,
+    e: "Dipnota göre bu tablo, endüstriyel işletmede kullanılan <b>her bir yakıt türü için aynı formatta fakat ayrı ayrı</b> hazırlanır.",
+    n: "Tabloda aylık tüketim miktarı, birimi, TEP karşılığı ve maliyet (TL, % toplam, TL/TEP) yer alır. TL/TEP sütunu farklı yakıtların birim enerji maliyetini karşılaştırmaya yarar. Elektrik tablosunda ise satın alınan ve satılan (üretilen) elektrik ayrı sütunlarda gösterilir." },
+  { t: 3, s: 40, q: "Sunumdaki örnek kumaş fabrikasının trend grafiğinde aylık toplam enerji tüketimi (Mcal) ile üretim (kg) arasında y = 2,397x + 1.680.822 ilişkisi bulunmuştur. Bu denklemde 1.680.822 Mcal neyi ifade eder?",
+    o: ["Üretimden bağımsız sabit (baz) tüketimi", "Birim üretim başına tüketimi", "Yıllık toplam tüketimi", "Korelasyon katsayısını", "Maksimum üretim kapasitesini"], a: 0,
+    e: "Doğrunun y-eksenini kestiği değer, üretim sıfırken de oluşan <b>sabit (baz) tüketimdir</b>: aydınlatma, ısıtma, boşta çalışan ekipman, kayıplar vb. Eğim (2,397 Mcal/kg) ise üretime bağlı <b>değişken</b> tüketimdir.",
+    n: "Sabit tüketimin yüksek olması, üretim düştüğünde birim ürün başına enerjinin hızla artmasına yol açar. Sabit tüketimi azaltan önlemler (boşta çalışmayı önleme, kaçakları giderme) üretim seviyesinden bağımsız tasarruf sağlar. ISO 50006'daki enerji referans çizgisi de bu tür bir regresyonla kurulur." },
+  { t: 3, s: 40, q: "Aynı örnekte (y = 2,397x + 1.680.822; y: Mcal/ay, x: kg/ay) üretimin 3.000.000 kg olduğu bir ayda beklenen toplam enerji tüketimi yaklaşık ne kadardır?",
+    o: ["≈ 8,87 milyon Mcal", "≈ 7,19 milyon Mcal", "≈ 1,68 milyon Mcal", "≈ 5,04 milyon Mcal", "≈ 12,4 milyon Mcal"], a: 0,
+    e: "y = 2,397 × 3.000.000 + 1.680.822 = 7.191.000 + 1.680.822 = <b>8.871.822 Mcal ≈ 8,87 milyon Mcal</b>.",
+    n: "Regresyon denklemi, “bu üretimde ne kadar tüketmeliydik?” sorusunun cevabını verir. Gerçek tüketim bu değerin belirgin üzerindeyse o ay bir verimsizlik oluşmuştur; altındaysa iyileşme vardır. Bu karşılaştırmanın birikimli toplamına CUSUM analizi denir." },
+  { t: 3, s: 41, q: "Aynı örnekte (y = 2,397x + 1.680.822) üretim 2.000.000 kg olduğunda spesifik (özgül) enerji tüketimi yaklaşık kaç Mcal/kg olur?",
+    o: ["≈ 3,24 Mcal/kg", "≈ 2,40 Mcal/kg", "≈ 0,84 Mcal/kg", "≈ 4,08 Mcal/kg", "≈ 6,47 Mcal/kg"], a: 0,
+    e: "Toplam tüketim = 2,397 × 2.000.000 + 1.680.822 = 6.474.822 Mcal. Spesifik tüketim = 6.474.822 / 2.000.000 ≈ <b>3,24 Mcal/kg</b>.",
+    n: "Spesifik tüketim = eğim + sabit / üretim = 2,397 + 1.680.822 / x. Üretim 1.000.000 kg'a düşerse değer ≈ 4,08 Mcal/kg'a çıkar. Sunumdaki “Spesifik Enerji Tüketimi ve Üretim İlişkisi” grafiğinin, üretim arttıkça azalıp eğim değerine yaklaşan hiperbolik bir eğri olmasının nedeni budur." },
+  { t: 3, s: 40, q: "Sunumdaki trend grafiğinde R² = 0,839 bulunmuştur. Bu değer nasıl yorumlanır?",
+    o: ["Aylık tüketimdeki değişimin yaklaşık %84'ü üretim miktarıyla açıklanabilmektedir", "Tesisin enerji verimi %83,9'dur", "Üretimin %83,9'u enerji yoğun ürünlerden oluşur", "Tüketimin %83,9'u elektriktir", "Ölçümlerin %16'sı hatalıdır"], a: 0,
+    e: "R² (belirleme katsayısı), bağımlı değişkendeki (tüketim) değişimin ne kadarının bağımsız değişkenle (üretim) açıklandığını gösterir. 0,839 → değişimin yaklaşık <b>%84'ü</b> üretimle açıklanır.",
+    n: "Sunumdaki örnek performans tablosunda üretim-tüketim korelasyonu için iyi değer &gt;0,8 verilmiş; 0,5 bulunan bir işletmede “tüketimi etkileyen üretim dışı faktörlerin analiz edilmesi” önerilmiştir. Düşük R²; mevsimsellik (HDD/CDD), ürün çeşidi değişimi veya kontrolsüz tüketim olduğunu düşündürür." },
+  { t: 3, s: 43, q: "Sunumdaki nota göre trend ve özgül enerji tüketimi grafikleri nasıl çizilebilir?",
+    o: ["Endüstriyel işletmenin bütünü için olabileceği gibi her bir proses için ayrı ayrı da çizilip analiz edilebilir", "Yalnızca işletmenin bütünü için çizilmelidir", "Yalnızca elektrik tüketimi için çizilebilir", "Yalnızca etüt yılının son ayı için çizilir", "Bu grafikler raporda yer almaz, yalnızca eklerde bulunur"], a: 0,
+    e: "Trend grafiği ve özgül enerji tüketimi grafiği <b>işletmenin bütünü için</b> olabileceği gibi <b>her bir proses için ayrı ayrı</b> da çizilebilir ve analiz edilebilir.",
+    n: "Proses bazında analiz, sorunun yerini gösterir: tesis genelinde iyi görünen bir korelasyon, bir prosesteki kötüleşmeyi başka bir prosesteki iyileşmeyle gizleyebilir. Bunun için alt sayaçlama (proses bazında ölçüm) gerekir." },
+  { t: 3, s: 44, q: "Sunuma göre önerilecek enerji verimlilik indeksleri (performans göstergeleri) hangi özellikleri taşımalıdır?",
+    o: ["Spesifik, ölçülebilir ve anlamlı parametreler olmalıdır", "Yalnızca parasal (TL) olmalıdır", "Tüm işletmeler için aynı olmalıdır", "Yalnızca yıllık olarak hesaplanmalıdır", "Yalnızca elektrik tüketimine dayanmalıdır"], a: 0,
+    e: "Performans göstergeleri <b>spesifik, ölçülebilir, anlamlı</b> parametreler olmalıdır; işletmenin tüketim takibine, iyileştirme olanaklarını belirlemesine ve enerji yoğun alanları analiz etmesine yardım etmelidir.",
+    n: "İyi bir gösterge, ölçülebilen bir enerji miktarını o enerjiyi belirleyen bir çıktıya böler; böylece üretim değişse de karşılaştırılabilir kalır. ISO 50001/50006 terminolojisinde bunlara enerji performans göstergesi (EnPG / EnPI) denir." },
+  { t: 3, s: 44, q: "Aşağıdakilerden hangisi sunumda örnek verilen enerji verimlilik indekslerinden <b>biri değildir</b>?",
+    o: ["Çalışan başına düşen yıllık satış hasılatı", "Birim buhar üretimi için harcanan yakıt miktarı", "Birim ürün başına tüketilen buhar miktarı", "Birim ürün başına harcanan basınçlı hava miktarı", "Birim alan aydınlatması için harcanan elektrik miktarı"], a: 0,
+    e: "Örnek indeksler: <b>birim buhar için yakıt</b>, <b>birim ürün başına buhar</b>, <b>birim ürün başına basınçlı hava</b>, kurutma makinelerinde <b>birim ürün başına enerji</b> ve <b>birim alan aydınlatması için elektrik</b>. Satış hasılatı enerji göstergesi değil, ticari bir göstergedir.",
+    n: "Birim buhar başına yakıt (örneğin Sm³ doğal gaz / ton buhar) kazan verimini; birim ürün başına buhar ise buharın proseste ne kadar verimli kullanıldığını izler. İkisi birlikte izlenince sorunun üretimde mi kullanımda mı olduğu ayırt edilir." },
+
+  // Sistem incelemeleri, önlemler ve ekler
+  { t: 4, s: 45, q: "Sunuma göre her sistem (soğutma, ısıtma, pompa, fan vb.) için raporda hangi üç alt başlık bulunmalıdır?",
+    o: ["Sistem tanımı ve envanter listesi; ölçümler, alınan değerler ve hesaplamalar; değerlendirmeler", "Satın alma, montaj, devreye alma", "Maliyet, fiyat, indirim", "Tasarım, imalat, test", "Plan, uygula, kontrol et, önlem al"], a: 0,
+    e: "Soğutma sistemleri özelinde detaylandırılan ve diğer tüm ana inceleme başlıklarında da sağlanması gereken yapı: <b>sistem tanımı ve envanter listesi → ölçümler, alınan değerler ve hesaplamalar → değerlendirmeler</b>.",
+    n: "Bu sıralama mantıklı bir akıştır: önce “ne var?” (envanter), sonra “nasıl çalışıyor?” (ölçüm ve hesap), en son “ne yapılmalı?” (değerlendirme ve öneri). Transformatörler, elektrik tarifesi ve enerji izleme sistemi gibi bazı başlıklarda alt başlıklar sadeleştirilmiştir." },
+  { t: 4, s: 45, q: "Sunuma göre sistem envanter tablosu en az hangi bilgileri içermelidir?",
+    o: ["Marka-model; tip, adet, kapasite, nominal performans; imal yılı, çalışma durumu, hizmet ettiği bölüm; kontrol/işletim yöntemi", "Yalnızca ekipmanın satın alma bedeli", "Yalnızca ekipmanın rengi ve ağırlığı", "Yalnızca bakım yapan firmanın adı", "Yalnızca garanti bitiş tarihi"], a: 0,
+    e: "Envanter tablosu en az <b>ekipman marka ve modeli</b>; <b>tip, adet, kapasite, nominal performans</b>; <b>imal yılı, çalışma durumu, hizmet ettiği bölüm</b> ve <b>kontrol/işletim yöntemi</b> bilgilerini içermelidir.",
+    n: "Soğutma için örnek envanter tablosunda soğutma kapasitesi, çalışma durumu, çalışma sıcaklıkları, güç, COP, imal yılı ve kontrol yöntemi sütunları vardır. İmal yılı, eski ve verimsiz ekipmanın yenilenmesi önerisinin dayanağıdır." },
+  { t: 4, s: 47, q: "Sunuma göre sistem değerlendirmesinde sunulan özet performans tablosu en az hangi bilgileri içermelidir?",
+    o: ["Ekipman marka-model, kapasite kullanım oranı ve fiili performans/verim düzeyi", "Yalnızca ekipmanın yaşı", "Yalnızca toplam yatırım maliyeti", "Yalnızca bakım periyotları", "Yalnızca operatörlerin adı"], a: 0,
+    e: "Özet tablo en az <b>ekipman marka-model</b>, <b>kapasite kullanım oranı</b> ve <b>fiili performans / verim düzeyi</b> bilgilerini içermelidir.",
+    n: "Kapasite kullanım oranı düşük olan ekipman genellikle kısmi yükte verimsiz çalışır (örneğin %30 yükte çalışan büyük bir kompresör veya kazan). Fiili performansın nominal değerle karşılaştırılması ise bakım ihtiyacını veya ekipman yenileme gerekçesini ortaya koyar." },
+  { t: 4, s: 46, q: "Bir chiller'ın ölçümünde soğutma kapasitesi 650 kW, çektiği elektrik gücü 100 kW bulunmuştur. COP nedir ve sunumdaki örnek tablonun iyi performans değeriyle (&gt;5) karşılaştırıldığında durum nedir?",
+    o: ["6,5; performans iyi seviyede", "0,15; çok kötü", "6,5; performans yetersiz", "65; ölçüm hatalı", "5,5; iyileştirme şart"], a: 0,
+    e: "COP = soğutma kapasitesi / elektrik gücü = 650 / 100 = <b>6,5</b>. İyi performans değeri &gt;5 olduğundan <b>performans iyi seviyededir</b> (sunumdaki örnek tablo da aynı yorumu yapar).",
+    n: "Soğutma kapasitesi doğrudan ölçülemez: soğutulan suyun debisi (ultrasonik debimetre) ve giriş-çıkış sıcaklık farkı ölçülerek Q = m·c·ΔT ile hesaplanır. Örnek ölçüm planında chiller debi ve sıcaklığının sabit yükte 3 farklı anda ölçülmesinin nedeni budur." },
+  { t: 4, s: 50, q: "Sunuma göre aşağıdaki inceleme başlıklarından hangisi için yalnızca “Sistem Tanımı ve Envanter Listesi” alt başlığı verilmiştir?",
+    o: ["Transformatörler", "Pompa sistemleri", "Basınçlı hava kompresörleri", "Elektrik motorları", "Aydınlatma (iç/çevre)"], a: 0,
+    e: "Sunumda <b>transformatörler</b> için yalnızca “Sistem Tanımı ve Envanter Listesi” alt başlığı yer alır. Diğer başlıkların çoğunda ölçüm-hesaplama ve değerlendirme alt başlıkları da vardır.",
+    n: "Elektrik tarifesi için “sistem tanımı, hesaplamalar, değerlendirmeler”, enerji izleme sistemi için “sistem tanımı, değerlendirmeler” alt başlıkları verilmiştir. Yine de örnek ölçüm planında trafo 2 saat enerji analizörüyle ölçülmüştür; trafo yükleme oranı ve kayıpları önemli bir inceleme konusudur." },
+  { t: 4, s: 53, q: "Sunuma göre her etüt raporunda hangi alternatif önlem(ler)in fizibilitesi yer almalıdır?",
+    o: ["Fotovoltaik sistem ve/veya kojenerasyon", "Rüzgâr türbini ve jeotermal", "Hidroelektrik santral", "Nükleer enerji", "Dalga enerjisi"], a: 0,
+    e: "Her etüt raporunda <b>fotovoltaik sistem ve/veya kojenerasyon fizibilitesi</b> yer almalıdır. Bu alternatif önlemler uygun değilse, rapor içinde <b>gerekçelendirilerek</b> fizibilite sunulmayabilir.",
+    n: "Fotovoltaik için çatı/arazi alanı, gölgelenme ve öz tüketim profili; kojenerasyon için ise eş zamanlı ve sürekli elektrik ve ısı ihtiyacı (yıllık çalışma saati) belirleyicidir. Gerekçe yazmadan bu bölümü atlamak, değerlendirmede puan kaybına yol açar." },
+  { t: 4, s: 53, q: "Sunuma göre bir önlem enerji dışı tasarruf veya ek tüketim (örneğin su tüketiminde artış, atık azalımı) oluşturuyorsa ne yapılmalıdır?",
+    o: ["Tasarruf başlığı altında bu etkilere değinilmelidir", "Bu etkiler raporda hiç belirtilmemelidir", "Önlem rapordan çıkarılmalıdır", "Yalnızca eklerde gösterilmelidir", "Yalnızca işletmeye sözlü olarak bildirilmelidir"], a: 0,
+    e: "Enerji dışı tasarruflar veya ek tüketimler oluşuyorsa (su tüketiminde artış, atık azalımı vb.) <b>tasarruf başlığı altında değinilmelidir</b>.",
+    n: "Örneğin evaporatif soğutma kulesi elektrik tasarrufu sağlarken su tüketimini artırır; kondens geri kazanımı ise hem enerji hem su ve kimyasal tasarrufu sağlar. Enerji dışı etkiler parasal analize dahil edilince geri ödeme süresi önemli ölçüde değişebilir." },
+  { t: 4, s: 54, q: "Sunuma göre her enerji verimliliği projesi için raporda sunulacak başlıklar arasında hangisi <b>yer almaz</b>?",
+    o: ["Projeyi finanse edecek bankanın adı", "Proje tarifi ve sınırları", "Enerji tasarruf miktarı ve verimlilik artış oranı", "Proje performans kontrol yöntemi", "Proje şematik gösterimi"], a: 0,
+    e: "Her proje ayrı başlıkta çalışılır: <b>proje tarifi ve sınırları</b>; <b>tasarruf miktarı ve verimlilik artış oranı</b>; tasarruf ve maliyet analizi, emisyon azalımı; yatırım içeriği ve kalemleri; teknik hesap detayları; <b>şematik gösterim</b>; <b>performans kontrol yöntemi</b>; İKO ve NBD analizi. Finansman sağlayan banka bilgisi istenmez.",
+    n: "“Performans kontrol yöntemi”, proje uygulandıktan sonra tasarrufun gerçekten sağlanıp sağlanmadığının nasıl ölçüleceğini (ölçüm ve doğrulama, M&amp;V) tanımlar. Bu, özellikle Bakanlığın verimlilik artırıcı proje (VAP) desteklerinde tasarrufun belgelenmesi için kritiktir." },
+  { t: 4, s: 55, q: "Sunuma göre aşağıdakilerden hangisi etüt raporuna <b>ek olarak</b> sunulacak belgeler arasında sayılmaz?",
+    o: ["Yönetici özeti", "Termal kamera görüntüleri", "Motor ve trafo ölçüm grafikleri", "Basınçlı hava kaçak noktaları", "Kalibrasyon belgeleri"], a: 0,
+    e: "Ekler: <b>termal kamera görüntüleri, motor ve trafo ölçüm grafikleri, basınçlı hava kaçak noktaları, aydınlatma simülasyonları, içeriğe sığmayan çizim/şema/kroki</b> ve <b>kalibrasyon belgeleri</b>. Yönetici özeti ek değil, raporun başında yer alan ana bölümdür.",
+    n: "Ekler raporun ana gövdesini sade tutarken iddiaların kanıtlarını sunar: tasarruf hesabının dayandığı ölçüm grafiği ve ölçümün güvenilirliğini gösteren kalibrasyon belgesi bulunmayan bir rapor, değerlendirmede puan kaybeder." },
+  { t: 4, s: 52, q: "Sunumdaki sistem inceleme başlıklarından hangisi elektrik maliyetinin <b>tarife yapısı</b> açısından değerlendirilmesine ayrılmıştır?",
+    o: ["Elektrik tarifesi (sistem tanımı, hesaplamalar, değerlendirmeler)", "Kompanzasyon sistemi", "Aydınlatma (iç/çevre)", "Enerji izleme sistemi", "Üretim üniteleri"], a: 0,
+    e: "<b>Elektrik tarifesi</b> başlığı sistem tanımı, hesaplamalar ve değerlendirmeler alt başlıklarıyla yer alır; mevcut tarifenin uygunluğu ve alternatif tarifelerle karşılaştırması burada yapılır.",
+    n: "Tek zamanlı / üç zamanlı ve tek terimli / çift terimli tarife seçimi, yatırım gerektirmeden maliyet düşürebilir; ancak bu enerji tasarrufu değil, <b>maliyet</b> tasarrufudur. Kompanzasyon başlığında ise reaktif enerji cezaları ve güç faktörü incelenir (7. sunuma bakınız)." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
