@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verimlilik Önlemleri Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 13 · Enerji Verimliliğini Artırıcı Önlemler</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 13</span> 1_14.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Enerji Verimliliğini Artırıcı Önlemler <em>Sınavı</em></h1>
+    <p class="lede">Tekstilde yıkama ve boyama makinelerinden atık su ısısı, stenter egzozu ve kurutma silindirleri; seramik ve çimento fırınlarında soğutma havası ve baca gazı; kazan yanma ayarı ve ekonomizer; basınçlı hava (%94 ısı, hat tasarımı, 0,3 bar) ve sıcak/soğuk hat yalıtımı.</p>
+    <ul class="facts"><li>53 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Enerji Verimliliğini Artırıcı Önlemler” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum13-v1",
+topics: ["Tekstil: yıkama makineleri ve atık su", "Tekstil: boyama, stenter ve kurutma silindirleri", "Seramik ve çimento fırınlarında atık ısı", "Kazanlar ve basınçlı hava", "Yalıtım"],
+Q: [
+  // Tekstil: yıkama makineleri ve atık su
+  { t: 0, s: 2, q: "Sunuma göre atık ısı geri kazanımı olmayan bir tekstil fabrikasında yıkama ve merserize makinelerindeki temel enerji israfı nedir?",
+    o: ["Sıcak atık su atılırken makineye soğuk su beslenmesi ve bu suyun buharla işlem sıcaklığına ısıtılması", "Makinelerin elektrik motorlarının aşırı büyük seçilmesi", "Makinelerin gece aydınlatmasının açık kalması", "Kumaşın makineye fazla hızlı girmesi", "Makinelerin basınçlı havayla çalışması"], a: 0,
+    e: "Bir yandan <b>sıcaklığı yüksek atık sular atılırken</b>, diğer yandan makinenin ihtiyacı olan su <b>soğuk olarak beslenmekte</b> ve işlem sıcaklığına kadar ısıtmak için <b>buhar</b> kullanılmaktadır.",
+    n: "Aynı makinede hem ısı atılıp hem ısı satın alınması, atık ısı geri kazanımının en tipik fırsatıdır. Gelen soğuk su, atılan sıcak suyla bir eşanjörde ön ısıtılırsa makinede tüketilen buhar doğrudan azalır." },
+  { t: 0, s: 2, q: "Sunuma göre tekstil atık sularından ısı geri kazanmak için hangi düzen önerilmektedir?",
+    o: ["Önce bir filtre sistemi, ardından tekstil atık sularına uygun özellikte ortak bir ısı değiştirici", "Atık suyun doğrudan kazana beslenmesi", "Atık suyun buharlaştırılarak bacaya atılması", "Atık suyun soğutma kulesinden geçirilmesi", "Atık suyun kumaş kurutmada doğrudan kullanılması"], a: 0,
+    e: "<b>Bir filtre sistemi</b> ve daha sonra tekstil sektörü atık sularına uygun özellikte <b>ortak bir ısı değiştirici</b> konarak atık suyun enerjisi geri kazanılır ve makinelere giren su bu enerjiyle ısıtılır.",
+    n: "Tekstil atık suyu lif (hav), boya ve kimyasal içerir; filtre olmazsa eşanjör kısa sürede tıkanır ve ısı geçişi düşer. Bu nedenle kendini temizleyen filtreler ve açılıp temizlenebilen, kirlenmeye dayanıklı (örneğin geniş kanallı) eşanjörler tercih edilir." },
+  { t: 0, s: 5, q: "Sunumdaki atık ısı geri kazanım şemasında eşanjörde ısıtılan temiz su nereye gönderilir?",
+    o: ["Bir depoda (atık ısı eşanjöründe ısıtılmış su deposu) toplanıp diğer makinelere gönderilir", "Doğrudan atık su kanalına", "Kazan bacasına", "Soğutma kulesine", "Şehir şebekesine geri"], a: 0,
+    e: "Şemada diğer makinelerden gelen atık sıcak su eşanjörden geçip <b>atık su kanalına</b> gider; eşanjöre giren temiz su ise ısınarak <b>“atık ısı eşanjöründe ısıtılmış su deposu”nda</b> toplanır ve oradan diğer makinelere sıcak su hattıyla gönderilir.",
+    n: "Depo, atık suyun atıldığı zaman ile sıcak su ihtiyacının oluştuğu zaman arasındaki farkı dengeler. Kesikli çalışan tekstil makinelerinde bu zaman farkı büyüktür; depo olmadan geri kazanılan ısının önemli bir kısmı kullanılamaz." },
+  { t: 0, s: 5, q: "Bir yıkama hattından 10 m³/h atık su atılmaktadır. Eşanjörde bu atık suyun ısısıyla aynı debideki temiz su 15 °C'den 40 °C'ye ısıtılırsa geri kazanılan ısı gücü yaklaşık ne kadardır? (ρ = 1.000 kg/m³, c = 4,19 kJ/kg·K)",
+    o: ["≈ 291 kW", "≈ 1.048 kW", "≈ 175 kW", "≈ 29 kW", "≈ 466 kW"], a: 0,
+    e: "Q = m·c·ΔT = (10.000 kg/h ÷ 3.600) × 4,19 × (40 − 15) = 2,78 kg/s × 4,19 × 25 ≈ <b>291 kW</b>.",
+    n: "1.048 kW, kJ/h cinsinden bulunan 1.047.500 değerinin 1.000'e bölünüp saatten saniyeye çevrilmeden kW sanılmasıyla bulunur. 291 kW ısı, kabaca saatte 450–500 kg buharın gizli ısısına eşittir; yıllık 6.000 saat çalışmada bu, yüzlerce ton buhar ve önemli bir yakıt tasarrufu demektir." },
+  { t: 0, s: 7, q: "Sunuma göre sürekli çalışan yıkama makinelerinde besi suyu kontrol sistemleri düzenli işletilmediğinde ne olur?",
+    o: ["Gereğinden fazla su beslenir ve kamaralardan taşkınlar oluşur; taşan sıcak suyla enerji kaybedilir", "Makineye hiç su girmez", "Kumaş daha temiz çıkar ve enerji tasarrufu sağlanır", "Kazan basıncı düşer", "Makinenin elektrik tüketimi sıfırlanır"], a: 0,
+    e: "Besi suyu kontrolü düzenli işletilmezse <b>gereğinden fazla su makineye beslenir</b> ve <b>kamaralardan taşkınlar</b> oluşur. Suyun kumaş özelliklerine göre kontrol edilmesi, taşkınla oluşan enerji kayıplarını önler ve ısıtma buharını azaltır.",
+    n: "Taşan her litre su, buharla ısıtılmış bir sudur; ayrıca arıtma tesisine ek yük getirir. Seviye ve debi kontrolünün otomatik çalıştırılması ve operatörlerin bu kontrolleri devre dışı bırakmasının önlenmesi yatırımsız önlemlerdendir." },
+  { t: 0, s: 7, q: "Sunuma göre yıkama makinelerinde sıcaklık kontrol cihazları düzenli işletilmediğinde hangi sorun gözlenmektedir?",
+    o: ["Kontrolsüz ve fazla buhar beslenmesi sonucu kamaralardaki suların kaynaması", "Suyun donması", "Buhar kapanlarının otomatik kapanması", "Kumaşın renginin açılması", "Motorların aşırı yüklenmesi"], a: 0,
+    e: "Sıcaklık kontrol cihazları olmasına rağmen düzenli işletilmediği, <b>gereğinden fazla ve kontrolsüz buharın</b> makineye beslendiği ve <b>kamaralardaki suların kaynadığı</b> görülmektedir.",
+    n: "Kaynayan su, işlem için gereken sıcaklığın üzerine çıkıldığını ve buharın bir kısmının ortama kaçtığını gösterir. Termostatik/otomatik buhar valfi ile reçetedeki sıcaklıkta tutmak hem buhar tasarrufu sağlar hem de ortamdaki nem ve korozyonu azaltır." },
+  { t: 0, s: 9, q: "Sunuma göre yıkama makinesi operatörleri neden çoğu zaman gereğinden fazla su kullanmaktadır?",
+    o: ["Kumaşta kirlilik kalması riskini almamak için", "Su ücretsiz olduğu için", "Makinenin tasarımı bunu zorunlu kıldığı için", "Atık su arıtma tesisi fazla su istediği için", "Buhar tüketimini azaltmak için"], a: 0,
+    e: "Yıkama sonunda kumaşta kirlilik kontrolleri yapılmakla birlikte operatörler <b>herhangi bir risk almamak için</b> gereğinden fazla su kullanmaktadır. Bu fazla su yüksek sıcaklıkta atılır ve buhar tüketimini artırır.",
+    n: "Sunuma göre su, kumaşın kirlilik miktarına göre “çok az bir fazlalıkla” beslenmelidir. Bunun dört faydası vardır: atık su miktarı azalır, enerji kaybı önlenir, ısıtma buharı azalır ve arıtmada tüketilen kimyasal ve enerji azalır." },
+  { t: 0, s: 9, q: "Yıkama suyunun kumaşın kirlilik miktarına göre optimize edilmesinin sunumda sayılan faydaları arasında hangisi <b>yoktur</b>?",
+    o: ["Kumaşın boya haslığının artması", "Atık su miktarının azalması", "Atık su yoluyla oluşan enerji kayıplarının önlenmesi", "Isıtma amaçlı buhar miktarının azalması", "Atık su arıtmada tüketilen kimyasal ve enerjinin azalması"], a: 0,
+    e: "Sayılan faydalar: <b>atık su miktarının azaltılması</b>, <b>enerji kayıplarının önlenmesi</b>, <b>ısıtma buharının azalması</b> ve <b>atık su arıtmada tüketilen kimyasal ve enerjinin azalması</b>. Boya haslığı ayrı bir kalite parametresidir.",
+    n: "Su, enerji ve kimyasal tasarrufu birbirine bağlıdır: azalan her metreküp sıcak su hem ısıtma enerjisini hem pompalama ve arıtma enerjisini azaltır. Etüt raporlarında bu enerji dışı tasarrufların da belirtilmesi istenir (9. sunum)." },
+  { t: 0, s: 10, q: "Sunuma göre yıkama makineleri ve boru hatlarında hangi sorunlar sıkça görülmektedir?",
+    o: ["Yalıtımların ıslak ortama uygun ve iyi olmaması, üst kapakların açık bırakılması ve buralardan buhar kaçağı", "Makinelerin fazla yalıtılmış olması", "Kapakların hiç açılamaması", "Boruların plastikten yapılması", "Makinelerin gereğinden yavaş çalışması"], a: 0,
+    e: "Sürekli ıslak ortamdaki makinelerde ve boru hatlarında <b>yalıtımların ortama uygun ve iyi olmadığı</b>, <b>üst kapakların açık bırakıldığı</b> ve <b>buralardan buhar kaçağı</b> olduğu görülmektedir.",
+    n: "Islak ortamda klasik taş yünü yalıtım su alıp işlevini yitirir; su geçirmez kaplamalı veya kapalı hücreli malzemeler kullanılmalıdır. Açık kapaktan çıkan buhar hem enerji kaybıdır hem de salonda nem, yoğuşma ve damlama sorunlarına yol açar." },
+  { t: 0, s: 10, q: "Sunuma göre yıkama makinelerinin çıkışındaki sıkma sistemlerinin kumaş kalınlığına göre ayarlanması hangi faydayı sağlar?",
+    o: ["Kumaşta kalan su azalır, böylece sonraki kurutma işlemlerinde tüketilen buhar azalır", "Kumaşın boyası koyulaşır", "Makinenin su tüketimi artar", "Kumaşın ağırlığı artar", "Atık su sıcaklığı yükselir"], a: 0,
+    e: "Sıkma sistemlerinin düzenli çalıştırılması ve kumaş kalınlığına göre ayarlanması sayesinde <b>kumaşta kalan su miktarı azalır</b> ve <b>sonraki kurutma işlemlerinde tüketilen buhar</b> azalır.",
+    n: "Suyu mekanik olarak (sıkma, vakum) uzaklaştırmak, buharlaştırarak uzaklaştırmaktan çok daha ucuzdur: 1 kg suyu buharlaştırmak için yaklaşık 2.250–2.500 kJ ısı gerekir. Sıkma sonrası nemin birkaç puan düşürülmesi kurutucu yükünü belirgin biçimde azaltır." },
+  { t: 0, s: 10, q: "Sunuma göre yıkama makinelerinde iyi bir iş planı yapılmasıyla neyin önlenmesi amaçlanır?",
+    o: ["Makinelerin boşta çalışmasının", "Makinelerin bakımının", "Kumaşın sıkılmasının", "Atık suyun filtrelenmesinin", "Operatör eğitiminin"], a: 0,
+    e: "İyi bir iş planı yapılarak <b>yıkama makinelerinin boşta çalışmasının önlenmesi</b> önemlidir.",
+    n: "Boşta çalışan bir yıkama makinesi, içinden kumaş geçmese de banyolarını sıcak tutmak için buhar, tahrik ve pompalar için elektrik tüketir. Üretim planlaması, enerji yönetiminin yatırımsız ama etkili araçlarından biridir." },
+  { t: 0, s: 12, q: "Sunuma göre yıkama makinelerinin atık su hatlarındaki sürekli filtrelerin düzenli bakımı neden önemlidir?",
+    o: ["Daha sonraki ısı değiştiricilerin verimli kullanılabilmesi için", "Kumaşın renginin korunması için", "Makinenin hızını artırmak için", "Atık su sıcaklığını artırmak için", "Buhar basıncını yükseltmek için"], a: 0,
+    e: "Atık su hatlarındaki <b>sürekli filtrelerin</b> düzenli kontrol ve bakımı, <b>daha sonraki ısı değiştiricilerin de verimli kullanılabilmesi</b> açısından önemlidir.",
+    n: "Filtreden kaçan lif ve tortu eşanjör yüzeyinde kirlilik tabakası oluşturur; bu tabaka ısı transfer katsayısını düşürür ve basınç kaybını artırır. Sunumdaki fotoğrafta döner tamburlu bir sürekli filtre görülmektedir." },
+
+  // Tekstil: boyama, stenter ve kurutma silindirleri
+  { t: 1, s: 13, q: "Sunuma göre boya makinelerinde enerji kaybı nasıl oluşur?",
+    o: ["Soğuk su doldurulup reçeteye göre buharla ısıtılır, boyama sonunda boyalı sıcak su dışarı atılır", "Boya makineleri yalnızca elektrikle ısıtılır", "Boya makinelerinde su kullanılmaz", "Boyalı su yeniden kazana beslenir", "Boya makineleri sürekli soğuk çalışır"], a: 0,
+    e: "Makineye malzeme yerleştirildikten sonra <b>soğuk su doldurulur</b> ve boya reçetesine göre sıcaklık <b>buharla yükseltilir</b> (veya su buharlı bir eşanjörde ısıtılarak beslenir). Boyama sonunda <b>boyalı sıcak su dışarı atılır</b>.",
+    n: "Sunuma göre atılan sıcak sudan geri kazanılacak enerjiyle makineye beslenen suyun ısıtılması mümkündür. Boyalı su korozif ve kirli olabileceğinden eşanjör malzemesi ve temizlenebilirliği önemlidir." },
+  { t: 1, s: 13, q: "Sunuma göre boyama sonrası boşaltma sırasında makineye aynı anda soğuk su alınırsa ne olur?",
+    o: ["Soğutma işlemi de yapılmış olur ancak atık su sıcaklığı düşer", "Atık su sıcaklığı yükselir", "Buhar tüketimi artar", "Boya reçetesi geçersiz olur", "Makine durur"], a: 0,
+    e: "Boşaltma sırasında makineye <b>soğuk su alınarak soğutma</b> da gerçekleştirilebilir; bu durumda <b>atık su sıcaklığı düşer</b>.",
+    n: "Atık suyun sıcaklığı düştükçe ondan geri kazanılabilecek ısı azalır. Bu yüzden sunum, yüksek ve düşük sıcaklıktaki atık su hatlarının ayrılmasını önerir: sıcak kısım geri kazanıma, soğuk kısım kanala." },
+  { t: 1, s: 15, q: "Sunuma göre boyama makinesinden atılan sıcak su ile soğutma sırasında sıcaklığı düşen su nasıl yönetilmelidir?",
+    o: ["Sıcaklık kontrollü otomasyonla hatlar ayrılmalı; yüksek sıcaklıktaki su atık ısı geri kazanım sistemine, düşük sıcaklıktaki su atık su kanalına gönderilmelidir", "İkisi karıştırılarak eşanjöre gönderilmelidir", "İkisi de doğrudan kanala atılmalıdır", "Düşük sıcaklıktaki su geri kazanıma, sıcak su kanala gönderilmelidir", "İkisi de kazana beslenmelidir"], a: 0,
+    e: "Hatlar uygun şekilde <b>ayrılmalı</b> ve <b>sıcaklık kontrollü otomasyon</b> yardımıyla <b>yüksek sıcaklıktaki su atık ısı geri kazanım sistemine</b>, <b>düşük sıcaklıktaki su atık su kanalına</b> gönderilmelidir.",
+    n: "Sunumdaki şemada bu ayrım “yüksek sıcaklık vanası” ve “düşük sıcaklık vanası” ile yapılır. Soğuk suyu sıcak suyla karıştırmak, geri kazanılabilecek sıcaklık farkını (ve dolayısıyla eşanjörün etkinliğini) düşürür." },
+  { t: 1, s: 15, q: "Tesiste birden fazla boyama makinesi varsa sunuma göre atık ısı nasıl değerlendirilebilir?",
+    o: ["Yüksek sıcaklıktaki atık sular ortak geri kazanım sistemine gönderilir; ısıtılan temiz su bir depoda toplanıp ihtiyaç olan makinelere gönderilir", "Her makine kendi atık suyunu kendi kazanına basar", "Atık sular birleştirilip soğutma kulesinden geçirilir", "Atık sular birbirine karıştırılıp yeniden boyamada kullanılır", "Her makine için ayrı kazan kurulur"], a: 0,
+    e: "Yüksek sıcaklıktaki atık sular <b>atık ısı geri kazanım sistemine</b> gönderilir; sistemden geçirilerek ısıtılan <b>temiz su bir depoda toplanarak</b> ihtiyaç olan makinelere gönderilebilir.",
+    n: "Boyama makineleri kesikli (parti) çalışır; bir makinenin boşalttığı sıcak su başka bir makinenin doldurma zamanına denk gelmeyebilir. Ortak sistem ve depo, ısıyı makineler arasında zaman ve yer olarak taşır." },
+  { t: 1, s: 17, q: "Sunuma göre boya makinelerinin yalıtımsız bırakılmasına gerekçe olarak hangisi gösterilmektedir?",
+    o: ["Islak ortamda yalıtımın zamanla işlevini yitireceği ve yalıtımlı kazanda soğutmanın uzayıp boyama prosesini etkileyeceği", "Yalıtım malzemesinin yanıcı olması", "Yalıtımın makine ağırlığını taşınamayacak kadar artırması", "Yalıtımın yasal olarak yasak olması", "Yalıtımın boyanın rengini değiştirmesi"], a: 0,
+    e: "Gerekçeler: makinelerin <b>sürekli ıslak ortamda</b> olması nedeniyle yalıtımın <b>zamanla işlevini yitireceği</b> ve iplik boyamada reçeteye göre <b>soğutma süresinin yalıtımlı kazanda daha uzun</b> olup prosesi etkileyeceği.",
+    n: "Sunuma göre bu gerekçelere rağmen sıcak makine yüzeyinden, makine büyüklüğüyle orantılı ve özellikle ısıtma sırasında ortama ısı kaybı olur ve karşılığında buhar tüketilir. Soğutma çoğunlukla iç devrede soğuk suyla yapıldığından yalıtımın soğutmaya etkisi sınırlıdır." },
+  { t: 1, s: 19, q: "Sunuma göre boya makinesi gövdesi yalıtılamasa bile en azından neyin yalıtılması önem taşır?",
+    o: ["Makine etrafındaki eşanjör ve sıcak su boru hatları gibi ekipmanın", "Makinenin elektrik panosunun", "Fabrikanın çatısının", "Kumaş taşıma arabalarının", "Makine operatörünün çalışma masasının"], a: 0,
+    e: "Makine gövdeleri değil, makine etrafındaki <b>eşanjör, sıcak su boru hatları</b> gibi ekipmanın da genellikle yalıtımsız olduğu görülür; en azından bunların yalıtılması ısı kayıplarını önler.",
+    n: "Eşanjör ve borular ıslak gövde kadar sorunlu değildir ve sökülebilir yalıtım ceketleriyle bakım erişimi korunarak yalıtılabilir. Sunumun sonundaki yalıtım fotoğrafları bu tür ceket uygulamalarını gösterir." },
+  { t: 1, s: 20, q: "Sunuma göre günümüzde stenter (gerdirmeli kurutma) makinelerinde kurutma havası çoğunlukla nasıl ısıtılmaktadır?",
+    o: ["Kontrol kolaylığı nedeniyle doğrudan doğal gaz yakan brülörlerle", "Yalnızca güneş kolektörleriyle", "Elektrikli rezistanslarla", "Kömür sobalarıyla", "Kompresör atık ısısıyla"], a: 0,
+    e: "Önceleri <b>kızgın yağ veya buharla</b> ısı değiştiriciler yardımıyla ısıtılan sıcak hava, günümüzde pek çok makinede <b>kontrol kolaylığı nedeniyle doğrudan doğal gaz yakan brülörlerle</b> ısıtılmaktadır.",
+    n: "Doğrudan yakmalı sistemde ara ısı taşıyıcı (yağ/buhar) ve onun dağıtım kayıpları ortadan kalkar; yanma ürünleri kurutma havasına karışır. Sunumdaki fotoğrafta stenter kabinine monte edilmiş bir brülör görülmektedir." },
+  { t: 1, s: 24, q: "Sunuma göre stenter egzoz havası neden önemli miktarda enerji taşır?",
+    o: ["Yüksek sıcaklıkta olduğu ve aynı zamanda su buharı taşıdığı için", "İçinde boya pigmenti bulunduğu için", "Basıncı çok yüksek olduğu için", "Elektrik yükü taşıdığı için", "Hızı çok yüksek olduğu için"], a: 0,
+    e: "Egzoz havası <b>yüksek sıcaklıkta</b> olduğu ve aynı zamanda <b>su buharı taşıdığı</b> için önemli miktarda enerji taşır; bir ısı değiştiriciden geçirilerek enerjisinin geri kazanılması ve <b>kurutucuda kullanılan havanın ön ısıtılması</b> önerilir.",
+    n: "Su buharının gizli ısısı egzozun enerjisinin büyük bir kısmını oluşturur; yoğuşmalı bir eşanjörle bu ısının bir bölümü de alınabilir. Egzoz ayrıca kumaştan gelen kimyasallar (yağ dumanı, apre buharı) taşıdığından eşanjör kirlenir; filtreli/yıkamalı sistemler ve düzenli temizlik gerekir." },
+  { t: 1, s: 24, q: "Stenter egzozundan ısı geri kazanımı ile ilgili sunumdaki öneriye göre geri kazanılan ısı öncelikle nerede kullanılır?",
+    o: ["Kurutucuya giren havanın ön ısıtılmasında", "Kazan bacasının ısıtılmasında", "Kompresör emişinin ısıtılmasında", "Soğuk deponun ısıtılmasında", "Elektrik üretiminde"], a: 0,
+    e: "Egzoz havasının enerjisi bir ısı değiştirici ile geri kazanılıp <b>kurutucuda kullanılan havanın ön ısıtılması</b> amacıyla kullanılmalıdır.",
+    n: "Isıyı aynı makineye geri vermek, kaynak ve ihtiyacın zaman olarak örtüşmesini garanti eder: makine çalışırken hem egzoz hem taze hava ihtiyacı vardır. Sunumdaki şekilde stenter üzerinde egzoz-taze hava eşanjör modülü (ısı geri kazanım kutusu) görülmektedir." },
+  { t: 1, s: 26, q: "Sunuma göre kurutma silindirlerinde ısı kaybı neden oluşur ve nasıl önlenir?",
+    o: ["Silindirler kumaş genişliğinden uzun olduğu için iki uçta açık kalan alanlardan ve yan yüzeylerden; bu alanların yüksek sıcaklığa dayanıklı, yapışkan yalıtım malzemeleriyle kaplanmasıyla", "Silindirlerin fazla yavaş dönmesinden; motor gücü artırılarak", "Silindirlerin içinde hava olmasından; vakum uygulanarak", "Kumaşın fazla kuru olmasından; kumaş ıslatılarak", "Silindir yüzeyinin parlak olmasından; boyanarak"], a: 0,
+    e: "Silindirler genellikle <b>kumaş genişliğinden uzun</b> imal edilir; kumaşın temas etmediği <b>iki uçtaki açık alanlardan</b> ve <b>yan yüzeylerden</b> ısı kaybı olur. Bu alanların <b>yüksek sıcaklığa dayanıklı ve yapışkan yalıtım malzemeleriyle</b> kaplanmasıyla buhar tüketimi azaltılabilir.",
+    n: "Dar kumaşlar çalışıldığında açık kalan yüzey daha da büyür. Bu, düşük maliyetli ve hızlı geri dönen bir önlemdir; kaplama malzemesi silindir yüzey sıcaklığına ve dönmeye dayanıklı olmalıdır." },
+  { t: 1, s: 29, q: "Sunuma göre kurutma silindirlerindeki sifon sistemi kondensi uzaklaştıramazsa ne olur?",
+    o: ["Silindirde kondens birikir; hem ısıtma kötüleşir hem de dengesiz ağırlık nedeniyle tahrik motoru olumsuz etkilenir", "Silindir daha hızlı ısınır", "Buhar tüketimi azalır", "Kumaş daha çabuk kurur", "Kondens otomatik olarak buharlaşır ve sorun oluşmaz"], a: 0,
+    e: "Sifon görevini yapamazsa <b>silindir içinde kondens birikir</b>; bunun sonucunda <b>ısıtma olumsuz etkilenir</b> ve silindiri tahrik eden <b>motor sistemi dengesiz ağırlık yükleri</b> nedeniyle zorlanır.",
+    n: "Kondens tabakası buhar ile silindir duvarı arasında yalıtkan gibi davranır ve ısı geçişini düşürür. Biriken su ayrıca silindirin dönmesine direnç gösterir. Sunumdaki şemada her silindirin kondens çıkışında bir buhar kapanı bulunur." },
+  { t: 1, s: 29, q: "Sunuma göre buhar kapanlarının periyodik bakımı ve iyi durumda tutulmasıyla hangi sorunların önüne geçilir?",
+    o: ["Buhar kapanlarından kaynaklanan buhar kaçakları ve ısınma problemleri", "Elektrik kesintileri", "Basınçlı hava kaçakları", "Kumaş yırtılmaları", "Boyama hataları"], a: 0,
+    e: "Makinelerde ve fabrika genelindeki <b>buhar kapanlarının periyodik bakımı</b> ve iyi durumda tutulmasıyla kapanlardan kaynaklanan <b>buhar kaçakları</b> ve <b>ısınma problemleri</b> önlenir.",
+    n: "Açık kalan kapan canlı buhar kaçırır (enerji kaybı); bloke olan kapan kondensi tahliye edemez (ısınma sorunu, koç darbesi). Kapanların termal kamera ve ultrasonik dinleme ile düzenli taranması ve bir kapan envanteri tutulması iyi uygulamadır." },
+
+  // Seramik ve çimento fırınlarında atık ısı
+  { t: 2, s: 31, q: "Sunuma göre bir seramik fırınında hangi bölümler bulunur?",
+    o: ["Ön ısıtma, pişirme ve soğutma bölümleri", "Kurutma, boyama ve paketleme bölümleri", "Yıkama, sıkma ve kurutma bölümleri", "Öğütme, eleme ve karıştırma bölümleri", "Kalsinasyon, klinker ve öğütme bölümleri"], a: 0,
+    e: "Seramik fırınında <b>malzemenin ön ısıtılması</b>, <b>pişirilmesi</b> ve <b>soğutulması</b> işlemlerinin yapıldığı bölümler bulunur.",
+    n: "Sunumdaki şemada pişirme bölümünde sıcaklık 1.000–1.200 °C'ye çıkar. Baca gazı ürünün tersi yönünde ön ısıtma bölümüne akarak ürünü ısıtır; soğutma havası da ürünü soğuturken ısınır. Bu karşı akış düzeni fırının kendi içindeki ısı geri kazanımıdır." },
+  { t: 2, s: 32, q: "Sunumdaki seramik fırını şemasına göre pişirme bölümündeki sıcaklık aralığı nedir?",
+    o: ["1.000–1.200 °C", "75–150 °C", "300–500 °C", "1.800–2.000 °C", "600–700 °C"], a: 0,
+    e: "Şemada pişirme bölümü sıcaklığı <b>1.000–1.200 °C</b> olarak gösterilmiştir; ürün fırına yaklaşık 75 °C'de girip ön ısıtma bölümünde bu sıcaklığa yükselir, soğutma bölümünde ise yeniden düşer.",
+    n: "Bu kadar yüksek sıcaklıkta fırın yüzeyinden, baca gazından ve soğutma havasından önemli ısı çıkar. Etüt sırasında fırın yüzey sıcaklıklarının, egzoz ve soğutma havası debi ve sıcaklıklarının ölçülmesinin nedeni budur (12. sunum)." },
+  { t: 2, s: 31, q: "Sunuma göre seramik fırınının soğutma bölümünden alınan hava neden fırın yanma havası olarak kullanılabilir?",
+    o: ["Temiz (yanma ürünü gaz içermeyen) ve yüksek sıcaklıkta olduğu için", "İçinde yakıt bulunduğu için", "Nemli olduğu için", "Basıncı atmosfer basıncının altında olduğu için", "Soğuk olduğu için"], a: 0,
+    e: "Soğutma bölümünden alınan hava <b>temizdir</b> (herhangi bir yanma ürünü gaz içermez) ve <b>yüksek sıcaklıktadır</b>; bu nedenle <b>fırın yanma havası</b> olarak kullanılabilir.",
+    n: "Yanma havasının ön ısıtılması, yakıtın bu havayı ısıtmak için harcayacağı enerjiyi azaltır. Baca gazı ise CO₂, su buharı ve bazen asidik bileşenler içerdiği için yanma havası olarak kullanılamaz; ondan ancak eşanjör veya doğrudan kurutma yoluyla yararlanılır." },
+  { t: 2, s: 31, q: "Sunuma göre seramik fırını soğutma havası, yanma havası dışında nerede kullanılabilir?",
+    o: ["Presleme sonrası şekillendirilen seramiklerin kurutulduğu kurutucularda", "Kompresör emişinde", "Soğuk depolarda", "Elektrik panolarının soğutulmasında", "Boyama makinelerinde"], a: 0,
+    e: "Soğutma havası, <b>presleme sonrası şekillendirilen seramiklerin kurutulması</b> amacıyla kullanılan kurutucularda da kullanılabilir.",
+    n: "Sunumdaki şemada soğutma havasının “kurutma ekipmanlarına” gönderildiği görülür. Fırının hemen yanında bulunan kurutucular, sıcak havanın kısa ve yalıtılmış kanallarla taşınmasını kolaylaştırır." },
+  { t: 2, s: 33, q: "Sunuma göre seramik fırınının baca gazı hangi amaçla kullanılabilir?",
+    o: ["Seramik hammaddesi elde etmek için kullanılan spray kurutucularda veya bir eşanjörle sıcak suya aktarılarak", "Fırın yanma havası olarak doğrudan", "Ürün soğutmada", "Kompresör soğutmada", "İçme suyu hazırlamada"], a: 0,
+    e: "Baca gazı sıcak ve enerji içeren bir gazdır; örneğin seramik hammaddesi elde etmek için kullanılan <b>spray kurutucularda</b> kullanılabilir veya bir <b>ısı değiştiriciden geçirilip enerjisi sıcak suya aktarılabilir</b>.",
+    n: "Baca gazı, baca gazı fanının çekişiyle fırının ön ısıtma bölümüne doğru ilerleyip bacadan atılır. Spray kurutucuda (atomizör) sulu çamur (slip) sıcak gazla kurutularak toz granül elde edilir; bu sektörün en çok ısı harcayan işlemlerinden biridir." },
+  { t: 2, s: 33, q: "Sunuma göre seramik fırınında baca gazı ürüne göre hangi yönde hareket eder?",
+    o: ["Baca gazı fanının çekişiyle ön ısıtma bölümüne doğru, yani ürünün tersi yönünde", "Ürünle aynı yönde soğutma bölümüne doğru", "Dikey olarak doğrudan yukarı", "Fırının dışına, yan duvarlardan", "Hiç hareket etmez, fırında birikir"], a: 0,
+    e: "Doğal gazın yakılmasıyla oluşan baca gazı, <b>baca gazı fanının çekişinin</b> etkisiyle fırının <b>ön ısıtma bölümüne doğru</b> ilerler ve bacadan atılır. Ürün ise ön ısıtmadan pişirmeye, oradan soğutmaya doğru ilerler.",
+    n: "Karşı akış sayesinde baca gazı fırına yeni giren soğuk ürünü ısıtarak kendisi soğur; bu yüzden seramik fırınlarında baca gazı pişirme sıcaklığına göre oldukça düşük sıcaklıkta atılır. Bu iç geri kazanım ne kadar iyiyse bacadan atılan enerji o kadar azdır." },
+  { t: 2, s: 36, q: "Sunuma göre bir kazanın bacasına ekonomizer veya reküperatör konması durumunda geri kazanılan enerji nereye aktarılır?",
+    o: ["Kazan besi suyuna veya yanma havasına", "Kompresör emişine", "Fabrika aydınlatmasına", "Soğuk depoya", "Elektrik şebekesine"], a: 0,
+    e: "Atmosfere atılan baca gazının enerjisi ekonomizer veya reküperatörle geri kazanılıp <b>kazan besi suyuna</b> (ekonomizer) veya <b>yanma havasına</b> (reküperatör/hava ön ısıtıcı) aktarılır; böylece kazan verimi artar ve yakıt tüketimi azalır.",
+    n: "Pratikteki kaba kural: baca gazı sıcaklığındaki her yaklaşık 20 °C'lik düşüş kazan verimini yaklaşık %1 artırır. Baca gazı çiğ noktasının altına soğutulursa (yoğuşmalı ekonomizer) su buharının gizli ısısı da geri kazanılır; ancak kükürtlü yakıtlarda asit korozyonu riski vardır. Sunumdaki şekiller borulu tip bir eşanjörü gösterir." },
+  { t: 2, s: 38, q: "Sunuma göre bir çimento fabrikasında döner fırında oluşan baca gazı hangi yolu izler?",
+    o: ["Döner fırının çıkış bölümüne (besleme ucuna) doğru ilerleyip ön ısıtma kulesindeki siklonlara girer", "Doğrudan klinker silosuna gider", "Klinker soğutucusuna geri döner", "Değirmenden geçmeden doğrudan atmosfere çıkar", "Kalsinatöre hiç uğramadan elektrik üretir"], a: 0,
+    e: "Fırın sıcaklığını sağlamak için yakılan yakıttan oluşan baca gazı <b>döner fırının çıkış bölümüne doğru ilerler</b> ve <b>siklonlara</b> (ön ısıtma kulesi) girer.",
+    n: "Siklonlu ön ısıtıcıda sıcak gaz aşağıdan yukarı, ham madde (farin) yukarıdan aşağı akar; böylece ham madde fırına girmeden ısıtılır ve kısmen kalsine olur. Kuleden çıkan gaz değirmenlerde ham madde ve kömürü kurutmak için kullanılır, ardından filtreden geçip bacaya gider." },
+  { t: 2, s: 40, q: "Sunumdaki beş kademeli ön ısıtıcılı ve kalsinatörlü çimento fırını şemasında ön ısıtma kulesinin en üstünden çıkan gazın sıcaklığı yaklaşık kaçtır?",
+    o: ["316 °C", "890 °C", "1.000 °C", "100 °C", "1.450 °C"], a: 0,
+    e: "Şemada kuleden çıkan gaz sıcaklığı <b>316 °C</b> olarak gösterilmiştir. Siklon kademelerinde sıcaklık aşağı doğru 503, 665, 807 ve 890 °C'ye çıkar; kalsinatör/fırın girişi bölgesinde 1.000 °C civarındadır.",
+    n: "Kademe sayısı arttıkça gaz daha fazla soğutulur ve fırının yakıt tüketimi azalır. 300 °C civarındaki çıkış gazı hâlâ önemli enerji taşır; bu gaz değirmenlerde kurutma için ve son yıllarda yaygınlaşan atık ısıdan elektrik üretim (AIK/WHR) tesislerinde kullanılır." },
+  { t: 2, s: 39, q: "Sunumdaki çimento fırını şemalarına göre klinker soğutucusundan çıkan sıcak hava nerede değerlendirilir?",
+    o: ["Döner fırında ve kalsinasyon için yanma havası olarak", "Klinker silosunun ısıtılmasında", "Kömür besleme bandının soğutulmasında", "Elektrostatik filtrenin soğutulmasında", "Hiç kullanılmaz, doğrudan atılır"], a: 0,
+    e: "Şemalarda <b>klinker soğutma havası (sıcak)</b>, döner fırına ve <b>kalsinasyon için enerji girdisine</b> (tersiyer hava kanalıyla kalsinatöre) yönlendirilmiştir.",
+    n: "Seramik fırınındaki mantıkla aynıdır: ürünü soğutan temiz ve sıcak hava yanma havası olarak geri döner. Soğutucudaki fazla hava (şemada yaklaşık 280 °C) ise ayrıca kurutma veya atık ısıdan elektrik üretiminde kullanılabilir." },
+
+  // Kazanlar ve basınçlı hava
+  { t: 3, s: 36, q: "Sunuma göre otomatik yanma havası kontrol sistemi olmayan kazanlarda ne yapılmalıdır?",
+    o: ["Periyodik olarak portatif baca gazı analiz cihazıyla yanma havası kontrol edilip en iyi hava/yakıt oranına ayarlanmalıdır", "Kazan basıncı sürekli yükseltilmelidir", "Brülör kapatılıp elektrikli ısıtıcı kullanılmalıdır", "Yanma havası mümkün olduğunca artırılmalıdır", "Baca sürekli açık bırakılmalıdır"], a: 0,
+    e: "Buhar, sıcak su ve kızgın yağ kazanlarında otomatik kontrol yoksa <b>periyodik olarak portatif baca gazı analiz cihazıyla</b> yanma havası kontrol edilip <b>en iyi hava/yakıt oranına</b> ayarlanması kazan verimini artırır ve yakıt tüketimini önemli ölçüde azaltır.",
+    n: "Fazla hava, bacadan gereksiz yere ısıtılıp atılan havadır; eksik hava ise CO ve is oluşturur. Optimum nokta düşük O₂ ve ihmal edilebilir CO değeridir. Brülör ayarı zamanla bozulduğu için ölçüm periyodik tekrarlanmalıdır; oksijen trim sistemleri bu ayarı sürekli yapar." },
+  { t: 3, s: 36, q: "Bir kazanın baca gazında %6 O₂ ölçülmüştür. Hava fazlalık katsayısı yaklaşık λ = 21 / (21 − O₂) bağıntısıyla bulunursa kazan yüzde kaç hava fazlasıyla çalışmaktadır?",
+    o: ["≈ %40", "≈ %6", "≈ %29", "≈ %140", "≈ %15"], a: 0,
+    e: "λ = 21 / (21 − 6) = 21 / 15 = 1,4 → hava fazlası ≈ (1,4 − 1) × 100 = <b>%40</b>.",
+    n: "Doğal gaz brülörlerinde iyi ayarlı bir değer genellikle %2–3 O₂ (yaklaşık %10–15 hava fazlası) civarındadır. %6 O₂'den %3 O₂'ye inmek, baca gazı sıcaklığına bağlı olarak verimi yaklaşık 1–2 puan artırır. 140 sonucu, λ'nın kendisinin yüzde sanılmasıyla bulunur." },
+  { t: 3, s: 42, q: "Sunuma göre bir kompresörün şaftına verilen enerjinin yaklaşık ne kadarı basınçlı havaya, ne kadarı ısıya dönüşür?",
+    o: ["%6'sı basınçlı havaya, %94'ü ısıya", "%50'si basınçlı havaya, %50'si ısıya", "%94'ü basınçlı havaya, %6'sı ısıya", "%80'i basınçlı havaya, %20'si ısıya", "Tamamı basınçlı havaya"], a: 0,
+    e: "Kompresörün şaftına verilen enerjinin <b>%94'ü ısı enerjisine</b>, yalnızca <b>%6'sı basınçlı havaya</b> dönüşür. Bu nedenle basınçlı hava <b>pahalı bir enerji türüdür</b>.",
+    n: "Bu yüzden basınçlı hava, elektrikle yapılabilecek işler (örneğin temizlik, karıştırma, soğutma) için kullanılmamalıdır. Üretimi, iletimi ve kullanımında israfı önlemek doğrudan elektrik tasarrufudur." },
+  { t: 3, s: 42, q: "Sunumdaki kompresör ısı dağılımı tablosuna göre geri kazanılabilir ısının en büyük kısımları hangi elemanlardan elde edilir?",
+    o: ["Ara soğutucu (%43) ve son soğutucu (%43)", "Radyasyon kayıpları (%4)", "Alçak basınç kademesi (%4)", "Yüksek basınç kademesi (%4)", "Basınçlı havada kalan ısı (%6)"], a: 0,
+    e: "Tabloya göre: <b>ara soğutucu %43</b>, <b>son soğutucu %43</b>, alçak ve yüksek basınç kademeleri %4'er; toplam teorik olarak geri kazanılabilir ısı <b>%94</b>; basınçlı havada kalan ısı %6; radyasyon kayıpları %4.",
+    n: "Yağ soğutmalı vidalı kompresörlerde ısının büyük kısmı yağ soğutucusundan alınabilir ve 70–80 °C sıcak su üretilebilir. Isı geri kazanımı, basınçlı hava sisteminin en kârlı önlemlerinden biridir çünkü kompresör zaten çalışmaktadır ve ısı “bedava”dır." },
+  { t: 3, s: 42, q: "Elektrik motorundan şaftına 110 kW güç verilen bir kompresörde sunumdaki dağılıma göre teorik olarak geri kazanılabilir ısı yaklaşık ne kadardır?",
+    o: ["≈ 103 kW", "≈ 6,6 kW", "≈ 47 kW", "≈ 110 kW", "≈ 95 kW"], a: 0,
+    e: "Geri kazanılabilir ısı = 110 × 0,94 ≈ <b>103 kW</b>. Bunun yaklaşık 2 × 43 = %86'sı (≈ 95 kW) ara ve son soğutuculardan alınır.",
+    n: "Bu ısı, ısıtma sezonunda 2.000 saat kullanılırsa yaklaşık 200.000 kWh eder; %90 verimli bir doğal gaz kazanının aynı ısıyı üretmek için harcayacağı yakıt kadar tasarruf sağlar. 6,6 kW basınçlı havaya giden %6'lık kısımdır." },
+  { t: 3, s: 46, q: "Sunuma göre kompresör egzoz havasından geri kazanılan ısı nerelerde kullanılabilir?",
+    o: ["Gerektiğinde yakındaki alanların ısıtılmasında veya kazan yanma havası olarak", "Yalnızca soğuk depo soğutmasında", "Basınçlı havanın yeniden sıkıştırılmasında", "Elektrik üretiminde", "Kompresörün kendi emişinde"], a: 0,
+    e: "Kompresör egzoz havasından ısı geri kazanılarak gerektiğinde <b>yakındaki başka alanların ısıtılması</b> yoluyla tasarruf yapılabilir; egzoz havası ayrıca <b>kazan yanma havası</b> olarak da kullanılabilir.",
+    n: "Yazın ısıtma ihtiyacı olmadığında sıcak hava damperlerle dışarı atılmalıdır; aksi hâlde kompresör dairesi ısınır. Kompresör emiş havası ise mümkün olduğunca soğuk alınmalıdır: emiş havası sıcaklığındaki her yaklaşık 3–4 °C'lik düşüş tüketimi yaklaşık %1 azaltır." },
+  { t: 3, s: 43, q: "Sunuma göre kullanım alanında basınçlı hava hattı nasıl tasarlanmalıdır?",
+    o: ["Ring şeklinde, girişten son kullanım noktasına doğru %1 eğimli ve yaklaşık 30 m aralıklarla drenaj noktaları olacak şekilde", "Düz ve eğimsiz, tek uçlu kör hat olarak", "Mümkün olduğunca çok dirsekle", "Kullanım noktasına doğru yukarı eğimli olarak", "Plastik hortumlarla ve drenajsız"], a: 0,
+    e: "Hat <b>ring (halka) şeklinde</b> ve giriş noktasından en son kullanım noktasına doğru <b>%1 eğimli</b> olmalıdır; hatta oluşan su bu eğimle <b>30 metre aralıklarla konacak drenaj noktalarına</b> ulaştırılır.",
+    n: "Ring hat, her kullanıcıya iki yönden hava gelmesini sağlayarak basınç kaybını azaltır. Branşmanlar ana hattın üstünden (kuğu boynu şeklinde) alınırsa hattaki su kullanıcıya gitmez; sunumdaki şekilde bu uygulama görülür." },
+  { t: 3, s: 43, q: "120 m uzunluğundaki bir basınçlı hava hattı sunumdaki kurala göre %1 eğimle döşenirse hattın başı ile sonu arasındaki kot farkı ne olur?",
+    o: ["1,2 m", "0,12 m", "12 m", "0,3 m", "1,0 m"], a: 0,
+    e: "%1 eğim, her 100 m'de 1 m düşüş demektir: 120 × 0,01 = <b>1,2 m</b>.",
+    n: "Aynı hatta 30 m aralıkla drenaj konursa 120 m'lik hatta 4 drenaj noktası (30, 60, 90 ve 120. metrelerde) gerekir. Pratikte uzun hatlarda eğim belirli aralıklarla “testere dişi” şeklinde yeniden başlatılır ve her alçak noktaya otomatik drenaj (tercihen kayıpsız tip) konur." },
+  { t: 3, s: 43, q: "Sunuma göre basınçlı hava hattında basınç kaybı hesabında vanalar ve dirsekler nasıl dikkate alınır?",
+    o: ["Eşdeğer boru uzunlukları kullanılarak ilave boru olarak hesaba katılır", "Hesaba hiç katılmaz", "Her biri sabit 1 bar kayıp kabul edilir", "Yalnızca vanalar sayılır, dirsekler sayılmaz", "Basınç kaybını azalttıkları kabul edilir"], a: 0,
+    e: "Basınç kaybı hesabında hattaki her <b>vana, dirsek</b> ve benzeri bağlantı elemanı <b>eşdeğer boru uzunluğu</b> kullanılarak <b>ilave boru</b> olarak hesaba katılır. Bu nedenle gereksiz dirsek vb. konulmasından kaçınılmalıdır.",
+    n: "Örneğin bir 90° dirsek, boru çapına bağlı olarak birkaç metre düz boru kadar basınç kaybı yaratabilir. Basınç kaybı arttıkça kullanıcıya istenen basıncı ulaştırmak için kompresör basıncı yükseltilir ve elektrik tüketimi artar." },
+  { t: 3, s: 45, q: "Sunuma göre basınçlı hava hattının sonunda basınç düşümü en fazla ne kadar olmalıdır?",
+    o: ["0,3 bar", "1 bar", "3 bar", "0,03 bar", "2 bar"], a: 0,
+    e: "Sunumdaki şekle göre <b>hat sonunda basınç düşümü 0,3 bardan fazla olmamalıdır</b>.",
+    n: "Kompresör çıkışında 7,5 bar okunan bir sistemde en uzak kullanım noktasında en az 7,2 bar görülmelidir. Daha büyük düşüm, hattın küçük çaplı, kirli filtreli veya kaçaklı olduğuna işaret eder. Kompresör basıncındaki her 1 bar artış elektrik tüketimini yaklaşık %6–8 artırır." },
+  { t: 3, s: 45, q: "Kompresör çıkışında basınç 7,5 bar ölçülmüştür. Hattın sonunda manometre 6,8 bar göstermektedir. Sunumdaki kritere göre durum nedir?",
+    o: ["Basınç düşümü 0,7 bar; 0,3 bar sınırının üzerinde, hat iyileştirilmeli", "Basınç düşümü 0,7 bar; sınırın altında, sorun yok", "Basınç düşümü 0,3 bar; sınırda", "Basınç düşümü 14,3 bar; ölçüm hatalı", "Basınç düşümü yok; hat ideal"], a: 0,
+    e: "Basınç düşümü = 7,5 − 6,8 = <b>0,7 bar</b>; bu, sunumdaki <b>0,3 bar</b> sınırının iki katından fazladır. Hat çapı, dirsek ve vana sayısı, filtreler ve kaçaklar incelenmelidir.",
+    n: "İşletmeler genellikle bu sorunu kompresör basıncını yükselterek “çözer”; ancak bu, tüm hattaki kaçakları da artırır ve elektrik tüketimini yükseltir. Doğru çözüm, basınç düşümünün nedenini (dar boru, kirli filtre, kaçak) gidermektir." },
+  { t: 3, s: 43, q: "Sunuma göre fabrika sahasında basınçlı hava kaçakları genellikle nereden kaynaklanır ve ne yapılmalıdır?",
+    o: ["Havalı el aletlerinin bağlantılarından veya yanlış malzeme kullanımından; kaçaklar tespit edilip onarılmalıdır", "Yalnızca kompresörün içinden; kompresör değiştirilmelidir", "Kazandan; kazan kapatılmalıdır", "Aydınlatma armatürlerinden; lambalar sökülmelidir", "Kaçak oluşmaz; işlem gerekmez"], a: 0,
+    e: "Havalı el aletlerinin <b>bağlantıları</b> veya <b>yanlış malzeme kullanımı</b> sonucunda hatta oluşan hava kaçakları <b>tespit edilerek onarılmalıdır</b>.",
+    n: "Sunumdaki fotoğrafta köpüklü sıvı püskürtülerek kaçak tespiti görülür; üretim sırasında ise ultrasonik kaçak dedektörleri kullanılır. Bakımsız sistemlerde kaçaklar üretilen havanın %20–30'una ulaşabilir; kaçak taraması ve onarımı en hızlı geri dönen önlemlerdendir." },
+
+  // Yalıtım
+  { t: 4, s: 47, q: "Sunuma göre buhar hattında yetersiz yalıtım nedeniyle kullanım noktasına istenen basınçta buhar ulaşamadığında işletmelerin ilk çözüm olarak yaptığı uygulama ve sonucu nedir?",
+    o: ["Kazan veya basınç ayarlayıcılarda basınç yükseltilir; bu da kazanın daha çok enerji tüketmesine neden olur", "Hat sökülür; enerji tüketimi sıfırlanır", "Kazan kapatılır; üretim durur", "Kondens hattı kapatılır; verim artar", "Buhar debisi azaltılır; sorun çözülür"], a: 0,
+    e: "Buharın ısı kaybı nedeniyle basınç kaybına uğraması durumunda ilk çözüm olarak <b>ya kazan basıncı ya da basınç ayarlayıcılarda basınç yükseltilir</b>; bu da <b>kazanın daha çok enerji tüketmesine</b> neden olur.",
+    n: "Sorunun kökü yalıtımsızlık ise basınç artırmak hem baca gazı sıcaklığını hem de hat kayıplarını artırır. Doğru çözüm yalıtımı onarmak, kondensi düzgün tahliye etmek ve hattı doğru çapta tutmaktır." },
+  { t: 4, s: 47, q: "Sunuma göre yalıtımın zamanla işlevini yitirmesinin nedenleri arasında hangisi sayılmamıştır?",
+    o: ["Yalıtım kalınlığının fazla olması", "Üzerine basılması", "Sıyrılması", "Su alması", "Hiç yalıtım yapılmamış olması"], a: 0,
+    e: "Yalıtım; <b>üzerine basma, sıyrılma, su alması</b> gibi nedenlerle görevini yapamaz hâle gelir; yalıtımsız alanlarla birlikte bu alanlardan da ortama ısı kaybı olur. Fazla kalınlık işlevsizlik nedeni değildir (yalnızca ekonomik olmayabilir).",
+    n: "Islanan mineral yün yalıtımın ısıl iletkenliği kat kat artar ve neredeyse yalıtımsız boru kadar ısı kaybettirebilir. Dış ortamdaki ve basılan yerlerdeki yalıtımın sac veya alüminyum kaplamayla korunması bu nedenle önemlidir." },
+  { t: 4, s: 47, q: "Sunuma göre yalıtılması gereken elemanlar arasında hangisi sayılmamıştır?",
+    o: ["Elektrik kabloları", "Kazan yüzeyleri", "Sıcak akışkan taşıyan kanallar ve boru hatları", "Vana, flanş ve damperler", "Genleşme elemanları"], a: 0,
+    e: "Kazan yüzeyleri, sıcak akışkanları taşıyan <b>kanallar, boru hatları</b> ve bu hatlardaki <b>vana, flanş, damper, genleşme elemanı</b> gibi bağlantı elemanları sıcaklıkla orantılı olarak uygun malzeme ve kalınlıkta yalıtılmalıdır.",
+    n: "Vana ve flanşlar bakım için söküldükleri ve yalıtımı zor olduğu için çoğu zaman yalıtımsız bırakılır. Sökülüp takılabilen yalıtım ceketleri (sunumun son fotoğrafları) bu sorunu çözer." },
+  { t: 4, s: 48, q: "Sunuma göre geri kullanıma yönlendirilen sıcak atık gaz veya soğutma havası kanallarının yalıtımı neden önemlidir?",
+    o: ["Akışkan kullanım noktasına istenen sıcaklıkta ulaşamazsa, istenen sıcaklığı sağlamak için ilave enerji tüketilir", "Kanalların ağırlığını azaltmak için", "Kanal içindeki basıncı artırmak için", "Gazın rengini korumak için", "Kanal gürültüsünü artırmak için"], a: 0,
+    e: "Enerjisinden yararlanmak için yönlendirilen <b>sıcak atık gazlar veya soğutma havaları</b> kullanım noktasına istenen sıcaklıkta ulaşamazsa, orada istenen sıcaklığı sağlamak için <b>daha çok ilave enerji</b> tüketilir.",
+    n: "Atık ısı projesinin tasarrufu, taşıma kanalı yalıtımsız bırakılırsa yolda kaybolur. Sunumdaki fotoğrafta seramik fırınından kurutucuya giden sıcak hava kanalının yalıtımının bozulduğu yer işaretlenmiştir." },
+  { t: 4, s: 50, q: "Sunumdaki termal görüntülerde yalıtımsız bir vananın yüzey sıcaklığı yaklaşık 158 °C, yalıtım ceketi giydirildikten sonra ise yaklaşık 34,5 °C ölçülmüştür. Bu sonuç neyi gösterir?",
+    o: ["Ceket yüzey sıcaklığını ortam sıcaklığına yaklaştırarak ısı kaybını büyük ölçüde azaltmıştır", "Ceket vananın içindeki buharı soğutmuştur", "Ceket ısı kaybını artırmıştır", "Vana artık çalışmamaktadır", "Ölçüm hatalıdır, çünkü yalıtım yüzey sıcaklığını değiştirmez"], a: 0,
+    e: "Yüzey sıcaklığının <b>158 °C'den yaklaşık 34,5 °C'ye</b> düşmesi, ortamla sıcaklık farkının büyük ölçüde azaldığını ve dolayısıyla ısı kaybının da (taşınım ve ışınım) büyük ölçüde azaldığını gösterir. Buhar vananın içinde aynı sıcaklıktadır.",
+    n: "Isı kaybı yüzey–ortam sıcaklık farkıyla artar; ışınım kaybı mutlak sıcaklığın dördüncü kuvvetiyle arttığından yüksek sıcaklıktaki yalıtımsız yüzeyler orantısız fazla ısı kaybeder. Düşük yüzey sıcaklığı ayrıca iş güvenliği (yanık riski) açısından da önemlidir." },
+  { t: 4, s: 51, q: "Sunuma göre soğuk akışkan taşıyan boru hatları yalıtılmazsa ne olur?",
+    o: ["Ortamdan ısı kazancı olur, akışkanın sıcaklığı yükselir ve soğutma grupları daha çok çalışarak daha çok enerji tüketir", "Akışkan daha da soğur ve enerji tasarrufu olur", "Hiçbir etkisi olmaz, çünkü yalıtım yalnızca sıcak hatlar içindir", "Boruların basıncı düşer", "Soğutma grubu otomatik olarak durur"], a: 0,
+    e: "Yalıtımsız soğuk hatlarda bu kez <b>ortamdan ısı kazancı</b> olur; akışkanın sıcaklığı <b>yükselir</b> ve kullanım yerinde görevini yapamaz. Yeterli soğutma için <b>soğutma grupları daha çok çalışır</b> ve daha çok enerji tüketir.",
+    n: "Soğuk hatlarda yalıtımın bir görevi daha vardır: boru yüzeyinin çiğ noktasının altına düşmesini ve yoğuşmayı önlemek. Bu nedenle soğuk hat yalıtımı kapalı hücreli malzemeyle ve buhar kesici (difüzyon bariyeri) ile kesintisiz yapılmalıdır; aksi hâlde yalıtım ıslanıp işlevini yitirir." },
+  { t: 4, s: 51, q: "Sunuma göre soğuk akışkan hatlarında hangi bağlantı elemanlarının da yalıtılması gerekir?",
+    o: ["Vana, flanş ve genleşme elemanları", "Yalnızca düz borular", "Yalnızca pompa motorları", "Yalnızca elektrik panoları", "Hiçbiri; soğuk hatlarda bağlantı elemanları yalıtılmaz"], a: 0,
+    e: "Soğuk akışkan taşıyan boru hatları ve bu hatlardaki <b>vana, flanş, genleşme elemanı</b> gibi bağlantı elemanları da uygun malzemeyle yalıtılmalıdır.",
+    n: "Soğuk hatta yalıtımsız kalan tek bir vana bile yoğuşma ve damlamaya, zamanla da çevresindeki yalıtımın ıslanmasına yol açar. Bu nedenle soğuk hatlarda yalıtım bütünlüğü sıcak hatlardan daha kritiktir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
