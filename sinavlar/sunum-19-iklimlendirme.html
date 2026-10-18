@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>İklimlendirme Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 19 · İklimlendirme Sistemleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 19</span> 1_20.pdf · Atalay Tunçcan, Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı</p>
+    <h1>İklimlendirme Sistemlerinde Enerji Verimliliği <em>Sınavı</em></h1>
+    <p class="lede">Binalarda %30–40 iklimlendirme payı ve %20 / %40 / %40 hata dağılımı; psikrometri ve konfor bölgeleri; seçim kriterleri, tasarım yükü, iç yükler ve taze hava; tam havalı, sulu ve DX sistemler, fan-coil ve klima santrali, 4 borulu fan-coil, sabit debi ve VAV; COP ve SEER; chiller ve VRF; iki bataryalı, plakalı, tamburlu, ısı borulu ve termodinamik ısı geri kazanımı.</p>
+    <ul class="facts"><li>67 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “İklimlendirme Sistemlerinde Enerji Verimliliği” sunumu (Atalay Tunçcan, ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum19-v1",
+topics: ["Enerji tüketimi, temel kavramlar ve psikrometri", "Sistem seçimi ve tasarım yükü", "Sistem tipleri ve karşılaştırmaları", "COP, SEER, chiller ve VRF", "Klima santralleri ve ısı geri kazanımı"],
+Q: [
+  // Enerji tüketimi, temel kavramlar, psikrometri
+  { t: 0, s: 2, q: "Sunuma göre binalarda kullanılan enerjinin yaklaşık yüzde kaçı soğutma ve iklimlendirmede harcanmaktadır?",
+    o: ["%30 – 40", "%5 – 10", "%60 – 70", "%80 – 90", "%1 – 2"], a: 0,
+    e: "Sunum: “Binalarda kullanılan enerjinin <b>%30~40'ı</b> soğutma ve iklimlendirmede harcanmaktadır.”",
+    n: "Bu pay, iklimlendirme sistemindeki küçük bir verim artışının bile bina enerji faturasında belirgin bir etki yaratacağı anlamına gelir. Sunumdaki slogan da bunu özetler: “Enerji dünden az, ihtiyaç dünden fazla.”" },
+  { t: 0, s: 2, q: "Sunumdaki enerji tüketimi grafiğinde sektör payları hangisidir?",
+    o: ["Sanayi %37, binalar %30, ulaşım %29, diğer %4", "Binalar %37, sanayi %30, ulaşım %29, diğer %4", "Ulaşım %37, binalar %30, sanayi %29, diğer %4", "Sanayi %50, binalar %25, ulaşım %20, diğer %5", "Binalar %60, sanayi %20, ulaşım %15, diğer %5"], a: 0,
+    e: "Grafikte: <b>sanayi %37</b>, <b>binalar %30</b>, <b>ulaşım %29</b>, <b>diğer %4</b>.",
+    n: "Binaların payı sanayiye yakındır; bu yüzden enerji verimliliği mevzuatı sanayi kadar binaları da (yalıtım, enerji kimlik belgesi, iklimlendirme sistemleri) kapsar." },
+  { t: 0, s: 3, q: "Sunumdaki tanıma göre iklimlendirme nedir?",
+    o: ["Konfor ya da bir prosesin ihtiyaçları gereği kapalı bir ortam havasının sıcaklık, nem, hava kalitesi ve hızının değiştirilmesidir", "Yalnızca ortam sıcaklığının düşürülmesidir", "Yalnızca dış havanın içeri alınmasıdır", "Yalnızca kış aylarında ısıtma yapılmasıdır", "Suyun soğutularak depolanmasıdır"], a: 0,
+    e: "Sunum: “İklimlendirme, <b>konfor ya da bir prosesin ihtiyaçları gereği</b> kapalı bir ortam havasının; <b>sıcaklık, nem, hava kalitesi ve hızının</b> değiştirilmesidir.”",
+    n: "Soğutma yalnızca sıcaklığı düşürürken iklimlendirme dört büyüklüğü birlikte yönetir. Yalnızca soğutma yapan bir split klima, nemi kontrol etmediği ve taze hava vermediği için tam anlamıyla iklimlendirme yapmaz." },
+  { t: 0, s: 4, q: "Sunumdaki “İklimlendirme sistemi yaşam süreci” hangi aşamalardan oluşur?",
+    o: ["Tasarım, satış, kurulum, işletmeye alma, işletme, bakım, yenileme", "Yalnızca tasarım ve kurulum", "Satış, işletme ve hurdaya ayırma", "Kurulum, bakım ve satış", "Tasarım, ithalat, ihracat"], a: 0,
+    e: "Yaşam süreci: <b>tasarım → (yatırım) satış → kurulum → işletmeye alma → (işletim) işletme → bakım → yenileme</b>. Sunum: tasarım mükemmel olsa da satın alma çok dikkatli ve bilinçli yapılmalı; tasarımda uygulama, işletme ve bakımda yapılacak asgari işlemler belirtilmelidir.",
+    n: "Verimlilik bir aşamada kazanılıp başka bir aşamada kaybedilebilir: iyi tasarlanmış bir sistem ucuz muadil ekipmanla, yanlış montajla veya bakımsızlıkla verimsizleşir. Bu yüzden her aşamanın bir önceki aşamanın hedeflerini bilmesi gerekir." },
+  { t: 0, s: 5, q: "Sunumdaki grafiğe göre iklimlendirme ve soğutma sistemlerindeki enerji verimliliği sorunlarının kaynakları ve payları nedir?",
+    o: ["Tasarım hataları %20, uygulama hataları %40, operatör hataları %40", "Tasarım hataları %40, uygulama hataları %40, operatör hataları %20", "Tasarım hataları %60, uygulama hataları %20, operatör hataları %20", "Tasarım hataları %10, uygulama hataları %10, operatör hataları %80", "Her biri %33"], a: 0,
+    e: "Grafik: <b>tasarım hataları %20</b> (uygun olmayan ekipman, uyumsuz ekipmanlar, uyumsuz tesisatlar); <b>uygulama hataları %40</b> (satın alma, taşıma, muhafaza, montaj hataları, montaj tahribatları); <b>operatör hataları %40</b> (işletmeye alma yanlışlıkları ve eksiklikleri, bakım ve işletme yanlışlıkları, hatalı müdahaleler).",
+    n: "Sorunların %80'i tasarımdan sonra, yani sahada ortaya çıkar. Bu yüzden etütlerde yalnızca ekipman verimi değil, montaj kalitesi, ayar değerleri ve bakım kayıtları da incelenmelidir." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmaya göre “montaj tahribatları” hangi hata grubundadır?",
+    o: ["Uygulama hataları", "Tasarım hataları", "Operatör hataları", "Üretici hataları", "Hiçbiri"], a: 0,
+    e: "Uygulama hataları (%40): <b>satın alma, taşıma, muhafaza, montaj hataları ve montaj tahribatları</b>. Tasarım hataları: uygun olmayan/uyumsuz ekipman ve tesisat. Operatör hataları: işletmeye alma, bakım, işletme yanlışlıkları ve hatalı müdahaleler.",
+    n: "Örneğin taşıma sırasında ezilen batarya kanatları veya montajda bükülen soğutucu borular, kapasiteyi kalıcı olarak düşürür. Bu yüzden teslim alma ve devreye alma testleri önemlidir." },
+  { t: 0, s: 6, q: "Sunuma göre psikrometri nedir?",
+    o: ["Nemli havanın fiziksel özelliklerini inceleyen bilimdir", "Suyun kaynama noktasını inceleyen bilimdir", "Basınçlı havanın kalitesini inceleyen bilimdir", "Yakıtların yanmasını inceleyen bilimdir", "Işığın ölçülmesini inceleyen bilimdir"], a: 0,
+    e: "Sunum: “<b>Nemli havanın fiziksel özelliklerini inceleyen bilime psikrometri denir.</b>” Psikrometrik diyagram; <b>kuru termometre sıcaklığı, yaş termometre sıcaklığı, bağıl nem, nem oranı ve entalpi</b> arasındaki ilişkiyi grafikle verir.",
+    n: "Psikrometrik diyagramda bilinen iki büyüklükle (ör. kuru ve yaş termometre) havanın tüm diğer özellikleri okunabilir. Klima santrali hesaplarında soğutma, nem alma ve ısıtma işlemleri bu diyagram üzerinde çizilir." },
+  { t: 0, s: 6, q: "Sunuma göre kuru termometre sıcaklığı ile ilgili hangisi doğrudur?",
+    o: ["Normal bir termometreyle ya da ısıl çiftle ölçülür ve havanın nem oranı hakkında bilgi vermez", "Havanın nem miktarı hakkında doğrudan bilgi verir", "Yalnızca ıslak bezle sarılmış termometreyle ölçülür", "Her zaman yaş termometre sıcaklığından düşüktür", "Yalnızca psikrometrik diyagramdan hesaplanabilir"], a: 0,
+    e: "Sunum: “Kuru termometre sıcaklığı, <b>normal bir termometreyle ya da bir ısıl çift ile ölçülebilir</b>. Kuru termometre sıcaklığı bize <b>havanın nem oranı hakkında bir bilgi vermez</b>.”",
+    n: "Yaş termometre, haznesi ıslak fitille sarılmış termometredir; fitildeki su buharlaştıkça hazneyi soğutur. Hava ne kadar kuruysa buharlaşma o kadar fazla, iki termometre arasındaki fark o kadar büyüktür. Doymuş havada (%100 bağıl nem) iki değer eşittir." },
+  { t: 0, s: 6, q: "Sunuma göre kuru ve yaş termometre sıcaklıkları neden birlikte değerlendirilir?",
+    o: ["Nemin konfora olan etkisinden dolayı; yaş termometre havanın içerdiği nem hakkında bilgi verir", "İkisi her zaman eşit olduğu için", "Yalnızca kış aylarında farklı oldukları için", "Kuru termometre nem bilgisini verdiği için", "Yaş termometre yalnızca basıncı gösterdiği için"], a: 0,
+    e: "Sunum: yaş termometre değeri <b>bağıl nem, nem oranı, mutlak nem gibi bir nem belirleme değeridir</b> ve havanın içerdiği nem miktarı hakkında bilgi verir. “<b>Nemin konfora olan etkisinden dolayı kuru ve yaş termometre sıcaklıkları beraber değerlendirilir.</b>”",
+    n: "Aynı 30 °C kuru termometrede, nemli havada terin buharlaşması zorlaştığı için insan kendini çok daha sıcak hisseder. Tasarım dış hava şartlarının hem kuru hem yaş termometreyle verilmesinin nedeni budur (ör. 34 °C KT / 21 °C YT)." },
+  { t: 0, s: 7, q: "Psikrometrik diyagramda nem oranı (mutlak nem) değişmeden hava ısıtılırsa durum noktası hangi yönde hareket eder?",
+    o: ["Yatay olarak sağa (kuru termometre artar, nem oranı sabit, bağıl nem azalır)", "Dikey olarak yukarı (nem oranı artar)", "Yatay olarak sola", "Dikey olarak aşağı", "Sola ve aşağı (soğutma + nem alma)"], a: 0,
+    e: "Sunumdaki proses yönlerinde <b>ısıtma</b> yatay sağa, <b>soğutma</b> yatay sola, <b>nemlendirme</b> dikey yukarı, <b>nem alma</b> dikey aşağıdır; <b>soğutma + nem alma</b> sola-aşağı, <b>ısıtma + nemlendirme</b> sağa-yukarı yöndedir.",
+    n: "Duyulur ısıtmada havadaki su miktarı değişmez, ama sıcak hava daha fazla nem tutabildiği için bağıl nem düşer. Kışın ısıtılan ofislerde bağıl nemin %20'lere inmesi ve nemlendirme ihtiyacı bu yüzdendir." },
+  { t: 0, s: 7, q: "Yaz klimasında soğutma bataryası, havayı çiğ noktasının altına soğutarak nemini de yoğuşturur. Bu işlem psikrometrik diyagramda hangi proses olarak gösterilir?",
+    o: ["Soğutma + nem alma", "Isıtma + nemlendirme", "Yalnızca nemlendirme", "Isıtma + nem alma", "Soğutma + nemlendirme"], a: 0,
+    e: "Batarya yüzeyi çiğ noktasının altında olduğunda hava hem soğur hem de nemi yoğuşur: <b>soğutma + nem alma</b> (diyagramda sola ve aşağı). Sunumda ayrıca duyulur ısı oranı (SHR) hattı ve SHR referans noktası gösterilir.",
+    n: "Soğutma yükünün bir kısmı duyulur (sıcaklık), bir kısmı gizli (nem) yüktür; SHR, duyulur yükün toplama oranıdır. Nemi yüksek mekânlarda gizli yük büyür ve bataryanın daha düşük sıcaklıkta çalışması gerekir." },
+  { t: 0, s: 8, q: "Sunumdaki konfor bölgeleri diyagramında 2 numaralı bölge neyi ifade eder?",
+    o: ["Konforlu", "Soğuk", "Sıcak ve kuru", "Sıcak ve nemli", "Çok sıcak ve nemli"], a: 0,
+    e: "Konfor bölgeleri: <b>1 soğuk, 2 konforlu</b>, 3 sıcak ve kuru, 4 çok sıcak ve kuru, 5 sıcak ve nemli, 6 çok sıcak ve nemli.",
+    n: "Konfor bölgesinin dışına çıkıldıkça iklimlendirme ihtiyacı doğar. Sıcak ve kuru havada evaporatif (buharlaşmalı) soğutma ucuz bir çözüm olabilirken, sıcak ve nemli havada nem alma gerekir ve enerji tüketimi artar." },
+
+  // Sistem seçimi ve tasarım yükü
+  { t: 1, s: 10, q: "Sunuma göre bir iklimlendirme sisteminin temel görevleri hangileridir?",
+    o: ["Isıtma, soğutma, nemlendirme/nem alma ve havalandırma (zararlı gazları seyreltmek, taze hava vermek)", "Yalnızca soğutma", "Yalnızca ısıtma ve aydınlatma", "Yalnızca sıcak su üretimi", "Elektrik üretimi ve depolama"], a: 0,
+    e: "Temel görevler: <b>ısıtma, soğutma, nemlendirme / nem alma, havalandırma</b> (<b>zararlı gazları seyreltmek, taze hava vermek</b>). Sunum: “Verimli kullanmak için doğru seçim yapmak gerekir.”",
+    n: "Sistem, hangi görevlerin gerçekten gerektiği belirlenerek seçilmelidir. Örneğin yalnızca soğutma gereken bir sunucu odasına tam havalı, nemlendirmeli bir santral koymak gereksiz yatırım ve enerji demektir." },
+  { t: 1, s: 11, q: "Aşağıdakilerden hangisi sunumda sayılan iklimlendirme sistemi seçim kriterlerinden biri <b>değildir</b>?",
+    o: ["Cihazın rengi", "Yapının konumu ve şekli", "İlk yatırım ve işletme maliyeti", "Bakım ve işletme kolaylığı", "Yenilenebilir kaynak kullanımı"], a: 0,
+    e: "Seçim kriterleri: <b>yapının konumu ve şekli; yapının kullanım amacı; ilk yatırım maliyeti; işletme maliyeti; kurulacak toplam kapasite; konfor kriterleri; özel ihtiyaçlar; kesintisiz çalışma; bakım ve işletme kolaylığı; yer ihtiyacı; çevresel etki; yenilenebilir kaynak kullanımı</b>.",
+    n: "İlk yatırım ile işletme maliyeti çoğu zaman ters yönde hareket eder. Doğru karar, sistemin ömrü boyunca toplam maliyetin (yaşam döngüsü maliyeti) karşılaştırılmasıyla verilir." },
+  { t: 1, s: 12, q: "Sunumdaki tasarım yük hesabı şemasına göre pencerelerden gelen ısı kazancı hangi yollarla olur?",
+    o: ["Işınım ve iletim", "Yalnızca taşınım", "Yalnızca iletim", "Yalnızca insanlardan", "Yalnızca aydınlatmadan"], a: 0,
+    e: "Şemada: çatı ve duvarlar <b>iletim</b>; pencereler <b>ışınım ve iletim</b>; enfiltrasyon <b>taşınım</b>; komşu mekânlar veya toprak <b>iletim</b>; iç kazançlar: insanlar, aydınlatma, elektrikli ev aletleri, pişiriciler.",
+    n: "Yaz soğutma yükünde pencerelerden giren güneş ışınımı çoğu zaman en büyük dış yüktür. Dış gölgeleme ve düşük güneş kazanç katsayılı camlar, soğutma kapasitesini ve tüketimini birlikte düşürür." },
+  { t: 1, s: 12, q: "Sunumdaki tasarım yük hesabında enfiltrasyonla gelen ısı hangi mekanizmayla gerçekleşir?",
+    o: ["Taşınım", "İletim", "Işınım", "Yoğuşma", "Kimyasal reaksiyon"], a: 0,
+    e: "Şemada <b>enfiltrasyon (taşınım)</b> olarak gösterilir: dış hava kapı, pencere ve doğrama aralıklarından içeri sızar ve ısısını (ve nemini) taşır.",
+    n: "Enfiltrasyon hem duyulur hem gizli yük getirir. Bina basıncının taze hava ile hafif pozitif tutulması (sunumdaki ofislerde (+) basınç) kontrolsüz sızmayı azaltır." },
+  { t: 1, s: 13, q: "Sunumdaki örnek tasarım verilerine göre yaz dış hava tasarım şartı hangisidir?",
+    o: ["34 °C KT ve 21 °C YT (38 °C KT ve 21 °C YT kabul edilmelidir)", "24 °C KT ve %50 bağıl nem", "−12 °C KT", "20 °C KT", "45 °C KT ve 30 °C YT"], a: 0,
+    e: "Örnek veriler: <b>yaz 34 °C KT ve 21 °C YT (38 °C KT ve 21 °C YT kabul edilmelidir)</b>; <b>kış −12 °C KT</b>; günlük sıcaklık farkı 10,5 °C KT; rüzgâr durumu: rüzgârlı bölge; iklim bölgesi: 3. bölge.",
+    n: "24 °C ve %50 bağıl nem ise ofisler için iç hava (yaz) tasarım şartıdır. Dış ve iç tasarım şartları arasındaki fark, sistemin kapasitesini belirler." },
+  { t: 1, s: 13, q: "Sunumdaki örnek tasarım verilerine göre ofis ve toplantı odaları için iç hava tasarım şartları nedir?",
+    o: ["Yaz 24 °C ve %50 bağıl nem; kış 20 °C", "Yaz 18 °C; kış 26 °C", "Yaz 26 °C ve %50; kış 18 °C", "Yaz 30 °C; kış 15 °C", "Yaz 22 °C ve %80; kış 24 °C"], a: 0,
+    e: "İç tasarım değerleri: <b>ofis, toplantı ve etkinlik odaları yaz 24 °C ve %50, kış 20 °C</b>; yemekhane ve genel sirkülasyon alanları yaz 26 °C ve %50, kış 20 °C; koridor, WC, depo kış 18 °C; teknik merkez 20 °C.",
+    n: "Sunum: “Tasarım sıcaklığı kurulacak sistemin boyutunu belirlerken, kullanım sıcaklığı işletme maliyetlerini etkileyecektir.” Yazın termostatı tasarım değerinin altına (ör. 21 °C'ye) ayarlamak tüketimi her derece için kabaca %3–6 artırır." },
+  { t: 1, s: 13, q: "Sunumdaki ASHRAE tabanlı iç ısıl yük değerlerine göre bir insandan gelen ısıl yük ne kadar alınır?",
+    o: ["73 W duyulur (sensible) + 65 W gizli (latent)", "20 W/m²", "150 W duyulur + 150 W gizli", "10,8 W duyulur", "2.000 W"], a: 0,
+    e: "Sunum: <b>insanlardan gelen ısıl yük 73 W (sensible) ve 65 W (latent)</b> (genel). Aydınlatma: ofis 20 W/m², toplantı 20 W/m², konferans 30 W/m², yemekhane 20 W/m². Elektrik ekipmanları: ofis 10,8 W/m² veya 150 W/masa-personel; konferans 2.000 W (projektör vb.).",
+    n: "Gizli yük insanların solunum ve terlemeyle verdiği nemdir; sıcaklığı değil nemi artırır ve soğutma bataryasında yoğuşturularak alınır. Kalabalık mekânlarda (konferans, yemekhane) gizli yük payı belirgin şekilde artar." },
+  { t: 1, s: 13, q: "100 m²'lik bir ofiste 10 kişi çalışmaktadır. Sunumdaki ofis değerlerine (aydınlatma 20 W/m², ekipman 10,8 W/m², kişi başı 73 W duyulur + 65 W gizli) göre toplam iç ısıl yük ne kadardır?",
+    o: ["4.460 W", "3.810 W", "3.080 W", "1.380 W", "5.840 W"], a: 0,
+    e: "Aydınlatma: 100 × 20 = 2.000 W. Ekipman: 100 × 10,8 = 1.080 W. İnsan: 10 × (73 + 65) = 1.380 W. Toplam: 2.000 + 1.080 + 1.380 = <b>4.460 W</b>.",
+    n: "Duyulur kısım 2.000 + 1.080 + 730 = 3.810 W, gizli kısım 650 W'tır. Verimli aydınlatma (ör. LED ile 20 → 8 W/m²) iç yükü 1.200 W azaltır; yani aydınlatma tasarrufu yazın soğutma tasarrufunu da beraberinde getirir." },
+  { t: 1, s: 13, q: "Sunumdaki taze hava değerleri (ANSI/ASHRAE 62.1-2016) ofisler için hangi formülle verilmiştir?",
+    o: ["2,5 L/s × kişi + 0,3 L/s·m² × alan", "3,8 L/s × kişi + 0,9 L/s·m² × alan", "23,6 L/s × klozet", "1 hava değişimi/saat", "10 L/s × kişi"], a: 0,
+    e: "Taze hava gereksinimleri: <b>ofisler ve toplantı/konferans salonu 2,5 L/s × kişi + 0,3 L/s·m² × alan</b> (+ basınç); dükkânlar 3,8 L/s × kişi + 0,9 L/s·m² × alan (+); WC 23,6 L/s·klozet (−); mekanik oda 1 ach (−).",
+    n: "WC ve mekanik odanın negatif basınçta tutulması kokunun ve kirli havanın diğer alanlara yayılmasını önler. Ofislerin pozitif basınçta tutulması ise dış havanın kontrolsüz sızmasını (enfiltrasyonu) azaltır." },
+  { t: 1, s: 13, q: "150 m²'lik bir ofiste 20 kişi çalışmaktadır. Sunumdaki ofis taze hava formülüne göre gereken taze hava debisi ne kadardır?",
+    o: ["95 L/s (≈ 342 m³/h)", "50 L/s (≈ 180 m³/h)", "45 L/s (≈ 162 m³/h)", "211 L/s (≈ 760 m³/h)", "9,5 L/s (≈ 34 m³/h)"], a: 0,
+    e: "Taze hava = 2,5 × 20 + 0,3 × 150 = 50 + 45 = <b>95 L/s</b>. 95 × 3,6 ≈ <b>342 m³/h</b>.",
+    n: "L/s'yi m³/h'e çevirmek için 3,6 ile çarpılır (1 L/s = 3,6 m³/h). Taze havanın ısıtılması ve soğutulması toplam yükün önemli kısmıdır; ısı geri kazanımı bu yükü azaltmak için kullanılır." },
+  { t: 1, s: 13, q: "Bir binada 6 klozetli bir WC bulunmaktadır. Sunumdaki değere göre bu WC'den çekilmesi gereken hava debisi ve basınç durumu nedir?",
+    o: ["141,6 L/s; negatif (−) basınç", "141,6 L/s; pozitif (+) basınç", "23,6 L/s; negatif basınç", "15 L/s; nötr basınç", "6 ach; pozitif basınç"], a: 0,
+    e: "WC: 23,6 L/s · klozet → 6 × 23,6 = <b>141,6 L/s</b>, <b>(−) basınç</b>.",
+    n: "Negatif basınç, egzoz debisinin taze hava debisinden fazla tutulmasıyla sağlanır; WC'ye hava koridordan kapı altındaki menfezden gelir. Böylece koku binaya yayılmaz." },
+  { t: 1, s: 15, q: "Sunuma göre tasarım yükü ile kullanım yükü neden farklı olabilir?",
+    o: ["Maksimum güneşlenmeye veya maksimum insan sayısına göre yapılan hesap; ileride gölgeleyen binalar veya azalan doluluk nedeniyle gereğinden fazla kalır", "Tasarım yükü her zaman kullanım yükünden küçüktür", "Kullanım yükü her zaman tasarım yükünün iki katıdır", "Tasarım yükü yalnızca kışın geçerlidir", "Fark yoktur"], a: 0,
+    e: "Sunum: “Maksimum güneşlenmeye göre yaptığınız hesap, ileride yapılacak diğer gölgeleyici binalarla artık gereğinden fazla kaçacaktır.” “Maksimum insan sayısına göre yaptığınız hesap, insan yoğunluğu azaldıkça ihtiyaçtan fazla kalacaktır.”",
+    n: "Bu yüzden sistem, tasarım yükünde değil, zamanın çoğunda karşılaşacağı kısmi yükte verimli çalışacak şekilde seçilmelidir. SEER ve VRF/VAV gibi değişken kapasiteli çözümler bu nedenle önemlidir." },
+
+  // Sistem tipleri ve karşılaştırmalar
+  { t: 2, s: 19, q: "Sunuma göre DX (soğutucu akışkanlı) sistemlere örnek hangileridir?",
+    o: ["Paket tip, split ve VRF klima cihazları", "Fan-coil ve kazan", "Klima santrali ve chiller", "Radyatör ve yerden ısıtma", "Soğutma kulesi ve pompa"], a: 0,
+    e: "Sunum: DX (soğutucu akışkanlı) sistemler — <b>paket tip klima cihazları, split klima cihazları, VRF klima cihazları</b>.",
+    n: "DX sistemlerde enerji, ara bir su devresi olmadan doğrudan soğutucu akışkanla iç üniteye taşınır. Bu, taşıma kayıplarını ve pompa enerjisini ortadan kaldırır, ama soğutucu akışkan hacmi ve kaçak riski artar." },
+  { t: 2, s: 30, q: "Sunuma göre tam havalı sistemler nasıl çalışır?",
+    o: ["Klima santralinde veya çatı tipi cihazda şartlandırılan hava, fanla basınçlandırılıp kanallarla ilgili bölgelere gönderilir", "Soğuk su borularla odalardaki fan-coillere gönderilir", "Soğutucu akışkan doğrudan iç ünitelere gönderilir", "Odalarda yalnızca radyatör kullanılır", "Isı yalnızca döşemeden verilir"], a: 0,
+    e: "Sunum: tam havalı sistemler, “soğutulan ya da ısıtılan havanın <b>klima santralında ya da çatı tipi klima sisteminde</b> bir <b>fan</b> vasıtasıyla basınçlandırılarak <b>hava kanalları</b> içerisinden soğutma (ya da ısıtma) yapmak üzere ilgili bölgelere gönderildiği sistemlerdir.”",
+    n: "Hava, ısı taşıma kapasitesi en düşük akışkandır; aynı enerji için çok büyük hacimler hareket ettirilmesi gerekir. Bu yüzden tam havalı sistemlerde fan enerjisi ve kanal yerleşimi belirleyicidir." },
+  { t: 2, s: 31, q: "Sunuma göre klima santralleri hangi havayla çalışabilir?",
+    o: ["Tamamen ortam havasıyla, ortam havasını taze dış havayla karıştırarak veya %100 taze dış havayla", "Yalnızca %100 ortam havasıyla", "Yalnızca %100 taze havayla", "Yalnızca su ile", "Yalnızca soğutucu akışkanla"], a: 0,
+    e: "Sunum: klima santralleri “tamamen <b>ortam havası</b> şartlandırabilecekleri gibi bu havayı <b>taze dış havayla karıştırabilir</b> hatta <b>%100 taze dış hava</b> ile çalışabilirler.”",
+    n: "%100 taze havalı santraller (hastane ameliyathaneleri, laboratuvarlar) en yüksek enerji tüketenlerdir; çünkü atılan havanın tüm enerjisi kaybolur. Isı geri kazanımı en çok bu santrallerde önem taşır." },
+  { t: 2, s: 20, q: "Sunumdaki “Niçin klima santrali, niçin fan-coil?” karşılaştırmasına göre fan-coil sistemler için hangisi doğrudur?",
+    o: ["Küçük hacimlerde kolay uygulama, bireysel kontrol, enerji taşıma maliyeti ucuz; havalandırma kabiliyeti sınırlı, ısı geri kazanım ilavesi zor ve pahalı", "Büyük hacimlerde kolay uygulama, merkezi ve hassas kontrol", "Havalandırma kabiliyeti sınırsız, ısı geri kazanım ilavesi kolay ve ucuz", "Enerji taşıma maliyeti pahalı, çok yer işgal eder", "Herhangi bir arızada mağduriyet yüksektir"], a: 0,
+    e: "Fan-coil: <b>küçük hacimlerde kolay uygulama; bireysel, basit ve ucuz kontrol; enerji taşıma maliyeti ucuz; az yer işgal eder; ilk yatırım ve işletme ucuz</b>; bakım maliyeti benzer veya pahalı; arızada mağduriyet kısmen az; bakımı kısmen kolay; <b>havalandırma kabiliyeti sınırlı; ısı geri kazanım ilavesi zor ve pahalı</b>.",
+    n: "Klima santrali bunun tersidir: büyük hacimlerde kolay, merkezi ve hassas kontrol, havalandırma kabiliyeti sınırsız, ısı geri kazanım ilavesi kolay; ama enerji taşıma, ilk yatırım ve işletme pahalı, çok yer kaplar, arızada mağduriyet yüksektir." },
+  { t: 2, s: 20, q: "Sunumdaki karşılaştırmaya göre klima santrallerinde herhangi bir arızadaki mağduriyet ve havalandırma kabiliyeti nasıldır?",
+    o: ["Arızada mağduriyet yüksek; havalandırma kabiliyeti sınırsız", "Arızada mağduriyet az; havalandırma kabiliyeti sınırlı", "Arızada mağduriyet yok; havalandırma yapamaz", "Arızada mağduriyet kısmen az; havalandırma sınırlı", "Her ikisi de fan-coil ile aynıdır"], a: 0,
+    e: "Klima santrali: <b>herhangi bir arızada mağduriyet yüksek</b> (tek santral birçok mekânı besler), <b>havalandırma kabiliyeti sınırsız</b>, ısı geri kazanım ilavesi kolay ve ucuz.",
+    n: "Merkezi sistemlerde kritik alanlar için yedekli fan (ör. N+1) veya iki ayrı santral tercih edilir. Fan-coil sistemlerde bir ünitenin arızası yalnızca bir odayı etkiler." },
+  { t: 2, s: 21, q: "Sunumdaki “Sulu sistem, DX sistem?” karşılaştırmasına göre sulu sistem için hangisi doğrudur?",
+    o: ["Enerji taşıma pahalı, merkezi sisteme bağımlı; işletme sesi az, termal konfor yüksek, hijyen iyi", "Enerji taşıma ucuz, merkezi sistemden bağımsız", "Bakım uzmanlığı yüksek, bakımı kolay", "Hijyen benzer veya kötü, estetik uyum kötü", "İşletme sesi yüksek, termal konfor düşük"], a: 0,
+    e: "Sulu sistem: <b>enerji taşıma pahalı; merkezi sisteme bağımlı; işletme sesi az; termal konfor yüksek</b>; dış taraf görüntü kirliliği az; bakım uzmanlığı az; bakımı zor; <b>hijyen iyi</b>; estetik ve mimari uyum iyi. DX sistem: enerji taşıma ucuz; merkezi sistemden bağımsız; bakım uzmanlığı yüksek; bakımı kolay; ses, konfor, hijyen ve estetik benzer veya daha kötü.",
+    n: "“Enerji taşıma pahalı” ifadesi, sulu sistemde suyu dolaştıran pompaların ek elektrik tüketmesini ve ara eşanjörlerdeki sıcaklık kayıplarını anlatır. Pompaların doğru seçimi ve değişken debili çalışması bu dezavantajı azaltır." },
+  { t: 2, s: 25, q: "Sunumdaki 30 kW'lık enerji taşıma karşılaştırmasında hangi akışkan hangi boru/kanal ile gösterilmiştir?",
+    o: ["Soğutucu akışkan Ø28/Ø12 mm bakır boru; su Ø50 mm galvaniz boru; hava çift kanal", "Soğutucu akışkan çift kanal; su bakır boru; hava galvaniz boru", "Hepsi Ø50 mm galvaniz boru", "Su Ø12 mm bakır boru; hava Ø28 mm boru", "Hava Ø50 mm boru; su çift kanal"], a: 0,
+    e: "Şemada aynı <b>30 kW</b> enerjiyi taşımak için: <b>soğutucu akışkan Ø28 mm ve Ø12 mm bakır boru</b>, <b>su Ø50 mm galvaniz boru</b>, <b>hava çift kanal</b> gerekir.",
+    n: "Soğutucu akışkan gizli ısıyla (buharlaşma) taşıdığı için birim hacimde en çok enerjiyi taşır; su yüksek özgül ısısıyla ikincidir; hava ise en az taşır. Bu fark, işgal alanı ve taşıma enerjisindeki büyük farkın kaynağıdır." },
+  { t: 2, s: 25, q: "Sunumdaki enerji taşıma akışkanları karşılaştırma tablosuna göre <b>hava</b> için hangisi doğrudur?",
+    o: ["İlk yatırım pahalı, enerji taşıma pahalı, işgal alanı büyük; ısıl konfor ve iç hava kalitesi iyi; işletme-bakım zor", "İlk yatırım çok ucuz, işgal alanı çok küçük; ısıl konfor kötü", "İlk yatırım ucuz, iç hava kalitesi kötü, bakım kolay", "Her açıdan en iyisidir", "İç hava kalitesi kötü, enerji taşıma çok ucuz"], a: 0,
+    e: "Tablo: <b>hava</b> — ilk yatırım pahalı, enerji taşıma pahalı, işgal alanı büyük, ısıl konfor iyi, iç hava kalitesi iyi, işletme-bakım zor. <b>Su</b> — ucuz, ucuz, küçük, iyi, kötü, kolay. <b>Soğutucu</b> — çok ucuz, çok ucuz, çok küçük, kötü, kötü, çok kolay.",
+    n: "Yalnızca hava, taze havayı da taşıyabildiği için iç hava kalitesinde “iyi” notu alır. Su veya soğutucu akışkanlı sistemlerde iç hava kalitesi için ayrıca bir taze hava santrali gerekir." },
+  { t: 2, s: 25, q: "Sunumdaki karşılaştırma tablosuna göre ısıl konforu “kötü” olarak değerlendirilen enerji taşıma akışkanı hangisidir?",
+    o: ["Soğutucu akışkan", "Hava", "Su", "Hava ve su", "Hiçbiri"], a: 0,
+    e: "Tabloda ısıl konfor: hava <b>iyi</b>, su <b>iyi</b>, <b>soğutucu kötü</b>. İç hava kalitesi: hava iyi, su kötü, soğutucu kötü.",
+    n: "DX iç ünitelerde batarya yüzeyi çok soğuktur; üflenen hava düşük sıcaklıkta ve yüksek hızda çıkar, cereyan hissi yaratır. Su sistemlerinde batarya sıcaklığı daha ılımlıdır ve hassas oransal kontrol yapılabilir." },
+  { t: 2, s: 46, q: "Sunuma göre sabit debili (sabit hızlı fanlı) klima santrali sistemlerinin temel kısıtı nedir?",
+    o: ["Santralden çıkan hava sıcaklığı tüm odalara aynı gider; odaların bağımsız sıcaklık kontrolü imkânsızdır", "Odalara farklı sıcaklıkta hava verilebilir", "Fan hızı her odaya göre ayarlanır", "Taze hava verilemez", "Yalnızca ısıtma yapılabilir"], a: 0,
+    e: "Sunum: “Klima santralından çıkan hava sıcaklığı ne ise, <b>oda üfleme sıcaklıkları eşit ve odur</b>. <b>Odaların bağımsız sıcaklık kontrolü yapmak imkânsızdır.</b>”",
+    n: "Güneş alan bir oda ile kuzeydeki oda aynı havayı alınca biri fazla soğurken diğeri ısınır; kullanıcılar pencere açar veya ek ısıtıcı kullanır. Bu da hem konforu hem verimi düşürür." },
+  { t: 2, s: 47, q: "Sunuma göre VAV (Variable Air Volume – değişken hava debisi) uygulamasında oda kontrolü nasıl yapılır?",
+    o: ["Her odaya verilen hava debisi VAV kutularınca odanın soğutma ihtiyacına göre ayarlanır; santral fanı (değişken hızlı) toplam ihtiyaca göre debiyi artırır veya azaltır", "Her odaya aynı debi ve sıcaklıkta hava verilir", "Odalarda yalnızca fan-coil kullanılır", "Santral sürekli tam debide çalışır, fazla hava dışarı atılır", "Odaların sıcaklığı yalnızca pencereyle ayarlanır"], a: 0,
+    e: "Sunum: “Oda soğutma ihtiyacına göre odaya verilen hava debisi <b>VAV kutularınca</b> ayarlanır, toplam ihtiyaca göre de klima santralı hava debisi artar ya da azalır.” Şemada santral <b>değişken hızlı fanlara</b> sahiptir.",
+    n: "Fan gücü, fan yasalarına göre debinin yaklaşık küpüyle değişir: debi %50'ye inince güç teorik olarak %12,5'e düşer. VAV sistemlerin asıl tasarrufu, kısmi yükte fan enerjisinin bu şekilde azalmasından gelir." },
+  { t: 2, s: 49, q: "Sunuma göre sulu sistemlerin avantajı ve dezavantajı nedir?",
+    o: ["Su boruları kanallara göre daha basit ve düşük maliyetlidir; dezavantajı su kaçaklarında bina konstrüksiyonuna zarar verebilmesidir", "Su boruları kanallardan pahalıdır; dezavantajı hiç yoktur", "Su kaçakları zararsızdır; dezavantajı yüksek gürültüdür", "Pompa gerektirmez; dezavantajı kanal ihtiyacıdır", "Yalnızca ısıtma yapabilir"], a: 0,
+    e: "Sunum: soğutulan/ısıtılan su chiller/kazandan pompa ile basınçlandırılarak borularla mekânlara gönderilir. “Su borularının uygulanması <b>kanallara göre daha basit ve daha düşük maliyetlidir</b>. Dezavantajı ise <b>su kaçaklarında bina konstrüksiyonuna zarar verilebilmesidir</b>. Enerji tasarrufu için <b>boru izolasyonlarının iyi yapılması, pompaların doğru seçilmesi</b> gereklidir.”",
+    n: "Soğuk su borularında yalıtım ayrıca yoğuşmayı (terlemeyi) önlemek için de zorunludur; buhar kesici katmanı olmayan yalıtım ıslanıp işlevini kaybeder." },
+  { t: 2, s: 50, q: "Sunuma göre fan-coil cihazlarının özellikleri hangileridir?",
+    o: ["Geniş kapasite aralığı, ilk yatırımı düşük, işletmesi kolay; merkezi sistemin markasından bağımsız olarak farklı marka/model fan-coil ile değiştirilebilir", "Yalnızca tek bir kapasitede üretilir", "Yalnızca merkezi sistemle aynı marka olmak zorundadır", "İlk yatırımı çok yüksektir", "Asma tavana hiç yer gerektirmez"], a: 0,
+    e: "Sunum: fan-coil cihazları ısıtma ve soğutma kapasiteleri <b>geniş bir aralıkta</b> bulunabilen, ofis vb. yapılarda <b>ilk yatırımı düşük, işletmesi kolay</b> sistemlerdir. <b>Merkezi sistemin ne marka olduğu fark etmeksizin</b>, önceden kullanılmış fan-coil'in yerine farklı bir marka/model konulabilir. Kışın kazandan, yazın soğutma grubundan beslenir; cihaz ve borulama nedeniyle <b>asma tavan derinliği ihtiyacı fazladır</b>.",
+    n: "Fan-coil tipleri: gizli tavan, döşeme, kaset, tavan ve gizli döşeme tipi. EC motorlu fan-coiller, eski AC motorlulara göre fan enerjisini yarıdan fazla azaltabilir." },
+  { t: 2, s: 52, q: "Sunuma göre fan-coil sistemi seçilen bir binada neden mutlaka 4 borulu sistem yapılmalıdır?",
+    o: ["Geçiş dönemlerinde (bahar ayları) binanın bir cephesinde ısıtma, diğerinde soğutma ihtiyacı doğar; 4 borulu sistem aynı anda ısıtma ve soğutma yapabilir", "4 borulu sistem daha az boru gerektirir", "2 borulu sistem yalnızca ısıtma yapabilir", "4 borulu sistemde pompaya gerek yoktur", "2 borulu sistem yalnızca soğutma yapabilir"], a: 0,
+    e: "Sunum: binanın bir cephesinde ısıtma, bir cephesinde soğutma ihtiyacı doğacağından fan-coil tercih edilmesi durumunda <b>mutlaka aynı anda ısıtma veya soğutma yapabilen 4 borulu sistem</b> yapılmalıdır. <b>Aynı anda sadece ısıtma ya da sadece soğutma yapan 2 borulu sistem kurulmamalıdır.</b>",
+    n: "2 borulu sistemde tüm bina ya ısıtma ya soğutma modundadır. Geçiş mevsiminde güneş alan cephe soğutma isterken sistem ısıtmadaysa kullanıcılar pencere açar; bu hem konforu hem enerjiyi boşa harcar." },
+
+  // COP, SEER, chiller, VRF
+  { t: 3, s: 23, q: "Sunumdaki iklimlendirme ve soğutma cihazlarında enerji verimliliği başlıkları hangileridir?",
+    o: ["Sistem verimliliği, cihaz verimliliği, kurulum verimliliği, işletme ve bakım ile sağlanan enerji verimliliği", "Yalnızca cihaz verimliliği", "Yalnızca kompresör verimliliği", "Yalnızca boru yalıtımı", "Yalnızca elektrik tarifesi"], a: 0,
+    e: "Başlıklar: <b>sistem verimliliği</b> (iklimlendirme ve soğutma sistemi verimliliği), <b>cihaz verimliliği</b> (klima ve soğutma cihazları verimliliği), <b>kurulum verimliliği</b>, <b>işletme ve bakım ile sağlanan enerji verimliliği</b>.",
+    n: "En verimli cihaz bile yanlış sistem tasarımı, kötü montaj veya bakımsızlıkla verimsiz çalışır. Bu dört başlık, sunumdaki %20 tasarım, %40 uygulama, %40 operatör hata dağılımıyla birlikte düşünülmelidir." },
+  { t: 3, s: 26, q: "Sunumdaki soğutma cihazı verimliliği diyagramına göre COP nasıl tanımlanır?",
+    o: ["COP = P<sub>C</sub> / P<sub>E</sub> (soğutma kapasitesi / elektrik gücü, kW/kW)", "COP = P<sub>E</sub> / P<sub>C</sub>", "COP = P<sub>H</sub> × P<sub>E</sub>", "COP = P<sub>C</sub> − P<sub>E</sub>", "COP = P<sub>H</sub> / P<sub>C</sub>"], a: 0,
+    e: "Sunum: <b>COP = P<sub>C</sub> / P<sub>E</sub> = kW/kW</b>. Diyagramda P<sub>C</sub> evaporatörde çekilen soğutma gücü, P<sub>E</sub> kompresöre verilen elektrik gücü, P<sub>H</sub> kondenserde atılan ısıdır.",
+    n: "Enerji dengesine göre P<sub>H</sub> = P<sub>C</sub> + P<sub>E</sub>. Isı pompası modunda ısıtma COP'si P<sub>H</sub>/P<sub>E</sub> olur ve soğutma COP'sinden 1 fazladır." },
+  { t: 3, s: 26, q: "Bir su soğutma grubunun soğutma kapasitesi 350 kW, kompresörlerin çektiği elektrik gücü 100 kW'tır. COP değeri nedir ve kondenserde atılan ısı ne kadardır?",
+    o: ["COP 3,5; atılan ısı 450 kW", "COP 0,29; atılan ısı 250 kW", "COP 3,5; atılan ısı 250 kW", "COP 4,5; atılan ısı 350 kW", "COP 2,5; atılan ısı 450 kW"], a: 0,
+    e: "COP = P<sub>C</sub> / P<sub>E</sub> = 350 / 100 = <b>3,5</b>. Atılan ısı P<sub>H</sub> = P<sub>C</sub> + P<sub>E</sub> = 350 + 100 = <b>450 kW</b>.",
+    n: "Kondenserden atılan 450 kW, soğutma kulesi veya hava soğutmalı kondenser fanlarının kapasitesini belirler. Bu ısı, ısı geri kazanımlı chillerlerde kullanım suyu ısıtmada değerlendirilebilir." },
+  { t: 3, s: 26, q: "Sunumdaki soğutma çevrimi şemasında buharlaşma ve yoğuşma sıcaklıkları hangisidir?",
+    o: ["Buharlaşma 5 °C, yoğuşma 50 °C", "Buharlaşma 50 °C, yoğuşma 5 °C", "Buharlaşma −40 °C, yoğuşma 100 °C", "Buharlaşma 10 °C, yoğuşma 95 °C", "Buharlaşma 45 °C, yoğuşma 10 °C"], a: 0,
+    e: "Şemada: <b>buharlaşma sıcaklığı 5 °C</b> (evaporatörde iki fazlı), kompresör girişi 10 °C aşırı kızgın; <b>yoğuşma sıcaklığı 50 °C</b>, kompresör çıkışı 95 °C aşırı kızgın; kondenser çıkışı 45 °C aşırı soğuk sıvı.",
+    n: "Buharlaşma ile yoğuşma sıcaklığı arasındaki fark (kaldırma) ne kadar küçükse COP o kadar yüksektir. Kirli kondenser yoğuşma sıcaklığını, kirli veya buzlanmış evaporatör buharlaşma sıcaklığını kötüleştirir." },
+  { t: 3, s: 27, q: "Sunumdaki SEER formülü hangisidir?",
+    o: ["SEER = 0,03 EER<sub>%100</sub> + 0,33 EER<sub>%75</sub> + 0,41 EER<sub>%50</sub> + 0,23 EER<sub>%25</sub>", "SEER = 0,41 EER<sub>%100</sub> + 0,33 EER<sub>%75</sub> + 0,23 EER<sub>%50</sub> + 0,03 EER<sub>%25</sub>", "SEER = 0,25 × (EER<sub>%100</sub> + EER<sub>%75</sub> + EER<sub>%50</sub> + EER<sub>%25</sub>)", "SEER = EER<sub>%100</sub>", "SEER = 0,5 EER<sub>%100</sub> + 0,5 EER<sub>%50</sub>"], a: 0,
+    e: "Mevsimsel enerji verim oranı: <b>SEER = 0,03 EER<sub>%100</sub> + 0,33 EER<sub>%75</sub> + 0,41 EER<sub>%50</sub> + 0,23 EER<sub>%25</sub></b>; EER = Q<sub>s</sub> / P<sub>e</sub>.",
+    n: "Ağırlıkların toplamı 1'dir (0,03 + 0,33 + 0,41 + 0,23). Tam yükteki verimin ağırlığı yalnızca %3'tür; yani mevsimsel verimi büyük ölçüde kısmi yük performansı belirler." },
+  { t: 3, s: 27, q: "Sunumdaki SEER formülünde en büyük ağırlık hangi kapasite kullanımına verilmiştir?",
+    o: ["%50 kapasite (0,41)", "%100 kapasite (0,03)", "%75 kapasite (0,33)", "%25 kapasite (0,23)", "Hepsine eşit ağırlık verilmiştir"], a: 0,
+    e: "Ağırlıklar: %100 → 0,03; %75 → 0,33; <b>%50 → 0,41</b>; %25 → 0,23.",
+    n: "Sunum: “Binalar ömürlerinin sadece %1'inde tasarım kapasitesinde soğutma ihtiyacı gösterirler.” Bu yüzden cihaz seçiminde etiket üzerindeki nominal EER değil, kısmi yük ağırlıklı SEER karşılaştırılmalıdır." },
+  { t: 3, s: 27, q: "Sunumdaki SEER test koşullarına göre %50 kapasite kullanımında dış ortam kuru termometre sıcaklığı kaç °C'dir?",
+    o: ["25 °C", "35 °C", "30 °C", "20 °C", "19 °C"], a: 0,
+    e: "Test koşulları (dış kuru termometre): <b>%100 → 35 °C</b>, <b>%75 → 30 °C</b>, <b>%50 → 25 °C</b>, <b>%25 → 20 °C</b>; dış yaş termometre her koşulda <b>19 °C</b>.",
+    n: "Dış sıcaklık düştükçe kondenser daha soğuk havayla çalışır ve EER yükselir. Kısmi yükte kapasitesini düşürebilen (inverter) cihazlar, bu avantajı en iyi değerlendirenlerdir." },
+  { t: 3, s: 27, q: "Bir split klimanın ölçülen EER değerleri: %100 yükte 3,0; %75 yükte 3,8; %50 yükte 4,5; %25 yükte 4,2'dir. Sunumdaki formüle göre SEER değeri yaklaşık kaçtır?",
+    o: ["≈ 4,16", "≈ 3,88", "≈ 3,00", "≈ 4,50", "≈ 15,50"], a: 0,
+    e: "SEER = 0,03 × 3,0 + 0,33 × 3,8 + 0,41 × 4,5 + 0,23 × 4,2 = 0,09 + 1,254 + 1,845 + 0,966 = <b>≈ 4,16</b>.",
+    n: "Basit ortalama alınsaydı (3,0 + 3,8 + 4,5 + 4,2) / 4 = 3,88 bulunurdu; bu yanlıştır. Cihazın kısmi yükte daha verimli olması, nominal EER'i 3,0 olmasına rağmen mevsimsel verimini 4'ün üzerine çıkarır." },
+  { t: 3, s: 27, q: "Sunuma göre binalar ömürlerinin yüzde kaçında tasarım kapasitesinde soğutma ihtiyacı gösterir ve bunun sistem seçimine etkisi nedir?",
+    o: ["Yalnızca %1'inde; sistem değişken yüklere hızlı ve doğru tepki vermeli, kısmi yük verimi yüksek olmalıdır", "%50'sinde; sistem yalnızca tam yük verimine göre seçilmelidir", "%100'ünde; kısmi yük önemsizdir", "%25'inde; sistem iki kat büyük seçilmelidir", "Hiçbir zaman; soğutma gerekmez"], a: 0,
+    e: "Sunum: “Binalar ömürlerinin <b>sadece %1'inde</b> tasarım kapasitesinde soğutma ihtiyacı gösterirler, geri kalan tüm çalışma süresinde tasarım kapasitesinin altında soğutma ihtiyacı vardır. Dolayısıyla seçilecek sistem <b>değişken yüklere hızlı ve doğru tepki verebilmeli, parsiyel yüklerdeki verimi de yüksek olmalıdır</b>.”",
+    n: "Aşırı büyük seçilmiş sabit kapasiteli bir cihaz kısmi yükte sık dur-kalk yapar; her kalkışta verim düşer, nem alma yetersiz kalır. Kademeli veya inverterli kompresörler bu sorunu çözer." },
+  { t: 3, s: 56, q: "Sunuma göre su soğutma grupları (chiller) klima santrali ve fan-coiller için yaklaşık kaç °C soğuk su üretir?",
+    o: ["≈ 7 °C", "≈ 0 °C", "≈ 20 °C", "≈ 45 °C", "≈ −10 °C"], a: 0,
+    e: "Sunum: su soğutma grupları, klima santrali ve fan-coil üniteleri için gerekli <b>soğuk suyu (yaklaşık 7 °C)</b> üreten cihazlardır. <b>Heat pump</b> modelleri kısıtlı şartlarda sıcak su üretimi için de kullanılabilir.",
+    n: "Klasik rejim 7/12 °C'dir (gidiş/dönüş). Soğuk su sıcaklığını 1 °C yükseltmek chiller COP'sini yaklaşık %2–3 artırır; nem alma gereksinimi izin veriyorsa daha yüksek su sıcaklığı tercih edilmelidir." },
+  { t: 3, s: 57, q: "Sunumdaki su soğutma grubu sınıflandırmasına göre kondenser tipine göre kapasite aralıkları hangisidir?",
+    o: ["Su soğutmalı 15–1650 kW; hava soğutmalı 5–2000 kW; ayrık kondenserli 100–600 kW", "Su soğutmalı 5–2000 kW; hava soğutmalı 15–1650 kW; ayrık kondenserli 300–20.000 kW", "Hepsi 5–250 kW", "Su soğutmalı 180–2000 kW; hava soğutmalı 50–400 kW", "Su soğutmalı 250–12.000 kW; hava soğutmalı 5–650 kW"], a: 0,
+    e: "Kondenser tipine göre: <b>su soğutmalı 15–1650 kW</b>, <b>hava soğutmalı 5–2000 kW</b>, <b>ayrık kondenserli 100–600 kW</b>. Eşanjör tipine göre: plakalı, shell-tube. Görevine göre: sadece soğutma, ısıtma-soğutma.",
+    n: "Su soğutmalı chiller soğutma kulesi sayesinde daha düşük yoğuşma sıcaklığında çalışır ve COP'si genellikle hava soğutmalılardan yüksektir; buna karşılık kule suyu, kimyasal şartlandırma ve pompa enerjisi gerektirir." },
+  { t: 3, s: 57, q: "Sunumdaki sınıflandırmaya göre en geniş kapasite aralığına sahip kompresör tipi hangisidir?",
+    o: ["Santrifüj (300–20.000 kW)", "Vidalı (180–2000 kW)", "Scroll (5–650 kW)", "Rotary (5–250 kW)", "Pistonlu (50–400 kW)"], a: 0,
+    e: "Kompresör tipine göre: <b>vidalı 180–2000 kW</b>; <b>scroll 5–650 kW</b>; <b>rotary 5–250 kW</b>; <b>pistonlu 50–400 kW</b>; <b>santrifüj 300–20.000 kW</b>; <b>manyetik yataklı santrifüj 300–1900 kW</b>. Çalışma yapısına göre: likit enjeksiyonlu, absorpsiyonlu (250–12.000 kW), adsorpsiyonlu.",
+    n: "Manyetik yataklı santrifüj kompresörler yağsız çalışır; sürtünme kaybı ve yağın eşanjör yüzeyini kirletmesi ortadan kalkar, kısmi yük verimleri çok yüksektir." },
+  { t: 3, s: 58, q: "Sunuma göre aşağıdakilerden hangisi VRF sistemlerinin temel elemanlarından biri <b>değildir</b>?",
+    o: ["Soğutma kulesi", "Dış üniteler", "İç üniteler", "Gaz akış dağıtıcıları", "İç ve dış üniteler arası bakır boru ve sinyal kablo hatları"], a: 0,
+    e: "VRF temel elemanları: <b>dış üniteler, iç üniteler, gaz akış dağıtıcıları, iç ve dış üniteler arası bakır boru ve sinyal kablo hatları, kumandalar</b>.",
+    n: "VRF bir DX sistemdir; dış ünite hava soğutmalıdır ve soğutma kulesi gerekmez (su kaynaklı VRF tipleri hariç). Şemada aynı binada bazı ofislerin soğutma, bazılarının ısıtma yaptığı gösterilir." },
+  { t: 3, s: 59, q: "Sunuma göre VRF sistemlerinin kısmi yüklerde EER ve COP değerlerinin çok yüksek olmasının nedeni nedir?",
+    o: ["Gelişmiş kontrol ve akış denetim üniteleriyle gerektiği kadar soğutkanın doğru faz ve doğru zamanda ihtiyaç duyulan yere sevk edilmesi", "Kompresörün her zaman tam yükte çalışması", "Soğutucu akışkan yerine su kullanılması", "İç ünitelerin hiç kapanmaması", "Sistemde sıcaklık sensörü bulunmaması"], a: 0,
+    e: "Sunum: VRF, “gelişmiş kontrol ve akış denetim üniteleri ile donatılmış, <b>gerektiği kadar soğutkanın doğru faz ve doğru zamanda ihtiyaç duyulan yere sevk edilerek</b> ısıtma ve soğutmada kullanılmasını sağlayan DX klima sistemleridir. Dolayısıyla <b>parsiyel yüklerde EER ve COP değerleri çok yüksektir</b>.” Şemada dış ünitede inverter kompresörler, iç ünitelerde akış düzenleme vanaları ve sıcaklık sensörleri bulunur.",
+    n: "Dış ünitedeki inverter kompresör, toplam yüke göre devrini ayarlar; iç ünitelerdeki elektronik genleşme vanaları her odaya ihtiyacı kadar akışkan verir. Bu, sunumdaki “binalar ömrünün %99'unda kısmi yükte” gerçeğine uygun bir çözümdür." },
+
+  // Klima santralleri ve ısı geri kazanımı
+  { t: 4, s: 32, q: "Sunuma göre klima santrallerinde ısı geri kazanımının temel prensibi nedir?",
+    o: ["İklimlendirilecek mekândan egzoz edilen havanın taşıdığı enerjiyi mekânın ihtiyacı olan temiz (taze) havaya transfer etmek", "Taze havayı doğrudan egzoz havasıyla karıştırmak", "Egzoz havasını kazanda yakmak", "Taze havayı elektrikli ısıtıcıyla ısıtmak", "Egzoz havasını geri basmak"], a: 0,
+    e: "Sunum: ısı geri kazanım üniteleri özellikle <b>taze hava santrallerinde</b> primer havanın (taze dış hava) ısıtılması ya da soğutulması için gereken enerjinin düşürülmesi için kullanılır. Temel prensip, <b>egzoz edilen havanın taşıdığı enerjiyi temiz havaya transfer etmektir</b>. İki yöntem vardır: <b>duyulur ısı geri kazanımı</b> ve <b>toplam ısı geri kazanımı (enerji geri kazanımı)</b>.",
+    n: "Toplam ısı geri kazanımında duyulur ısıyla birlikte nem (gizli ısı) de aktarılır; bu, tamburlu (entalpi) tiplerde mümkündür. Yazın nemli dış havanın nemini önceden alarak soğutma bataryasının gizli yükünü azaltır." },
+  { t: 4, s: 32, q: "Aşağıdakilerden hangisi sunumda sayılan yaygın ısı geri kazanım ünitesi çeşitlerinden biri <b>değildir</b>?",
+    o: ["Buhar kapanlı ısı geri kazanım ünitesi", "Plakalı tip", "Döner tamburlu", "İki bataryalı", "Isı borulu ve termodinamik"], a: 0,
+    e: "Yaygın ünite çeşitleri: <b>plakalı tip, döner tamburlu, iki bataryalı, ısı borulu ve termodinamik</b> ısı geri kazanım üniteleri.",
+    n: "Bu tipler; verim, maliyet, karışma riski, nem transferi ve don riski açısından birbirinden ayrılır. Seçimde hava kalitesi gereksinimi (ör. hastanelerde karışma kabul edilmez) belirleyicidir." },
+  { t: 4, s: 33, q: "Sunuma göre iki bataryalı (run-around coil) ısı geri kazanım ünitelerinin verimi ve kontrol şekli nedir?",
+    o: ["Verim %30–50; kontrol 3 yollu vana ile", "Verim %60–80; kontrol tambur hızı ile", "Verim %50–70; kontrol taze hava by-pass'ı ile", "Verim %50–60; kontrolsüz (pasif)", "Verim %90–100; kontrol termostatla"], a: 0,
+    e: "Sunum: 2 bataryalı ısı geri kazanımında mahalden emilen hava bir batarya üzerinden geçirilir ve batarya içinde yer alan <b>glikollü su</b> ısıtılarak üfleme sistemindeki diğer bataryaya gönderilir. En ucuz maliyetli yöntemdir ve <b>verimi %30–%50</b> arasındadır. Amortisman hesabında bataryaların ilave basıncı ve pompanın çektiği güç hesaba katılmalıdır. <b>Kontrol 3 yollu vana ile</b> yapılır.",
+    n: "İki batarya arasında yalnızca boru bağlantısı olduğu için egzoz ve taze hava kanallarının yan yana olması gerekmez; mevcut binalara sonradan eklemek bu yüzden kolaydır." },
+  { t: 4, s: 34, q: "Sunuma göre iki bataryalı ısı geri kazanım ünitelerinin dezavantajları hangileridir?",
+    o: ["Donmaya karşı önlem alınmazsa don riski; elektrik tahrikli su pompasıyla çalışması; veriminin diğer yöntemlere göre düşük olması", "Taze ve kirli havanın karışma riski", "Hareketli tambur ve motor bulunması", "İlk yatırımının en pahalı olması", "Kurulumunun çok zor olması"], a: 0,
+    e: "Avantajlar: <b>ucuzdur; taze ve kirli havanın karışma riski yoktur; kolay kurulum</b>. Dezavantajlar: <b>donmaya karşı önlem alınmadığında don riski; ısı geri kazanımı yapsa da elektrik tahrikli su pompası ile çalışması; veriminin diğer metotlara göre düşük olması</b>.",
+    n: "Don riskine karşı devredeki suya glikol katılır; bu da suyun ısı taşıma kapasitesini biraz düşürür. Pompanın çektiği elektrik, kazanılan ısıdan düşülerek net tasarruf hesaplanmalıdır." },
+  { t: 4, s: 36, q: "Sunuma göre plakalı ısı geri kazanım ünitelerinin verimi ve kontrol şekli nedir?",
+    o: ["Verim %50–70; kontrol taze hava by-pass'ı ile", "Verim %30–50; kontrol 3 yollu vana ile", "Verim %60–80; kontrol tambur hızı ile", "Verim %10–20; kontrol yok", "Verim %50–60; kontrol pompa hızı ile"], a: 0,
+    e: "Sunum: plakalı ısı geri kazanımında dönüş havası plakalı eşanjörün bir tarafından, taze hava diğer tarafından geçirilir. <b>Verimi %50 ile %70</b> arasındadır. Amortisman hesabında getireceği ilave basınç hesaba katılmalıdır. <b>Kontrol taze hava by-pass'ı ile</b> yapılır.",
+    n: "By-pass klapesi, ısı geri kazanımının istenmediği zamanlarda (ör. geçiş mevsiminde serin dış havayla ücretsiz soğutma yapılırken) taze havayı eşanjörün yanından geçirir; aynı zamanda don riskine karşı da kullanılır." },
+  { t: 4, s: 37, q: "Sunuma göre plakalı ısı geri kazanım ünitelerinin avantaj ve dezavantajları için hangisi doğrudur?",
+    o: ["Avantaj: hareket eden parçası yoktur, temiz ve kirli hava karışmaz; dezavantaj: don riski, kanatların toz ve kirle dolma olasılığı, standart tiplerde nem transferi yoktur", "Avantaj: nem transferi vardır; dezavantaj: karışma riski vardır", "Avantaj: don riski yoktur; dezavantaj: elektrik motoru vardır", "Avantaj: verimi %90'dır; dezavantaj: pompa gerektirir", "Hiç dezavantajı yoktur"], a: 0,
+    e: "Plakalı IGK avantajları: <b>ucuzdur, hareket eden parçası yoktur, temiz ve kirli hava birbirine karışmaz</b>. Dezavantajları: donmaya karşı önlem alınmadığında <b>don riski</b>, batarya kanatlarının <b>toz ve kirle dolma</b> olasılığı fazladır, <b>standart tiplerde nem transferi yoktur</b>.",
+    n: "Kirli egzoz havası (mutfak, atölye) plakalar arasını tıkayabilir; bu yüzden eşanjörden önce filtre konmalı ve basınç farkı izlenmelidir. Tıkanan eşanjör hem verimi düşürür hem fan enerjisini artırır." },
+  { t: 4, s: 38, q: "Sunuma göre en yüksek verime sahip ısı geri kazanım sistemi hangisidir ve verimi ne kadardır?",
+    o: ["Tamburlu (döner), %60–80", "İki bataryalı, %30–50", "Plakalı, %50–70", "Isı borulu, %50–60", "Plakalı, %90–95"], a: 0,
+    e: "Sunum: “<b>Tamburlu sistem en yüksek verime sahip olup %60 ile %80</b> arasında verime ulaşılabilir. <b>İlk yatırımı en pahalı</b> sistemdir.” Dönen tambur önce dönüş havasının önüne gelerek ısınır, ardından ısınan yüzey taze havanın önüne gelerek onu ısıtır. Amortismanda ilave basınç kaybı ve tamburu döndürmek için harcanan elektrik hesaba katılmalıdır. <b>Kontrol tambur hızı</b> ile yapılır.",
+    n: "Verim sıralaması (sunumdaki değerlerle): tamburlu %60–80 > plakalı %50–70 > ısı borulu %50–60 > iki bataryalı %30–50." },
+  { t: 4, s: 39, q: "Sunuma göre tamburlu ısı geri kazanım ünitelerinin avantaj ve dezavantajları hangisidir?",
+    o: ["Avantaj: nem transferi var, çok verimli, don riski yok; dezavantaj: taze ve kirli havanın karışma riski, hareketli parçalar, elektrik motoru, pahalı", "Avantaj: karışma riski yok; dezavantaj: don riski", "Avantaj: hareketli parça yok; dezavantaj: verimi düşük", "Avantaj: ucuz; dezavantaj: nem transferi yok", "Avantaj: pompa gerektirmez; dezavantaj: verimi %30"], a: 0,
+    e: "Tamburlu IGK avantajları: <b>nem transferi vardır, çok verimlidir, don riski yoktur</b>. Dezavantajları: <b>taze ve kirli havanın karışma riski vardır, hareketli parçalar vardır, elektrik motoru ile çalışır, pahalıdır</b>.",
+    n: "Karışma riski nedeniyle tamburlu üniteler ameliyathane, laboratuvar ve kokulu egzoz (mutfak, tuvalet) uygulamalarında tercih edilmez. Ofis ve AVM gibi yerlerde ise yüksek verimleri nedeniyle yaygındır." },
+  { t: 4, s: 40, q: "Sunuma göre ısı borulu ısı geri kazanım ünitelerinin çalışma prensibi ve verimi nedir?",
+    o: ["İçindeki akışkan (R134a, R404a, CO₂ vb.) evaporasyon bölümünde buharlaşarak ısı çeker, kondenzasyon bölümünde yoğuşarak ısı atar ve yerçekimiyle geri döner; verim %50–60", "Elektrikli pompayla glikollü su dolaştırır; verim %30–50", "Döner tamburla çalışır; verim %60–80", "Kompresörlü soğutma çevrimiyle çalışır; EER > 12", "Plakalar arasından hava geçirir; verim %50–70"], a: 0,
+    e: "Sunum: ısı borusu, yapısında buharlaşmayla ortaya çıkan gizli ısıyı <b>çok düşük sıcaklık farkıyla uzun mesafelere aktarabilen pasif bir transfer aracıdır</b>. İçindeki akışkan (R134a, R404a, CO₂ vb.) borunun <b>evaporasyon bölümünde buharlaşırken ısı çeker</b>, <b>kondenzasyon bölümünde yoğuşup ısı atar</b>; yoğuşan akışkan <b>yerçekimi etkisiyle</b> evaporasyon bölümüne döner. <b>Verimi %50 ile %60</b> arasındadır.",
+    n: "Isı borusunda hareketli parça, pompa veya motor yoktur ve hava akımları karışmaz. Yerçekimiyle çalıştığı için montaj eğimi önemlidir; eğim değiştirilerek kapasite de ayarlanabilir." },
+  { t: 4, s: 41, q: "Sunuma göre termodinamik ısı geri kazanım ünitelerinin özelliği nedir?",
+    o: ["Son yıllarda yaygınlaşan, verimliliği yüksek sistemlerdir; ilk yatırım maliyetinin yüksek olması nedeniyle geri dönüş süreleri uzundur", "En ucuz ve en düşük verimli sistemlerdir", "Hiç elektrik kullanmazlar", "Yalnızca nem transferi yaparlar", "Yalnızca kış aylarında çalışırlar"], a: 0,
+    e: "Sunum: “<b>Termodinamik</b> ısı geri kazanım üniteleri son yıllarda yaygınlaşan <b>verimliliği yüksek</b> sistemlerdir. <b>İlk yatırım maliyetleri yüksek olması nedeniyle geri dönüşüm süreleri uzundur.</b>” Şemada EER > 12 ifadesi ve yaz örneği: egzoz havası 24 °C'den 34 °C'ye ısınırken taze hava 28 °C'den 18 °C'ye soğutulur.",
+    n: "Termodinamik IGK, egzoz ve taze hava kanallarına yerleştirilmiş bataryalar arasında çalışan küçük bir ısı pompasıdır. Yazın taze havayı soğutup ısıyı egzoza atar, kışın tersine çalışır; yani ısıyı yalnızca geri kazanmakla kalmaz, ayrıca pompalar." },
+  { t: 4, s: 38, q: "Bir taze hava santralinde dış hava 2 °C, egzoz (mahal) havası 22 °C'dir; taze ve egzoz debileri eşittir. Verimi %75 olan bir tamburlu ısı geri kazanım ünitesinden sonra taze havanın sıcaklığı kaç °C olur?",
+    o: ["17 °C", "15 °C", "7 °C", "22 °C", "12 °C"], a: 0,
+    e: "Duyulur verim η = (T<sub>taze, çıkış</sub> − T<sub>dış</sub>) / (T<sub>egzoz</sub> − T<sub>dış</sub>). T<sub>taze, çıkış</sub> = 2 + 0,75 × (22 − 2) = 2 + 15 = <b>17 °C</b>.",
+    n: "Taze havayı 2 °C'den 22 °C'ye ısıtmak için gereken enerjinin %75'i geri kazanılmış olur; ısıtma bataryası yalnızca kalan 17 → 22 °C'lik (%25) kısmı karşılar. Aynı santralde %40 verimli iki bataryalı sistem kullanılsaydı taze hava ancak 10 °C'ye ısınırdı." },
+  { t: 4, s: 36, q: "Bir taze hava santralinin, taze havayı kış tasarım şartlarında ısıtma ihtiyacı 120 kW'tır. Verimi %60 olan plakalı bir ısı geri kazanım ünitesi eklenirse ısıtma bataryasının karşılaması gereken yük ne kadar olur?",
+    o: ["48 kW", "72 kW", "60 kW", "120 kW", "12 kW"], a: 0,
+    e: "Geri kazanılan ısı: 120 × 0,60 = 72 kW. Bataryaya kalan yük: 120 − 72 = <b>48 kW</b>.",
+    n: "Isıtma bataryası, kazan ve borular da daha küçük seçilebilir; bu, ısı geri kazanımının ilk yatırımın bir kısmını kendi kendine karşılaması demektir. Amortisman hesabında eşanjörün getirdiği ek basınç kaybının fan enerjisine etkisi düşülmelidir." },
+  { t: 4, s: 43, q: "Sunuma göre soğutan ve ısıtan akışkan cinsine göre klima santralleri nasıl sınıflandırılır?",
+    o: ["Sulu (normal sulu, salamuralı), soğutucu akışkanlı (DX fancoiller), buharlı, gaz yakıcılı ve evaporatif soğutmalı", "Yalnızca sulu ve havalı", "Tek bataryalı ve çift bataryalı", "Kaset, döşeme ve tavan tipi", "Plakalı ve tamburlu"], a: 0,
+    e: "Akışkan cinsine göre: <b>sulu akışkanlı</b> (normal sulu, salamuralı), <b>soğutucu akışkanlı</b> (DX fancoiller), <b>buharlı akışkanlı</b>, <b>gaz yakıcılı</b> ve <b>evaporatif soğutmalı</b> klima santralleri.",
+    n: "Sunumdaki diğer sınıflandırma ölçütleri: nemlendirme şekli, kullanım yeri, kullanım şekli, serpantin yapısı, kullanım amacı, hava sirkülasyon şekli, fan yapısı, hava dağıtım şekli ve kabin yapısı." },
+  { t: 4, s: 44, q: "Sunumdaki batarya düzenine göre klima santrali tipleri hangileridir?",
+    o: ["Isıtma-soğutma tek bataryalı; ısıtıcı + soğutucu bataryalı; ısıtıcı + soğutucu + son ısıtıcı bataryalı", "Yalnızca soğutucu bataryalı", "Plakalı, tamburlu, ısı borulu", "2 borulu ve 4 borulu", "Vidalı, scroll, santrifüj"], a: 0,
+    e: "Batarya düzenine göre: <b>ısıtma-soğutma tek bataryalı</b>; <b>ısıtıcı + soğutucu bataryalı</b>; <b>ısıtıcı + soğutucu + son ısıtıcı bataryalı</b>.",
+    n: "Son ısıtıcı, soğutma bataryasında nemi alınırken aşırı soğuyan havanın tekrar istenen sıcaklığa getirilmesi için kullanılır. Bu “soğut-sonra ısıt” işlemi enerji yoğun olduğundan, mümkünse son ısıtma için ısı geri kazanımı veya kondenser atık ısısı kullanılmalıdır." },
+  { t: 4, s: 45, q: "Sunumdaki klima santrali seçim kriterlerinde “enerji verimliliği” başlığı altında hangileri sayılmıştır?",
+    o: ["Doğru motor, doğru sürücü, doğru ısı geri kazanımı, doğru montaj, doğru işletme", "Doğru fan, doğru serpantin, doğru su rejimi, sızdırmazlık, termal izolasyon", "Uygun filtrasyon, doğru emisyon, doğru konumlandırma, doğru otomasyon", "Yalnızca en ucuz cihaz", "Yalnızca en büyük kapasite"], a: 0,
+    e: "Seçim başlıkları — <b>Enerji ekonomisi:</b> doğru fan, doğru serpantin, doğru su rejimi, sızdırmazlık, termal izolasyon. <b>Enerji verimliliği:</b> doğru motor, doğru sürücü, doğru ısı geri kazanımı, doğru montaj, doğru işletme. <b>Çevre etkisi:</b> uygun filtrasyon, doğru emisyon, doğru konumlandırma, doğru otomasyon.",
+    n: "Klima santrali kabininin sızdırmazlığı ve termal köprüsüz yapısı (EN 1886 sınıfları) çoğu zaman göz ardı edilir; oysa sızdıran bir kabin, şartlandırılmış havanın bir kısmını doğrudan dışarı atar." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
