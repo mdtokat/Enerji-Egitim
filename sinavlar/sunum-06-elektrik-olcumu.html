@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elektrik Ölçümü Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 6 · Elektrik Ölçümü ve İzlenmesi</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 6</span> 1_7.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Ocak 2020</p>
+    <h1>Elektrik Enerjisinin Ölçümü ve İzlenmesi <em>Sınavı</em></h1>
+    <p class="lede">Ölçme ve kalibrasyon; voltmetre, ampermetre, avometre, frekansmetre, cosfimetre, güç analizörü, takometre, lüxmetre ve desibelmetre; bağlantı, seçim ve ölçüm hesapları.</p>
+    <ul class="facts"><li>43 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Elektrik Enerjisinin Ölçümü ve İzlenmesi” sunumu (ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Ocak 2020). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum6-v1",
+topics: ["Ölçme ve kalibrasyon", "Voltmetre ve ampermetre", "Avometre ve frekansmetre", "Cosfimetre ve güç analizörü", "Takometre, lüxmetre ve desibelmetre"],
+Q: [
+  // Ölçme ve kalibrasyon
+  { t: 0, s: 2, q: "Ölçme işlemi en doğru şekilde nasıl tanımlanır?",
+    o: ["Bir niceliği kendi cinsinden seçilmiş bir birimle karşılaştırıp kaç birim geldiğini belirlemek", "Ölçüm cihazı ile referans standart arasındaki farkı belirlemek", "Bir cihazın göstergesini sıfıra ayarlamak", "Bir büyüklüğü başka cinsten bir büyüklüğe dönüştürmek", "Bir cihazın çıkış gücünün giriş gücüne oranını bulmak"], a: 0,
+    e: "Ölçme; en, boy, hacim, süre gibi nicelikleri <b>kendi cinslerinden seçilmiş bir birimle karşılaştırıp kaç birim geldiklerini</b> belirleyerek büyüklüğün değerini bulma işlemidir.",
+    n: "Her ölçüm sonucu bir sayı ve bir birimden oluşur: “230 V” ifadesinde 230 sayı, V birimdir. Birimsiz bir sayı ölçüm sonucu değildir. Ölçüm yapabilmek için uygun ekipman gerekir. Referans standartla karşılaştırma ise kalibrasyonun tanımıdır; ikisi karıştırılmamalıdır." },
+  { t: 0, s: 3, q: "Kullanılan ölçüm cihazı ile referans alınan standart arasındaki farkın belirlenmesi işlemine ne ad verilir?",
+    o: ["Kalibrasyon", "Ölçme", "Sıfır ayarı", "Kompanzasyon", "Etüt"], a: 0,
+    e: "Ölçüm cihazı ile referans standart arasındaki farkın belirlenmesine <b>kalibrasyon</b> denir.",
+    n: "Kalibrasyon, cihazın izlenebilir bir referansa göre ne kadar sapma gösterdiğini belirler ve bir kalibrasyon sertifikasıyla belgelenir. Türkiye'de kalibrasyon laboratuvarları TS EN ISO/IEC 17025 standardına göre TÜRKAK tarafından akredite edilir. Enerji etütlerinde kullanılan güç analizörü, lüxmetre ve termal kamera gibi cihazların kalibrasyon tarihlerinin geçerli olması, ölçüm sonuçlarının raporda savunulabilmesi için önemlidir." },
+  { t: 0, s: 3, q: "Kalibrasyonda belirlenen farkı en aza indirmek için ölçüm cihazına ne yapılır?",
+    o: ["Ayar yapılır", "Cihaz devreye seri bağlanır", "Kademe anahtarı en büyük değere getirilir", "Cihazın iç direnci düşürülür", "Ölçüm birimi değiştirilir"], a: 0,
+    e: "Sunuma göre fark belirlendikten sonra bu farkı en aza indirmek için ölçüm cihazına <b>ayar</b> yapılır.",
+    n: "Metrolojide kalibrasyon (sapmanın belirlenmesi) ile ayar (justaj, sapmanın giderilmesi) aslında ayrı işlemlerdir. Ayar yapılan bir cihaz, ayardan sonra yeniden ölçülerek “ayar sonrası” değerleri de sertifikaya yazılır. Bazı cihazlar ayar yapılmadan yalnızca düzeltme değerleriyle kullanılır: ölçülen değere sertifikadaki düzeltme eklenir." },
+  { t: 0, s: 3, q: "Referans gerilim kaynağı 230,0 V verirken kalibre edilen voltmetre 232,3 V göstermektedir. Voltmetrenin bu noktadaki bağıl hatası yüzde kaçtır?",
+    o: ["%1", "%0,99", "%2,3", "%10", "%0,1"], a: 0,
+    e: "Mutlak hata = 232,3 − 230,0 = 2,3 V. Bağıl hata = 2,3 / 230,0 = 0,01 → <b>%1</b>.",
+    n: "Bağıl hata, referans (doğru kabul edilen) değere bölünerek bulunur; ölçülen değere bölmek (2,3 / 232,3 ≈ %0,99) yaygın bir hatadır. Cihazın doğruluk sınıfı da bu mantıkla verilir: örneğin “±%0,5 okuma + 2 dijit” ifadesindeki yüzde, okunan değere göre hesaplanır." },
+  { t: 0, s: 4, q: "Sunumda bina ve tesislerde yapılan <b>elektriksel</b> ölçümler arasında sayılmayan hangisidir?",
+    o: ["Baca gazındaki oksijen oranı", "Gerilim", "Güç faktörü", "Aydınlatma (ışık) şiddeti", "Dönen cisimlerin devir sayısı"], a: 0,
+    e: "Sunumda elektriksel ölçümler gerilim, akım, güç faktörü, aydınlatma şiddeti ve dönen cisimlerin devir sayısı olarak sayılır. <b>Baca gazı oksijen oranı</b> yanma verimine ilişkin ısıl bir ölçümdür.",
+    n: "Bir enerji etüdünde elektriksel ölçümler (güç analizörü, pens ampermetre, lüxmetre, takometre) ile ısıl ölçümler (baca gazı analizörü, termal kamera, sıcaklık ve debi ölçerler) birlikte yapılır. Baca gazı analizörü O₂, CO ve baca gazı sıcaklığından kazan yanma verimini hesaplar." },
+
+  // Voltmetre ve ampermetre
+  { t: 1, s: 5, q: "Voltmetreler devreye nasıl bağlanır?",
+    o: ["Paralel", "Seri", "Önce seri sonra paralel", "Yalnızca nötr hattına", "Akım trafosu üzerinden seri"], a: 0,
+    e: "Voltmetreler gerilimi ölçülecek noktalar arasına, yani devreye <b>paralel</b> bağlanır. Faz–nötr ve faz–faz gerilimlerinin ölçümünde kullanılır.",
+    n: "Kolay hatırlama: gerilim iki nokta arasındaki farktır, bu yüzden voltmetre iki noktaya birden dokunur (paralel). Akım ise bir noktadan geçen yüktür, bu yüzden ampermetre akımın yoluna girer (seri)." },
+  { t: 1, s: 5, q: "Voltmetrelerin iç direncinin çok yüksek olması neden gereklidir?",
+    o: ["Devreden akım çekip ölçtüğü gerilimi düşürmemesi için", "Üzerinden devrenin akımının tamamı geçebilsin diye", "Devreye seri bağlanabilsin diye", "Kısa devre akımını ölçebilsin diye", "Ölçüm sırasında ısınarak hassasiyeti artırması için"], a: 0,
+    e: "Voltmetre devreye paralel bağlandığından <b>kaynağın veya devrenin gerilimini düşürecek kadar akım çekmemelidir</b>; bu, iç direncin yüksek olmasını gerektirir.",
+    n: "Her ölçü aleti ölçtüğü devreyi biraz etkiler (yükleme etkisi). Dijital multimetrelerin iç direnci tipik olarak 10 MΩ civarındadır; bu yüzden şebeke gerilimi ölçümünde etkisi ihmal edilebilir. Yüksek dirençli elektronik devrelerde ise voltmetrenin kendi direnci okunan değeri belirgin biçimde düşürebilir." },
+  { t: 1, s: 5, q: "Bir voltmetre bir alıcıyla yanlışlıkla seri bağlanırsa ne olur?",
+    o: ["İç direnci çok yüksek olduğundan kaynak geriliminin büyük kısmı voltmetrede düşer ve alıcı düzgün çalışmaz", "Voltmetreden çok büyük akım geçer ve voltmetre yanar", "Alıcı normal çalışır, voltmetre alıcının akımını gösterir", "Devrede kısa devre oluşur ve sigorta atar", "Voltmetre sıfır gösterir, devre etkilenmez"], a: 0,
+    e: "Voltmetrenin iç direnci çok yüksek olduğundan <b>kaynak geriliminin büyük bir kısmı voltmetre üzerinde düşer</b>; devre akımı çok küçülür ve <b>alıcı düzgün çalışmaz</b>.",
+    n: "Yanlış seri bağlanan voltmetre genellikle zarar görmez; voltmetre kaynak gerilimine yakın bir değer gösterir ama alıcıya neredeyse hiç gerilim kalmaz. Asıl tehlikeli olan, ampermetrenin yanlışlıkla paralel bağlanmasıdır." },
+  { t: 1, s: 5, q: "İç direnci 10 MΩ olan bir voltmetre, 230 V'luk kaynağa bağlı 1 kΩ dirençli bir alıcıyla yanlışlıkla seri bağlanmıştır. Alıcının uçlarındaki gerilim yaklaşık ne olur?",
+    o: ["Yaklaşık 0,023 V", "Yaklaşık 2,3 V", "Yaklaşık 23 V", "Yaklaşık 115 V", "230 V"], a: 0,
+    e: "Seri devrede gerilim dirençlerle orantılı paylaşılır: V<sub>alıcı</sub> = 230 × 1.000 / (10.000.000 + 1.000) ≈ <b>0,023 V</b>. Kaynak geriliminin neredeyse tamamı (≈ 229,98 V) voltmetrede düşer.",
+    n: "Bu hesap “alıcı düzgün çalışmaz” ifadesinin sayısal karşılığıdır: devre akımı yalnızca 230 / 10.001.000 ≈ 23 μA olur. 1 kΩ'luk bu alıcı normalde 230² / 1.000 ≈ 53 W çekerdi; seri bağlı voltmetreyle neredeyse hiç güç almaz." },
+  { t: 1, s: 5, q: "Üç fazlı alçak gerilim şebekesinde faz–nötr gerilimi 230 V olarak ölçülmüştür. Faz–faz gerilimi yaklaşık kaç volttur?",
+    o: ["Yaklaşık 400 V", "Yaklaşık 133 V", "Yaklaşık 460 V", "Yaklaşık 690 V", "230 V"], a: 0,
+    e: "Yıldız bağlı şebekede faz–faz gerilimi faz–nötr geriliminin √3 katıdır: 230 × 1,732 ≈ <b>400 V</b>.",
+    n: "Türkiye'de alçak gerilim şebekesi 230/400 V, 50 Hz'dir (eski etiketlerde 220/380 V görülebilir). Voltmetre ile hem faz–nötr hem faz–faz gerilimleri ölçülür; fazlar arasındaki dengesizlik motorlarda ek ısınmaya yol açar, bu yüzden üç faz gerilimi birlikte kontrol edilmelidir." },
+  { t: 1, s: 6, q: "Bir panoda yaklaşık 400 V faz–faz alternatif gerilimi ölçülecektir. Aşağıdaki ölçme kademelerinden hangisi seçilmelidir?",
+    o: ["600 V AC", "200 V AC", "600 V DC", "20 V AC", "2 V AC"], a: 0,
+    e: "Voltmetre <b>gerilim çeşidine uygun (AC)</b> olmalı ve <b>ölçme sınırı ölçülecek gerilimden mutlaka büyük</b> olmalıdır. Bu koşulları sağlayan kademe <b>600 V AC</b>'dir.",
+    n: "200 V kademesi ölçme sınırının altında kalır; DC kademesi ise AC gerilimi doğru ölçmez. Sunumdaki seçim kuralları özetle: (1) AC–DC uygunluğu, (2) ölçme sınırı ölçülecek değerden büyük, (3) değere uygun hassasiyet, (4) enerji altında sabit voltmetre bağlantısına müdahale edilmemesi." },
+  { t: 1, s: 6, q: "Sunumdaki “10 mV'luk gerilim, kV seviyesinde ölçüm yapan voltmetre ile ölçülemez” ifadesi hangi seçim kuralını örneklemektedir?",
+    o: ["Ölçülecek değere uygun hassasiyette cihaz seçilmesi", "Gerilim çeşidine (AC–DC) uygun cihaz seçilmesi", "Voltmetrenin devreye paralel bağlanması", "Enerji altında bağlantı yapılmaması", "Ölçme sınırının ölçülecek değerden büyük olması"], a: 0,
+    e: "Örnek, <b>ölçülecek gerilim değerine uygun hassasiyet ve yapıya sahip</b> voltmetre seçilmesi gerektiğini gösterir.",
+    n: "Ölçme sınırı çok büyük seçilen bir cihaz küçük değerleri çözemez: kV ölçen bir cihazın en küçük adımı 10 mV'tan çok daha büyüktür. Doğru seçim, ölçme sınırı ölçülecek değerden büyük ama ona olabildiğince yakın olan cihaz veya kademedir." },
+  { t: 1, s: 6, q: "Enerji altındaki bir panoda gerilim ölçümüyle ilgili sunumdaki kural hangisidir?",
+    o: ["Sabit voltmetrelerin bağlantısı enerji altında yapılmamalı; taşınabilir problu voltmetrelerle ancak gerekli önlemler alındıktan sonra ölçüm yapılabilir", "Enerji altında her türlü voltmetre bağlantısı serbestçe yapılabilir", "Enerji altında yalnızca ampermetre ile ölçüm yapılabilir", "Sabit voltmetrelerin bağlantısı yalnızca enerji altında yapılmalıdır", "Enerji altında ölçüm yapmak için voltmetre seri bağlanmalıdır"], a: 0,
+    e: "Enerji altında <b>sabit voltmetrelerin bağlantısı yapılmamalı ve yapılmış bağlantıya müdahale edilmemelidir</b>. Taşınabilir ve problu voltmetrelerle <b>gerekli önlemler alındıktan sonra</b> ölçüm yapılabilir.",
+    n: "“Gerekli önlemler” uygulamada şunlardır: yetkili ve eğitimli personel, yalıtkan eldiven ve yüz siperi gibi KKD, uygun ölçüm kategorisinde (IEC 61010-1) cihaz ve prob. Ölçüm kategorileri: CAT II prize takılan cihazlar, CAT III dağıtım panoları ve sabit tesisat, CAT IV bina girişi ve sayaç tarafıdır. Ana panoda CAT II bir cihazla ölçüm yapmak, ark parlaması riskini ciddi biçimde artırır." },
+  { t: 1, s: 7, q: "Ampermetreler devreye nasıl bağlanır ve neden?",
+    o: ["Seri; alıcının çektiği akımın tamamının ampermetreden geçmesi gerektiği için", "Paralel; ölçtüğü gerilimi düşürmemesi için", "Seri; iç dirençleri çok yüksek olduğu için", "Paralel; akımın yalnızca bir kısmını ölçmek yeterli olduğu için", "Paralel; kısa devreyi önlemek için"], a: 0,
+    e: "Ampermetreler devreye <b>seri</b> bağlanır, çünkü alıcıdan geçecek akımın ölçülebilmesi için <b>akımın tamamının ampermetreden geçmesi</b> gerekir. Devre şemalarında daire içinde “A” sembolüyle gösterilir.",
+    n: "Seri bağlantı için devrenin açılması gerekir; bu yüzden işletmelerde enerji kesmeden ölçüm yapmak için çoğunlukla pens ampermetre kullanılır. Panolardaki sabit ampermetreler ise yüksek akımlarda doğrudan değil, akım trafosu (örneğin 200/5 A) üzerinden bağlanır." },
+  { t: 1, s: 7, q: "Ampermetrelerin iç direnci için aşağıdakilerden hangisi doğrudur?",
+    o: ["Çok küçüktür (0–1 Ω); devrede akımı sınırlayan bir yük gibi davranmamalıdır", "Çok büyüktür (MΩ seviyesi); devreden akım çekmemelidir", "Ölçülen alıcının direncine eşit olmalıdır", "Ölçülen akımla doğru orantılı olarak artar", "İç direnç ampermetrenin doğruluğunu etkilemez"], a: 0,
+    e: "Ampermetreler seri bağlandığından ölçüm yaptıkları devrede <b>akımı sınırlandırıcı etki yapmamalıdır</b>; bu yüzden iç dirençleri <b>çok küçüktür (0–1 Ω)</b>.",
+    n: "Voltmetre ile ampermetre birbirinin tersidir: voltmetre paralel ve yüksek iç dirençli, ampermetre seri ve düşük iç dirençlidir. Sınavda bu dört özellik (bağlantı ve iç direnç) çoğunlukla birbirine karıştırılarak sorulur." },
+  { t: 1, s: 7, q: "İç direnci 0,1 Ω olan bir ampermetre yanlışlıkla 230 V'luk kaynağa doğrudan (paralel) bağlanırsa üzerinden teorik olarak ne kadar akım geçer?",
+    o: ["2.300 A", "23 A", "0,43 A", "230 A", "Akım geçmez"], a: 0,
+    e: "I = V / R = 230 / 0,1 = <b>2.300 A</b>. Bu, ampermetrenin taşıyabileceğinin çok üstündedir; ampermetre <b>kısa sürede kullanılmaz hâle gelir</b>.",
+    n: "Pratikte bu akım kaynak ve kablo empedansıyla sınırlanır ama yine de bir kısa devredir: sigorta atar, ark oluşabilir. Multimetrelerin akım girişleri bu yüzden yüksek kesme kapasiteli sigortalarla korunur. Multimetre ile gerilim ölçerken probu yanlışlıkla akım (A) soketinde bırakmak, sahada en sık görülen ölçüm kazalarındandır." },
+  { t: 1, s: 7, q: "Pens ampermetrenin klasik ampermetreye göre en önemli üstünlüğü nedir?",
+    o: ["Devreyi açmadan, iletkeni kavrayarak akım ölçebilmesi", "Gerilimi daha doğru ölçmesi", "İç direncinin çok yüksek olması", "Yalnızca doğru akım ölçebilmesi", "Devreye paralel bağlanarak kısa devre akımını ölçmesi"], a: 0,
+    e: "Pens ampermetre, iletkenin çevresindeki manyetik alanı algılayarak <b>devreyi açmadan ve enerjiyi kesmeden</b> akım ölçer.",
+    n: "Pens yalnızca tek bir iletkeni kavramalıdır: faz ve nötr birlikte kavranırsa zıt yönlü akımların alanları birbirini götürür ve sonuç sıfıra yakın çıkar. Bu özellik kaçak akım ölçümünde kullanılır. AC pensler akım trafosu prensibiyle çalışır; DC akımı ölçebilen penslerde Hall etkili algılayıcı bulunur." },
+  { t: 1, s: 8, q: "Nominal akımı 32 A olan bir motorun çalışma akımı ölçülecektir. Ampermetrenin ölçme kademeleri 2 A, 20 A, 40 A, 400 A ve 2.000 A ise hangisi seçilmelidir?",
+    o: ["40 A", "20 A", "2 A", "400 A", "2.000 A"], a: 0,
+    e: "Ölçme sınırı ölçülecek akımdan <b>mutlaka büyük</b> olmalı ve en doğru ölçüm için değere <b>en yakın</b> kademe seçilmelidir: <b>40 A</b>.",
+    n: "400 A ve 2.000 A kademeleri de ölçebilir ama çözünürlükleri düşüktür. Kalkış akımı ölçülecekse durum değişir: doğrudan yol verilen asenkron motorlarda kalkış akımı nominal akımın 6–8 katına çıkabilir; bu durumda 400 A kademesi veya cihazın “inrush” (kalkış akımı) modu kullanılmalıdır." },
+  { t: 1, s: 8, q: "Bir akü şarj devresinde şarj akımı ölçülecektir. Ampermetre seçiminde öncelikle neye dikkat edilmelidir?",
+    o: ["Doğru akım (DC) ampermetresi kullanılmasına", "Alternatif akım (AC) ampermetresi kullanılmasına", "Ampermetrenin devreye paralel bağlanmasına", "İç direncin MΩ seviyesinde olmasına", "Ölçme sınırının şarj akımından küçük seçilmesine"], a: 0,
+    e: "Akü şarj akımı doğru akımdır; sunuma göre <b>akım çeşidine uygun</b> ampermetre, yani <b>DC ampermetresi</b> kullanılmalıdır.",
+    n: "AC kademesindeki bir cihaz saf doğru akımı ya hiç göstermez ya da yanlış gösterir. Güneş paneli dizileri, akü bankaları, UPS'ler ve elektrikli araç şarj sistemlerinde DC ölçümü gerekir. Ampermetreler mA seviyesinden kA seviyesine kadar farklı ölçme alanlarıyla üretilir." },
+
+  // Avometre ve frekansmetre
+  { t: 2, s: 9, q: "Avometre hangi büyüklükleri ölçen alettir?",
+    o: ["Akım, gerilim ve direnç", "Güç, enerji ve güç faktörü", "Frekans, devir ve ışık şiddeti", "Sıcaklık, basınç ve debi", "Ses seviyesi ve titreşim"], a: 0,
+    e: "Avometre <b>akım (A), gerilim (V) ve direnç (Ω)</b> ölçen alettir; adı da bu üç birimin baş harflerinden gelir (Amper–Volt–Ohm).",
+    n: "Güncel dijital avometreler (multimetreler) bunlara ek olarak kapasite, endüktans, frekans ve sıcaklık ölçebilir, transistörlerin uç tespitini yapabilir. Güç ve güç faktörü için ise cosfimetre, wattmetre veya güç analizörü gerekir." },
+  { t: 2, s: 9, q: "Analog avometreler yapı olarak hangi tür ölçü aletleridir?",
+    o: ["Döner bobinli", "Elektro-optik", "Hall etkili", "Termokupllu", "Piezoelektrik"], a: 0,
+    e: "Sunuma göre analog avometreler yapı olarak <b>döner bobinli</b> ölçü aletleridir.",
+    n: "Döner bobinli alette sabit mıknatısın alanı içindeki bobinden akım geçince bobin ve ona bağlı ibre döner; sapma akımla orantılıdır. Bu yapı doğrudan yalnızca DC'yi ölçer; AC ölçümü için içinde doğrultucu bulunur. DC ölçümünde ibrenin ters sapması da bu yüzdendir." },
+  { t: 2, s: 9, q: "Avometre ile direnç ölçülmeden önce ne yapılmalıdır?",
+    o: ["Sıfır ayarı yapılmalıdır", "Kademe anahtarı en küçük gerilim kademesine getirilmelidir", "Ölçülecek devreye enerji verilmelidir", "Avometre devreye seri bağlanmalıdır", "Uçlar ters çevrilmelidir"], a: 0,
+    e: "Avometre ile direnç değeri ölçülmeden önce <b>sıfır ayarı yapılmalı</b>, sonra ölçüme geçilmelidir.",
+    n: "Analog avometrede sıfır ayarı için problar birbirine değdirilir ve ibre 0 Ω çizgisine getirilir; bu, iç pilin zayıflamasını telafi eder. Direnç ölçümü mutlaka enerjisi kesilmiş devrede yapılır: avometre direnci kendi iç pilinden akım göndererek ölçer, devredeki gerilim hem sonucu bozar hem cihaza zarar verir." },
+  { t: 2, s: 10, q: "Ölçülecek büyüklüğün değeri net olarak bilinmiyorsa avometrenin kademe anahtarı nereye getirilmelidir?",
+    o: ["En büyük değere", "En küçük değere", "Orta değere", "Direnç kademesine", "Kapalı konuma"], a: 0,
+    e: "Değer bilinmiyorsa kademe anahtarı <b>en büyük değere</b> getirilir; okunan değere göre daha küçük ve uygun kademeye inilir.",
+    n: "Küçük kademeden başlamak, ölçme sınırının aşılmasına ve cihazın zarar görmesine yol açabilir. Otomatik kademeli (auto-range) dijital cihazlar bu işlemi kendileri yapar, ancak akım ölçümünde doğru sokete bağlanmak yine kullanıcının sorumluluğundadır." },
+  { t: 2, s: 10, q: "Yaklaşık 12 V olduğu bilinen bir akünün gerilimi ölçülecektir. Avometrenin DC gerilim kademeleri 2 V, 20 V, 200 V ve 1.000 V ise hangisi seçilmelidir?",
+    o: ["20 V DC", "2 V DC", "200 V DC", "1.000 V DC", "20 V AC"], a: 0,
+    e: "Kademe anahtarı <b>ölçülecek büyüklüğe en yakın ama ondan küçük olmayan</b> kademeye getirilir: <b>20 V DC</b>.",
+    n: "2 V kademesi ölçme sınırının altında kalır; 200 V ve 1.000 V kademeleri ölçebilir ama daha az hassastır. AC kademesi ise akü gerilimi için yanlıştır: büyüklüğün cinsine göre AC veya DC seçimi yapılmalıdır." },
+  { t: 2, s: 10, q: "Analog avometre ile doğru akım ölçümünde ibre ters yönde saparsa ne yapılmalıdır?",
+    o: ["Ölçü aletinin uçları ters çevrilmelidir", "Kademe anahtarı en küçük değere getirilmelidir", "Sıfır ayarı yapılmalıdır", "AC kademesine geçilmelidir", "Avometre paralel bağlanmalıdır"], a: 0,
+    e: "DC ölçmelerinde ibre ters saparsa <b>uçlar ters çevrilmelidir</b>; ters sapma, kutupların yanlış bağlandığını gösterir.",
+    n: "Dijital avometreler ters kutuplamada değeri eksi işaretiyle (örneğin −12,6 V) gösterir; ibre zorlanmadığı için uçları değiştirmek gerekmez. Analog alette ise ibrenin dayanağa çarpması mekanizmaya zarar verebilir." },
+  { t: 2, s: 11, q: "Frekansmetreler devreye nasıl bağlanır ve gösterdikleri değer neyi ifade eder?",
+    o: ["Paralel; bir saniyedeki saykıl (periyot) sayısı", "Seri; bir saniyedeki saykıl sayısı", "Paralel; bir saykılın süresi", "Seri; dakikadaki devir sayısı", "Paralel; akım ile gerilim arasındaki faz açısı"], a: 0,
+    e: "Frekansmetreler devreye <b>paralel</b> bağlanır; gösterdikleri değer <b>bir saniyedeki saykıl sayısıdır</b> (hertz, Hz).",
+    n: "Frekans, gerilim üzerinden ölçüldüğü için frekansmetre voltmetre gibi paralel bağlanır. Şebeke frekansı üretim–tüketim dengesinin göstergesidir: tüketim üretimi aşarsa frekans düşer. Türkiye'de nominal frekans 50 Hz'dir ve iletim sistemi işletmecisi (TEİAŞ) frekansı dar bir bant içinde tutar." },
+  { t: 2, s: 11, q: "Türkiye'deki şebeke frekansı 50 Hz'dir. Bir saykılın süresi (periyot) ne kadardır?",
+    o: ["20 ms", "50 ms", "2 ms", "200 ms", "0,5 s"], a: 0,
+    e: "T = 1 / f = 1 / 50 = 0,02 s = <b>20 ms</b>.",
+    n: "Periyot ile frekans birbirinin tersidir. 60 Hz kullanan ülkelerde (ABD gibi) periyot ≈ 16,7 ms'dir. Osiloskop veya güç analizörü ekranında bir saykılın 20 ms'den uzun görünmesi frekansın 50 Hz'in altına düştüğünü gösterir." },
+
+  // Cosfimetre ve güç analizörü
+  { t: 3, s: 12, q: "Güç katsayısını (cosφ) ölçen cihazlara ne ad verilir?",
+    o: ["Cosfimetre", "Frekansmetre", "Takometre", "Lüxmetre", "Avometre"], a: 0,
+    e: "Güç katsayısını ölçen cihazlara <b>cosfimetre</b> denir.",
+    n: "Cosfimetre, akım ile gerilim arasındaki faz açısının kosinüsünü gösterir; değerin endüktif mi kapasitif mi olduğunu da belirtir. Kompanzasyon panolarındaki reaktif güç rölesi aynı ölçümü yaparak kondansatör kademelerini devreye alıp çıkarır." },
+  { t: 3, s: 12, q: "Cosfimetrelerin akım ve gerilim bobinleri devreye nasıl bağlanır?",
+    o: ["Akım bobini seri, gerilim bobini paralel", "Akım bobini paralel, gerilim bobini seri", "Her iki bobin de seri", "Her iki bobin de paralel", "Yalnızca gerilim bobini bağlanır"], a: 0,
+    e: "Cosfimetrelerin <b>akım bobinleri devreye seri, gerilim bobinleri devreye paralel</b> bağlanır. Güncel cosfimetrelerde bağlantı şeması genellikle aletin arkasında veya kataloğunda verilir.",
+    n: "Bu kural, akım ve gerilimi birlikte kullanan tüm ölçü aletleri (wattmetre, cosfimetre, sayaç, güç analizörü) için geçerlidir: akım bölümü ampermetre gibi seri, gerilim bölümü voltmetre gibi paralel bağlanır. Akım trafolu bağlantılarda akım trafosunun yönü (P1–P2) ters takılırsa güç ve cosφ yanlış işaretli okunur." },
+  { t: 3, s: 12, q: "Frekans çeviricili ve LED aydınlatmalı yüklerin yoğun olduğu bir tesiste klasik cosfimetre 0,98 gösterirken güç analizörü toplam güç faktörünü 0,85 ölçmektedir. Farkın en olası nedeni nedir?",
+    o: ["Harmonikler; cosφ yalnızca temel bileşendeki faz farkını gösterir", "Cosfimetrenin yanlışlıkla seri bağlanması", "Şebeke frekansının 50 Hz olması", "Aşırı kompanzasyon nedeniyle kapasitif yük", "Güç analizörünün yalnızca DC ölçmesi"], a: 0,
+    e: "Doğrusal olmayan yükler akımı bozar ve <b>harmonik</b> üretir. Cosfimetre yalnızca temel bileşen (50 Hz) arasındaki faz farkını (cosφ) ölçer; gerçek güç faktörü PF = P / S ise harmonikleri de kapsar ve daha düşük çıkar.",
+    n: "PF = cosφ × bozulma faktörü olarak düşünülebilir. Harmonikler kondansatörlerle değil, harmonik filtrelerle (pasif veya aktif) azaltılır; hatta harmonikli ortamda filtresiz kondansatör rezonansa girerek arızalanabilir. Bu yüzden etütlerde harmonik ölçümü yapabilen güç analizörleri kullanılır.",
+    g: { eski: "Güç katsayısı cosfimetre ile ölçülür.", yeni: "Harmonik üreten yüklerde (frekans çevirici, LED, UPS, bilgisayar) cosφ ile gerçek güç faktörü (PF = P / S) farklıdır. Güncel tesislerde ikisini ve harmonikleri birlikte ölçen güç analizörleri ve çok fonksiyonlu ölçerler kullanılır.", kaynak: "IEEE 1459-2010 (güç büyüklüklerinin tanımları); IEC 61000-4-30 (güç kalitesi ölçüm yöntemleri)" } },
+  { t: 3, s: 14, q: "Sunuma göre güç analizörleri için aşağıdakilerden hangisi doğrudur?",
+    o: ["Pano üzerinde sabit olarak bulunabildiği gibi portatif tipleri de vardır", "Yalnızca laboratuvarda kullanılabilir", "Yalnızca gerilim ölçer", "Devreye yalnızca seri bağlanır", "Yalnızca devir sayısı ölçer"], a: 0,
+    e: "Güç analizörleri <b>pano üzerinde sabit</b> olarak bulunabildiği gibi <b>portatif</b> olarak ölçüm yapmayı sağlayan tipleri de mevcuttur.",
+    n: "Güç analizörü gerilim, akım, aktif–reaktif–görünür güç, güç faktörü, frekans, enerji ve harmonikleri tek cihazda ölçer ve kaydeder. Sabit tipler (çok fonksiyonlu ölçerler) enerji izleme sistemlerine (Modbus vb.) veri gönderir; portatif tipler etütlerde akım pensleriyle kısa süreli kayıt için kullanılır." },
+  { t: 3, s: 14, q: "Bir enerji etüdünde bir tesisin birkaç gün boyunca yük profilini, güç faktörünü ve harmoniklerini kaydetmek için en uygun cihaz hangisidir?",
+    o: ["Portatif güç analizörü", "Analog avometre", "Frekansmetre", "Lüxmetre", "Elektro-optik takometre"], a: 0,
+    e: "Zamana bağlı yük profili, güç faktörü ve harmonik kaydı için <b>portatif güç analizörü</b> kullanılır; akım pensleri ve gerilim probları devreyi kesmeden bağlanır.",
+    n: "Ölçüm süresi tesisin tipik çalışma döngüsünü kapsamalıdır: vardiyalı bir işletmede en az bir tam hafta (hafta sonu dâhil) kayıt, tek günlük ölçümden çok daha güvenilir sonuç verir. Kayıt aralığı (örneğin 1 dakika) ve pens yönleri ölçüm başlamadan kontrol edilmelidir." },
+  { t: 3, s: 14, q: "Bir güç analizörü dengeli üç fazlı bir yükte faz–faz gerilimini 400 V, faz akımını 100 A ve güç faktörünü 0,8 ölçmektedir. Yükün aktif gücü yaklaşık kaç kW'tır? (√3 ≈ 1,732)",
+    o: ["Yaklaşık 55,4 kW", "Yaklaşık 69,3 kW", "32 kW", "96 kW", "Yaklaşık 18,5 kW"], a: 0,
+    e: "Üç fazlı dengeli yükte P = √3 × V<sub>FF</sub> × I × cosφ = 1,732 × 400 × 100 × 0,8 ≈ <b>55.400 W ≈ 55,4 kW</b>.",
+    n: "√3 × 400 × 100 ≈ 69,3 kVA görünür güçtür; cosφ ile çarpılmazsa bu değer bulunur. √3 unutulursa 32 kW, 3 ile çarpılırsa 96 kW çıkar; ikisi de yanlıştır. Faz–nötr gerilimiyle hesap yapılıyorsa P = 3 × V<sub>FN</sub> × I × cosφ = 3 × 230 × 100 × 0,8 ≈ 55,2 kW olur, yani aynı sonuç." },
+
+  // Takometre, lüxmetre ve desibelmetre
+  { t: 4, s: 13, q: "Dönen cisimlerin devir sayısını ölçen alete ne ad verilir?",
+    o: ["Takometre (turmetre)", "Cosfimetre", "Frekansmetre", "Desibelmetre", "Lüxmetre"], a: 0,
+    e: "Devir ölçme aracı <b>takometre (turmetre)</b>'dir. Yapısına, kullanım yerine ve hassasiyetine göre birçok modeli vardır.",
+    n: "Devir ölçümü enerji etüdünde fan, pompa ve motorların gerçek çalışma noktasını bulmak için kullanılır. Asenkron motorlarda ölçülen devirden kayma ve dolayısıyla yaklaşık yükleme oranı tahmin edilebilir." },
+  { t: 4, s: 13, q: "En çok kullanılan elektro-optik takometrenin çalışma ilkesi nedir?",
+    o: ["Dönen cisim üzerindeki bir noktadan periyodik olarak yansıyan ışığı algılar; frekansı gerilime çeviren devre ile devri bulur", "Milin motora değdirilmesiyle her turda bir sinyal üretir", "Dönen cismin çıkardığı sesi ölçer", "Motorun çektiği akımdan devri hesaplar", "Dönen cismin sıcaklığındaki değişimi ölçer"], a: 0,
+    e: "Elektro-optik takometre bir <b>ışık huzmesi</b> gönderir; dönen cisim üzerindeki bir noktadan <b>periyodik olarak geri dönen ışığı</b> algılar. Bu ışığın periyodu cismin dönme periyoduyla aynıdır ve <b>frekansı gerilime çeviren devre</b> ile devir sayısı ölçülür.",
+    n: "Optik takometre temassızdır; dönen parçaya dokunmadan uzaktan ölçüm yaptığı için daha güvenlidir. Mile genellikle küçük bir yansıtıcı bant yapıştırılır. Milin motor miline değdirilerek ölçüm yapıldığı tip ise temaslı (dijital) takometredir; dönen parçaya yaklaşmayı gerektirdiğinden makine koruyucuları ve uygun KKD önemlidir." },
+  { t: 4, s: 13, q: "Bir mile tek yansıtıcı bant yapıştırılmıştır ve optik takometre saniyede 25 yansıma algılamaktadır. Milin devir sayısı kaç d/d'dir?",
+    o: ["1.500 d/d", "25 d/d", "250 d/d", "3.000 d/d", "750 d/d"], a: 0,
+    e: "Her turda bir yansıma olduğundan 25 yansıma/s = 25 tur/s. Dakikada: 25 × 60 = <b>1.500 d/d</b>.",
+    n: "Mil üzerinde birden fazla bant varsa yansıma sayısı bant sayısına bölünmelidir; aksi hâlde devir katlanarak okunur. 1.500 d/d, 50 Hz şebekede 4 kutuplu bir motorun senkron devridir." },
+  { t: 4, s: 13, q: "50 Hz şebekeye bağlı 4 kutuplu (2 çift kutuplu) bir asenkron motorun milinde takometre 1.470 d/d ölçmektedir. Motorun senkron devri ve kayması nedir? (n<sub>s</sub> = 60 × f / p, p: çift kutup sayısı)",
+    o: ["1.500 d/d; %2", "3.000 d/d; %51", "1.500 d/d; %3", "1.000 d/d; %47", "750 d/d; %96"], a: 0,
+    e: "n<sub>s</sub> = 60 × 50 / 2 = <b>1.500 d/d</b>. Kayma s = (1.500 − 1.470) / 1.500 = 0,02 → <b>%2</b>.",
+    n: "Asenkron motorda kayma yaklaşık olarak yükle orantılıdır. Etiketteki nominal devir 1.455 d/d (nominal kayma 45 d/d) ise ölçülen 30 d/d'lik kayma motorun yaklaşık 30 / 45 ≈ %67 yükle çalıştığını gösterir. Bu yöntem kaba bir tahmindir ama sürekli düşük yüklü (aşırı büyük seçilmiş) motorları hızla belirlemeye yarar." },
+  { t: 4, s: 15, q: "Aydınlık seviyesi ölçümünde hangi cihaz kullanılır?",
+    o: ["Lüxmetre", "Desibelmetre", "Takometre", "Cosfimetre", "Frekansmetre"], a: 0,
+    e: "Aydınlık seviyesi (aydınlık şiddeti) <b>lüxmetre</b> ile ölçülür; birimi lükstür (lx = lm/m²).",
+    n: "Lüxmetre, çalışma düzlemine (masa yüksekliği genellikle 0,75–0,85 m) yerleştirilerek ve gün ışığının etkisi ayrı değerlendirilerek kullanılır. Ölçümler bir ızgara üzerinde birkaç noktada alınıp ortalama ve düzgünlük hesaplanır." },
+  { t: 4, s: 15, q: "Bir ofiste masa üzerinde lüxmetre ile 900 lx ölçülmüştür; ilgili standart tablosunda bu iş için 500 lx önerilmektedir. Enerji verimliliği açısından doğru yorum hangisidir?",
+    o: ["Aşırı aydınlatma vardır; aydınlatma azaltılarak enerji tasarrufu sağlanabilir", "Aydınlatma yetersizdir; armatür eklenmelidir", "Değer tabloya uygundur, işlem gerekmez", "Lüxmetre kalibre edilmeden hiçbir yorum yapılamaz", "Aydınlık seviyesinin enerji tüketimiyle ilişkisi yoktur"], a: 0,
+    e: "Sunuma göre ölçümler tablolarla karşılaştırılır; amaç yeterli aydınlatma düzeyini sağlamak veya <b>aşırı aydınlatmayı azaltarak enerji tasarrufu</b> sağlamaktır. 900 lx, önerilen 500 lx'in çok üzerindedir.",
+    n: "Karşılaştırma için iç mekân işyerlerinde TS EN 12464-1 (son revizyonu 2021) kullanılır: örneğin yazma, okuma ve bilgisayar işleri için 500 lx, koridorlar için 100 lx. Azaltma; armatür söndürme, gün ışığına bağlı kısma (dimming), hareket sensörü ve LED dönüşümüyle yapılır. Yetersiz aydınlatma da iş kazası ve verim kaybı riski taşıdığından alt sınırın altına inilmemelidir." },
+  { t: 4, s: 15, q: "Lüxmetre ölçümlerinde aşırı aydınlatıldığı belirlenen bir alanda 58 W'lık 60 armatürden 20'si sökülmüştür. Yılda 3.000 saat çalışma ile yıllık tasarruf ne kadardır? (Balast kayıpları ihmal edilecektir.)",
+    o: ["3.480 kWh", "10.440 kWh", "1.160 kWh", "348 kWh", "6.960 kWh"], a: 0,
+    e: "Azalan güç = 20 × 58 W = 1.160 W = 1,16 kW. Yıllık tasarruf = 1,16 kW × 3.000 h = <b>3.480 kWh</b>.",
+    n: "TEP karşılığı: 3.480 kWh × 0,086 TEP/MWh ≈ 0,30 TEP. Gerçekte manyetik balastlı floresan armatürlerde balast kaybı lamba gücüne %15–25 eklenir; tasarruf bu kadar daha büyük olur. Armatür sökmek yerine LED'e geçiş, aynı aydınlık seviyesini çok daha düşük güçle sağlar." },
+  { t: 4, s: 16, q: "Gürültülü ortamların ses seviyesinin ölçümünde hangi cihaz kullanılır?",
+    o: ["Desibelmetre", "Lüxmetre", "Takometre", "Cosfimetre", "Avometre"], a: 0,
+    e: "Ses seviyesi <b>desibelmetre</b> (ses seviyesi ölçer) ile ölçülür; birimi desibeldir (dB, iş sağlığında A ağırlıklı dB(A)).",
+    n: "Çalışanların Gürültü ile İlgili Risklerden Korunmalarına Dair Yönetmelik'e göre günlük maruziyette en düşük maruziyet eylem değeri 80 dB(A), en yüksek maruziyet eylem değeri 85 dB(A), maruziyet sınır değeri 87 dB(A)'dır. Kompresör daireleri, fan ve pompa odaları bu ölçümlerin sık yapıldığı yerlerdir." },
+  { t: 4, s: 16, q: "Sunuma göre desibelmetreler ses seviyesi ölçümü dışında enerji verimliliği açısından hangi amaçla kullanılabilir?",
+    o: ["Basınçlı hava kaçaklarının tespitinde", "Motor devir sayısının ölçümünde", "Güç faktörünün ölçümünde", "Aydınlık seviyesinin belirlenmesinde", "Şebeke frekansının ölçümünde"], a: 0,
+    e: "Sunuma göre desibelmetrelerden <b>basınçlı hava kaçaklarının tespitinde</b> de faydalanılabilir; kaçak noktasından çıkan hava ses üretir.",
+    n: "Basınçlı hava, işletmelerin en pahalı enerji biçimlerinden biridir ve bakımsız sistemlerde üretilen havanın %20–30'u kaçaklarla kaybolabilir. Kaçaklar üretim yokken yapılan yük–boşta testiyle de ölçülebilir: kompresörün yükte kaldığı süre oranı, kaçak oranını verir.",
+    g: { eski: "Basınçlı hava kaçaklarının tespitinde desibelmetrelerden faydalanılabilir.", yeni: "Kaçak tespitinde bugün ultrasonik kaçak dedektörleri ve akustik görüntüleme kameraları kullanılmaktadır. Kaçağın ürettiği ultrasonik ses (yaklaşık 20–100 kHz) fabrika gürültüsünden ayrıştırılabildiği için küçük kaçaklar da gürültülü ortamda bulunabilir; duyulabilir bölgede ölçen sıradan desibelmetre bunu sağlayamaz.", kaynak: "ABD Enerji Bakanlığı, “Improving Compressed Air System Performance: A Sourcebook for Industry”; ISO 11011:2013 (basınçlı hava sistemlerinde enerji verimliliği değerlendirmesi)" } },
+  { t: 4, s: 16, q: "Bir kompresör dairesinde her biri tek başına 85 dB ses seviyesi oluşturan iki özdeş kompresör birlikte çalışırsa ölçülecek toplam ses seviyesi yaklaşık ne olur?",
+    o: ["88 dB", "170 dB", "85 dB", "95 dB", "86 dB"], a: 0,
+    e: "Desibel logaritmik bir ölçektir. İki eşit kaynak ses enerjisini iki katına çıkarır: 10 × log(2) ≈ 3 dB artış. Toplam ≈ 85 + 3 = <b>88 dB</b>.",
+    n: "Desibeller aritmetik olarak toplanmaz. Her 3 dB artış ses enerjisinin iki katına, her 10 dB artış on katına çıktığı anlamına gelir. Bu yüzden 85 dB(A)'dan 88 dB(A)'ya çıkan bir ortamda izin verilen maruziyet süresi yarıya iner; KKD seçimi ve gürültü haritası buna göre yapılmalıdır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
