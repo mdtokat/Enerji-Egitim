@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Termodinamik ve Isı Transferi Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 11 · Termodinamik ve Isı Transferi</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 11</span> 1_12.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı, 2022</p>
+    <h1>Termodinamik ve Isı Transferi <em>Sınavı</em></h1>
+    <p class="lede">Termodinamiğin temel kavramları ve enerji türleri, enerji dönüşümleri ve buhar entalpisi, termodinamiğin sıfırıncı, birinci, ikinci ve üçüncü yasaları, iletim, taşınım ve ışınım; düzlem duvarda U değeri, taşınım ve ışınım hesapları.</p>
+    <ul class="facts"><li>54 soru</li><li>5 şık</li><li>Öğretici notlu</li><li>Güncel verilerle</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Termodinamik ve Isı Transferi” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum11-v1",
+topics: ["Termodinamik ve enerji türleri", "Enerji dönüşümleri ve buhar", "Termodinamiğin yasaları", "Isı transferi mekanizmaları", "Düzlem duvarda ısı transferi hesapları"],
+Q: [
+  // Termodinamik ve enerji türleri
+  { t: 0, s: 3, q: "Sunuma göre “termodinamik” sözcüğü hangi sözcüklerden türemiştir ve eski dönemlerde neyi tanımlamak için kullanılmıştır?",
+    o: ["Latince “therme” (ısı) ve “dynamis” (güç); ısının işe dönüştürülmesini tanımlamak için", "Yunanca “thermos” (soğuk) ve “dynamo” (elektrik); elektrik üretimini tanımlamak için", "Latince “terra” (toprak) ve “dynamis” (güç); yer çekimini tanımlamak için", "Arapça “tarim” (ölçü) ve “dinami” (hareket); ölçüm bilimini tanımlamak için", "Latince “therme” (ısı) ve “metron” (ölçü); sıcaklık ölçümünü tanımlamak için"], a: 0,
+    e: "Termodinamik, <b>“therme” (ısı)</b> ile <b>“dynamis” (güç)</b> sözcüklerinden türemiştir ve eski dönemlerde <b>ısının işe dönüştürülmesini</b> tanımlamak için kullanılmıştır.",
+    n: "Bilim dalı, buhar makinelerinin veriminin incelenmesiyle 19. yüzyılda gelişmiştir. Bugün termodinamik, enerji dönüşüm olaylarını ve bu dönüşüme aracılık eden maddenin (akışkanın) nasıl etkilendiğini inceler; makine mühendisliğinde ise enerji dönüşümüyle makine arasındaki ilişkiyi ele alır. Sunumda kökenler Latince olarak verilmiştir; sözcükler aslında Yunanca kökenlidir (thermē, dynamis)." },
+  { t: 0, s: 4, q: "Sunumda sayılan termodinamiğin temel uygulama alanları arasında hangisi <b>yoktur</b>?",
+    o: ["Yalnızca dilbilgisi kurallarının incelenmesi", "Isıtma ve iklimlendirme sistemleri", "Taşıt motorları, jet ve roket motorları", "Nükleer güç üniteleri", "İnsan vücudu–çevre ilişkisi ve güneş enerjisi sistemleri"], a: 0,
+    e: "Uygulama alanları: ısıtma ve iklimlendirme; buzdolabı ve soğutucular; duş, ütü, saç kurutma makinesi, su ısıtıcıları; bilgisayar ve TV; <b>taşıt, jet ve roket motorları</b>; <b>nükleer güç üniteleri</b>; <b>insan vücudu–çevre ilişkisi</b>; <b>güneş enerjisi sistemleri</b>.",
+    n: "Sunuma göre uygulama alanları bu listeyle sınırlı değildir: düşen taşın potansiyel enerjisinin kinetik enerjiye dönüşmesi veya masadaki kahvenin soğuması gibi günlük olayların da termodinamik açıklaması vardır. Enerji yöneticisi için en önemli alanlar kazanlar, buhar sistemleri, soğutma ve ısı yalıtımıdır." },
+  { t: 0, s: 6, q: "Masada duran sıcak bir fincan kahvenin zamanla soğuması sunumda nasıl açıklanmıştır?",
+    o: ["Kahvenin sıcaklığı çevreden yüksek olduğu için çevreye ısı verir; bu ısı transferi sıcaklıklar eşitleninceye kadar sürer", "Kahve çevreden soğuk alır", "Kahvenin enerjisi yok olur", "Kahve, çevre sıcaklığının altına düşene kadar soğur", "Kahve ısısını yalnızca fincana verir, çevreye ısı vermez"], a: 0,
+    e: "Kahvenin sıcaklığı çevre sıcaklığından yüksek olduğu için <b>çevreye ısı verir</b>; bu durum <b>sıcaklıklar eşitleninceye kadar</b> devam eder. Bu, farkında bile olmadığımız bir ısı transferidir.",
+    n: "“Soğuk” bir enerji türü değildir; aktarılan şey yalnızca ısıdır ve her zaman sıcaktan soğuğa doğru akar. Kahve çevre sıcaklığının altına kendiliğinden inemez; bu termodinamiğin ikinci yasasının gündelik bir örneğidir. Termos, ısı transferinin üç yolunu da (iletim, taşınım, ışınım) sınırlayarak bu soğumayı yavaşlatır." },
+  { t: 0, s: 7, q: "Termodinamik incelemelerde kullanılan sistem, çevre ve sınır kavramları nasıl tanımlanır?",
+    o: ["Sistem incelenen sınırlı bölge, çevre sistemin dışında kalan kısım, sınır ise sistemi çevreden ayıran kısımdır", "Sistem tüm evren, çevre yalnızca hava, sınır ise sıcaklıktır", "Sistem yalnızca katı cisimler, çevre sıvılar, sınır gazlardır", "Sistem ve çevre aynı kavramdır, sınır yoktur", "Sistem ölçüm cihazı, çevre operatör, sınır ise kablodur"], a: 0,
+    e: "Olayın etkisi altındaki ve incelenen bölge bir sınır içine alınır: bu sınırlı alana <b>sistem</b>, dışında kalan kısma <b>çevre</b>, sistemi çevreden ayıran kısma <b>sınır</b> denir. Sunumda örnek olarak piston-silindir ikilisi gösterilmiştir.",
+    n: "Sınır gerçek (bir kazanın duvarı) veya hayali (bir boru kesiti) olabilir; sabit veya hareketli (piston) olabilir. Bir önceki sunumdaki “kontrol hacmi” kavramı bunun akışlı sistemlere uyarlanmış hâlidir. Enerji denkliğinde neyin “giren”, neyin “çıkan” olduğunu sınırın nereye çizildiği belirler." },
+  { t: 0, s: 8, q: "Sunuma göre enerji nedir ve hangi tür bir büyüklüktür?",
+    o: ["İş yapabilme yeteneğidir; uzunluklar gibi skaler bir büyüklüktür", "Kuvvetin hızla çarpımıdır; vektörel bir büyüklüktür", "Yalnızca elektriğin bir ölçüsüdür; boyutsuz bir sayıdır", "Sıcaklığın diğer adıdır; derece ile ölçülür", "Kütlenin hacme oranıdır; yoğunluk birimiyle ölçülür"], a: 0,
+    e: "Enerji kısaca <b>iş yapabilme yeteneğidir</b>; tıpkı uzunluklar gibi <b>skaler</b> bir büyüklüktür (yönü yoktur).",
+    n: "Enerjinin SI birimi joule'dür (J); enerji sektöründe kWh, kcal ve TEP de kullanılır (1 kWh = 3,6 MJ = 860 kcal). Gücü (birim zamanda enerji, W) enerjiyle karıştırmayın: 1 kW'lık bir cihaz 1 saatte 1 kWh enerji tüketir." },
+  { t: 0, s: 8, q: "Sunumda sayılan 8 ana enerji çeşidi arasında hangisi <b>yoktur</b>?",
+    o: ["Manyetik basınç enerjisi", "Potansiyel enerji", "Kimyasal enerji", "Işık enerjisi", "Ses enerjisi"], a: 0,
+    e: "8 ana enerji çeşidi: <b>potansiyel, kinetik, ısı, ışık, elektrik, kimyasal, nükleer ve ses enerjisi</b>.",
+    n: "Sunumun vurguladığı ilke: hiçbir enerji kaybolmaz; kaybolduğunu düşündüğümüz enerji, olsa olsa başka bir türe dönüşmüştür. Örneğin bir motorun “kaybı” sargılarda ve rulmanlarda ısıya, gürültüde ses enerjisine dönüşür." },
+  { t: 0, s: 9, q: "Sunuma göre aşağıdakilerden hangisinde potansiyel enerji <b>bulunmaz</b>?",
+    o: ["Yatay düz bir yolda serbestçe yuvarlanan bir topun yalnızca hareketinden kaynaklanan enerjisi", "Gerilmiş bir yay", "Havada duran bir cisim", "İple tavana asılı bir model", "Bir barajda yüksekte tutulan su"], a: 0,
+    e: "Potansiyel enerji, bir cismin <b>konumu ve durumu</b> yüzünden sahip olduğu enerjidir: gerilmiş yay, havada duran cisim, tavana asılı model gibi <b>yüksekliği olan ya da gerilmiş/sıkıştırılmış</b> tüm cisimlerde vardır. Hareketten kaynaklanan enerji ise kinetik enerjidir.",
+    n: "Basınçlı hava tankındaki sıkıştırılmış hava da depolanmış enerjiye örnektir; bu yüzden basınçlı hava “pahalı” bir enerji taşıyıcısıdır ve kaçakları doğrudan enerji kaybıdır. Pompaj depolamalı santraller, suyu yükseğe pompalayarak elektriği potansiyel enerji olarak depolar." },
+  { t: 0, s: 10, q: "1.000 kg su 50 m yükseklikteki bir depodan düşürülmektedir. g = 9,81 m/s² alınırsa suyun potansiyel enerjisi (E = m × g × h) yaklaşık kaçtır?",
+    o: ["490.500 J (≈ 0,14 kWh)", "50.000 J (≈ 0,014 kWh)", "490,5 J", "4.905.000 J (≈ 1,36 kWh)", "9.810 J"], a: 0,
+    e: "E = 1.000 × 9,81 × 50 = <b>490.500 J</b>. 1 kWh = 3,6 × 10⁶ J olduğundan ≈ <b>0,136 kWh</b>.",
+    n: "Sonuç, hidroelektrikte neden çok büyük su hacimleri veya yükseklikler gerektiğini gösterir: 1 ton suyun 50 m'den düşmesi bir ampulü ancak birkaç saat yakacak enerji verir. Sunumda g'nin değeri 9,80665 m/s² olarak verilmiştir; bu aslında uluslararası kabul edilmiş standart yerçekimi ivmesidir (g₀). Gerçek değer enleme ve yüksekliğe göre biraz değişir (yaklaşık 9,78–9,83 m/s²)." },
+  { t: 0, s: 11, q: "Kütlesi 2 kg olan bir cisim 10 m/s hızla hareket etmektedir. Kinetik enerjisi (E = ½ × m × v²) kaç joule'dür?",
+    o: ["100 J", "20 J", "200 J", "10 J", "400 J"], a: 0,
+    e: "E = ½ × 2 × 10² = ½ × 2 × 100 = <b>100 J</b>.",
+    n: "Kinetik enerji hızın karesiyle artar: hız iki katına çıkarsa enerji dört katına çıkar. Bu ilişki fan ve pompalarda da önemlidir: akışkanın hızı arttıkça borulardaki sürtünme kaybı da hızla büyür (yaklaşık v² ile). Bu nedenle boru ve kanal çaplarını küçük seçmek işletme enerjisini artırır." },
+  { t: 0, s: 12, q: "Sunuma göre mekanik enerji nedir?",
+    o: ["Kinetik ve potansiyel enerjinin toplamıdır; korunumludur ve aralarında dönüşüm olabilir", "Yalnızca elektrik motorlarının ürettiği enerjidir", "Isı enerjisinin diğer adıdır", "Yalnızca nükleer santrallerde oluşan enerjidir", "Hiçbir zaman başka bir enerjiye dönüşmeyen enerjidir"], a: 0,
+    e: "Kinetik ve potansiyel enerjiye <b>mekanik enerji</b> denir. Mekanik enerji korunumludur ve aralarında değişme olabilir: yüksekteki taş düşerken potansiyel enerji kinetik enerjiye; hareketli cisim yayı sıkıştırırken kinetik enerji yayın potansiyel enerjisine dönüşür.",
+    n: "“Mekanik enerji korunumludur” ifadesi sürtünmenin ihmal edildiği ideal durum içindir. Gerçekte sürtünme mekanik enerjinin bir kısmını ısıya çevirir; toplam enerji korunur ama mekanik enerji azalır. Rulman, kayış ve dişli kayıpları bu dönüşümün sanayideki karşılığıdır." },
+  { t: 0, s: 14, q: "Sunumda “T sıcaklığındaki bir cismin sahip olduğu enerji ½(K·T²)” şeklinde verilmiştir (K: Boltzmann sabiti). Bu ifadenin fiziksel olarak doğru biçimi hangisidir?",
+    o: ["Gaz moleküllerinin her serbestlik derecesi başına ortalama kinetik enerjisi ½·k·T'dir (tek atomlu ideal gazda molekül başına 3/2·k·T)", "½·k·T² doğrudur, düzeltme gerekmez", "Enerji sıcaklıktan bağımsızdır", "Enerji k/T ile orantılıdır", "Enerji yalnızca T⁴ ile orantılıdır"], a: 0,
+    e: "Eşbölüşüm ilkesine göre her serbestlik derecesi başına ortalama enerji <b>½·k·T</b>'dir; enerji sıcaklığın karesiyle değil, <b>mutlak sıcaklıkla doğru orantılıdır</b>. Tek atomlu ideal gazda molekül başına öteleme kinetik enerjisi <b>3/2·k·T</b>'dir.",
+    n: "Boltzmann sabiti k ≈ 1,380649 × 10⁻²³ J/K'dir (sunumda 1,3807 × 10⁻²³). Sunumdaki “½(K·T²)” ifadesi bir yazım hatasıdır. Bu bağıntı, sıcaklığın moleküler hareketin bir ölçüsü olduğunu gösterir ve üçüncü yasadaki “mutlak sıfırda moleküler hareket durur” ifadesiyle de bağlantılıdır." },
+  { t: 0, s: 16, q: "Sunuma göre nükleer enerji nedir ve nükleer santrallerde elektrik nasıl elde edilir?",
+    o: ["Radyoaktif elementlerde saklı enerjidir; fisyon veya füzyonla açığa çıkar; santralde bu enerjiyle buhar, buharla elektrik üretilir", "Güneş ışığının doğrudan elektriğe çevrilmesidir", "Yakıttaki karbonun yanmasıyla elde edilen enerjidir", "Rüzgârın kinetik enerjisidir", "Suyun potansiyel enerjisidir"], a: 0,
+    e: "Nükleer enerji <b>radyoaktif elementlerde saklı</b> enerjidir; <b>fisyon (parçalanma)</b> veya <b>füzyon (birleşme)</b> sonucu ortaya çıkar. Nükleer santrallerde açığa çıkan enerjiden <b>buhar</b>, buhardan da <b>elektrik</b> elde edilir.",
+    n: "Ticari nükleer santraller fisyonla çalışır; füzyon hâlâ deneysel aşamadadır. Buhar üretildikten sonraki çevrim (türbin, jeneratör, kondenser, soğutma kulesi) kömürlü bir termik santralle aynıdır. Türkiye'nin ilk nükleer santrali Akkuyu'da kurulmaktadır." },
+  { t: 0, s: 17, q: "Sunuma göre sıcaklık nasıl tanımlanır?",
+    o: ["Bir maddenin ısıl enerji durumunun göstergesi olan ve ısı geçişine neden olan etkendir; °C ile gösterilir ve termometreyle ölçülür", "Bir maddenin içerdiği toplam ısı miktarıdır; joule ile ölçülür", "Maddenin kütlesinin hacmine oranıdır", "Yalnızca gazlarda tanımlanan bir büyüklüktür", "Isı ile aynı kavramdır"], a: 0,
+    e: "Sıcaklık, bir maddenin <b>ısıl enerji durumunun göstergesi</b> olan ve <b>ısı geçişine neden olan etken</b>dir; °C ile gösterilir ve termometreyle ölçülür.",
+    n: "Isı geçişinin itici gücü sıcaklık farkıdır; ısı ise aktarılan enerjinin miktarıdır. Termodinamik hesaplarda (özellikle ışınımda) mutlak sıcaklık kullanılır: T(K) = t(°C) + 273,15. Sıcaklık farkları için 1 °C = 1 K'dir." },
+
+  // Enerji dönüşümleri ve buhar
+  { t: 1, s: 20, q: "Sunumdaki su değirmeni örneğinde enerji dönüşüm zinciri hangisidir?",
+    o: ["Yüksekteki suyun potansiyel enerjisi → akan suyun kinetik enerjisi → çarkın ve değirmen taşının mekanik (dönme) enerjisi", "Elektrik enerjisi → ısı enerjisi → ışık enerjisi", "Kimyasal enerji → nükleer enerji → ses enerjisi", "Isı enerjisi → potansiyel enerji → elektrik enerjisi", "Işık enerjisi → kimyasal enerji → potansiyel enerji"], a: 0,
+    e: "Su yüksekten düşerken <b>potansiyel enerjisi kinetik enerjiye</b> dönüşür; bu kinetik enerji çarkı döndürerek değirmen taşına <b>mekanik enerji</b> olarak aktarılır.",
+    n: "Sunumdaki Muğla Kavaklıdere'deki su değirmeni fotoğrafları, aynı ilkenin bugünkü hidroelektrik santrallerin atası olduğunu gösterir. Düşü yüksekliği (h) ve debi ne kadar büyükse elde edilen güç o kadar büyüktür: P = ρ × g × Q × h × η." },
+  { t: 1, s: 13, q: "Sunumdaki örnekte düşen su bir türbini, türbin de bir kap içindeki karıştırıcıyı döndürmekte ve kaptaki suyun sıcaklığı yükselmektedir. Bu deneyin gösterdiği sonuç nedir?",
+    o: ["Isı da bir enerjidir; kaptaki suyun kazandığı ısı türbini döndüren suyun kinetik enerjisinden gelir", "Isı enerji değildir, yalnızca bir histir", "Karıştırma suyun sıcaklığını düşürür", "Kinetik enerji ısıya dönüşemez", "Kaptaki su enerji kaybeder"], a: 0,
+    e: "Kaptaki suyun kazandığı ısı, <b>türbini döndüren suyun kinetik enerjisidir</b>. O hâlde <b>ısı da bir enerjidir</b>; ısınan cisimler iş yapabilir (ısıtılan gaz dolu kabın kapağının yükselmesi gibi).",
+    n: "Bu deney James Joule'ün 1840'lardaki ünlü deneyinin benzeridir; mekanik iş ile ısının eşdeğer olduğunu, yani ikisinin aynı büyüklüğün (enerjinin) farklı biçimleri olduğunu göstermiştir. Enerji biriminin “joule” adını taşıması bundandır (1 cal ≈ 4,186 J)." },
+  { t: 1, s: 22, q: "Sunumdaki termik santral şemasında sayılan ana bileşenler arasında hangisi <b>yoktur</b>?",
+    o: ["Fotovoltaik panel", "Kazan", "Elektrofiltre", "Buhar türbini ve jeneratör", "Kondenser ve soğutma kulesi"], a: 0,
+    e: "Şemadaki bileşenler: <b>1 kazan, 2 elektrofiltre, 3 buhar türbini, 4 jeneratör, 5 trafo istasyonu, 6 kondenser, 7 soğutma kulesi</b>. Fotovoltaik panel termik santralin parçası değildir.",
+    n: "Enerji dönüşüm zinciri: yakıtın kimyasal enerjisi → kazanda buharın ısı enerjisi → türbinde mekanik enerji → jeneratörde elektrik enerjisi. Elektrofiltre baca gazındaki tozu (uçucu kül) tutar; enerji dönüşümünde değil, emisyon kontrolünde görev alır." },
+  { t: 1, s: 22, q: "Bir termik santralde kondenser ve soğutma kulesinin görevi termodinamik açıdan nasıl açıklanır?",
+    o: ["Türbinden çıkan buhar yoğuşturulur ve çevrimde işe dönüştürülemeyen atık ısı düşük sıcaklıktaki bir kuyuya (atmosfer, su) verilir", "Kondenser ek elektrik üretir", "Soğutma kulesi yakıtın yanmasını sağlar", "Kondenser buharı kazana dönmeden önce kızdırır", "Soğutma kulesi baca gazını temizler"], a: 0,
+    e: "Isı makineleri yüksek sıcaklıktaki kaynaktan ısı alır, bir kısmını işe çevirir ve <b>geri kalan atık ısıyı düşük sıcaklıktaki bir kuyuya</b> verir. Santralde bu kuyu, kondenser ve soğutma kulesi aracılığıyla atmosfer veya sudur.",
+    n: "İkinci yasa gereği ısının tamamı işe dönüştürülemez; bu yüzden klasik buhar santrallerinin verimi yaklaşık %35–45'tir. Yakıt enerjisinin yarısından fazlası soğutma kulesinden atılır. Kojenerasyon bu atık ısıyı ısıtma veya proses için kullanarak toplam verimi %80'in üzerine çıkarır." },
+  { t: 1, s: 23, q: "Sunumdaki örnekte 20 °C'deki 1 kg suyun entalpisi 84 kJ, 10 barg ve 184 °C'deki doymuş suyun entalpisi (h_f) 782 kJ'dür. Suyu doyma sıcaklığına kadar ısıtmak için ne kadar enerji gerekir?",
+    o: ["698 kJ", "782 kJ", "866 kJ", "2.000 kJ", "164 kJ"], a: 0,
+    e: "Gerekli duyulur ısı = h_f − h(20 °C) = 782 − 84 = <b>698 kJ</b>.",
+    n: "Bu, suyun sıcaklığını 20 °C'den 184 °C'ye çıkaran “duyulur ısı”dır. Kontrol: Q ≈ m × c × ΔT = 1 × 4,25 × 164 ≈ 698 kJ (yüksek sıcaklıkta suyun özgül ısısı 4,18'den biraz büyüktür). Kazana daha sıcak besleme suyu vermek (ekonomizer, kondens geri dönüşü) bu kısmı küçültür." },
+  { t: 1, s: 23, q: "Aynı örnekte 184 °C'deki 1 kg doymuş suyu 184 °C'de doymuş buhara dönüştürmek için gereken buharlaşma gizli ısısı (h_fg) 2.000 kJ'dür. Doymuş buharın entalpisi (h_g) kaçtır?",
+    o: ["2.782 kJ", "2.000 kJ", "1.218 kJ", "2.698 kJ", "2.084 kJ"], a: 0,
+    e: "h_g = h_f + h_fg = 782 + 2.000 = <b>2.782 kJ/kg</b>.",
+    n: "Buharlaşma sırasında sıcaklık 184 °C'de sabit kalır; verilen ısının tamamı faz değişimine harcanır. Basınç arttıkça h_f artar, h_fg azalır. Sunumdaki değerler 10 barg (yaklaşık 11 bar mutlak) doymuş buhar için buhar tablolarıyla uyumludur." },
+  { t: 1, s: 23, q: "20 °C'deki besleme suyundan 10 barg doymuş buhar üretmek için 1 kg başına toplam ne kadar enerji gerekir ve bunun yaklaşık yüzde kaçı gizli ısıdır?",
+    o: ["2.698 kJ; yaklaşık %74'ü gizli ısıdır", "2.782 kJ; yaklaşık %50'si gizli ısıdır", "698 kJ; tamamı gizli ısıdır", "2.000 kJ; yaklaşık %26'sı gizli ısıdır", "2.866 kJ; yaklaşık %90'ı gizli ısıdır"], a: 0,
+    e: "Toplam = h_g − h(20 °C) = 2.782 − 84 = <b>2.698 kJ</b>. Gizli ısı payı = 2.000 / 2.698 ≈ <b>%74</b>.",
+    n: "Sunumdaki şemaya göre ısıtma, kurutma ve pişirme işlemlerinde buhardan alınan asıl enerji gizli ısıdır (h_fg = 2.000 kJ): buhar yoğuşur ve 184 °C'de doymuş suya döner. Bu sıcak kondens (782 kJ/kg) kazana geri döndürülmezse yeni suyun ısıtılması için 698 kJ/kg ek enerji gerekir; kondens geri kazanımı bu yüzden önemli bir tasarruf önlemidir." },
+  { t: 1, s: 23, q: "Proseste 184 °C'deki doymuş buhar yoğuşturulup kondens yine 184 °C'de (h_f = 782 kJ/kg) atılmaktadır. Kondens kazana geri döndürülürse, 20 °C'deki taze suya göre 1 kg başına yaklaşık ne kadar enerji tasarrufu sağlanır?",
+    o: ["Yaklaşık 698 kJ/kg", "Yaklaşık 2.000 kJ/kg", "Yaklaşık 84 kJ/kg", "Yaklaşık 2.782 kJ/kg", "Tasarruf olmaz"], a: 0,
+    e: "Kondens geri dönerse kazanın suyu 20 °C'den doyma sıcaklığına ısıtması gerekmez: tasarruf ≈ 782 − 84 = <b>698 kJ/kg</b> (toplam ihtiyacın yaklaşık %26'sı).",
+    n: "Pratikte kondens tanka dönerken basınç düştüğü için bir kısmı flaş buhara dönüşür ve sıcaklığı düşer; gerçek tasarruf bu nedenle biraz daha azdır. Kondensle birlikte arıtılmış su ve kimyasal da geri kazanılır; blöf miktarı azalır. Flaş buharın da alçak basınçlı ısıtmada kullanılması ek tasarruf sağlar." },
+  { t: 1, s: 21, q: "Sunuma göre bir sisteme ısı verildiğinde enerjiye ne olur?",
+    o: ["Bir kısmı sistemde kalarak iç enerjiyi artırır, bir kısmı sistemden ayrılarak çevrede işe dönüşür", "Enerjinin tamamı yok olur", "Enerjinin tamamı her zaman işe dönüşür", "Sistem enerji kaybeder", "Enerji yalnızca ışığa dönüşür"], a: 0,
+    e: "Bir sisteme ısı verildiğinde enerjinin <b>bir kısmı sistemde kalır</b> ve <b>iç enerjide artış</b> oluşturur; <b>bir kısmı sistemden ayrılarak</b> çevresinde <b>işe dönüşür</b>.",
+    n: "Bu birinci yasanın kapalı sistem için ifadesidir: Q = ΔU + W. Örneğin piston-silindirdeki gaz ısıtılınca hem sıcaklığı artar (ΔU) hem genleşerek pistonu iter (W). Sistem tarafından kaybedilen enerji, çevresi tarafından kazanılan enerjiye eşittir." },
+
+  // Termodinamiğin yasaları
+  { t: 2, s: 24, q: "Termodinamiğin birinci yasası (enerjinin korunumu kanunu) kapalı bir sistem için nasıl ifade edilir?",
+    o: ["E_giren − E_çıkan = ΔE_toplam; sistemin toplam enerjisindeki net değişim, giren ve çıkan toplam enerjinin farkına eşittir", "E_giren + E_çıkan = 0", "E_giren × E_çıkan = 1", "Isı her zaman sıcaktan soğuğa akar", "Mutlak sıfırda entropi sıfırdır"], a: 0,
+    e: "Birinci yasa: bir hal değişimi sırasında kapalı bir sistemin <b>toplam enerjisindeki net değişim</b>, sisteme giren toplam enerji ile sistemden çıkan toplam enerjinin <b>farkına eşittir</b>: <b>E_giren − E_çıkan = ΔE_toplam</b>.",
+    n: "Yatışkın (kararlı) işletmede ΔE = 0 olduğundan giren = çıkan olur; bir önceki sunumdaki enerji denklikleri bu yasaya dayanır. Isının sıcaktan soğuğa akması ikinci yasanın, mutlak sıfırda entropinin sıfır olması üçüncü yasanın konusudur." },
+  { t: 2, s: 24, q: "Kapalı bir sisteme bir hal değişimi sırasında 500 kJ enerji girmekte, sistemden 200 kJ enerji çıkmaktadır. Sistemin toplam enerjisindeki değişim nedir?",
+    o: ["300 kJ artış", "700 kJ artış", "300 kJ azalış", "200 kJ artış", "Değişim olmaz"], a: 0,
+    e: "ΔE = E_giren − E_çıkan = 500 − 200 = <b>+300 kJ</b>; sistemin enerjisi 300 kJ artar.",
+    n: "Pozitif ΔE, enerjinin sistemde biriktiğini (örneğin sıcaklığının arttığını) gösterir. Bir depo ısıtılırken ilk saatlerde bu durum görülür; sıcaklık sabitlendiğinde ΔE = 0 olur ve verilen ısının tamamı kayıplarla çevreye gider." },
+  { t: 2, s: 25, q: "Termodinamiğin ikinci yasası, ısı ile iş arasındaki dönüşüm için ne söyler?",
+    o: ["Isının tamamen işe dönüştüğü bir çevrim mümkün değildir; hiçbir dönüşüm %100 verimli değildir", "Isının tamamı her zaman işe dönüştürülebilir", "İş ısıya dönüştürülemez", "Enerji yoktan var edilebilir", "Isı ve iş arasında hiçbir ilişki yoktur"], a: 0,
+    e: "İkinci yasa, <b>ısının tamamen işe dönüştüğü bir çevrim prosesinin mümkün olmadığını</b> açıklar: bir sistem enerjisinin tamamını işe dönüştüremez; hiçbir reaksiyon %100 verimli değildir ve enerjinin bir kısmı ısı olarak açığa çıkar.",
+    n: "Tersi mümkündür: işin tamamı ısıya dönüştürülebilir (örneğin elektrikli ısıtıcı neredeyse %100 verimle elektriği ısıya çevirir). Isı makinelerinin verimi ise kaynak ve kuyu sıcaklıklarıyla sınırlıdır. Bu asimetri, elektriğin ısıdan “daha değerli” bir enerji olmasının nedenidir." },
+  { t: 2, s: 26, q: "Sunuma göre ikinci yasanın “daha açık olan” ikinci kısmı neyi ifade eder?",
+    o: ["Isı doğal olarak her zaman sıcaktan soğuğa doğru akar; soğuk bir cisimden sıcak bir cisme başka bir enerji kullanılmadan ısı aktarılamaz", "Isı soğuktan sıcağa kendiliğinden akar", "Isı yalnızca katılarda akar", "Isı akışının yönü rastgeledir", "Sıcaklık farkı olmadan da ısı akar"], a: 0,
+    e: "Isı enerjisi doğal olarak <b>her zaman sıcak olandan daha soğuk olana</b> doğru hareket eder. Soğuk bir cisimden sıcak bir cisme <b>başka bir enerji kullanılmaksızın</b> ısı transferi mümkün değildir.",
+    n: "Buzdolabı, klima ve ısı pompası, soğuk ortamdan sıcak ortama ısı aktarır; bunu kompresöre verilen elektrik enerjisi sayesinde yapar. Bu yüzden ikinci yasa ile çelişmezler. Isı pompasının ısıtma tesir katsayısı (COP) genellikle 3–4'tür: 1 kWh elektrikle 3–4 kWh ısı taşınır." },
+  { t: 2, s: 26, q: "Sunumdaki örneklerde “daha soğuk bir odada bulunan sıcak kahvenin daha çok ısınması” veya “tele verilen ısının elektrik üretmesi” gibi olaylar birinci yasaya uyduğu hâlde neden gerçekleşmez?",
+    o: ["Hal değişimleri belirli bir yönde gerçekleşir; bir hal değişiminin olabilmesi için birinci ve ikinci yasanın birlikte sağlanması gerekir", "Bu olaylar birinci yasaya aykırıdır", "Bu olaylar yalnızca yüksek basınçta gerçekleşir", "Bu olaylar sıfırıncı yasayla yasaklanmıştır", "Bu olaylar yalnızca mutlak sıfırda gerçekleşir"], a: 0,
+    e: "Bu işlemler birinci yasaya uymalarına rağmen gerçekleşemez; çünkü <b>hal değişimleri belirli bir yönde gerçekleşir, ters yönde gerçekleşmez</b>. Bir hal değişiminin gerçekleşebilmesi için <b>birinci ve ikinci yasanın birlikte</b> sağlanması zorunludur.",
+    n: "Sunumun girişindeki “Olabilir mi?” başlıklı sürekli hareket makinesi çizimleri de bu nedenle imkânsızdır: dışarıdan enerji almadan sonsuza kadar çalışan bir makine birinci veya ikinci yasayı ihlal eder. Patent ofisleri bu tür başvuruları incelemeden reddeder." },
+  { t: 2, s: 28, q: "Sunuma göre ikinci yasanın esas kullanımları arasında hangisi <b>yoktur</b>?",
+    o: ["Bir maddenin kütlesinin hesaplanması", "Hal değişimlerinin yönünü açıklamak", "Enerjinin niceliği kadar niteliğinin de olduğunu ortaya koymak ve bu niteliğin nasıl azaldığını belirlemek", "Isı ve soğutma makinelerinin verimlerinin kuramsal sınırlarını belirlemek", "Kimyasal reaksiyonların hangi oranda tamamlanacağını belirlemek"], a: 0,
+    e: "İkinci yasa: (1) <b>hal değişimlerinin yönünü</b> açıklar; (2) enerjinin <b>niceliği kadar niteliğinin</b> de olduğunu öne sürer ve bu niteliğin nasıl azaldığını belirlemeyi sağlar; (3) <b>ısı ve soğutma makinelerinin verimlerinin kuramsal sınırlarını</b> ve kimyasal reaksiyonların hangi oranda tamamlanacağını belirlemede kullanılır.",
+    n: "Birinci yasa enerjinin yalnızca niceliğiyle ilgilenir. Enerjinin niteliğine örnek: 1.000 kJ'lük 500 °C'deki baca gazı ile 1.000 kJ'lük 40 °C'deki ılık su aynı miktarda enerji içerir, ama birincisinden iş veya buhar üretilebilirken ikincisi ancak düşük sıcaklıklı ısıtmada kullanılabilir. Bu “işe dönüşebilen kısım” ekserji olarak adlandırılır." },
+  { t: 2, s: 29, q: "Sunuma göre ısı makinelerinin ortak özellikleri arasında hangisi <b>yoktur</b>?",
+    o: ["Aldıkları ısının tamamını işe dönüştürürler", "Yüksek sıcaklıktaki bir kaynaktan (güneş, kazan, nükleer reaktör vb.) ısı alırlar", "Geri kalan atık ısıyı düşük sıcaklıktaki bir kuyuya (atmosfer, akarsu vb.) verirler", "Bir çevrim gerçekleştirerek çalışırlar", "Genellikle bir iş akışkanı içerirler"], a: 0,
+    e: "Isı makineleri: (1) yüksek sıcaklıktaki kaynaktan ısı alır, (2) geri kalan atık ısıyı düşük sıcaklıktaki kuyuya verir, (3) bir çevrim gerçekleştirerek çalışır. Isı alışverişini yaptıkları akışkana <b>iş akışkanı</b> denir. Aldıkları ısının <b>yalnızca bir bölümünü</b> işe dönüştürürler.",
+    n: "Buhar santralinde iş akışkanı sudur (su ↔ buhar); soğutma makinelerinde soğutucu akışkandır. Sunumdaki özet: işin tümü her zaman ısıl enerjiye dönüştürülebilir, fakat bunun tersi doğru değildir." },
+  { t: 2, s: 29, q: "Bir ısı makinesi bir çevrimde 100 kJ ısı almakta ve 35 kJ net iş üretmektedir. Düşük sıcaklıktaki kuyuya verdiği ısı ve ısıl verimi nedir?",
+    o: ["65 kJ; verim %35", "35 kJ; verim %65", "135 kJ; verim %35", "65 kJ; verim %65", "0 kJ; verim %100"], a: 0,
+    e: "Birinci yasaya göre Q_kuyu = Q_kaynak − W = 100 − 35 = <b>65 kJ</b>. Isıl verim = W / Q_kaynak = 35 / 100 = <b>%35</b>.",
+    n: "Bir çevrim sonunda iş akışkanı başlangıç hâline döndüğü için ΔE = 0'dır; giren ısı = üretilen iş + atılan ısı. Atılan 65 kJ ikinci yasa gereği kaçınılmazdır; ancak bu ısı kojenerasyonda olduğu gibi kullanılabilir hâle getirilirse toplam enerji verimi yükselir." },
+  { t: 2, s: 28, q: "Bir ısı makinesi 800 K'deki kaynakla 300 K'deki kuyu arasında çalışmaktadır. İkinci yasanın belirlediği kuramsal üst sınır olan Carnot verimi (η = 1 − T_soğuk / T_sıcak) kaçtır?",
+    o: ["%62,5", "%37,5", "%100", "%266", "%50"], a: 0,
+    e: "η_Carnot = 1 − 300 / 800 = 1 − 0,375 = <b>0,625 = %62,5</b>.",
+    n: "Sunumda ikinci yasanın ısı makinelerinin “verimlerinin kuramsal sınırlarını” belirlediği vurgulanır; bu sınır Carnot verimidir ve sıcaklıklar mutlak (K) olmalıdır. Gerçek makineler sürtünme ve ısı transferi kayıpları nedeniyle bu değerin altında kalır. Kaynak sıcaklığı artırıldıkça veya kuyu sıcaklığı düşürüldükçe kuramsal verim artar; kondenser vakumu bu yüzden önemlidir." },
+  { t: 2, s: 30, q: "Termodinamiğin üçüncü yasası neyi ifade eder?",
+    o: ["Mutlak sıfır sıcaklıkta (0 K ≈ −273 °C) bütün moleküler hareketler durur; saf kristal maddenin entropisi sıfırdır", "Enerji yoktan var edilemez", "Isı soğuktan sıcağa akar", "İki sistem üçüncü bir sistemle ısıl dengedeyse birbirleriyle de dengededir", "Isının tamamı işe dönüştürülebilir"], a: 0,
+    e: "Üçüncü yasa: <b>mutlak sıfır sıcaklıkta</b> (0 K veya yaklaşık −273 °C) bütün moleküler hareketler durur. Bu nedenle sıfır mutlak sıcaklıkta <b>saf kristal maddenin entropisi sıfırdır</b>; moleküllerin konumunda hiçbir belirsizlik yoktur.",
+    n: "Mutlak sıfırın tam değeri −273,15 °C'dir. Sıcaklık moleküler hareketin bir ölçüsü olduğundan mutlak sıfırdan daha düşük bir sıcaklık yoktur. Katı fazda bile moleküller bir nokta etrafında salınır; salınımlar sıcaklık düştükçe azalır." },
+  { t: 2, s: 31, q: "Sunuma göre entropi nedir?",
+    o: ["Sistemdeki düzensizliğin bir ölçüsüdür; düzensizlik arttıkça entropi artar ve faydalı (iş yapabilir) enerji azalır", "Sistemdeki toplam enerjidir", "Sıcaklığın diğer adıdır", "Basıncın hacme oranıdır", "Sistemdeki kütle miktarıdır"], a: 0,
+    e: "Entropi, <b>sistemdeki düzensizliğin bir ölçüsüdür</b>. Sistemlerde düzensizlik arttıkça entropi de artar; bu durum <b>faydalı (iş yapabilir) enerji miktarını azaltır</b>.",
+    n: "Sunumdaki örnekler: canlıların yaşlanması, metallerin paslanması; evrendeki düzensizlik artar. Enerji verimliliği açısından anlamı şudur: her gerçek dönüşümde (sürtünme, sıcaklık farkıyla ısı geçişi, karışma) entropi üretilir ve enerjinin işe dönüşebilen kısmı azalır. Büyük sıcaklık farklarıyla yapılan ısı transferi (örneğin 1.000 °C alevle 80 °C su ısıtmak) bu açıdan “değer kaybı”dır." },
+  { t: 2, s: 34, q: "Termodinamiğin sıfırıncı yasası neyi ifade eder?",
+    o: ["Bir üçüncü sistemle ayrı ayrı ısıl dengede olan iki sistem birbiriyle de ısıl dengededir (T_A = T_C ve T_B = T_C ise T_A = T_B)", "Enerji korunur", "Mutlak sıfırda entropi sıfırdır", "Isı tamamen işe dönüştürülemez", "Kütle korunur"], a: 0,
+    e: "Sıfırıncı yasa: <b>“Bir üçüncü sistemle ayrı ayrı ısıl dengede olan iki sistem birbiriyle ısıl dengededir.”</b> T_A = T_C ve T_B = T_C ise T_A = T_B olur. Isıl dengedeki sistemlerin sıcaklıkları aynıdır.",
+    n: "Sunuma göre bu durum diğer termodinamik yasalarıyla kanıtlanamaz; bu yüzden ayrı bir yasa olarak kabul edilmiştir. Diğer yasalardan sonra formüle edildiği hâlde onlardan daha temel olduğu için “sıfırıncı” adını almıştır." },
+  { t: 2, s: 33, q: "Sıfırıncı yasa neden sıcaklık ölçümünün temelini oluşturur?",
+    o: ["Üçüncü sistem yerine termometre konursa, aynı sıcaklığı gösteren iki cisim birbiriyle temas etmeseler bile ısıl dengededir", "Termometre ısı üretir", "Termometre yalnızca birinci yasaya göre çalışır", "Termometre cismin entropisini ölçer", "Termometre cismin kütlesini ölçer"], a: 0,
+    e: "Üçüncü sistem/cisim bir <b>termometre</b> ile yer değiştirirse sıfırıncı yasa şöyle yazılabilir: <b>her ikisi de aynı sıcaklık değerine sahip iki cisim birbiriyle temas etmeseler bile ısıl dengededir</b>. Bu, sıcaklık ölçümünün geçerliliğinin temelidir.",
+    n: "Termometre ölçülen cisimle ısıl dengeye ulaştığında kendi sıcaklığını gösterir; bu yüzden okumadan önce dengelenmesi beklenmelidir. Sahada yapılan sıcaklık ölçümlerinde prob kısa süre tutulursa (henüz dengeye ulaşmadan) yanlış değer okunur." },
+
+  // Isı transferi mekanizmaları
+  { t: 3, s: 35, q: "Sunuma göre ısı iletimi (kondüksiyon) farklı ortamlarda hangi mekanizmayla gerçekleşir?",
+    o: ["Gazlarda molekül hareketleri, sıvılarda ve iletken olmayan katılarda molekül titreşimleri, iletken katılarda elektron hareketleriyle", "Her ortamda yalnızca elektromanyetik dalgalarla", "Gazlarda elektron hareketleri, metallerde molekül hareketleriyle", "Yalnızca akışkanın kütlesel hareketiyle", "Yalnızca ışık yoluyla"], a: 0,
+    e: "Isı iletimi, bir maddenin parçacıklarının komşu parçacıklarla enerji alışverişidir: <b>gazlarda molekül hareketleri</b>, <b>sıvılarda ve iletken olmayan katılarda molekül titreşimleri</b>, <b>iletken katılarda elektron hareketleri</b> ile olur.",
+    n: "Metallerin ısıyı çok iyi iletmesinin nedeni serbest elektronlardır; bu yüzden iyi elektrik iletkenleri genellikle iyi ısı iletkenleridir (bakır, alüminyum). Gazlarda moleküller seyrek olduğu için iletim zayıftır; yalıtım malzemeleri bu yüzden içlerinde durgun hava veya gaz hapseder." },
+  { t: 3, s: 36, q: "Isı transferinin üç yolu ile tanımları doğru eşleştirilmiş seçenek hangisidir?",
+    o: ["İletim: katı cisimlerden (fiziksel temasla) ısı geçişi; taşınım: hareket hâlindeki gaz ve sıvılarla ısı geçişi; ışınım: elektromanyetik dalgalarla ısı geçişi", "İletim: elektromanyetik dalgalar; taşınım: katılar; ışınım: sıvılar", "Taşınım: yalnızca vakumda; ışınım: yalnızca katılarda", "İletim ve ışınım aynı mekanizmadır", "Taşınım: fiziksel temas gerektirmeyen ısı geçişi"], a: 0,
+    e: "<b>İletim (kondüksiyon)</b>: katı cisimlerden ısı geçişi; fiziksel temas gerektirir (hareketsiz gaz ve sıvılarda da kabul edilebilir). <b>Taşınım (konveksiyon)</b>: hareket hâlindeki gaz ve sıvılarla ısı geçişi; ısınan maddenin yoğunluk farkıyla hareketi. <b>Işınım (radyasyon)</b>: sıcak sistemlerin yaydığı ve soğuk sistemlerce emilen elektromanyetik dalgalar.",
+    n: "Sunumdaki ateş örneği: ateşe sokulan çubuğu tutan el iletimle, alevin üstündeki el sıcak havanın yükselmesiyle (taşınım), yandaki el ışınımla ısınır. Sanayide üçü genellikle birlikte görülür." },
+  { t: 3, s: 38, q: "Sunumdaki sıcak akışkan taşıyan yalıtımlı boru ve tank örneğinde, ısının içteki akışkandan ortama geçişi hangi sırayla gerçekleşir?",
+    o: ["Akışkandan çepere taşınım → çeper ve yalıtım boyunca iletim → dış yüzeyden ortama taşınım ve ışınım", "Akışkandan ortama doğrudan ışınım", "Yalnızca iletim", "Ortamdan akışkana taşınım", "Önce ışınım, sonra akışkan içinde iletim, en son çeperde taşınım"], a: 0,
+    e: "Isı önce <b>akışkandan çeper iç yüzeyine taşınımla</b>, sonra <b>çeper ve yalıtım boyunca iletimle</b>, en son <b>dış yüzeyden ortama taşınım ve ışınımla</b> geçer.",
+    n: "Bu seri yol, elektrikteki seri dirençlere benzer: toplam ısıl direnç = iç taşınım direnci + iletim dirençleri + dış yüzey direnci. Yalıtım, zincirdeki en büyük direnci ekleyerek toplam ısı akışını azaltır. Bir önceki sunumdaki yüzey kaybı formülündeki U_r ve U_c, bu zincirin dış halkasıdır." },
+  { t: 3, s: 43, q: "Sunuma göre taşınımla ısı aktarımı ile ilgili hangisi doğrudur?",
+    o: ["Katı yüzey ile ona bitişik hareketli akışkan arasındaki enerji aktarımıdır; iletim ve akışkan hareketinin birleşik etkisidir; akışkan ne kadar hızlı hareket ederse aktarım o kadar büyüktür", "Akışkan hareketinin hiçbir etkisi yoktur", "Yalnızca vakumda gerçekleşir", "Akışkan durunca ısı aktarımı tamamen kesilir", "Yalnızca katılar arasında gerçekleşir"], a: 0,
+    e: "Taşınım, katı yüzey ile ona bitişik <b>hareket hâlindeki</b> sıvı veya gaz arasındaki enerji aktarımıdır; <b>iletim ve akışkan hareketinin birleşik etkilerini</b> kapsar. Akışkan hareketi ne kadar hızlıysa aktarım o kadar büyüktür. Akışkan hareketi ortadan kalkarsa aktarım <b>saf iletimle</b> olur.",
+    n: "Bu yüzden rüzgârlı havada borular daha çok ısı kaybeder ve eşanjörlerde akışkan hızı ısı transferini artırmak için yükseltilir (ama basınç kaybı ve pompa enerjisi de artar). Duvar boşluğundaki durgun hava katmanı iyi bir yalıtım sağlarken, boşluk kalınlaşıp hava dolaşmaya başlarsa yalıtım etkisi azalır." },
+  { t: 3, s: 44, q: "Doğal (serbest) taşınım ile zorlanmış taşınım arasındaki fark nedir?",
+    o: ["Zorlanmış taşınımda akışkan fan, pompa veya rüzgârla akmaya zorlanır; doğal taşınımda hareket sıcaklık farkının yarattığı yoğunluk farkı ve kaldırma kuvvetiyle oluşur", "Doğal taşınım yalnızca katılarda, zorlanmış taşınım yalnızca gazlarda olur", "İkisi aynı mekanizmadır", "Zorlanmış taşınım elektromanyetik dalgalarla olur", "Doğal taşınım pompa ile sağlanır"], a: 0,
+    e: "Akışkan yüzeyin üzerinden <b>fan, pompa veya rüzgâr</b> ile akmaya zorlanırsa <b>zorlanmış taşınım</b>; akışkan hareketi akışkandaki sıcaklık değişiminin yarattığı <b>yoğunluk farklarının doğurduğu kaldırma kuvveti</b> sebebiyle oluyorsa <b>doğal (serbest) taşınım</b> denir.",
+    n: "Örnekler: radyatörün odayı ısıtması doğal taşınım; fan-coil veya klima zorlanmış taşınımdır. Zorlanmış taşınımda ısı taşınım katsayısı genellikle doğal taşınımdan çok daha büyüktür (havada doğalda ~2–10, zorlanmışta 10–200 W/m²K)." },
+  { t: 3, s: 46, q: "Sunuma göre ışınımla ısı transferinin iletim ve taşınımdan temel farkı nedir?",
+    o: ["Işınımla ısı transferi için bir aracı ortam gerekmez; enerji elektromanyetik dalgalar veya fotonlar şeklinde yayılır", "Işınım yalnızca katı cisimler içinde gerçekleşir", "Işınım fiziksel temas gerektirir", "Işınım yalnızca sıvılarda gerçekleşir", "Işınım akışkanın kütlesel hareketiyle gerçekleşir"], a: 0,
+    e: "Işınım, atom veya moleküllerin elektron düzenindeki değişmeler sonucu <b>elektromanyetik dalgalar veya fotonlar</b> şeklinde yayılan enerjidir. İletim ve taşınımdan farklı olarak <b>bir aracı ortam gerektirmez</b>.",
+    n: "Sunumdaki soru: “Isı güneşten yeryüzüne nasıl ulaşır?” Cevap: aradaki uzay boşluğunda ortam/parçacık bulunmadığından iletim ve taşınım olamaz; ısı yalnızca ışınımla gelir. Termosun iki cidarı arasındaki vakum iletimi ve taşınımı durdurur; gümüş kaplama ise ışınımı azaltır." },
+  { t: 3, s: 47, q: "Sunuma göre ısıl ışınımla ilgili hangisi doğrudur?",
+    o: ["Mutlak sıfırın üzerindeki sıcaklıklarda bütün cisimler ısıl ışınım yayar; ısıl ışınım, sıcaklıkla ilgisi olmayan X ışını, gama ışını, mikrodalga ve radyo dalgalarından farklıdır", "Yalnızca 1.000 °C'nin üzerindeki cisimler ışınım yayar", "Isıl ışınım ile X ışınları aynı şeydir", "Soğuk cisimler hiç ışınım yaymaz", "Işınım yalnızca katılarda olur, gazlar ışınım yaymaz"], a: 0,
+    e: "<b>Mutlak sıfırın üzerindeki sıcaklıklarda bütün cisimler ısıl ışınım yayar</b>. Isıl ışınım, sıcaklıkla ilişkisi olmayan X ışınları, gama ışınları, mikrodalgalar, radyo ve televizyon dalgaları gibi diğer elektromanyetik ışınım biçimlerinden farklıdır. Işınım hacimsel bir olaydır; katı, sıvı ve gazlar ışınımı farklı düzeylerde yayar, soğurur veya geçirir.",
+    n: "Termal kameraların ve kızılötesi termometrelerin çalışma ilkesi budur: oda sıcaklığındaki cisimler bile kızılötesi ışınım yayar ve kamera bu ışınımı sıcaklığa çevirir. Baca gazındaki CO₂ ve su buharı da ışınım yayan gazlardır; büyük kazan ocaklarında ısının önemli kısmı alev ve gazlardan ışınımla aktarılır." },
+
+  // Düzlem duvarda ısı transferi hesapları
+  { t: 4, s: 39, q: "Düzlem duvarda ısı akış yoğunluğu q = U × (T_i − T_d) bağıntısıyla hesaplanır. Bu bağıntıda U neyi ifade eder?",
+    o: ["Isıl geçirgenlik katsayısı (W/m²K): yapı bileşeninin her iki tarafındaki hava sıcaklıkları farkı 1 °C iken 1 m²'den geçen ısı akışı", "Isı iletkenlik katsayısı (W/mK)", "Duvarın kalınlığı (m)", "Duvarın alanı (m²)", "Duvarın yoğunluğu (kg/m³)"], a: 0,
+    e: "U, <b>ısıl geçirgenlik katsayısıdır (W/m²K)</b>: herhangi d kalınlığındaki yapı bileşeninin her iki tarafındaki hava sıcaklıkları arasındaki farkın 1 °C olması hâlinde bileşenin 1 m²'sinden geçen ısı miktarıdır.",
+    n: "Sunumda “1 saatte geçen ısı miktarı” ifadesi kullanılmıştır; birim W/m²K olduğu için doğrusu birim zamanda geçen ısı akışıdır (1 W = 1 J/s). U değeri ne kadar küçükse yapı bileşeni o kadar iyi yalıtılmıştır. Isı yalıtım yönetmelikleri duvar, çatı, döşeme ve pencereler için en yüksek U değerlerini sınırlar." },
+  { t: 4, s: 40, q: "Isı iletkenlik katsayısı (λ) nedir ve ısı yalıtım malzemelerini diğer malzemelerden ayıran en önemli özellik hangisidir?",
+    o: ["1 °C sıcaklık farkında birim zamanda birim kalınlık ve yüzeyden geçen ısıdır (W/mK); yalıtım malzemelerinin λ değeri düşüktür", "Malzemenin yoğunluğudur; yalıtım malzemeleri çok yoğundur", "Malzemenin rengidir; yalıtım malzemeleri beyazdır", "Malzemenin elektrik direncidir; yalıtım malzemeleri iletkendir", "Malzemenin özgül ısısıdır; yalıtım malzemelerinin özgül ısısı yüksektir"], a: 0,
+    e: "λ, bir malzemenin <b>ısıyı iletme kabiliyetinin ölçüsüdür</b> (W/mK): 1 °C sıcaklık farkında birim zamanda birim yüzeyden (birim kalınlık için) geçen ısıl enerji. Isı yalıtım malzemelerini ayıran en önemli özellik <b>düşük ısı iletkenlik katsayısıdır</b>.",
+    n: "λ bir malzeme özelliğidir; U ise belirli bir kalınlıktaki yapı bileşeninin özelliğidir. Tek katmanlı bir bileşen için U = λ / d (yüzey dirençleri ihmal edilerek). Aynı malzemeden kalınlığı iki katına çıkarmak U değerini yarıya indirir." },
+  { t: 4, s: 41, q: "Sunumdaki örnekte 1 m kalınlığında bir malzemenin iki yüzü arasında 30 °C ve 20 °C sıcaklıklar vardır. Bakır (λ = 388 W/mK) için ısı akısı 3.880 W/m² ise aynı koşullarda taş yünü (λ = 0,045 W/mK) için ısı akısı nedir?",
+    o: ["0,45 W/m²", "4,5 W/m²", "45 W/m²", "3.880 W/m²", "0,045 W/m²"], a: 0,
+    e: "q = λ × ΔT / d = 0,045 × (30 − 20) / 1 = <b>0,45 W/m²</b>. Bakırda: 388 × 10 / 1 = 3.880 W/m².",
+    n: "İki malzeme arasındaki fark yaklaşık 8.600 kattır (388 / 0,045). Bu karşılaştırma, metal bağlantı elemanlarının ve beton kolon-kirişlerin neden “ısı köprüsü” oluşturduğunu gösterir: yalıtımın içinden geçen küçük bir metal parça bile yerel olarak büyük ısı kaybına yol açar." },
+  { t: 4, s: 42, q: "Sunumdaki ısı iletkenlik katsayıları tablosuna göre aşağıdaki sıralamalardan hangisi doğrudur (büyükten küçüğe)?",
+    o: ["Bakır > alüminyum > hafif çelik > paslanmaz çelik > cam > odun > taş yünü", "Taş yünü > odun > cam > bakır", "Paslanmaz çelik > hafif çelik > alüminyum > bakır", "Cam > bakır > taş yünü > alüminyum", "Odun > paslanmaz çelik > cam > taş yünü"], a: 0,
+    e: "Tablodaki değerler (W/mK): bakır 353–388, saf alüminyum 205–237, hafif çelik 50, paslanmaz çelik 16, cam 0,8, odun 0,13, taş yünü 0,045, cam yünü 0,040, selüloz 0,039; hava 0,024.",
+    n: "Paslanmaz çeliğin λ değeri karbon çeliğinin yaklaşık üçte biridir; bu yüzden paslanmaz çelik eşanjörlerde aynı ısı için biraz daha fazla yüzey gerekebilir. Yalıtım malzemelerinin λ değeri durgun havanınkine (0,024) yakındır, çünkü yalıtım etkisi büyük ölçüde içlerindeki hareketsiz havadan gelir." },
+  { t: 4, s: 42, q: "Tabloya göre durgun havanın ısı iletkenlik katsayısı 0,024 W/mK'dir ve yalıtım malzemelerinden (0,039–0,045 W/mK) daha düşüktür. Buna rağmen duvar boşluklarını yalnızca hava ile bırakmak yerine yalıtım malzemesiyle doldurmanın nedeni nedir?",
+    o: ["Geniş boşluklardaki hava hareket ederek taşınımla ısı taşır; yalıtım malzemesi havayı küçük gözeneklerde hapsederek hareketsiz tutar", "Hava ısıyı yalıtım malzemelerinden daha iyi iletir", "Yalıtım malzemeleri ısı üretir", "Hava zamanla yoğunlaşarak katılaşır", "Yalıtım malzemesi duvarın rengini değiştirir"], a: 0,
+    e: "Havanın düşük λ değeri ancak <b>hareketsiz</b> olduğunda geçerlidir. Geniş bir boşlukta hava sıcak yüzeyde yükselip soğuk yüzeyde inerek <b>doğal taşınımla</b> ısı taşır; ayrıca yüzeyler arasında ışınım olur. Yalıtım malzemesi havayı <b>küçük gözeneklerde hapsederek</b> taşınımı ve ışınımı engeller.",
+    n: "Sunumdaki taşınım tanımına göre akışkan hareketi ortadan kalkınca ısı transferi saf iletimle olur. Yalıtım malzemeleri bunu sağlayan bir yapıdır; ıslanırsa gözeneklerdeki havanın yerini su (λ ≈ 0,6 W/mK) alır ve yalıtım değeri hızla düşer. Bu yüzden boru yalıtımlarında buhar kesici ve dış kaplama önemlidir." },
+  { t: 4, s: 39, q: "10 cm kalınlığında taş yünü (λ = 0,045 W/mK) levhanın U değeri (yüzey dirençleri ihmal edilerek U = λ / d) ve 100 m² alandan 20 °C sıcaklık farkında geçen ısı nedir?",
+    o: ["U = 0,45 W/m²K; Q = 900 W", "U = 4,5 W/m²K; Q = 9.000 W", "U = 0,0045 W/m²K; Q = 9 W", "U = 0,45 W/m²K; Q = 9 W", "U = 2,22 W/m²K; Q = 4.440 W"], a: 0,
+    e: "U = 0,045 / 0,10 = <b>0,45 W/m²K</b>. Q = U × A × ΔT = 0,45 × 100 × 20 = <b>900 W</b>.",
+    n: "Bu basit hesap, yüzey dirençleri ihmal edildiği için U'yu biraz yüksek gösterir. Gerçek hesapta toplam ısıl direnç R = R_i + d/λ + R_e alınır ve U = 1 / R olur. Yalıtım kalınlığını iki katına (20 cm) çıkarmak U'yu yaklaşık yarıya indirir, ama ilk santimetrelerin getirisi sonrakilerden fazladır; ekonomik kalınlık bu nedenle hesapla belirlenir." },
+  { t: 4, s: 45, q: "Sunumdaki nota göre TS 825 hesap yönteminde ısı taşınım katsayısı yerine iç ve dış yüzey ısıl iletim dirençleri (R_i, R_e) kullanılır. Bu değerler hangisidir?",
+    o: ["R_i = 0,13 m²K/W, R_e = 0,04 m²K/W", "R_i = 0,04 m²K/W, R_e = 0,13 m²K/W", "R_i = 13 m²K/W, R_e = 4 m²K/W", "R_i = R_e = 1 m²K/W", "R_i = 0,13 W/m²K, R_e = 0,04 W/m²K"], a: 0,
+    e: "Sunuma göre <b>R_i = 0,13 m²K/W</b> (iç yüzey) ve <b>R_e = 0,04 m²K/W</b> (dış yüzey) kullanılır. Dış yüzey direnci, rüzgâr nedeniyle taşınım daha güçlü olduğu için daha küçüktür.",
+    n: "Bu dirençler taşınım katsayısının tersidir: iç yüzeyde h_i = 1 / 0,13 ≈ 7,7 W/m²K, dış yüzeyde h_e = 1 / 0,04 = 25 W/m²K. Değerler yatay ısı akışı (duvarlar) içindir ve TS EN ISO 6946 ile uyumludur; tavan ve döşemelerde ısı akış yönüne göre farklı değerler kullanılır. Sunumda R_i ve R_e için “ısı taşınım katsayısı” ifadesi geçse de bunlar dirençtir (m²K/W).",
+    g: { eski: "Isı kayıp hesapları TS 825 standardına (2008 sürümü ve 2009 tadili) göre yapılır.", yeni: "TS 825 “Binalarda Isı Yalıtım Kuralları” Ekim 2024'te revize edilmiş; Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın MHGM-2025/1 sayılı tebliğiyle 1 Nisan 2025'ten itibaren zorunlu olmuştur. Eski TS 825 (Mayıs 2008) ve 2009 tadil metni yürürlükten kaldırılmış, derece-gün bölgeleri 4'ten 6'ya çıkarılmıştır.", kaynak: "TS 825 Binalarda Isı Yalıtım Kuralları Standardı ile İlgili Tebliğ (No: MHGM-2025/1), Resmî Gazete, 20 Şubat 2025" } },
+  { t: 4, s: 45, q: "Tek katmanlı 5 cm taş yünü levhadan (λ = 0,045 W/mK) oluşan bir duvarın U değeri, yüzey dirençleri (R_i = 0,13 ve R_e = 0,04 m²K/W) dahil edilerek hesaplanırsa yaklaşık kaçtır?",
+    o: ["Yaklaşık 0,78 W/m²K", "Yaklaşık 0,90 W/m²K", "Yaklaşık 1,28 W/m²K", "Yaklaşık 0,17 W/m²K", "Yaklaşık 5,9 W/m²K"], a: 0,
+    e: "R = R_i + d/λ + R_e = 0,13 + 0,05/0,045 + 0,04 = 0,13 + 1,111 + 0,04 ≈ 1,281 m²K/W. U = 1 / R ≈ <b>0,78 W/m²K</b>.",
+    n: "Yüzey dirençleri ihmal edilseydi U = 0,045 / 0,05 = 0,90 W/m²K bulunurdu; fark yaklaşık %13'tür. Çok katmanlı duvarlarda her katmanın d/λ direnci toplanır: R = R_i + Σ(d/λ) + R_e. 1,28 seçeneği toplam dirençtir; U onun tersidir." },
+  { t: 4, s: 45, q: "Taşınımla ısı transferi Q = α_c × A_s × (t_s − t_f) bağıntısıyla hesaplanır. α_c = 10 W/m²K, yüzey alanı 5 m², yüzey sıcaklığı 80 °C ve ortam sıcaklığı 20 °C ise taşınımla ısı kaybı nedir?",
+    o: ["3.000 W", "4.000 W", "600 W", "300 W", "50 W"], a: 0,
+    e: "Q = 10 × 5 × (80 − 20) = <b>3.000 W</b>.",
+    n: "Sıcaklık farkında °C veya K kullanmak sonucu değiştirmez (fark aynıdır). Bu yalnızca taşınım kısmıdır; aynı yüzeyden ayrıca ışınımla da ısı kaybedilir. Yalıtımsız sıcak yüzeylerde ışınım kaybı çoğu zaman taşınım kaybı kadar büyüktür." },
+  { t: 4, s: 48, q: "Sunumdaki ışınım bağıntısı Q_r = 5,67 × ε × A × [((T_y + 273)/100)⁴ − ((T_o + 273)/100)⁴] şeklindedir. ε = 0,9, A = 1 m², yüzey sıcaklığı 127 °C ve ortam sıcaklığı 27 °C ise ışınımla ısı kaybı yaklaşık kaçtır?",
+    o: ["Yaklaşık 893 W", "Yaklaşık 510 W", "Yaklaşık 89 W", "Yaklaşık 8.930 W", "Yaklaşık 5,1 W"], a: 0,
+    e: "(400/100)⁴ = 4⁴ = 256; (300/100)⁴ = 3⁴ = 81; fark = 175. Q_r = 5,67 × 0,9 × 1 × 175 ≈ <b>893 W</b>.",
+    n: "Mutlak sıcaklıkların dördüncü kuvveti farkı alındığı için, yüzey sıcaklığı yükseldikçe ışınım kaybı çok hızlı artar. Aynı yüzey parlak alüminyum (ε ≈ 0,1) olsaydı kayıp yaklaşık 99 W olurdu. 5,67, Stefan–Boltzmann sabitinin (5,67 × 10⁻⁸ W/m²K⁴) (T/100)⁴ yazımına uyarlanmış hâlidir." },
+  { t: 4, s: 48, q: "Bu sunumda ışınım katsayısında 5,67 (W/m²K⁴ ölçekli) kullanılırken, bir önceki sunumdaki yüzey kaybı formülünde 20,4 (kJ/h·m²K⁴ ölçekli) kullanılmıştır. İki sayı arasındaki ilişki nedir?",
+    o: ["20,4 ≈ 5,67 × 3,6; W'tan kJ/h'ye birim dönüşümüdür (1 W = 3,6 kJ/h)", "20,4 = 5,67 + 14,73; farklı malzemeler içindir", "İkisi farklı fiziksel yasalara dayanır", "20,4 yalnızca alüminyum için geçerlidir", "5,67 yalnızca güneş ışınımı için geçerlidir"], a: 0,
+    e: "1 W = 1 J/s = 3.600 J/h = 3,6 kJ/h olduğundan 5,67 × 3,6 ≈ <b>20,4</b>'tür. İki formül aynı Stefan–Boltzmann yasasını farklı birimlerle ifade eder.",
+    n: "Birim tutarlılığı, enerji hesaplarındaki en yaygın hata kaynağıdır. Yüzey kaybı kJ/h olarak hesaplanmışsa 3.600'e bölünerek kW'a çevrilir; yıllık enerji için çalışma saatiyle çarpılır. Hesap makinesinde kontrol edin: 5,67 × 3,6 = 20,41." },
+  { t: 4, s: 42, q: "Sunumdaki tabloda değerlerin hangi koşulda verildiği belirtilmiştir ve 298 K kaç °C'ye karşılık gelir?",
+    o: ["Normal şartlarda, 298 K ≈ 24,85 °C", "Mutlak sıfırda, 298 K = 0 °C", "Kaynama noktasında, 298 K = 100 °C", "Donma noktasında, 298 K = −273 °C", "1.000 °C'de, 298 K = 571 °C"], a: 0,
+    e: "Tablo başlığına göre değerler <b>normal şartlarda, 298 K (24,85 °C)</b> için verilmiştir: t(°C) = T(K) − 273,15 = 298 − 273,15 = 24,85 °C.",
+    n: "Isı iletkenlik katsayısı sıcaklıkla değişir: yalıtım malzemelerinin λ değeri sıcaklık arttıkça yükselir. Bu yüzden 300 °C'lik bir buhar hattının yalıtım hesabında oda sıcaklığı λ değeri değil, ortalama yalıtım sıcaklığındaki değer kullanılmalıdır; üretici katalogları λ'yı sıcaklığa bağlı olarak verir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
