@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Isı Yalıtımı Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 15 · Isı Yalıtımı</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 15</span> 1_16.pdf · Fatma Dilek Öznur, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Isı Yalıtımı <em>Sınavı</em></h1>
+    <p class="lede">İletim, taşınım ve ışınım; ısıl iletkenlik (λ) ve Avrupa’daki yalıtım malzemesi tanımı; çok katmanlı duvarda U değeri, ısı kaybı ve ara yüzey sıcaklığı; ısı köprüsü, dıştan yalıtım ve çatı detayları; boru ve klima kanalı yalıtımı, buhar borusu örneğinde yakıt tasarrufu.</p>
+    <ul class="facts"><li>53 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Isı Yalıtımı” sunumu (Fatma Dilek Öznur, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum15-v1",
+topics: ["Verimlilik öncelikleri, binalarda enerji ve mevzuat", "Isı transferi mekanizmaları ve ısıl iletkenlik", "Duvarda U değeri ve ısı kaybı hesabı", "Bina yalıtım detayları ve ısı köprüsü", "Tesisat, boru ve kanal yalıtımı"],
+Q: [
+  // Enerji verimliliği, binalarda enerji ve mevzuat
+  { t: 0, s: 2, q: "Sunuma göre enerji verimliliğini zorunlu kılan küresel öncelikler arasında hangisi sayılmamıştır?",
+    o: ["Fosil yakıt rezervlerinin artırılması", "Çevresel yükümlülükler: küresel iklim değişikliği ve asit yağmurlarının azaltılması", "Ekonomik rekabet: maliyetlerin azaltılması ve istihdam yaratılması", "Enerji arz güvenliği: enerji ithalatının azaltılması", "Hiçbiri; hepsi sayılmıştır"], a: 0,
+    e: "Üç küresel öncelik: <b>1) çevresel yükümlülükler</b> (iklim değişikliği ve asit yağmurları), <b>2) ekonomik rekabet</b> (maliyetlerin azaltılması, istihdam), <b>3) enerji arz güvenliği</b> (ithalatın azaltılması). Sunuma göre düşük karbonlu ekonomiye geçişte enerji verimliliği önemli bir politika aracıdır.",
+    n: "Türkiye enerjisinin büyük bölümünü ithal ettiği için arz güvenliği maddesi özellikle önemlidir: tasarruf edilen her metreküp doğal gaz, doğrudan ithalat faturasından düşer. Binalarda yalıtım bu üç önceliğe aynı anda hizmet eder." },
+  { t: 0, s: 3, q: "Sunuma göre binalarda enerjinin en büyük bölümü hangi amaçla harcanır?",
+    o: ["Isıtma ve soğutma", "Aydınlatma", "Elektrikli ev aletleri", "Asansörler", "Sıcak su"], a: 0,
+    e: "Binalarda enerjinin <b>çok büyük bir bölümü ısıtma ve soğutma</b> amaçlı harcanmaktadır. Diğer kullanımlar: sıcak su, aydınlatma ve elektrikli ev aletleri.",
+    n: "Isıtma ve soğutma yükünü belirleyen başlıca etken, bina kabuğundan (duvar, çatı, döşeme, pencere) geçen ısıdır. Bu yüzden binalarda en etkili verimlilik önlemlerinin başında yalıtım gelir." },
+  { t: 0, s: 26, q: "Sunuma göre binalardaki enerji kullanımının yaklaşık yüzde kaçı ısıtma ve soğutma amaçlıdır?",
+    o: ["%70–80", "%10–20", "%30–40", "%45–50", "%95–100"], a: 0,
+    e: "Binalarda enerji kullanımının <b>yaklaşık %70–80'i</b> ısıtma ve soğutma amaçlı tüketilir. Bu nedenle ısıtma ve iklimlendirme sistemlerinde kayıpları azaltmak önemlidir.",
+    n: "Bu oran, binada yapılacak verimlilik yatırımlarının sırasını da belirler: önce kabuk yalıtımı ve tesisat kayıpları, sonra kazan veya ısı pompası verimi, ardından aydınlatma ve cihazlar." },
+  { t: 0, s: 12, q: "Sunumda “İlgili Yönetmelikler ve Standartlar” başlığında hangisi yer almaz?",
+    o: ["Elektrik İç Tesisleri Yönetmeliği", "Binalarda Enerji Performansı Yönetmeliği (2008, 27075 sayılı)", "TS 825 – Binalarda Isı Yalıtım Kuralları", "Yapı Malzemeleri Yönetmeliği (8/9/2002, 24870 sayılı)", "Hiçbiri; hepsi yer alır"], a: 0,
+    e: "Sunumda <b>Binalarda Enerji Performansı Yönetmeliği</b> (2008, 27075), <b>TS 825</b> ve <b>Yapı Malzemeleri Yönetmeliği</b> (8/9/2002, 24870) yer alır; yanlarında Enerji Kimlik Belgesi, CE ve G işareti görselleri vardır.",
+    n: "BEP Yönetmeliği binaların enerji performansını ve Enerji Kimlik Belgesini düzenler. TS 825 yalıtım hesabının nasıl yapılacağını, Yapı Malzemeleri Yönetmeliği ise kullanılan yalıtım malzemesinin belgelendirilmesini düzenler." },
+  { t: 0, s: 12, q: "Sunuma göre bir yapı malzemesinin (örneğin yalıtım levhasının) uygunluğunu gösteren belgeler hangileridir?",
+    o: ["CE işaretli ürünlerde Performans Beyanı veya ETA; ulusal ürünlerde G belgesi veya Ulusal Teknik Onay", "Yalnızca fatura ve irsaliye", "Enerji Kimlik Belgesi", "Yapı kullanma izin belgesi", "ISO 50001 sertifikası"], a: 0,
+    e: "Slaytta <b>CE</b> işaretinin altında <b>“Performans Beyanı veya ETA”</b>, <b>G</b> işaretinin altında <b>“G belgesi veya Ulusal Teknik Onay”</b> yazar.",
+    n: "Performans beyanında ürünün beyan edilen ısıl iletkenlik (λ) değeri yer alır. Hesapta kullanılan λ değeri bu belgeden alınmalıdır; belgesiz ürünle yapılan yalıtımın hesaplanan performansı sağlayacağı garanti edilemez.",
+    g: { eski: "Yapı Malzemeleri Yönetmeliği (8/9/2002 tarihli ve 24870 sayılı).", yeni: "Bu yönetmeliğin yerini 10.07.2013 tarihli ve 28703 sayılı Yapı Malzemeleri Yönetmeliği (305/2011/AB) almıştır. Yönetmelik yürürlüktedir ve 2026'da da değiştirilmiştir. CE işaretli ürünler için Performans Beyanı düzenlenir.", kaynak: "Resmî Gazete 10.07.2013/28703; değişiklik RG 20.02.2026" } },
+  { t: 0, s: 13, q: "Sunuma göre “ısı yalıtımı” nasıl tanımlanır?",
+    o: ["Binalarda ve tesisatlarda ısı kayıp ve kazançlarının sınırlandırılması için yapılan uygulama; farklı sıcaklıktaki iki ortam arasında ısı geçişini azaltmak", "Yalnızca kışın ısı kaybını artırmak için yapılan uygulama", "Binaya ısı pompası takılması", "Bina içindeki havanın sürekli değiştirilmesi", "Duvarların su geçirmez boyayla boyanması"], a: 0,
+    e: "Binalarda ve tesisatlarda <b>ısı kayıp ve kazançlarının sınırlandırılması</b> için yapılan uygulamaya “ısı yalıtımı” denir. Teknik olarak, <b>farklı sıcaklıktaki iki ortam arasında ısı geçişini azaltmak</b> için uygulanır.",
+    n: "Tanımda “kazanç” sözcüğü önemlidir: yalıtım yalnızca kışın ısı kaybını değil, yazın dışarıdan içeri giren ısıyı da azaltır, yani soğutma yükünü de düşürür. Soğuk su ve soğutucu akışkan hatlarının yalıtımı da aynı amaca hizmet eder." },
+  { t: 0, s: 13, q: "Sunumdaki “Isı Yalıtımının Faydaları” şemasında hangisi yer almaz?",
+    o: ["Bina taşıyıcı sisteminin deprem dayanımının artması", "Enerji maliyetlerinde azalma", "Yoğuşmanın önlenmesi", "Mekanik ekipmanların kapasite ve ölçülerinde azalma", "Gürültü seviyesinin azalması ve yangından korunma"], a: 0,
+    e: "Şemadaki faydalar: <b>enerji maliyetlerinde azalma, yoğuşmanın önlenmesi, mekanik ekipmanların kapasite ve ölçülerinde azalma, emisyonlarda azalma, gürültü seviyesinin azalması, yangından korunma, konfor artışı</b>.",
+    n: "“Mekanik ekipman kapasitesinde azalma” yeni binalarda önemli bir ilk yatırım kazancıdır: iyi yalıtılmış binada ısı kaybı düşük olduğundan daha küçük kazan, daha az radyatör ve daha küçük klima yeter. Yalıtım maliyetinin bir kısmı bu şekilde hemen geri döner." },
+
+  // Isı transferi mekanizmaları ve ısıl iletkenlik
+  { t: 1, s: 4, q: "Sunuma göre ısı transferinin üç yolu ve bunların tanımı hangisinde doğru verilmiştir?",
+    o: ["İletim: katı cisimlerden ısı geçişi, fiziksel temas gerektirir; taşınım: hareket hâlindeki gaz veya sıvılardan ısı geçişi; ışınım: sıcak cismin elektromanyetik dalga yayması, soğuğun soğurması", "İletim: elektromanyetik dalgalarla; taşınım: katılarda; ışınım: akışkan hareketiyle", "Üçü de yalnızca boşlukta gerçekleşir", "İletim ve ışınım aynı şeydir", "Taşınım fiziksel temas gerektirmez, iletim aracı ortam gerektirmez"], a: 0,
+    e: "<b>İletim</b>: katı cisimlerden ısı geçişi, <b>fiziksel temas gerektirir</b>. <b>Taşınım</b>: hareket hâlindeki gaz veya sıvılardan ısı geçişi; ısınan maddenin yoğunluk farkından doğan hareketle gerçekleşir. <b>Işınım</b>: sıcak sistem elektromanyetik dalga yayar, soğuk sistem emer.",
+    n: "Gerçek bir duvarda üçü birlikte çalışır: iç havadan duvara taşınım ve ışınım, duvar içinden iletim, dış yüzeyden dış havaya yine taşınım ve ışınım. U değerindeki Ri ve Re terimleri, yüzeydeki taşınım ve ışınımı temsil eder." },
+  { t: 1, s: 5, q: "Sunuma göre ısı iletimi (kondüksiyon) farklı maddelerde hangi mekanizmayla gerçekleşir?",
+    o: ["Gazlarda molekül hareketleri, sıvılarda ve iletken olmayan katılarda molekül titreşimleri, iletken katılarda elektron hareketleri ile", "Her maddede yalnızca elektron hareketiyle", "Gazlarda elektron hareketi, metallerde molekül hareketiyle", "Yalnızca elektromanyetik dalgalarla", "Yalnızca akışkanın yoğunluk farkıyla"], a: 0,
+    e: "İletim, parçacıkların komşu parçacıklarla enerji alışverişidir. Bu alışveriş <b>gazlarda molekül hareketleri</b>, <b>sıvılarda ve iletken olmayan katılarda molekül titreşimleri</b>, <b>iletken katılarda ise elektron hareketleri</b> ile olur.",
+    n: "Metallerin ısıl iletkenliği bu yüzden çok yüksektir: elektriği ileten serbest elektronlar ısıyı da taşır. Bakır hem iyi elektrik hem iyi ısı iletkenidir; yalıtım malzemelerinde ise serbest elektron yoktur ve ısı ancak titreşimle, yavaşça iletilir." },
+  { t: 1, s: 6, q: "Sunuma göre ışınımla ısı transferini iletim ve taşınımdan ayıran temel özellik nedir?",
+    o: ["Bir aracı ortam gerektirmez; enerji elektromanyetik dalgalar veya fotonlar şeklinde yayılır", "Yalnızca katılarda gerçekleşir", "Fiziksel temas gerektirir", "Yalnızca akışkan hareketi varken gerçekleşir", "Yalnızca 1.000 °C'nin üzerinde gerçekleşir"], a: 0,
+    e: "Işınım, elektron düzenindeki değişmeler sonucunda <b>elektromanyetik dalgalar veya fotonlar</b> şeklinde yayılan enerjidir; iletim ve taşınımdan farklı olarak <b>bir aracı ortam gerektirmez</b>. Işınım hacimsel bir olaydır; katılar, sıvılar ve gazlar ışınımı değişen seviyelerde yayar, soğurur veya geçirir.",
+    n: "Güneş ısısının boşluktan geçerek Dünya'ya ulaşması ışınımın en bilinen örneğidir. Termal kameralar da yüzeylerin yaydığı kızılötesi ışınımı ölçerek sıcaklık haritası çıkarır." },
+  { t: 1, s: 6, q: "Sunuma göre taşınımla ısı aktarımının büyüklüğü akışkan hızıyla nasıl ilişkilidir?",
+    o: ["Akışkan hareketi ne kadar hızlı olursa taşınımla ısı aktarımı da o kadar büyük olur", "Akışkan hızı arttıkça taşınım azalır", "Taşınım akışkan hızından bağımsızdır", "Taşınım yalnızca durgun akışkanda olur", "Akışkan hızı yalnızca ışınımı etkiler"], a: 0,
+    e: "Taşınım, katı yüzey ile ona bitişik hareketli akışkan arasındaki enerji aktarımıdır; <b>iletim ve akışkan hareketinin birleşik etkisidir</b>. <b>Akışkan hareketi ne kadar hızlı olursa</b> taşınımla ısı aktarımı da o kadar büyük olur.",
+    n: "TS 825'te dış yüzey direnci Re'nin iç yüzey direnci Ri'den küçük olmasının nedeni budur: dışarıda rüzgâr vardır, taşınım katsayısı yüksektir, yüzey direnci düşüktür. Rüzgârlı günde yalıtımsız bir binanın daha çok ısı kaybetmesi de aynı nedenledir." },
+  { t: 1, s: 14, q: "Sunumdaki Fourier ısı iletim kanunu Q = −k·A·(dT/dx) bağıntısında eksi işaretinin anlamı nedir?",
+    o: ["Isı yüksek sıcaklıktan düşük sıcaklığa aktığı için ısı akımı ile sıcaklık gradyanı ters işaretlidir", "Isı her zaman soğuktan sıcağa akar", "Isı kaybı negatif bir enerjidir", "Malzemenin iletkenliği negatiftir", "Alanın negatif alınması gerekir"], a: 0,
+    e: "<b>Isı akımı yüksek sıcaklıktan düşük sıcaklığa doğru</b> olduğundan, ısı akım şiddeti vektörü ile sıcaklık gradyanı vektörü <b>ters işaretlendirilir</b>. k ısı iletim katsayısı, A ısı geçişine dik alan, dT/dx sıcaklık gradyanıdır.",
+    n: "Sıcaklık x yönünde azalıyorsa dT/dx negatiftir; eksi işaret Q'yu pozitif (x yönünde) yapar. Pratik hesaplarda büyüklük Q = k·A·ΔT/d olarak kullanılır." },
+  { t: 1, s: 17, q: "Sunuma göre ısıl iletkenlik katsayısı (λ, W/mK) neyi ifade eder?",
+    o: ["Bir malzemenin fiziksel ve kimyasal yapısına bağlı olarak ısıyı ne kadar ilettiğini", "Malzemenin yoğunluğunu", "Malzemenin yanma sıcaklığını", "Malzemenin su emme oranını", "Malzemenin kalınlığını"], a: 0,
+    e: "Isı iletkenlik katsayısı (W/mK), bir malzemenin <b>fiziksel ve kimyasal yapısına bağlı olarak</b> o malzemenin <b>ısıyı ne kadar ilettiğinin</b> ifadesidir. Bir katıda ısıl iletim hızı ısıl iletkenlikle doğru orantılıdır.",
+    n: "λ bir malzeme özelliğidir, kalınlıktan bağımsızdır. Yapı bileşeninin ısıl direnci ise R = d/λ ile kalınlığa bağlıdır. Yalıtım malzemesi seçiminde düşük λ, uygulamada ise yeterli kalınlık aranır." },
+  { t: 1, s: 18, q: "Sunumdaki örnekte 1 m kalınlığında bakır (λ = 388 W/mK) ve taşyünü (λ = 0,045 W/mK) levhaların iki yüzü arasında 30 °C – 20 °C sıcaklık farkı vardır. Bu levhalardan geçen ısı akısı ne kadardır?",
+    o: ["Bakır: 3.880 W/m²; taşyünü: 0,45 W/m²", "Bakır: 388 W/m²; taşyünü: 0,045 W/m²", "Bakır: 38,8 W/m²; taşyünü: 4,5 W/m²", "İkisi de 10 W/m²", "Bakır: 0,45 W/m²; taşyünü: 3.880 W/m²"], a: 0,
+    e: "q = λ·ΔT/d: bakır 388 × 10 / 1 = <b>3.880 W/m²</b>; taşyünü 0,045 × 10 / 1 = <b>0,45 W/m²</b>.",
+    n: "Aynı sıcaklık farkında bakır, taşyününden yaklaşık 8.600 kat fazla ısı geçirir. Yalıtım malzemelerinin düşük iletkenliği, hareketsiz hapsolmuş havadan gelir: havanın λ değeri ≈ 0,024 W/mK'dir." },
+  { t: 1, s: 19, q: "Sunumdaki ısıl iletkenlik tablosuna göre aşağıdaki malzemelerden hangisinin λ değeri en düşüktür?",
+    o: ["Cam yünü (0,040 W/mK)", "Paslanmaz çelik (16 W/mK)", "Cam (0,8 W/mK)", "Odun (0,13 W/mK)", "Hafif çelik (50 W/mK)"], a: 0,
+    e: "Tablodan: hafif çelik 50, paslanmaz çelik 16, cam 0,8, odun 0,13, <b>cam yünü 0,040</b>, taşyünü 0,045, selüloz 0,039 W/mK.",
+    n: "Paslanmaz çeliğin λ değeri (16) karbon çeliğinin (50) üçte biri kadardır. Bu yüzden paslanmaz bağlantı elemanları ısı köprüsünü azaltmak için tercih edilir. Yine de her metal, yalıtım malzemesine göre yüzlerce kat daha iletkendir." },
+  { t: 1, s: 19, q: "Sunumdaki tabloda saf bakırın λ değeri 353–386 W/mK, havanınki 0,024 W/mK'dir. Bu fark yalıtım malzemelerinin çalışma prensibi hakkında ne söyler?",
+    o: ["Yalıtım malzemeleri, düşük iletkenlikli hareketsiz havayı küçük gözeneklerde hapsederek ısı geçişini azaltır", "Yalıtım malzemeleri metal içerdiği için iyi yalıtır", "Hava iyi bir ısı iletkenidir", "Yalıtım malzemeleri ısıyı depolar", "Hava hareket ettikçe yalıtım artar"], a: 0,
+    e: "Havanın λ değeri <b>0,024 W/mK</b> ile çok düşüktür. Taşyünü (0,045), cam yünü (0,040) gibi malzemelerin düşük iletkenliği, liflerin arasında <b>hapsolmuş hareketsiz havadan</b> kaynaklanır.",
+    n: "Hava hareket ederse taşınım başlar ve yalıtım etkisi kaybolur. Bu yüzden yalıtım malzemesi sıkıştırılmamalı, ıslanmamalı ve rüzgâr almamalıdır: ıslanan yalıtımda gözeneklere su (λ ≈ 0,6) dolar ve iletkenlik kat kat artar." },
+  { t: 1, s: 22, q: "Sunuma göre Avrupa standartlarında hangi malzemeler ısı yalıtım malzemesi olarak tanımlanır?",
+    o: ["Isı iletkenlik katsayısı 0,06–0,10 W/mK'nin altında olanlar", "Isı iletkenlik katsayısı 1 W/mK'nin üzerinde olanlar", "Yoğunluğu 1.000 kg/m³'ün üzerinde olanlar", "Yalnızca mineral yün olanlar", "Isı iletkenlik katsayısı 16 W/mK'nin altındaki tüm malzemeler"], a: 0,
+    e: "Avrupa standartlarında <b>ısı iletkenlik katsayısı 0,06–0,10 W/mK'nin altında</b> olan malzemeler ısı yalıtım malzemesi olarak tanımlanır.",
+    n: "Bu sınıra göre odun (0,13) ve cam (0,8) yalıtım malzemesi değildir. Piyasadaki yaygın yalıtım malzemelerinin (taşyünü, cam yünü, EPS, XPS, poliüretan) λ değerleri 0,022–0,045 W/mK aralığındadır." },
+  { t: 1, s: 20, q: "Sunumdaki Newton'un soğuma kanununa (Q = αc × As × (Ts − Tf)) göre taşınımla ısı kaybı neyle orantılıdır?",
+    o: ["Yüzey ile akışkan arasındaki sıcaklık farkı, yüzey alanı ve ısı taşınım katsayısıyla", "Yalnızca malzemenin kalınlığıyla", "Malzemenin ısıl iletkenliğinin karesiyle", "Yalnızca akışkanın yoğunluğuyla", "Sıcaklık farkının dördüncü kuvvetiyle"], a: 0,
+    e: "Newton, bir nesnenin soğuma miktarının <b>nesne ile çevresi arasındaki sıcaklık farkı</b> ile orantılı olduğunu gözlemlemiştir: Q = <b>αc</b> (ısı taşınım katsayısı, W/m²K) × <b>As</b> (yüzey alanı) × <b>(Ts − Tf)</b>.",
+    n: "Sıcaklığın dördüncü kuvveti ışınıma aittir (Stefan–Boltzmann). Sunumdaki yalıtımsız boru formülünde bu yüzden iki ayrı katsayı vardır: taşınım için Uc, ışınım için Ur." },
+  { t: 1, s: 20, q: "Sunumdaki nota göre ısı taşınım katsayısı αc, TS 825 hesap yönteminde hangi büyüklükler olarak kullanılır?",
+    o: ["Re (dış yüzey ısıl iletim direnci) ve Ri (iç yüzey ısıl iletim direnci), m²K/W", "λ ve d", "U ve A", "Isıl kütle ve özgül ısı", "HDD ve CDD"], a: 0,
+    e: "αc, TS 825'te <b>Re</b> (dış yüzeydeki ısı taşınım katsayısına karşılık gelen dış yüzey ısıl iletim direnci) ve <b>Ri</b> (iç yüzey ısıl iletim direnci) olarak, <b>m²K/W</b> biriminde kullanılır: Ri = 1/αi, Re = 1/αe.",
+    n: "Katsayı (W/m²K) ile direnç (m²K/W) birbirinin tersidir. Dirençler seri bağlı oldukları için toplanabilir; U değeri toplam direncin tersidir. Bu, elektrikteki seri dirençlere benzer." },
+
+  // Duvarda U değeri ve ısı kaybı hesabı
+  { t: 2, s: 15, q: "Sunuma göre ısıl geçirgenlik katsayısı U (W/m²K) nasıl tanımlanır?",
+    o: ["Yapı bileşeninin her iki tarafındaki hava sıcaklıkları arasındaki fark 1 °C iken bileşenin 1 m²'sinden birim zamanda geçen ısı miktarı", "Malzemenin 1 m kalınlığından 1 K farkla geçen ısı", "Bileşenin toplam ısıl direnci", "Bileşenin yüzey sıcaklığı", "Binanın yıllık ısı ihtiyacı"], a: 0,
+    e: "U: herhangi d kalınlığındaki yapı bileşeninin her iki tarafındaki <b>hava sıcaklıkları arasındaki farkın 1 °C</b> olması hâlinde bileşenin <b>1 m²'sinden</b> birim zamanda geçen ısı miktarıdır. Isı akış yoğunluğu q = U × (θi − θd).",
+    n: "U ile λ karıştırılmamalıdır: λ yalnızca malzemenin özelliğidir (W/mK); U ise katmanları, kalınlıkları ve yüzey dirençlerini içeren bileşenin özelliğidir (W/m²K). Düşük U iyi yalıtım demektir." },
+  { t: 2, s: 16, q: "Sunuma göre çok katmanlı bir duvarın toplam ısıl geçirgenlik katsayısı U nasıl hesaplanır?",
+    o: ["1/U = 1/αi + Σ(di/λi) + 1/αe = Ri + R + Re; U = 1/(Ri + R + Re)", "U = Σ λi", "U = Σ(λi/di)", "U = Ri × R × Re", "U = (αi + αe)/2"], a: 0,
+    e: "Toplam ısıl direnç <b>1/U = 1/αi + Σ(di/λi) + 1/αe = Ri + R + Re</b>; toplam ısıl geçirgenlik katsayısı <b>U = 1/(Ri + R + Re)</b>. Isı kaybı Q = U × A × (θi − θe).",
+    n: "Katmanların λ veya U değerleri toplanmaz; dirençleri (d/λ) toplanır. En büyük direnç genellikle yalıtım katmanından gelir: sunumdaki örnekte 6 cm yalıtım tek başına toplam direncin %70'inden fazlasını oluşturur." },
+  { t: 2, s: 16, q: "Sunumdaki nota göre bir yapı bileşeninin yalıtım performansı hakkında en doğru bilgiyi hangisi verir?",
+    o: ["Toplam ısıl direnç R (veya 1/U) değeri", "Yalıtım malzemesinin yalnızca kalınlığı", "Malzemenin rengi", "Malzemenin yoğunluğu", "Duvarın toplam ağırlığı"], a: 0,
+    e: "“1/U” veya “R” olarak ifade edilen ısıl geçirgenlik direnci, bileşenin ısı akışına gösterdiği direnci verir; <b>daha yüksek R, daha yüksek direnç</b> demektir. Bu nedenle yalıtım malzemesinin <b>kalınlığından ziyade toplam R değeri</b> daha doğru bilgi verir.",
+    n: "λ = 0,030 olan 4 cm'lik levha (R = 1,33) ile λ = 0,040 olan 5 cm'lik levha (R = 1,25) karşılaştırıldığında, ince olan daha iyi yalıtır. Teklifleri karşılaştırırken bu yüzden “kaç cm” değil, “R kaç” diye sormak gerekir." },
+  { t: 2, s: 33, q: "Sunumdaki Örnek 1'de duvar katmanları şöyledir: dış sıva 0,8 cm (λ 1,4), yalıtım 6 cm (λ 0,04), tuğla 19 cm (λ 0,45), iç sıva 2 cm (λ 1,0); Re = 0,13, Ri = 0,04 m²K/W. Duvarın U değeri yaklaşık ne kadardır?",
+    o: ["≈ 0,47 W/m²K", "≈ 1,62 W/m²K", "≈ 2,12 W/m²K", "≈ 0,62 W/m²K", "≈ 0,04 W/m²K"], a: 0,
+    e: "1/U = 0,13 + 0,008/1,4 + 0,06/0,04 + 0,19/0,45 + 0,02/1,0 + 0,04 = 0,13 + 0,006 + 1,5 + 0,42 + 0,02 + 0,04 ≈ <b>2,116 m²K/W</b> → U ≈ <b>0,47 W/m²K</b>.",
+    n: "2,12 toplam dirençtir (m²K/W), U değil; U onun tersidir. Slaytta “U = 1/1,618” yazılmıştır, bu bir yazım hatasıdır: doğrusu 1/2,116'dır. 0,47 sonucu da 2,116 ile tutar." },
+  { t: 2, s: 33, q: "Sunumdaki Örnek 1'de U ≈ 0,47 W/m²K, iç ortam 20 °C, dış ortam −5 °C'dir. Duvarın 1 m²'sinden geçen ısı kaybı ne kadardır?",
+    o: ["≈ 11,75 W/m²", "≈ 7,05 W/m²", "≈ 40,5 W/m²", "≈ 0,47 W/m²", "≈ 53,2 W/m²"], a: 0,
+    e: "q = U × (θi − θe) = 0,47 × (20 − (−5)) = 0,47 × 25 ≈ <b>11,75 W/m²</b>.",
+    n: "7,05, sıcaklık farkının 20 − 5 = 15 °C alınmasıyla bulunur; dış sıcaklık eksi olduğu için fark 25 °C'dir. Sıcaklık farkı bir sıcaklık aralığı olduğundan °C veya K ile aynıdır." },
+  { t: 2, s: 35, q: "Sunumdaki Örnek 1 duvarında 6 cm yalıtım olmasaydı (1/U = 0,616 m²K/W) U değeri ve 1 m²'den geçen ısı kaybı ne olurdu? (θi = 20 °C, θe = −5 °C)",
+    o: ["U ≈ 1,62 W/m²K; q ≈ 40,5 W/m²", "U ≈ 0,47 W/m²K; q ≈ 11,75 W/m²", "U ≈ 0,62 W/m²K; q ≈ 15,4 W/m²", "U ≈ 2,12 W/m²K; q ≈ 53 W/m²", "U ≈ 1,62 W/m²K; q ≈ 24,3 W/m²"], a: 0,
+    e: "Yalıtımın 1,5 m²K/W'lık direnci çıkarılınca 1/U = 0,13 + 0,006 + 0,42 + 0,02 + 0,04 = <b>0,616</b> → U ≈ <b>1,62 W/m²K</b>; q = 1,62 × 25 ≈ <b>40,5 W/m²</b>.",
+    n: "Slaytta bu kez “U = 1/0,618” yazılmıştır; küçük bir yazım farkıdır, sonuç değişmez. Yalıtımsız tuğla duvarın U değeri, yalıtımlının yaklaşık 3,5 katıdır." },
+  { t: 2, s: 35, q: "Sunumdaki Örnek 1'de yalıtımlı duvarda q = 11,75 W/m², yalıtımsız duvarda q = 40,5 W/m²'dir. 6 cm yalıtım ısı kaybını yaklaşık yüzde kaç azaltmıştır?",
+    o: ["≈ %71", "≈ %29", "≈ %245", "≈ %40", "≈ %100"], a: 0,
+    e: "Fark = 40,5 − 11,75 = <b>28,75 W/m²</b>; azalma = 28,75 / 40,5 ≈ <b>%71</b>.",
+    n: "%29, yalıtımlı kaybın yalıtımsıza oranıdır (kalan kayıp). %245 ise farkın yalıtımlı değere bölünmesidir. Yüzde azalma her zaman başlangıç değerine (yalıtımsız) göre hesaplanır." },
+  { t: 2, s: 34, q: "Sunumdaki Örnek 1'de dış sıva ile yalıtım arasındaki θ₃ sıcaklığı θ₃ = θe + (Re + R₄)/RT × (θi − θe) ile hesaplanır. Re = 0,13, R₄ = 0,006, RT = 2,116 m²K/W, θe = −5 °C, θi = 20 °C ise θ₃ yaklaşık kaçtır?",
+    o: ["≈ −3,4 °C", "≈ −4,5 °C", "≈ 1,6 °C", "≈ 18,4 °C", "≈ −5,0 °C"], a: 0,
+    e: "θ₃ = −5 + (0,13 + 0,006)/2,116 × 25 = −5 + 1,61 ≈ <b>−3,39 °C</b>.",
+    n: "Bir katmandaki sıcaklık düşüşü, o katmanın direncinin toplam dirence oranıyla orantılıdır. Slayttaki satırda pay “0,04 + 0,006” yazılmıştır; bu değerle −4,46 °C bulunur. Sunumun −3,39 °C sonucu ise Re = 0,13 ile tutar; doğru olan da budur, çünkü θ₃ dış taraftadır." },
+  { t: 2, s: 34, q: "Sunumdaki Örnek 1'de θ₃ ≈ −3,4 °C bulunmuştur; yani dıştan yalıtımlı duvarda yalıtımın dış yüzü dış havaya yakın sıcaklıktadır. Buna göre tuğla duvar hangi sıcaklık bölgesinde kalır?",
+    o: ["Yalıtımın iç (sıcak) tarafında, iç ortama yakın sıcaklıkta", "Dış hava sıcaklığında", "Donma noktasının altında", "Yalıtımın dış tarafında", "Sıcaklığı sürekli değişen bir bölgede, iç ortamdan bağımsız"], a: 0,
+    e: "Toplam 25 °C'lik farkın ≈ 1,5/2,116 ≈ %71'i yalıtım katmanında düşer. Bu yüzden <b>tuğla, yalıtımın iç tarafında, sıcak bölgede</b> kalır.",
+    n: "Taşıyıcı duvarın sıcak tarafta kalması dıştan yalıtımın en önemli üstünlüğüdür: duvar içinde yoğuşma olmaz, ısı köprüleri kesilir ve sıcak duvar kütlesi ısıyı depolayarak ısıtma kapatıldıktan sonra da konforu sürdürür." },
+  { t: 2, s: 33, q: "Sunumdaki Örnek 1 duvarında yalıtım kalınlığı 6 cm yerine 10 cm (λ = 0,04 W/mK) yapılsaydı U değeri yaklaşık ne olurdu? (Diğer katmanların toplam direnci 0,616 m²K/W)",
+    o: ["≈ 0,32 W/m²K", "≈ 0,47 W/m²K", "≈ 0,28 W/m²K", "≈ 0,16 W/m²K", "≈ 0,62 W/m²K"], a: 0,
+    e: "Yalıtım direnci 0,10/0,04 = 2,5 m²K/W; 1/U = 0,616 + 2,5 = 3,116 → U ≈ <b>0,32 W/m²K</b>.",
+    n: "Yalıtım 6'dan 10 cm'ye (%67 artış) çıkarken U 0,47'den 0,32'ye düşer (%32 azalma). Yalıtım kalınlaştıkça her ek santimetrenin getirisi azalır; bu yüzden ekonomik bir optimum kalınlık vardır." },
+  { t: 2, s: 17, q: "Sunumdaki “Isı iletimini nasıl azaltabiliriz?” grafiklerinde yalıtımsız tuğla duvarın iç yüzey sıcaklığı ≈ 13 °C, yalıtımlı duvarınki ≈ 20 °C'ye yakındır. Bu fark neyi gösterir?",
+    o: ["Yalıtım iç yüzey sıcaklığını iç ortama yaklaştırarak hem ısı kaybını azaltır hem konforu artırıp yüzeyde yoğuşma riskini düşürür", "Yalıtım iç yüzeyi soğutur", "Yalıtımsız duvar daha konforludur", "İç yüzey sıcaklığının ısı kaybıyla ilgisi yoktur", "Yalıtım yalnızca yazın etkilidir"], a: 0,
+    e: "Grafiklerde yalıtımsız duvarın iç yüzeyi <b>≈ 13 °C</b>, yalıtımlı duvarınki <b>≈ 20 °C</b> civarındadır; sıcaklığın büyük kısmı <b>yalıtım katmanında</b> düşer.",
+    n: "Soğuk duvar yüzeyi, insan vücudundan ışınımla ısı çeker. Hava 20 °C olsa bile soğuk duvar yanında üşünür, termostat yükseltilir. Ayrıca iç yüzey çiğ noktasının (20 °C, %60 bağıl nemde ≈ 12 °C) altına inerse yoğuşma ve küf oluşur." },
+
+  // Bina yalıtım detayları ve ısı köprüsü
+  { t: 3, s: 7, q: "Sunumda termal kamera görüntülerine yer verilmesinin amacı nedir?",
+    o: ["Isı kayıplarını görünür hâle getirmek; ısı köprülerini ve yalıtımsız bölgeleri tespit etmek", "Binanın rengini belirlemek", "Binanın yaşını ölçmek", "Elektrik tüketimini ölçmek", "Hava kalitesini ölçmek"], a: 0,
+    e: "Slayt başlıkları “<b>Isı kayıplarını görünür hâle getirmek önemli</b>” şeklindedir: termal kamera, yüzey sıcaklık farklarından pencere, döşeme, balkon plakası ve yalıtımsız tesisattaki kayıpları gösterir.",
+    n: "Termal çekim, ısıtma sezonunda ve iç–dış sıcaklık farkı en az 10–15 °C iken yapılmalıdır; doğrudan güneş alan cepheler yanıltıcı sonuç verir. Dışarıdan çekimde sıcak (açık renkli) bölgeler en çok ısı kaybedilen yerlerdir." },
+  { t: 3, s: 9, q: "Sunumdaki “klasik ısıtmalı bina” termal görüntüsünde cephede döşeme hizaları ve pencere çevreleri daha sıcak (açık renkli) görünür. Bunun nedeni nedir?",
+    o: ["Betonarme döşeme ve kirişlerin yalıtımsız olması nedeniyle bu bölgelerde ısı köprüsü oluşması", "Güneşin yalnızca bu bölgelere vurması", "Kameranın arızalı olması", "Bu bölgelerin daha iyi yalıtılmış olması", "Döşemelerin içinde ısıtıcı bulunması"], a: 0,
+    e: "Dış cephede yüksek sıcaklık görülen bölgeler, iç ortamdan dışarıya <b>daha çok ısı kaçan</b> bölgelerdir. Betonarme döşeme ve kirişler (λ ≈ 2,5 W/mK) tuğladan daha iletkendir ve yalıtılmadıklarında <b>ısı köprüsü</b> oluştururlar.",
+    n: "Dışarıdan çekilen termal görüntüde sıcak görünen yüzey, kötü yalıtılmış yüzeydir. İçeriden çekimde ise tersine, ısı köprüleri iç yüzeyde daha soğuk görünür ve yoğuşma ile küf genellikle buralarda başlar." },
+  { t: 3, s: 10, q: "Sunuma göre ısı köprüsü nedir?",
+    o: ["Yapı kabuğunda, yalıtımlı duvar gibi yüksek ısıl dirençli bölgelerin arasında yalıtımsız balkon plakası, tavan veya taban gibi düşük ısıl dirençli bölgelerin oluşturduğu yoğun ısı geçiş noktaları", "İki bina arasındaki ısıtma borusu", "Kazanla radyatör arasındaki bağlantı", "Çatı arasındaki havalandırma boşluğu", "Yalıtım levhalarını duvara tutturan yapıştırıcı"], a: 0,
+    e: "Slaytta <b>yalıtılmamış balkon plakası</b>, <b>düşük ısıl dirence sahip bölge</b> (yalıtımsız tavan/taban) ile <b>yüksek ısıl dirence sahip bölge</b> (yalıtımlı duvar) birleşimi olarak gösterilir. Isı, direnci en düşük yoldan kaçar.",
+    n: "Isı köprüsü iki sorun doğurur: fazladan ısı kaybı ve iç yüzeyde soğuk nokta. Soğuk noktada yoğuşma ve küf oluşur. İyi yalıtılmış bir binada ısı köprülerinin toplam kayıptaki payı daha da büyür; bu yüzden yalıtımın kesintisiz olması gerekir." },
+  { t: 3, s: 23, q: "Sunumdaki dış duvarların dıştan ısı yalıtımı detayında katmanların dıştan içe doğru sırası hangisidir?",
+    o: ["Son kat dış cephe kaplaması → file taşıyıcılı ısı yalıtım sıvası → ısı yalıtım dübeli → ısı yalıtım levhası → yapıştırıcı → betonarme perde/dolgu duvar → iç sıva", "İç sıva → yalıtım levhası → duvar → dış cephe kaplaması", "Yalıtım levhası → dış cephe kaplaması → duvar → yapıştırıcı", "Duvar → iç sıva → yalıtım levhası → file", "Dış cephe kaplaması → duvar → yalıtım levhası → iç sıva"], a: 0,
+    e: "Sıra: <b>1</b> son kat dış cephe kaplaması, <b>2</b> file taşıyıcılı ısı yalıtım sıvası, <b>3</b> ısı yalıtım dübeli, <b>4</b> ısı yalıtım levhası, <b>5</b> ısı yalıtım yapıştırıcısı, <b>6</b> betonarme perde/dolgu duvar, <b>7</b> iç sıva.",
+    n: "File (genellikle alkali dayanımlı cam elyaf), sıvanın çatlamasını önler. Dübel, yapıştırıcıya ek olarak rüzgâr emme kuvvetine karşı levhayı mekanik olarak tutturur. Dübellerin kendisi de küçük ısı köprüleridir; bu yüzden plastik başlıklı ve gömme dübeller tercih edilir." },
+  { t: 3, s: 23, q: "Sunuma göre dış duvarların dıştan yalıtımı neden en ideal dış duvar yalıtım detayıdır?",
+    o: ["Yapı kabuğu sıcak tarafta kaldığı için ısı köprüsü ve yoğuşma sorunları ortadan kalkar; ısıtma kapatıldıktan sonra konfor koşulları devam eder", "En ucuz yöntem olduğu için", "Duvar kalınlığını azalttığı için", "Yalıtım levhası gerektirmediği için", "Yalnızca yazın etkili olduğu için"], a: 0,
+    e: "Bu uygulamada <b>yapı kabuğu sıcak tarafta kalır</b>; <b>ısı köprüsü ve yoğuşma sorunları tamamen ortadan kalkar</b>; <b>ısıtma sistemi kapatıldıktan sonra konfor koşulları devam eder</b>.",
+    n: "İçten yalıtımda ise duvar ve döşemeler soğuk tarafta kalır: döşeme–duvar birleşimlerinde ısı köprüsü kesilemez, duvar içinde yoğuşma riski doğar ve duvarın ısıl kütlesinden yararlanılamaz. İçten yalıtım ancak tarihi cephelerde veya aralıklı kullanılan mekânlarda tercih edilir." },
+  { t: 3, s: 24, q: "Sunumdaki çatı arası kullanılmayan eğimli çatı detayında ısı yalıtımı nereye yerleştirilmiştir?",
+    o: ["Çatı arasının tabanına, yani en üst kat döşemesinin (tavan) üzerine", "Çatı örtüsünün üzerine", "Çatı tahtasının altına, eğimli yüzeye", "Dış duvarın iç yüzüne", "Hiçbir yere; bu detayda yalıtım yoktur"], a: 0,
+    e: "Detayda katmanlar: 1 çatı örtüsü, 2 su yalıtımı, 3 çatı tahtası, 4 <b>havalandırılan çatı arası boşluğu</b>, 5 <b>ısı yalıtımı</b>, 6 döşeme paneli, 7 tavan sıvası. Yalıtım, kullanılmayan çatı arasının tabanında, döşemenin üzerindedir.",
+    n: "Çatı arası kullanılmadığı için onu ısıtmaya gerek yoktur; ısıtılan hacmi sınırlamak için yalıtım tavan döşemesine konur. Bu, eğimli yüzeyin tamamını yalıtmaktan daha az malzeme gerektirir ve daha ekonomiktir." },
+  { t: 3, s: 24, q: "Sunuma göre çatı arası kullanılmayan eğimli çatılarda çatı arasının havalandırılması neden çok önemlidir?",
+    o: ["Havalandırma yapılmazsa yoğuşma sonucu ısı yalıtım malzemesi zarar görebilir", "Çatı arasını ısıtmak için", "Yalıtım malzemesinin kurumasını engellemek için", "Çatı örtüsünün rengini korumak için", "Havalandırmanın önemi yoktur"], a: 0,
+    e: "Bu detayda <b>çatı arasının havalandırılması çok önemlidir</b>. Aksi hâlde <b>yoğuşma sonucu ısı yalıtım malzemesi zarar görebilir</b>. Ayrıca ısı köprüsü oluşmaması için duvar ve çatı yalıtımının sürekliliği sağlanmalıdır.",
+    n: "Binadan yükselen nemli hava soğuk çatı arasına ulaştığında çatı tahtasının altında yoğuşur. Havalandırma bu nemi dışarı atar. Islanan mineral yün işlevini yitirir, ahşap çürür." },
+  { t: 3, s: 25, q: "Sunuma göre çatı arası kullanılmayan eğimli çatılarda cam yünü şiltenin üzerine ne serilmemelidir?",
+    o: ["Su buharı geçişine karşı yüksek dirençli, buhar kesici özellikte bir malzeme (örneğin naylon)", "Hiçbir şey; şiltenin üzeri açık bırakılmamalıdır", "İkinci bir kat cam yünü", "Havalandırma boşluğu", "Çatı tahtası"], a: 0,
+    e: "Cam yünü şilte üzerine <b>buhar kesici özelliği olan, su buharı geçişine karşı yüksek dirence sahip</b> (örneğin <b>naylon</b>) bir malzeme <b>serilmemelidir</b>.",
+    n: "Buhar kesici her zaman yalıtımın sıcak (iç) tarafına konur. Soğuk tarafa (şiltenin üstüne) konulursa, içeriden gelen nem yalıtımdan geçip naylonun altında soğuk yüzeye çarparak yoğuşur ve yalıtımı ıslatır. Kural: içte buhar kesici, dışta buhar geçirgen katman." },
+  { t: 3, s: 24, q: "Sunuma göre ısı köprüsü oluşmaması için çatı yalıtımında hangi noktaya dikkat edilmelidir?",
+    o: ["Duvar ısı yalıtımı ile çatı ısı yalıtımının sürekliliği sağlanmalıdır", "Çatı yalıtımı duvardan 1 m geride bitirilmelidir", "Duvar yalıtımı yapılmamalıdır", "Çatı arası tamamen kapatılmalıdır", "Yalıtım yalnızca çatı mahyasına konmalıdır"], a: 0,
+    e: "Isı köprüsü oluşmaması için <b>duvar ısı yalıtımı ile çatı ısı yalıtımının sürekliliği</b> sağlanmalıdır.",
+    n: "Duvar–çatı birleşiminde (saçak, hatıl) yalıtımda bir boşluk kalırsa, betonarme hatıl dış havaya doğrudan ısı iletir ve üst kat tavan köşelerinde soğuk nokta ile küf oluşur. Yalıtım bina kabuğunu kesintisiz bir “mont” gibi sarmalıdır." },
+
+  // Tesisat, boru ve kanal yalıtımı
+  { t: 4, s: 26, q: "Sunuma göre mekanik tesisatta meydana gelen ısı kayıp ve kazançları hangi standarda göre hesaplanır?",
+    o: ["prEN ISO 12241:2008", "TS 825", "ISO 50001", "EN 60034", "ISO 9001"], a: 0,
+    e: "Mekanik tesisattaki ısı kayıp ve kazançları <b>prEN ISO 12241:2008</b> standardına göre hesaplanır. Yalıtılması gereken elemanlar: <b>kazanlar, borular, vana ve flanşlar, eşanjörler, HVAC</b>.",
+    n: "TS 825 bina kabuğu (duvar, çatı, döşeme, pencere) içindir; ISO 12241 ise boru, kanal, tank gibi tesisat elemanlarının yalıtım hesabını düzenler. Boru geometrisi silindirik olduğu için hesap yöntemi düzlem duvardan farklıdır (logaritmik terimler)." },
+  { t: 4, s: 26, q: "Sunumdaki genel yaklaşıma göre tesisatta hangi yüzeyler yalıtılmalıdır?",
+    o: ["60 °C'nin üzerinde sıcaklığı olan yüzeylerin tamamı, 50 °C'nin üzerinde sıcaklığı olan yüzeylerin çoğu", "Yalnızca 200 °C'nin üzerindeki yüzeyler", "Yalnızca buhar hatları", "Yalnızca dış ortamdaki borular", "Yalnızca kazan gövdesi"], a: 0,
+    e: "Genel yaklaşım: <b>60 °C'nin üzerinde</b> sıcaklığı olan yüzeylerin <b>tamamı</b>, <b>50 °C'nin üzerinde</b> sıcaklığı olan yüzeylerin <b>çoğu</b> yalıtılmalıdır.",
+    n: "Bu sınırlar enerji kaybının yanında iş güvenliği için de anlamlıdır: 60 °C'nin üzerindeki yüzeyler kısa temasta bile yanık oluşturabilir. Kazan dairelerindeki vana ve flanşlar için sökülüp takılabilen yalıtım ceketleri kullanılır." },
+  { t: 4, s: 27, q: "Sunuma göre yalıtımsız bir borudan birim uzunlukta olan ısı kaybı hangi bağıntıyla hesaplanır?",
+    o: ["Q = (Uc + Ur) × π × d1 × (Ts − Ta); Uc taşınımla, Ur ışınımla ısı transfer katsayısı", "Q = λ × A × ΔT / d", "Q = U × A × (θi − θe), U = 1/(Ri + R + Re)", "Q = ṁ × cp × Δt", "Q = σ × Ts⁴"], a: 0,
+    e: "Yalıtımsız boru: <b>Q = (Uc + Ur) × π × d1 × (Ts − Ta)</b> [W/m]. <b>Uc = 1,32 × ((Ts − Ta)/d1)^0,25</b> (taşınım), <b>Ur = 5,67×10⁻⁸ × E × (Ts² + Ta²) × (Ts + Ta)</b> (ışınım). Ts boru yüzeyi, Ta ortam sıcaklığı (K), d1 boru dış çapı.",
+    n: "π × d1, borunun 1 metresinin dış yüzey alanıdır (m²/m); sonuç bu yüzden W/m çıkar. Ur'deki E, yüzeyin ışınım yayma oranıdır (emisivite): parlak alüminyum kaplamada ≈ 0,05–0,1, boyalı veya paslı çelikte ≈ 0,9." },
+  { t: 4, s: 27, q: "Dış çapı 0,1 m olan yalıtımsız bir borunun yüzey sıcaklığı 100 °C (373 K), ortam 20 °C (293 K), emisivitesi E = 0,9'dur. Sunumdaki bağıntılara göre Uc ≈ 7,0 ve Ur ≈ 7,6 W/m²K bulunur. Borunun 1 metresinden olan ısı kaybı yaklaşık ne kadardır?",
+    o: ["≈ 369 W/m", "≈ 117 W/m", "≈ 1.168 W/m", "≈ 37 W/m", "≈ 184 W/m"], a: 0,
+    e: "Q = (7,0 + 7,6) × π × 0,1 × (373 − 293) = 14,6 × 0,314 × 80 ≈ <b>369 W/m</b>.",
+    n: "Bu örnekte ışınım payı (7,6) taşınım payından (7,0) bile büyüktür. Yalıtımsız sıcak yüzeylerde ışınım kaybı çok önemlidir. 100 m'lik böyle bir hat ≈ 37 kW, yılda binlerce saat çalışmada on binlerce m³ doğal gaz kaybettirir." },
+  { t: 4, s: 28, q: "Sunumdaki yalıtımlı boru ısı kaybı formülünde paydadaki terimler neyi temsil eder?",
+    o: ["Sırasıyla iç yüzey taşınım direnci, boru cidarının iletim direnci, yalıtımın iletim direnci ve dış yüzey taşınım direnci", "Borunun ağırlığı, uzunluğu ve rengi", "Akışkanın hızı, basıncı ve yoğunluğu", "Yalnızca yalıtımın kalınlığı", "Kazan verimi ve yakıt ısıl değeri"], a: 0,
+    e: "Q = π·L·(ti − td) / [<b>1/(αi·di)</b> + <b>(1/2λ)·ln(dd/di)</b> + <b>(1/2λy)·ln(dyd/dyi)</b> + <b>1/(αd·dd)</b>]: iç taşınım + boru cidarı iletimi + yalıtım iletimi + dış taşınım dirençleri seri bağlıdır.",
+    n: "Silindirde iletim direnci kalınlıkla doğrusal değil, çap oranının logaritmasıyla artar. Bu yüzden ince borularda yalıtımı kalınlaştırmanın getirisi hızla azalır. Dış taşınım teriminde yalıtımlı durumda yalıtımın dış çapı kullanılır." },
+  { t: 4, s: 37, q: "Sunumdaki Örnek 2'de 40 m uzunluğunda, 89×2 mm çaplı yalıtımsız buhar borusundan (190 °C buhar, 15 °C ortam) olan ısı kaybı ≈ 48,3 kW bulunmuştur. Bu kaybın büyük kısmı hangi dirençle sınırlanır?",
+    o: ["Dış yüzey taşınım direnci 1/(αd·dd) ≈ 0,45; diğer dirençler çok küçüktür", "Boru cidarının iletim direnci", "İç yüzey taşınım direnci", "Buharın gizli ısısı", "Ortam sıcaklığı"], a: 0,
+    e: "Payda: 1/(2000 × 0,087) ≈ 0,0057 + ln(89/87)/(2 × 45) ≈ 0,0003 + 1/(25 × 0,089) ≈ <b>0,449</b>. Toplamın %98'den fazlası <b>dış yüzey taşınım direncidir</b>; Q = π × 40 × 175 / 0,455 ≈ 48,3 kW.",
+    n: "Çelik boru cidarı ve yoğuşan buharın iç taşınımı ısıya neredeyse hiç direnç göstermez. Yalıtımsız boru, içindeki buharın sıcaklığında bir radyatör gibi davranır. Yalıtım, seriye çok büyük bir direnç ekleyerek bu kaybı keser." },
+  { t: 4, s: 38, q: "Sunumdaki Örnek 2'de boru 8 cm kalınlığında, λ = 0,035 W/mK yalıtımla yalıtılınca ısı kaybı ≈ 1,45 kW'a düşmektedir (yalıtımsız ≈ 48,26 kW). Isı kaybındaki tasarruf ne kadardır?",
+    o: ["≈ 46,8 kW", "≈ 49,7 kW", "≈ 1,45 kW", "≈ 33,3 kW", "≈ 4,68 kW"], a: 0,
+    e: "Q tasarruf = Q yalıtımsız − Q yalıtımlı = 48.262 − 1.451 ≈ <b>46,81 kW</b> (kaybın ≈ %97'si önlenmiştir).",
+    n: "Yalıtım dış çapı 0,089 + 2 × 0,08 = 0,249 m'dir. Yalıtım direnci ln(0,249/0,089)/(2 × 0,035) ≈ 14,7 olup, yalıtımsız durumdaki toplam dirençten (≈ 0,455) yaklaşık 32 kat büyüktür." },
+  { t: 4, s: 39, q: "Sunumdaki Örnek 2'de yalıtımla 46,81 kW ısı tasarrufu sağlanmıştır. Doğal gaz alt ısıl değeri 3,45×10⁴ kJ/m³, kazan verimi %90 ise saatlik doğal gaz tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ 5,4 m³/h", "≈ 54 m³/h", "≈ 1,36 m³/h", "≈ 4,9 m³/h", "≈ 168 m³/h"], a: 0,
+    e: "46,81 kW × 3.600 s/h = 168.516 kJ/h; ÷ (34.500 kJ/m³ × 0,90 = 31.050 kJ/m³) ≈ <b>5,43 m³/h</b>.",
+    n: "Pratik yol: 1 m³ doğal gaz ≈ 9,6 kWh; %90 verimle 8,6 kWh faydalı ısı verir. 46,8 / 8,6 ≈ 5,4 m³/h. 4,9, verime bölmek yerine verimle çarpmaktan çıkar. Kazan verimi her zaman paydadadır, çünkü tasarruf edilen ısının daha fazlası kadar yakıt tasarruf edilir." },
+  { t: 4, s: 39, q: "Sunumdaki Örnek 2'de saatlik doğal gaz tasarrufu ≈ 5,43 m³/h'tir. Boru günde 24 saat buhar taşıdığına göre günlük yakıt tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ 130 m³/gün", "≈ 5,4 m³/gün", "≈ 226 m³/gün", "≈ 65 m³/gün", "≈ 1.124 m³/gün"], a: 0,
+    e: "5,43 m³/h × 24 h ≈ <b>130 m³/gün</b>. Formül: (Q yalıtımsız − Q yalıtımlı) × 24 / (Hu × η_kazan).",
+    n: "Sunumun son slaytında sonuç “m = 54 m³/gün” yazılmıştır. Ancak slayttaki formül uygulandığında 46,81 × 3.600 × 24 / (34.500 × 0,9) ≈ 130 m³/gün çıkar; 54 değeri büyük olasılıkla saatlik 5,4 m³ değerinden gelen bir hatadır. Sınavda formülü doğru uygulayın." },
+  { t: 4, s: 36, q: "Sunumdaki Örnek 2'de boru yılda 2.800 saat çalışmaktadır. Saatlik tasarruf ≈ 5,43 m³ olduğuna göre yıllık doğal gaz tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ 15.200 m³/yıl", "≈ 1.940 m³/yıl", "≈ 47.500 m³/yıl", "≈ 152.000 m³/yıl", "≈ 5.430 m³/yıl"], a: 0,
+    e: "5,43 m³/h × 2.800 h/yıl ≈ <b>15.200 m³/yıl</b>.",
+    n: "40 m'lik tek bir buhar hattının yalıtımı bile yılda on beş bin metreküp gaz kazandırır; yalıtım maliyeti genellikle birkaç ayda geri döner. 47.500 m³, yıllık saat yerine yılın tamamı (8.760 h) alınarak bulunur." },
+  { t: 4, s: 36, q: "Doğal gazın alt ısıl değeri 8.250 kcal/m³'tür. 1 kcal = 4,18 kJ alındığında bu değer yaklaşık kaç kJ/m³ eder?",
+    o: ["≈ 34.500 kJ/m³ (3,45×10⁴)", "≈ 1.974 kJ/m³", "≈ 8.250 kJ/m³", "≈ 9,6 kJ/m³", "≈ 345.000 kJ/m³"], a: 0,
+    e: "8.250 × 4,18 ≈ <b>34.485 ≈ 3,45×10⁴ kJ/m³</b>; bu da ≈ 9,6 kWh/m³ eder.",
+    n: "Slaytta parantez içinde “4,18·10⁴ kJ/kg” de yazılmıştır; bu kütle bazlı başka bir değerdir ve m³ bazlı hesapta kullanılmaz. Hesapta kullanılan değer 3,45×10⁴ kJ/m³'tür. Birimi (m³ mü kg mı) her zaman kontrol edin." },
+  { t: 4, s: 30, q: "Sunuma göre klima kanallarının ısıl direnci en az ne olmalıdır?",
+    o: ["Şartlandırılan mekânların içindeki kanallarda 0,6 m²K/W; diğer mekânlarda yalıtılması gereken kanallarda 1,2 m²K/W", "Her yerde 0,1 m²K/W", "Şartlandırılan mekânda 1,2, diğer mekânlarda 0,6 m²K/W", "Kanallar yalıtılmaz", "Her yerde 5 m²K/W"], a: 0,
+    e: "Şartlandırılan mekânların içinde yer alan kanallar ısıl direnci <b>0,6 m²K/W</b>'tan, diğer mekânlarda yer alan ve yalıtılması gereken kanallar <b>1,2 m²K/W</b>'tan küçük olmayacak şekilde yalıtılır.",
+    n: "Şartlandırılan mekândan geçen kanalın kaybı zaten o mekâna gider, tamamen kayıp sayılmaz; yine de yoğuşmayı önlemek için yalıtılır. Çatı arası, otopark gibi şartlandırılmayan yerlerden geçen kanalda kayıp doğrudan israftır, bu yüzden sınır iki kat yüksektir." },
+  { t: 4, s: 30, q: "Şartlandırılmayan bir çatı arasından geçen klima kanalı, λ = 0,04 W/mK yalıtım malzemesiyle sunumdaki en az ısıl direnci sağlayacak şekilde yalıtılacaktır. Gereken en az yalıtım kalınlığı yaklaşık ne kadardır?",
+    o: ["≈ 4,8 cm", "≈ 2,4 cm", "≈ 30 cm", "≈ 1,2 cm", "≈ 0,5 cm"], a: 0,
+    e: "Diğer mekânlarda R ≥ <b>1,2 m²K/W</b>; d = R × λ = 1,2 × 0,04 = 0,048 m ≈ <b>4,8 cm</b>.",
+    n: "2,4 cm, şartlandırılan mekân sınırı (0,6 m²K/W) için bulunur. Uygulamada piyasadaki standart kalınlığa (5 cm) yuvarlanır. Hesapta, malzemenin performans beyanındaki λ değeri kullanılmalıdır." },
+  { t: 4, s: 29, q: "Sunumda kazan dairelerinde ısı yalıtımı başlığı altında gösterilen uygulamalar neyi vurgular?",
+    o: ["Kazan gövdesi, boru, vana ve flanş gibi sıcak yüzeylerin yalıtılarak kazan dairesindeki ısı kayıplarının önlenmesini", "Kazan dairesinin pencerelerinin büyütülmesini", "Kazanın daha yüksek sıcaklıkta çalıştırılmasını", "Kazan dairesinin soğutulması için klima takılmasını", "Kazanların dış ortama taşınmasını"], a: 0,
+    e: "Fotoğraflarda <b>kazan gövdesi ve tesisatın</b> yalıtım ceketleriyle kaplandığı uygulamalar görülür. Sunumdaki termal görüntülerde (slayt 26) yalıtımsız ve yalıtım ceketli vana arasındaki fark da gösterilmiştir.",
+    n: "Kazan dairesinin aşırı sıcak olması, yalıtım eksikliğinin en basit göstergesidir. Kazan dairesindeki ısı kimseyi ısıtmaz; doğrudan kayıptır ve çoğu zaman havalandırmayla dışarı atılır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

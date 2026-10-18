@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kojenerasyon Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 14 · Kojenerasyon (Bileşik Isı Güç) Sistemleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 14</span> 1_15.pdf · Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Ocak 2020</p>
+    <h1>Kojenerasyon (Bileşik Isı Güç) Sistemleri <em>Sınavı</em></h1>
+    <p class="lede">Kojenerasyon tipleri ve birincil enerji kazancı (%25); gaz motorunda baca gazı, HT ve LT devrelerinden ısı geri kazanımı ve Q = ṁ·cp·Δt; %90 verim ve ekonomik değerlendirme; ORC, yakıt pilli mikro kojenerasyon, trijenerasyon ve absorpsiyonlu soğutma; lisanssız üretim ve verim belgesi kriterleri.</p>
+    <ul class="facts"><li>63 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Kojenerasyon (Bileşik Isı Güç) Sistemleri” sunumu (ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Ocak 2020). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum14-v1",
+topics: ["Kojenerasyon tanımı, tipleri ve faydaları", "Isı kaynakları ve eşanjör hesapları", "Verim hesabı ve ekonomik değerlendirme", "ORC, yakıt pili, trijenerasyon ve absorpsiyonlu soğutma", "Mevzuat, verim belgesi ve uygulama sorunları"],
+Q: [
+  // Kojenerasyon tanımı, tipleri ve faydaları
+  { t: 0, s: 2, q: "Sunuma göre kojenerasyon (bileşik ısı güç) nedir?",
+    o: ["Doğal gaz, kömür, biyogaz veya yenilenebilir kaynak gibi bir yakıttan elektrik ve ısının (buhar, sıcak su) birlikte üretilmesi", "Elektriğin yalnızca yenilenebilir kaynaklardan üretilmesi", "Bir tesiste iki ayrı kazanın aynı anda çalıştırılması", "Elektriğin şebekeden alınıp ısıya dönüştürülmesi", "Isının depolanıp gece elektriğe çevrilmesi"], a: 0,
+    e: "Kojenerasyon; <b>doğal gaz, kömür, biyogaz, yenilenebilir enerji</b> vb. bir kaynaktan <b>elektrik</b> ve <b>ısının</b> (buhar, sıcak su) aynı tesiste <b>birlikte</b> üretilmesidir.",
+    n: "Özü şudur: motor veya türbin yakıt enerjisinin ancak %30–40'ını elektriğe çevirebilir; geri kalanı ısı olarak açığa çıkar. Ayrı üretimde bu ısı bacadan ve radyatörden atılır, kojenerasyonda ise prosese veya ısıtmaya verilir. Toplam verim bu yüzden %80–90'a çıkar." },
+  { t: 0, s: 3, q: "Sunumda sayılan kojenerasyon tipleri arasında hangisi yoktur?",
+    o: ["Rüzgâr türbinli", "Organik Rankine çevrimli", "Yakıt hücreli", "Kombine çevrimli (gaz + buhar türbinli)", "İçten yanmalı motorlu"], a: 0,
+    e: "Sunumdaki tipler: <b>buhar türbinli, gaz türbinli, içten yanmalı motorlu, kombine çevrimli (gaz + buhar türbinli), Organik Rankine çevrimli, yakıt hücreli</b> ve <b>mikro kojenerasyon</b> (&lt; 100 kWe). Rüzgâr türbini ısı üretmez.",
+    n: "Kojenerasyon için bir ısı kaynağı (yanma, atık ısı ya da elektrokimyasal tepkime) gerekir; çünkü elektrikle birlikte kullanılabilir ısı da çıkmalıdır. Rüzgâr ve güneş PV doğrudan elektrik üretir, kullanılabilir atık ısı bırakmaz." },
+  { t: 0, s: 3, q: "Sunuma göre bir kojenerasyon tesisinin “mikro kojenerasyon” sayılması için elektrik gücü hangi sınırın altında olmalıdır?",
+    o: ["100 kWe", "1 MWe", "10 kWe", "500 kWe", "50 MWe"], a: 0,
+    e: "Sunumda mikro kojenerasyon <b>&lt; 100 kWe</b> olarak tanımlanmıştır.",
+    n: "“kWe” elektrik gücünü, “kWth” ısıl gücü belirtir. Kojenerasyon tesislerinde ikisi ayrı ayrı verilir; çünkü örneğin 400 kWe'lik bir gaz motoru aynı anda 500 kWth civarında ısı da üretir. Mikro kojenerasyon ev, apartman, küçük otel gibi yerlerde kullanılır." },
+  { t: 0, s: 3, q: "Sunumdaki “kombine çevrimli” kojenerasyon hangi türbinlerin birlikte kullanılmasıdır?",
+    o: ["Gaz türbini + buhar türbini", "Rüzgâr türbini + gaz türbini", "Su türbini + buhar türbini", "İki ayrı gaz motoru", "Yakıt pili + güneş paneli"], a: 0,
+    e: "Kombine çevrim <b>gaz + buhar türbinli</b> sistemdir.",
+    n: "Gaz türbininin egzozu 450–600 °C'dedir. Bu egzoz bir atık ısı kazanında buhar üretir, buhar da ikinci bir türbinde ek elektrik üretir. Elektrik verimi %55–60'a çıkar. Kalan buhar prosese verilirse kombine çevrim kojenerasyonu olur." },
+  { t: 0, s: 4, q: "Sunuma göre üretimin tüketim yerinde yapılması (kojenerasyon) hangi kaybı azaltır?",
+    o: ["İletim ve dağıtım (şebeke) kayıplarını", "Motorun sürtünme kayıplarını", "Kazanın yüzey kayıplarını", "Binaların ısı kayıplarını", "Yakıtın depolama kayıplarını"], a: 0,
+    e: "Üretimin tüketimin olduğu yerde yapılmasıyla <b>şebeke kayıpları</b>, yani <b>iletim ve dağıtım kayıpları</b> azaltılabilir.",
+    n: "Merkezi santralde üretilen elektriğin bir bölümü iletim hatlarında ve trafolarda kaybolur. Yerinde üretim bu kaybı ortadan kaldırır. Isı ise uzak mesafeye taşınamadığı için zaten tüketim yerinde üretilmesi gerekir." },
+  { t: 0, s: 5, q: "Sunuma göre kojenerasyonun CO₂ emisyonuna etkisi nasıl açıklanmıştır?",
+    o: ["CO₂ emisyonu verimle orantılı olarak düşer", "CO₂ emisyonu verimden bağımsızdır", "Kojenerasyon CO₂ emisyonunu her zaman artırır", "CO₂ yalnızca kömürlü sistemlerde oluşur", "CO₂ emisyonu kurulu güçle ters orantılıdır"], a: 0,
+    e: "Kojenerasyon zararlı gazların salımının azaltılmasına katkı verir; <b>CO₂ gaz emisyonu, verim ile orantılı olarak düşmektedir</b>.",
+    n: "Aynı elektrik ve ısı daha az yakıtla üretilince yakılan karbon da azalır. Sunumdaki örnekte ayrı üretime göre %25 daha az birincil enerji kullanılıyorsa, aynı yakıt için CO₂ de yaklaşık %25 azalır." },
+  { t: 0, s: 5, q: "Aşağıdakilerden hangisi sunumda kojenerasyonun avantajları arasında sayılmamıştır?",
+    o: ["Elektrik ve ısı ihtiyacından bağımsız olarak her tesiste kârlı olması", "Enerji tasarrufu sağlaması", "Enerji üretiminde esneklik", "Zararlı gaz salımının azalmasına katkı", "Santral ve iletim altyapısı dikkate alındığında ilk yatırımın daha düşük olması"], a: 0,
+    e: "Sunumdaki avantajlar: elektrik ve ısının aynı tesiste birlikte üretimi, <b>enerji tasarrufu</b>, şebeke kayıplarının azalması, <b>esneklik</b>, <b>emisyon azalması</b> ve santral ile iletim altyapısı dikkate alınınca <b>daha düşük ilk yatırım</b>. Her tesiste kârlı olduğu söylenmemiştir.",
+    n: "Kojenerasyon ancak ısının da yıl boyunca kullanılabildiği tesislerde kârlıdır. Isı ihtiyacı yoksa sistem pahalı bir jeneratöre döner. Sunumun sonunda “yetersiz fizibilite” ilk sıkıntı olarak sayılır; bunun nedeni budur." },
+  { t: 0, s: 6, q: "Sunumdaki birincil enerji kazancı örneğinde kojenerasyonun elektrik verimi %35, ısıl verimi %50'dir. Aynı 35 birim elektrik ve 50 birim ısı ayrı ayrı (santral %43, kazan %95 verimle) üretilseydi toplam ne kadar yakıt gerekir ve kazanç ne olur?",
+    o: ["134 birim; kazanç (134 − 100)/134 ≈ %25", "100 birim; kazanç %0", "85 birim; kazanç %15", "134 birim; kazanç %34", "181 birim; kazanç %45"], a: 0,
+    e: "Elektrik için 35/0,43 ≈ <b>81</b>, ısı için 50/0,95 ≈ <b>53</b>, toplam <b>134</b> birim yakıt gerekir. Kojenerasyon aynı işi 100 birimle yapar: kazanç = (134 − 100)/134 ≈ <b>%25</b>.",
+    n: "Kazancın paydası 100 değil 134'tür: tasarruf, ayrı üretimde harcanacak yakıta göre oranlanır. (134 − 100)/100 = %34 sonucu bu yüzden yanlıştır. Mevzuattaki “birincil enerji tasarrufu” kriteri de bu mantıkla hesaplanır." },
+  { t: 0, s: 6, q: "Sunumdaki birincil enerji kazancı şemasında “81” sayısı nasıl elde edilmiştir?",
+    o: ["35 birim elektriğin %43 verimli santralde üretilmesi için gereken yakıt: 35/0,43 ≈ 81", "50 birim ısının %95 verimli kazanda üretilmesi için gereken yakıt", "100 birim yakıtın %81'inin elektriğe dönüşmesi", "35 + 50 − 4 = 81", "134 × 0,6 ≈ 81"], a: 0,
+    e: "Elektrik ihtiyacı <b>35</b> birim, şebeke santralinin verimi <b>%43</b>: 35/0,43 ≈ <b>81</b> birim yakıt. Isı için 50/0,95 ≈ 53 birim yakıt gerekir.",
+    n: "Bir çıktıyı üretmek için gereken girdi = çıktı / verim. Bu ilişki TEP hesaplarında, kazan ve motor seçiminde ve verim belgesi hesabında sürekli kullanılır." },
+  { t: 0, s: 6, q: "Bir kojenerasyon tesisi 100 birim yakıtla 40 birim elektrik ve 45 birim ısı üretmektedir. Ayrı üretimde santral verimi %50, kazan verimi %90 alınırsa birincil enerji kazancı yaklaşık ne olur?",
+    o: ["≈ %23", "≈ %30", "≈ %15", "≈ %10", "≈ %43"], a: 0,
+    e: "Ayrı üretim: 40/0,50 = 80, 45/0,90 = 50 → toplam <b>130</b> birim. Kazanç = (130 − 100)/130 ≈ <b>%23</b>.",
+    n: "%30, farkın 100'e bölünmesiyle bulunur ve yanlıştır; payda ayrı üretimdeki yakıttır. Referans verimler yükseldikçe (örneğin modern kombine çevrim santrali) kojenerasyonun göreli kazancı azalır; bu nedenle mevzuat referans verimleri tabloyla belirler." },
+  { t: 0, s: 7, q: "Sunumdaki kojenerasyon uygulama haritasına göre gaz motoru ve gaz türbini hangi alanlarda öne çıkar?",
+    o: ["Gaz motoru küçük ölçek ve mahal ısıtmada; gaz türbini büyük ölçek ve proses ısısında", "Gaz motoru büyük ölçek ve proses ısısında; gaz türbini küçük ölçekte", "İkisi de yalnızca mahal ısıtmada", "İkisi de yalnızca soğutmada", "Gaz türbini yalnızca konutlarda kullanılır"], a: 0,
+    e: "Haritada <b>gaz motoru küçük ölçek – mahal ısıtma</b>, <b>gaz türbini büyük ölçek – proses ısısı</b> bölgesindedir.",
+    n: "Gaz motorunun elektrik verimi yüksektir ve ısısının önemli bir kısmı 80–90 °C sıcak su (ceket suyu) şeklindedir; bu ısıtmaya uygundur. Gaz türbininin ısısının neredeyse tamamı 450–550 °C egzozdadır; bundan yüksek basınçlı buhar üretilebildiği için proses ısısına uygundur." },
+  { t: 0, s: 8, q: "Sunuma göre gaz/buhar türbini ile gaz motorunun çalışma prensibi arasındaki fark nedir?",
+    o: ["Türbinde sıcak gazlar veya buhar türbin kanatlarını döndürür; motorda yanan yakıt pistonların silindir içinde hareketini sağlar", "Türbinde pistonlar, motorda kanatlar hareket eder", "Türbin elektrikle, motor buharla çalışır", "Türbin yakıt yakmaz, motor yakıt yakar", "Aralarında fark yoktur"], a: 0,
+    e: "Gaz/buhar türbininde yanan yakıttan elde edilen <b>sıcak gazlar veya buhar türbin kanatlarını döndürür</b>; gaz motorunda yanan yakıt <b>pistonların silindir içinde hareketini</b> sağlar.",
+    n: "Türbin sürekli akışlı bir makinedir; motor kesikli yanmalıdır. Bu yüzden motorun ısısı birkaç kaynağa dağılır (baca gazı, ceket suyu, yağ, intercooler), türbinin ısısı ise neredeyse tek kaynaktadır (egzoz)." },
+
+  // Isı kaynakları ve eşanjör hesapları
+  { t: 1, s: 9, q: "Sunuma göre gaz motorlu kojenerasyonda ısı enerjisi hangi üç kaynaktan alınır?",
+    o: ["Baca gazı, HT devresi ve LT devresi", "Yalnızca baca gazı", "Jeneratör sargıları, pano ve trafo", "Yakıt deposu, gaz hattı ve vana", "Şebeke, kompanzasyon ve aydınlatma"], a: 0,
+    e: "Isı kaynakları: <b>1- baca gazı</b>, <b>2- HT devresi</b> (ceket suyu, yağlama, turboşarj aftercooler 1. kademe), <b>3- LT devresi</b> (turboşarj aftercooler 2. kademe).",
+    n: "HT (yüksek sıcaklık) devresi 80–90 °C'de çalışır ve ısıtma veya proses için doğrudan kullanılır. LT (düşük sıcaklık) devresi 35–50 °C'dedir; çoğu tesiste radyatörle atılır, ancak düşük sıcaklık ihtiyacı varsa (sera, havuz, ön ısıtma) değerlendirilebilir." },
+  { t: 1, s: 9, q: "Sunuma göre aşağıdakilerden hangisi gaz motorunun HT devresine değil LT devresine aittir?",
+    o: ["Turboşarj aftercooler 2. kademe", "Ceket suyu soğutma devresi", "Yağlama soğutma devresi", "Turboşarj aftercooler 1. kademe", "Hiçbiri; hepsi HT devresindedir"], a: 0,
+    e: "HT devresi: <b>ceket suyu</b>, <b>yağlama</b> ve <b>turboşarj aftercooler 1. kademe</b>. LT devresi: <b>turboşarj aftercooler 2. kademe</b>.",
+    n: "Turboşarj, yanma havasını sıkıştırırken ısıtır. Motora soğuk hava girmesi için bu hava iki kademede soğutulur: 1. kademe sıcak (HT), 2. kademe soğuk (LT) devreye verilir. Böylece ısının değerli kısmı yüksek sıcaklıkta geri kazanılır." },
+  { t: 1, s: 12, q: "Sunuma göre bir ısı değiştiricide (eşanjörde) akışkana geçen ısı hangi bağıntıyla hesaplanır?",
+    o: ["Q = ṁ × cp × Δt (Δt = t2 − t1)", "Q = U × A × t", "Q = ṁ / (cp × Δt)", "Q = P × V", "Q = ṁ × g × h"], a: 0,
+    e: "Eşanjörde <b>Q = ṁ × cp × Δt</b>; ṁ kütlesel debi, cp özgül ısı, <b>Δt = t2 − t1</b> akışkanın giriş-çıkış sıcaklık farkıdır.",
+    n: "Birim tutarlılığı en sık hata kaynağıdır: ṁ kg/h ise sonuç kJ/h çıkar; kW için 3.600'e bölünür. Hacimsel debi (m³/h) verilmişse önce yoğunlukla kütlesel debiye çevrilir." },
+  { t: 1, s: 12, q: "Sunumda kojenerasyonda kullanılan ısı değiştiricilerinden hangi iki tip gösterilmiştir?",
+    o: ["Plakalı eşanjör ve borulu (gövde-borulu) eşanjör", "Rejeneratif tekerlek ve ısı borusu", "Soğutma kulesi ve kondenser", "Elektrikli ısıtıcı ve ısı pompası", "Buhar kapanı ve kondens tankı"], a: 0,
+    e: "Sunumda <b>plakalı</b> eşanjör ile <b>borulu</b> (gövde içinde boru demeti) eşanjör gösterilmiştir. Uygulama fotoğraflarındaki LT ve HT eşanjörleri plakalıdır.",
+    n: "Plakalı eşanjörler küçük hacimde büyük yüzey sağlar ve sıvı-sıvı ısı geçişinde (ceket suyu – ısıtma suyu) tercih edilir. Baca gazı gibi gaz tarafı olan, kirli veya yüksek sıcaklıklı akışkanlarda borulu eşanjörler (egzoz eşanjörü, atık ısı kazanı) kullanılır." },
+  { t: 1, s: 16, q: "Sunumdaki örnekte 4.524 kg/h baca gazı, cp = 1,09 kJ/kg·K ile 443 °C'den 150 °C'ye soğutulmaktadır. Baca gazından alınan ısı gücü ne kadardır?",
+    o: ["≈ 401 kW", "≈ 1.445 kW", "≈ 4.931 kW", "≈ 220 kW", "≈ 500 kW"], a: 0,
+    e: "Q = 4.524 kg/h × 1,09 kJ/kg·K × (443 − 150) K ÷ 3.600 s/h ≈ <b>401 kW</b>.",
+    n: "1.445, kJ/h cinsinden bulunan 1.444.830 değerinin yanlışlıkla 1.000'e bölünmesiyle elde edilir. Baca gazının ısısı yüksek sıcaklıktadır; buhar üretmek için de kullanılabilir (trijenerasyon şemasındaki 8 barg buhar gibi)." },
+  { t: 1, s: 16, q: "Sunumdaki baca gazı hesabında kullanılan cp = 1,09 kJ/kg·K değeri nasıl elde edilmiştir?",
+    o: ["Baca gazı bileşimine (CO₂, O₂, N₂, H₂O) göre 443 °C ve 150 °C'deki cp değerlerinin ortalaması alınarak", "Suyun özgül ısısının yarısı alınarak", "Doğal gazın alt ısıl değerinden", "Rastgele bir yaklaşık değer olarak", "Motor kataloğundaki elektrik veriminden"], a: 0,
+    e: "Hacimce <b>CO₂ %8, O₂ %10, N₂ %77, H₂O %5</b> bileşimli baca gazının cp'si 443 °C'de ≈ 1,129, 150 °C'de ≈ 1,051 kJ/kg·K hesaplanmış; <b>ortalaması ≈ 1,09</b> alınmıştır.",
+    n: "Gazların özgül ısısı sıcaklıkla artar; geniş bir sıcaklık aralığında ortalama cp kullanmak hatayı azaltır. Baca gazındaki %10 O₂, gaz motorlarının yüksek hava fazlasıyla (fakir karışım) çalıştığını gösterir." },
+  { t: 1, s: 16, q: "Sunumdaki baca gazı örneğinde (4.524 kg/h, cp = 1,09 kJ/kg·K, giriş 443 °C) baca gazı 150 °C yerine 120 °C'ye kadar soğutulabilseydi geri kazanılan ısı yaklaşık ne olurdu?",
+    o: ["≈ 442 kW", "≈ 401 kW", "≈ 360 kW", "≈ 530 kW", "≈ 1.593 kW"], a: 0,
+    e: "Q = 4.524 × 1,09 × (443 − 120) ÷ 3.600 = 4.931 × 323 ÷ 3.600 ≈ <b>442 kW</b> (150 °C'ye göre ≈ 41 kW fazla).",
+    n: "Çıkış sıcaklığını düşürmek geri kazanımı artırır, ancak sınırsız değildir: gaz soğudukça eşanjör yüzeyi ve maliyeti hızla büyür, egzoz karşı basıncı artar ve çiğ noktasına yaklaşıldığında yoğuşma ile korozyon riski doğar. Tasarımcı bu nedenle bir çıkış sıcaklığı seçer." },
+  { t: 1, s: 17, q: "Sunumdaki örnekte motor soğutma suyu 39 m³/h debiyle 90 °C'den 78 °C'ye soğutulmaktadır (yoğunluk ≈ 1.030 kg/m³, cp = 3,75 kJ/kg·K). Soğutma suyundan alınan ısı gücü ne kadardır?",
+    o: ["≈ 500 kW", "≈ 1.808 kW", "≈ 50 kW", "≈ 401 kW", "≈ 160 kW"], a: 0,
+    e: "Q = 39 × 1.030 kg/h × 3,75 × (90 − 78) ÷ 3.600 = 40.170 × 45 ÷ 3.600 ≈ <b>500 kW</b>.",
+    n: "Slaytta yoğunluk “1,03 kg/m³” yazılmıştır; doğrusu 1,03 t/m³ yani 1.030 kg/m³'tür. Hesap da bu değerle tutar. Sınavda birim hatalarına karşı her zaman büyüklük kontrolü yapın: su benzeri bir sıvının yoğunluğu ~1.000 kg/m³'tür." },
+  { t: 1, s: 17, q: "Sunumdaki soğutma suyu hesabında cp neden suyun 4,19 kJ/kg·K değeri yerine 3,75 kJ/kg·K alınmıştır?",
+    o: ["Soğutma suyu %35 etilen glikol içeren bir karışım olduğu için özgül ısısı saf sudan düşüktür", "Su 90 °C'de buhara dönüştüğü için", "Hesap kolaylığı için yuvarlama yapıldığı için", "Soğutma suyu yağ olduğu için", "Basınç çok yüksek olduğu için"], a: 0,
+    e: "Motor soğutma devresinde donmaya karşı <b>%35 etilen glikol</b> karışımı kullanılmıştır; glikol karışımının özgül ısısı (≈ 3,75) ve yoğunluğu (≈ 1.030 kg/m³) saf sudan farklıdır.",
+    n: "Glikol oranı arttıkça özgül ısı düşer: aynı ısıyı taşımak için daha fazla debi, yani daha fazla pompa enerjisi gerekir. Bu yüzden glikol oranı, bölgenin en düşük sıcaklığına yetecek kadar seçilir; fazlası verimi düşürür." },
+  { t: 1, s: 17, q: "Bir gaz motorunun ceket suyu devresinden 20 m³/h su geçmekte, eşanjörde 85 °C'den 75 °C'ye soğutulmaktadır (ρ = 1.000 kg/m³, c = 4,19 kJ/kg·K). Geri kazanılan ısı gücü yaklaşık ne kadardır?",
+    o: ["≈ 233 kW", "≈ 838 kW", "≈ 23 kW", "≈ 466 kW", "≈ 140 kW"], a: 0,
+    e: "Q = (20.000 kg/h ÷ 3.600) × 4,19 × (85 − 75) = 5,56 kg/s × 4,19 × 10 ≈ <b>233 kW</b>.",
+    n: "838, kJ/h cinsinden bulunan 838.000 değerinin 1.000'e bölünüp saniyeye çevrilmemesiyle elde edilir. Pratik kural: suda 1 m³/h debi ve 1 °C fark ≈ 1,16 kW eder; 20 × 10 × 1,16 ≈ 233 kW." },
+
+  // Verim hesabı ve ekonomik değerlendirme
+  { t: 2, s: 18, q: "Sunumdaki örnek tesiste baca gazından 401 kW, soğutma suyundan 500 kW ısı ve 454 kW elektrik üretilmekte; toplam giriş enerjisi 1.500 kW'tır. Tesisin toplam verimi nedir?",
+    o: ["%90", "%60", "%30", "%100", "%75"], a: 0,
+    e: "Isı = 500 + 401 = <b>901 kW</b>; elektrik <b>454 kW</b>; toplam çıktı 1.355 kW. η = 1.355 / 1.500 ≈ <b>%90</b>.",
+    n: "Toplam verimde elektrik ve ısı doğrudan toplanır, ancak elektrik termodinamik olarak daha değerli bir enerjidir. Bu nedenle mevzuat yalnızca toplam verime değil, elektrik/ısı oranına ve birincil enerji tasarrufuna da bakar." },
+  { t: 2, s: 18, q: "Sunumdaki örnek tesiste (giriş 1.500 kW, elektrik 454 kW, ısı 901 kW) elektrik verimi ve ısıl verim yaklaşık kaçtır?",
+    o: ["Elektrik ≈ %30, ısıl ≈ %60", "Elektrik ≈ %60, ısıl ≈ %30", "Elektrik ≈ %45, ısıl ≈ %45", "Elektrik ≈ %90, ısıl ≈ %10", "Elektrik ≈ %35, ısıl ≈ %50"], a: 0,
+    e: "Elektrik verimi = 454 / 1.500 ≈ <b>%30</b>; ısıl verim = 901 / 1.500 ≈ <b>%60</b>; toplam ≈ %90.",
+    n: "%35/%50 değerleri, sunumun birincil enerji kazancı slaytındaki temsili verimlerdir; bu örnek tesisin değerleri değildir. Kalan ≈ %10, LT devresi, radyatör, yüzey ve bacadan (150 °C altı) kaybolan enerjidir." },
+  { t: 2, s: 19, q: "Sunumdaki ekonomik değerlendirmede 1.500 kW giriş gücüyle yılda 4.000 saat çalışan kojenerasyonun harcadığı doğal gaz ne kadardır? (Hu = 8.250 kcal/m³, 1 kWh = 860 kcal)",
+    o: ["≈ 625.455 m³", "≈ 417.432 m³", "≈ 6.000.000 m³", "≈ 727 m³", "≈ 5.160.000 m³"], a: 0,
+    e: "V = 1.500 kW × 4.000 h × 860 kcal/kWh ÷ 8.250 kcal/m³ ≈ <b>625.455 m³</b>; 1,6 TL/m³ ile ≈ <b>1.000.728 TL</b>.",
+    n: "Önce enerji kWh'e (6.000.000 kWh), sonra kcal'e (×860), en son m³'e (÷8.250) çevrilir. 5.160.000 sonucu kcal'in milyon katıdır; ısıl değere bölmek unutulmuştur." },
+  { t: 2, s: 19, q: "Sunumda kojenerasyonda üretilen 901 kW ısının doğal gaz karşılığı hesaplanırken paydada neden 8.250 × 0,9 kullanılmıştır?",
+    o: ["Kojenerasyon olmasaydı bu ısı %90 verimli bir kazanda doğal gaz yakılarak üretilecekti", "Doğal gazın %10'u boru hattında kaybolduğu için", "Motorun elektrik verimi %90 olduğu için", "Yılın %90'ında çalışıldığı için", "Gazın %10'u nem olduğu için"], a: 0,
+    e: "Üretilen ısı, aksi hâlde <b>%90 verimli kazanda</b> yakılacak gazın yerini tutar: V = 901 × 4.000 × 860 ÷ (8.250 × <b>0,9</b>) ≈ <b>417.432 m³</b>.",
+    n: "Kojenerasyonun ısı “geliri”, ondan kaçınılan kazan yakıtıdır. Kazan verimi ne kadar düşükse kaçınılan yakıt o kadar fazladır. Sunumdaki fizibilite tablosunda da “kazan verimi 0,9” bu nedenle yer alır." },
+  { t: 2, s: 19, q: "Sunumda kojenerasyonun ürettiği ısının doğal gaz karşılığı 417.432 m³ bulunmuştur. Doğal gaz 1,6 TL/m³ ise bu ısının parasal değeri nedir?",
+    o: ["≈ 667.891 TL", "≈ 1.000.728 TL", "≈ 332.837 TL", "≈ 260.895 TL", "≈ 1.234.880 TL"], a: 0,
+    e: "417.432 m³ × 1,6 TL/m³ ≈ <b>667.891 TL</b>.",
+    n: "332.837 TL, sunumda harcanan gaz ile ısının gaz karşılığı arasındaki farkın (208.023 m³) değeridir. Yani elektrik için “net” ek gaz maliyeti yalnızca ≈ 333 bin TL'dir; buna karşılık 1,23 milyon TL'lik elektrik üretilmiştir." },
+  { t: 2, s: 20, q: "Sunumdaki örnekte 454 kW elektrik yılda 4.000 saat üretilmekte, elektriğin fiyatı 0,68 TL/kWh'tir. Üretilen elektriğin yıllık parasal karşılığı nedir?",
+    o: ["1.234.880 TL", "1.816.000 TL", "308.720 TL", "667.891 TL", "902.043 TL"], a: 0,
+    e: "454 × 4.000 = <b>1.816.000 kWh</b>; × 0,68 TL/kWh = <b>1.234.880 TL</b>.",
+    n: "Hesapta elektriğin değeri olarak şebekeden alınmayacak elektriğin tek terimli OG tarifesi kullanılmıştır. Tesis elektriği kendisi tüketiyorsa doğru referans budur; şebekeye satıyorsa satış fiyatı alınmalıdır." },
+  { t: 2, s: 20, q: "Sunumdaki örnekte yıllık gelir (elektrik 1.234.880 TL + ısının gaz karşılığı 667.891 TL) ve gider (harcanan gaz 1.000.728 TL) dikkate alındığında kâr ne kadardır?",
+    o: ["≈ 902.043 TL", "≈ 1.902.771 TL", "≈ 234.152 TL", "≈ 332.837 TL", "≈ 1.000.728 TL"], a: 0,
+    e: "Gelir = 1.234.880 + 667.891 = <b>1.902.771 TL</b>; kâr = 1.902.771 − 1.000.728 = <b>902.043 TL</b>.",
+    n: "Bu kâr brüttür: bakım, yağ değişimi, yedek parça, personel ve sigorta giderleri düşülmemiştir. Sunumun fizibilite slaytının “Bakım maliyetleri? Yağ değişim?” sorusu tam olarak bu eksikliğe dikkat çeker." },
+  { t: 2, s: 20, q: "Sunumdaki ekonomik örnekte diğer her şey aynı kalıp doğal gaz fiyatı 1,6 TL/m³'ten 2,0 TL/m³'e çıkarsa yıllık kâr yaklaşık ne olur? (Harcanan gaz 625.455 m³, ısının gaz karşılığı 417.432 m³, elektrik geliri 1.234.880 TL)",
+    o: ["≈ 818.834 TL", "≈ 902.043 TL", "≈ 1.069.000 TL", "≈ 652.800 TL", "≈ 1.250.910 TL"], a: 0,
+    e: "Gider = 625.455 × 2,0 ≈ 1.250.910 TL; ısı geliri = 417.432 × 2,0 ≈ 834.864 TL; kâr = 1.234.880 + 834.864 − 1.250.910 ≈ <b>818.834 TL</b>.",
+    n: "Gaz fiyatı arttığında hem gider hem ısı geliri artar; net etki yalnızca 208.023 m³'lük fark üzerinden olur (208.023 × 0,4 ≈ 83 bin TL). Kârlılığı asıl belirleyen, elektrik fiyatı ile gaz fiyatı arasındaki farktır. Sunum bu nedenle doğal gaz ve döviz dalgalanmalarını sıkıntılar arasında sayar." },
+  { t: 2, s: 19, q: "Doğal gazın alt ısıl değeri 8.250 kcal/m³ ve 1 kWh = 860 kcal ise 1 m³ doğal gazın enerjisi yaklaşık kaç kWh'tir?",
+    o: ["≈ 9,6 kWh", "≈ 0,10 kWh", "≈ 8,25 kWh", "≈ 86 kWh", "≈ 7.095 kWh"], a: 0,
+    e: "8.250 ÷ 860 ≈ <b>9,6 kWh/m³</b>. Sunumun fizibilite tablosunda da “1 m³ doğal gaz ısıl gücü 9,60 kW” yazılıdır.",
+    n: "Bu değer akılda tutulursa hesaplar hızlanır: 1.500 kW giriş için saatte 1.500 ÷ 9,6 ≈ 156 m³ gaz gerekir. Elektrik 0,68 TL/kWh, gaz 1,6 ÷ 9,6 ≈ 0,17 TL/kWh olduğu için elektrik birim enerjisi gazdan ≈ 4 kat pahalıdır; kojenerasyonun kârı buradan doğar." },
+  { t: 2, s: 18, q: "Sunumdaki örnek tesis (giriş 1.500 kW; 454 kW elektrik, 901 kW ısı) için ayrı üretimde santral verimi %43, kazan verimi %95 alınırsa birincil enerji tasarrufu yaklaşık ne olur?",
+    o: ["≈ %25", "≈ %10", "≈ %50", "≈ %34", "≈ %90"], a: 0,
+    e: "Ayrı üretim: 454/0,43 ≈ 1.056 kW + 901/0,95 ≈ 948 kW = <b>≈ 2.004 kW</b>. Tasarruf = (2.004 − 1.500)/2.004 ≈ <b>%25</b>.",
+    n: "%34, farkın 1.500'e bölünmesiyle bulunur; payda ayrı üretimdeki yakıt olmalıdır. Mevzuattaki %10 alt sınırı bu tesis rahatça aşar. Tasarruf, elektrik veriminin yüksekliğine ve ısının ne kadar kullanıldığına çok duyarlıdır." },
+  { t: 2, s: 45, q: "Sunumdaki fizibilite tablosunda yıllık toplam kazanç (elektrik + ısı + soğutma) 1.664.939 TL, işletme giderleri toplamı ≈ 783.794 TL'dir. Yıllık net kâr nedir?",
+    o: ["≈ 881.145 TL", "≈ 2.448.733 TL", "≈ 1.286.208 TL", "≈ 653.600 TL", "≈ 1.664.939 TL"], a: 0,
+    e: "Net kâr = (elektrik + ısı + soğutma geliri) − işletme gideri = 1.664.939 − 783.794 ≈ <b>881.145 TL/yıl</b>.",
+    n: "Tablodaki işletme giderleri yalnızca gaz değil; ısıtma iç tüketimi, bakım ve servis (68.000 TL) ve yağ gideri (14.193 TL) de vardır. Yatırım tutarı bu net kâra bölünerek basit geri ödeme süresi bulunur." },
+  { t: 2, s: 45, q: "Sunumun fizibilite slaytında hangi kalemlerin hesaba katılmasına özellikle dikkat çekilmiştir?",
+    o: ["Bakım maliyetleri ve yağ değişimi", "Bina boyası ve peyzaj", "Personel servis ücretleri", "Reklam ve tanıtım giderleri", "Arsa vergisi"], a: 0,
+    e: "Fizibilite tablosunun yanında <b>“Bakım maliyetleri? Yağ değişim?”</b> soruları yer alır; tabloda elektrik ve gaz birim fiyatları ile yağ yoğunluğu ve döviz kuru da işaretlenmiştir.",
+    n: "Gaz motorları belirli çalışma saatlerinde (yağ değişimi, buji, büyük revizyon) bakım ister; bakım sözleşmeleri genellikle döviz bazlı ve çalışma saati başına fiyatlanır. Bu kalemler unutulursa kâğıt üzerinde kârlı görünen proje gerçekte zarar edebilir." },
+
+  // ORC, yakıt pili, trijenerasyon ve absorpsiyonlu soğutma
+  { t: 3, s: 25, q: "Sunumdaki Organik Rankine Çevrimi (ORC) şemasında akışkan hangi sırayla hal değiştirir?",
+    o: ["1 düşük basınç sıvı → 2 yüksek basınç sıvı → 3 yüksek basınçlı buhar → 4 düşük basınçlı buhar → 1", "1 yüksek basınçlı buhar → 2 düşük basınç sıvı → 3 yüksek basınç sıvı → 4 düşük basınçlı buhar", "Akışkan hiç hal değiştirmez, hep sıvıdır", "1 gaz → 2 katı → 3 sıvı → 4 gaz", "Akışkan yakılarak baca gazına dönüşür"], a: 0,
+    e: "Pompa sıvıyı basınçlandırır (<b>1 → 2</b>), evaporatörde atık ısıyla <b>yüksek basınçlı buhar</b> oluşur (<b>2 → 3</b>), genleşme makinesinde jeneratörü çevirirken basıncı düşer (<b>3 → 4</b>), kondenserde yoğuşup ısısını verir (<b>4 → 1</b>).",
+    n: "ORC, su yerine kaynama noktası düşük organik bir akışkan kullanan Rankine çevrimidir. Böylece 80–300 °C gibi su buharı türbini için düşük olan atık ısılardan da elektrik üretilebilir. Kondenserde atılan ısı da ısıtmada kullanılırsa sistem kojenerasyon olur." },
+  { t: 3, s: 25, q: "ORC çevriminde su yerine organik akışkan kullanılmasının temel nedeni nedir?",
+    o: ["Organik akışkanların kaynama noktası düşük olduğu için düşük sıcaklıklı atık ısıdan da elektrik üretilebilmesi", "Organik akışkanların yakıt olarak yakılabilmesi", "Organik akışkanın sudan ucuz olması", "Organik akışkanın hiç basınç oluşturmaması", "Organik akışkanın elektrik iletmesi"], a: 0,
+    e: "Organik akışkanlar (örneğin pentan, R245fa gibi) suya göre <b>düşük sıcaklıkta buharlaşır</b>; bu sayede düşük sıcaklıklı atık ısı da genleşme makinesini çevirecek buhar üretebilir.",
+    n: "Düşük sıcaklıklı kaynaktan elektrik veriminin düşük olacağı Carnot ilkesinin sonucudur; ORC'lerin elektrik verimi genellikle %10–20'dir. Ancak kaynak zaten atık ısı olduğundan yakıt maliyeti yoktur." },
+  { t: 3, s: 26, q: "Sunuma göre kojenerasyon küçük ölçeğe doğru gelişerek hangi en küçük uygulamaya kadar inmiştir?",
+    o: ["Tek bir ev", "Yalnızca sanayi tesisleri", "Yalnızca hastaneler", "Yalnızca 10 MW üzeri santraller", "Yalnızca seralar"], a: 0,
+    e: "Küçük ölçeğe doğru gelişme: <b>sanayi, sera, hastane, otel, ofis binası, apartman/site</b> ve en sonunda <b>bir ev</b>.",
+    n: "Küçük ölçekte ekonomiyi belirleyen, ısı ihtiyacının sürekliliğidir. Hastane ve otel gibi 24 saat sıcak su tüketen binalar küçük kojenerasyon için en uygun adaylardır." },
+  { t: 3, s: 27, q: "Sunumdaki yakıt pili şemasına göre yakıt pilinde elektrik nasıl üretilir?",
+    o: ["Anoda hidrojen, katoda oksijen (hava) verilir; elektrolit üzerinden tepkimeyle elektrik akımı, su ve ısı oluşur", "Hidrojen yakılarak türbin döndürülür", "Güneş ışığı elektroliti uyarır", "Mıknatıs ve bobin ile elektrik üretilir", "Su elektrolizle hidrojen ve oksijene ayrılır"], a: 0,
+    e: "Şemada <b>anoda H₂</b> (yakıt), <b>katoda O₂</b> (hava) girer; iyonlar <b>elektrolit</b> içinden geçerken elektronlar dış devreden akar (yük). Çıktılar: elektrik, <b>su ve ısı</b>.",
+    n: "Yakıt pili yanma ve hareketli parça olmadan, elektrokimyasal olarak çalışır; bu yüzden küçük ölçekte bile elektrik verimi yüksektir. Ev tipi sistemlerde hidrojen genellikle doğal gazdan sistem içinde (reformer) üretilir." },
+  { t: 3, s: 28, q: "Sunumda tanıtılan ene.field projesinde yakıt pilli mikro kojenerasyon sistemleri için hangi verim değerleri verilmiştir?",
+    o: ["Sistem verimi %95'e, elektrik verimi %60'a kadar", "Sistem verimi %35, elektrik verimi %10", "Sistem verimi %60, elektrik verimi %95", "Sistem verimi %100, elektrik verimi %100", "Sistem verimi %50, elektrik verimi %20"], a: 0,
+    e: "ene.field görselinde <b>sistem verimi %95'e kadar</b>, <b>elektrik verimi %60'a kadar</b> çıkabildiği belirtilir.",
+    n: "%60 elektrik verimi, büyük kombine çevrim santralleriyle aynı düzeydedir; ev ölçeğinde bir gaz motoru ise %25–30 civarında kalır. ene.field, Avrupa'da yaklaşık 1.000 ev tipi yakıt pili sisteminin kurulduğu bir saha deneme projesiydi." },
+  { t: 3, s: 29, q: "Sunumdaki ev tipi yakıt pilli mikro kojenerasyon örneğine göre aşağıdakilerden hangisi doğrudur?",
+    o: ["Elektrik gücü 0,7 kW; ısıl güç yoğuşma ünitesiyle 25 kW'a kadar; ev enerji giderlerini %20–40, CO₂'yi %50 azaltabilir", "Elektrik gücü 25 kW; ısıl güç 0,7 kW", "Ev enerji giderlerini %90 azaltır, CO₂'yi artırır", "Yalnızca elektrik üretir, ısı üretmez", "Elektrik gücü 100 kW'tır"], a: 0,
+    e: "Elektrik gücü <b>0,7 kW</b>, ısıl güç yoğuşma ünitesiyle birlikte <b>25 kW'a kadar</b>; bir evin enerji giderlerini <b>%20–40</b>, CO₂ emisyonlarını geleneksel yöntemlere göre <b>%50</b> azaltabilir.",
+    n: "0,7 kW elektrik, bir evin baz yükünü (buzdolabı, modem, bekleme yükleri) sürekli karşılar. Isı ihtiyacının büyük kısmını ise yanındaki yoğuşmalı kazan karşılar; yakıt pili sürekli çalışarak yılda binlerce kWh elektrik üretir." },
+  { t: 3, s: 30, q: "Sunumdaki ikinci yakıt pilli mikro kojenerasyon ürününün elektrik gücü 3 kW, ısıl gücü 30 kW'tır. Bu cihazın ısı/elektrik oranı nedir?",
+    o: ["10", "0,1", "3", "33", "1"], a: 0,
+    e: "Isı/elektrik = 30 kW / 3 kW = <b>10</b> (elektrik/ısı oranı 0,1).",
+    n: "Isıl gücün bu kadar yüksek olması, cihaza ek bir yoğuşmalı brülör eklenmiş olmasındandır; kışın pik ısı ihtiyacını o karşılar. Mevzuattaki “elektrik/ısı ≤ 1,5” kriteri ise elektriği ağırlıklı, ısısı kullanılmayan tesisleri elemek içindir." },
+  { t: 3, s: 32, q: "Sunuma göre trijenerasyon nedir?",
+    o: ["Elektrik, ısı ve soğutmanın aynı tesiste birlikte üretilmesi", "Üç ayrı jeneratörün paralel çalışması", "Üç farklı yakıtın aynı motorda yakılması", "Elektriğin üç fazlı üretilmesi", "Isının üç kademede depolanması"], a: 0,
+    e: "Trijenerasyon; kojenerasyonun atık ısısıyla <b>absorpsiyonlu soğutucu</b> çalıştırılıp soğuk su üretilerek <b>elektrik + ısı + soğutma</b> üçlü üretimine geçilmesidir.",
+    n: "Isı ihtiyacının yazın düştüğü binalarda kojenerasyonun yıllık çalışma saati azalır. Trijenerasyon yazın atık ısıyı soğutmaya çevirerek motorun yıl boyu tam yükte çalışmasını sağlar ve fizibiliteyi iyileştirir." },
+  { t: 3, s: 32, q: "Sunumdaki trijenerasyon şemasında motor atık ısısıyla ne üretilir ve absorpsiyonlu chiller hangi sıcaklıkta soğuk su verir?",
+    o: ["8 barg doymuş buhar üretilir; chiller 7 °C soğuk su verir", "Elektrik üretilir; chiller −20 °C buz verir", "Sıcak hava üretilir; chiller 30 °C su verir", "Basınçlı hava üretilir; chiller 0 °C su verir", "Hidrojen üretilir; chiller 15 °C su verir"], a: 0,
+    e: "Şemada motor egzozuyla <b>8 barg doymuş buhar</b> üretilir; buharla çalışan <b>absorpsiyonlu chiller 7 °C soğuk su</b> verir. Merkezi ısı eşanjörü, yağlama yağı eşanjörü ve oda ile motor soğutması için soğutma kulesi de vardır.",
+    n: "7 °C, iklimlendirme sistemlerinin standart soğuk su gidiş sıcaklığıdır (7/12 °C). Buharla çalışan çift etkili LiBr chillerlerin COP'si 1,2–1,4'e çıkabilir; sıcak suyla çalışan tek etkili olanlarda ≈ 0,7'dir." },
+  { t: 3, s: 33, q: "Sunuma göre kojenerasyonda absorpsiyonlu soğutma (trijenerasyon) genellikle hangi amaçla kullanılır?",
+    o: ["Sıcak suyu kışın ısıtmada kullanıp yazın atık ısının atmosfere atılmasını önlemek", "Motorun elektrik verimini %90'a çıkarmak", "Doğal gaz tüketimini sıfırlamak", "Kışın ek ısı üretmek", "Şebekeye daha fazla elektrik satmak"], a: 0,
+    e: "Bu çevrim genellikle sıcak suyun <b>kış aylarında ısıtma</b> için kullanılması ve <b>yaz aylarında da atık ısının atmosfere atılmasının önlenmesi</b> için kullanılır.",
+    n: "Yaz–kış dengesinin kurulmasıyla motorun yıllık eşdeğer tam yük saati artar. Örneğin sunumdaki fizibilitede elektrik 8.000 saat, ısıtma 5.200 saat, soğutma 2.800 saat çalışmaktadır: 5.200 + 2.800 = 8.000 saat ısı tarafı da tam değerlendirilir." },
+  { t: 3, s: 36, q: "Sunuma göre LiBr çevrimli absorpsiyonlu soğutma sistemlerinde absorbent ve soğutucu akışkan hangisidir?",
+    o: ["Absorbent LiBr, soğutucu akışkan su (H₂O)", "Absorbent su, soğutucu akışkan LiBr", "Absorbent su, soğutucu akışkan amonyak", "Absorbent amonyak, soğutucu akışkan su", "Absorbent ve soğutucu akışkan aynıdır"], a: 0,
+    e: "<b>LiBr çevrimli</b> sistemlerde absorbent <b>LiBr</b>, soğutucu akışkan <b>H₂O</b>; <b>NH₃ çevrimli</b> sistemlerde absorbent <b>H₂O</b>, soğutucu akışkan <b>NH₃</b>'tür.",
+    n: "Su soğutucu akışkan olduğu için LiBr sistemleri 0 °C'nin altına inemez; iklimlendirme (7 °C soğuk su) için kullanılır ve derin vakum altında çalışır. Amonyaklı sistemler sıfırın altındaki sıcaklıklara inebildiği için endüstriyel soğutmada kullanılır." },
+  { t: 3, s: 36, q: "Sunuma göre NH₃ çevrimli absorpsiyonlu soğutma sisteminde soğutucu akışkan hangisidir?",
+    o: ["Amonyak (NH₃)", "Su (H₂O)", "Lityum bromür (LiBr)", "R134a", "Karbondioksit (CO₂)"], a: 0,
+    e: "NH₃ çevrimli sistemlerde <b>absorbent su</b>, <b>soğutucu akışkan amonyaktır</b>.",
+    n: "Kural: soğutucu akışkan buharlaşıp soğutmayı yapan, absorbent ise o buharı emen maddedir. LiBr tuzu buharlaşmaz, bu yüzden soğutucu akışkan olamaz; amonyaklı sistemde ise su emicidir." },
+  { t: 3, s: 36, q: "Sunuma göre absorpsiyonlu soğutucuların COP değeri ≈ 0,7'dir. 700 kW soğutma kapasitesindeki bir absorpsiyonlu chilleri çalıştırmak için yaklaşık ne kadar ısı gerekir?",
+    o: ["≈ 1.000 kW", "≈ 490 kW", "≈ 700 kW", "≈ 175 kW", "≈ 2.800 kW"], a: 0,
+    e: "COP = soğutma / ısı girdisi → ısı = 700 / 0,7 = <b>1.000 kW</b>.",
+    n: "Elektrikli kompresörlü bir chillerin COP'si 3–5'tir (sunumdaki fizibilite tablosunda 4). Absorpsiyonlu chillerin COP'si düşük olsa da girdisi bedava atık ısı olduğu için ekonomiktir; atık ısı yoksa ve gaz yakılarak çalıştırılırsa genellikle ekonomik olmaz." },
+  { t: 3, s: 36, q: "Absorpsiyonlu soğutma çevriminde buhar sıkıştırmalı çevrimdeki kompresörün görevini hangi elemanlar üstlenir?",
+    o: ["Absorber ve generatör (ve aralarındaki çözelti pompası)", "Kondenser ve evaporatör", "Genleşme valfi", "Soğutma kulesi", "Yağ ayırıcı"], a: 0,
+    e: "Sunumdaki şemada kompresörün yerinde <b>absorber</b> ve <b>generatör</b> bulunur: soğutucu buhar absorberde çözeltiye emilir, pompalanır, generatörde ısıyla (Q′ᵢ) yeniden ayrılıp yüksek basınçta kondensere gönderilir. Kondenser, genleşme valfi ve evaporatör iki çevrimde ortaktır.",
+    n: "Buna “ısıl kompresör” denir. Sıvıyı pompalamak gazı sıkıştırmaktan çok daha az iş gerektirir; bu nedenle absorpsiyonlu chillerin elektrik tüketimi (wᵢ, pompa) çok küçüktür." },
+  { t: 3, s: 34, q: "Sunumdaki buhar sıkıştırmalı soğutma şemasına göre evaporatörde ne olur?",
+    o: ["Alçak basınçtaki soğutucu akışkan buharlaşarak soğutulan ortamdan ısı (Qᵢ) çeker", "Yüksek basınçlı gaz yoğuşarak dışarıya ısı verir", "Akışkan sıkıştırılarak basıncı yükseltilir", "Akışkanın basıncı genleşmeyle düşürülür", "Akışkan yakılır"], a: 0,
+    e: "Evaporatör <b>alçak basınç</b> tarafındadır: akışkan buharlaşarak ortamdan <b>Qᵢ</b> ısısını çeker. Kompresör (W) gazı sıkıştırır, kondenserde yüksek basınçlı gaz yoğuşarak <b>Q₀</b> ısısını dışarı verir, genleşme valfinde basınç düşer.",
+    n: "Kondenserde atılan ısı Q₀ = Qᵢ + W'dir. Buzdolabının arkasındaki ızgaranın ısınması bu yüzdendir. Sunumdaki P–h diyagramı aynı çevrimi gösterir." },
+  { t: 3, s: 39, q: "Aşağıdakilerden hangisi sunumda absorpsiyonlu soğutmanın avantajları arasında sayılmamıştır?",
+    o: ["COP değerinin elektrikli kompresörlü soğutuculardan yüksek olması", "Çalışan parça sayısı az olduğundan arıza olasılığı ve bakım ihtiyacının az olması", "Gürültü seviyesinin düşük olması", "Enerji maliyetinin düşük olması", "Kompresör ve gaz olmadığı için gaz kaçağının ve çevre kirletme etkisinin olmaması"], a: 0,
+    e: "Sunumdaki avantajlar: <b>az hareketli parça → az arıza ve bakım</b>, <b>düşük gürültü</b>, <b>düşük enerji maliyeti</b>, <b>kompresör ve gaz yok → çevre kirletme etkisi “0”</b>. COP'si (≈ 0,7) elektrikli sistemlerden düşüktür.",
+    n: "Absorpsiyonlu soğutmanın üstünlüğü verimde değil, kullandığı enerjinin türündedir: pahalı elektrik yerine atık ısı. COP'yi karşılaştırırken bu fark akılda tutulmalıdır." },
+  { t: 3, s: 40, q: "Sunumda trijenerasyon uygulama alanları arasında hangisi sayılmamıştır?",
+    o: ["Çimento fabrikası döner fırını", "Hastaneler", "Alışveriş merkezleri", "Oteller", "Kampüsler ve toplu konut alanları"], a: 0,
+    e: "Trijenerasyon uygulama alanları: <b>hastaneler, alışveriş merkezleri, oteller, kampüsler, toplu konut alanları</b>.",
+    n: "Ortak özellikleri, yıl boyunca elektrik ihtiyacının yanında kışın ısıtma, yazın soğutma ihtiyacının bulunmasıdır. Çimento fırını ise yüksek sıcaklıklı atık ısısıyla daha çok atık ısıdan elektrik (buhar türbini veya ORC) için uygundur." },
+
+  // Mevzuat, verim belgesi ve uygulama sorunları
+  { t: 4, s: 41, q: "Sunuma göre 02.10.2013 tarihli Lisanssız Elektrik Üretimine İlişkin Yönetmelik kojenerasyon tesislerine hangi imkânı tanımıştır?",
+    o: ["Bakanlıkça belirlenen verim kriterlerini sağlamaları şartıyla şirket kurma ve lisans alma yükümlülüğünden muafiyet", "Vergiden tamamen muafiyet", "Doğal gazın ücretsiz verilmesi", "Elektriğin sabit fiyatla 50 yıl alım garantisi", "Bina ruhsatı olmadan kurulabilme"], a: 0,
+    e: "Yönetmelikte kojenerasyon tesislerinin <b>Bakanlıkça belirlenecek verim kriterlerini sağlaması şartıyla</b> <b>şirket kurma ve lisans muafiyetinden</b> faydalanabileceği belirtilmiştir.",
+    n: "Lisans muafiyeti, özellikle kendi tüketimi için üretim yapan sanayi ve hizmet binalarının bürokrasisini önemli ölçüde azaltır. Şartın verim olması, ısısı kullanılmayan “kojenerasyon” adı altındaki düşük verimli jeneratör tesislerinin muafiyetten yararlanmasını engeller.",
+    g: { eski: "02.10.2013 tarihli ve 28783 sayılı Elektrik Piyasasında Lisanssız Elektrik Üretimine İlişkin Yönetmelik.", yeni: "Bu yönetmeliğin yerini 12.05.2019 tarihli ve 30772 sayılı Elektrik Piyasasında Lisanssız Elektrik Üretim Yönetmeliği (EPDK) almıştır; yönetmelik 2022 ve 2023'te değiştirilmiştir.", kaynak: "Resmî Gazete 12.05.2019/30772; değişiklikler RG 11.08.2022/31920 ve 02.03.2023/32120" } },
+  { t: 4, s: 41, q: "Sunuma göre kojenerasyon verimlilik kriterlerini belirleyen düzenleme ve verim belgesini düzenleyen kurum hangisidir?",
+    o: ["18.09.2014 tarihli Kojenerasyon ve Mikrokojenerasyon Tesislerinin Verimliliğinin Hesaplanmasına İlişkin Usul ve Esaslar Hakkında Tebliğ; Yenilenebilir Enerji Genel Müdürlüğü", "Enerji Verimliliği Kanunu; TEDAŞ", "Binalarda Enerji Performansı Yönetmeliği; belediyeler", "Elektrik Piyasası Kanunu; BOTAŞ", "Sanayi Kayıt Yönetmeliği; Sanayi Bakanlığı"], a: 0,
+    e: "Verimlilik kriterleri <b>18.09.2014 tarihli ve 29123 sayılı Tebliğ</b> ile belirlenmiş; bu kriterleri sağlayan tesislere <b>Yenilenebilir Enerji Genel Müdürlüğü</b> tarafından <b>verim belgesi</b> düzenlenmektedir.",
+    n: "Sınavda sıra sorulabilir: önce yönetmelik muafiyeti verim şartına bağlar (2013), sonra tebliğ bu verimin nasıl hesaplanacağını belirler (2014), belgeyi de Bakanlığın ilgili genel müdürlüğü verir." },
+  { t: 4, s: 41, q: "Sunuma göre lisanssız kojenerasyon tesisi kurmak isteyen kişilerin izlediği süreç hangi sıradadır?",
+    o: ["Verim belgesi alınır → dağıtım şirketinden çağrı mektubu alınır → TEDAŞ'a proje onaylatılır → tesis 2 yıl içinde kurulur ve TEDAŞ kabulü yapılır", "TEDAŞ kabulü → verim belgesi → çağrı mektubu → proje onayı", "Tesis kurulur → sonra verim belgesi alınır", "Yalnızca belediyeden ruhsat alınır", "Çağrı mektubu → tesis kurulumu → verim belgesi → proje onayı"], a: 0,
+    e: "Süreç: <b>YEGM'den verim belgesi</b> → <b>bölgesel dağıtım şirketinden çağrı mektubu</b> → <b>TEDAŞ'a proje onayı</b> → tesisin <b>2 yıl içinde</b> kurulmasını müteakip <b>TEDAŞ proje kabulü</b>.",
+    n: "Verim belgesi en başta gelir, çünkü dağıtım şirketine yapılan bağlantı başvurusunda “kojenerasyon tesisleri için toplam verimliliğe ilişkin belge” istenir. Belgesiz başvuru kabul edilmez." },
+  { t: 4, s: 42, q: "Sunuma göre içten yanmalı motorlu kojenerasyon sistemlerinin verim belgesi alabilmesi için kriterler nelerdir?",
+    o: ["Elektrik enerjisi / üretilen ısı enerjisi oranı ≤ 1,5; toplam verim η ≥ 0,75; birincil enerji kaynağında en az %10 tasarruf", "Elektrik verimi ≥ %50; ısıl verim ≥ %50", "Toplam verim ≥ %90; kurulu güç ≤ 100 kW", "Elektrik/ısı oranı ≥ 1,5; verim ≥ 0,50", "Yalnızca birincil enerji tasarrufu ≥ %25"], a: 0,
+    e: "İçten yanmalı motorlu sistemler için: <b>1) Elektrik / üretilen ısı ≤ 1,5</b>; <b>2) η ≥ 0,75</b>; <b>3) birincil enerjide en az %10 tasarruf</b>.",
+    n: "Elektrik/ısı oranı sınırı, ısısının çok küçük bir kısmını kullanan tesisleri eler. η ≥ 0,75 toplam verimi, %10 tasarruf ise ayrı üretime göre gerçekten yakıt kazancı olduğunu garanti eder. Üç kriter birlikte sağlanmalıdır." },
+  { t: 4, s: 42, q: "Bir gaz motorlu kojenerasyon tesisinin yakıt girişi 2.000 kW, elektrik üretimi 1.000 kW, değerlendirilen ısı 600 kW'tır. Tesis içten yanmalı motorlu sistemlerin ilk iki verim belgesi kriterine (elektrik/ısı ≤ 1,5; η ≥ 0,75) göre nasıl değerlendirilir?",
+    o: ["Verim kriterini sağlar (0,80), elektrik/ısı kriterini sağlayamaz (1,67 > 1,5)", "Elektrik/ısı kriterini sağlar (0,60), verim kriterini sağlayamaz", "Her iki kriteri de sağlar", "Her iki kriteri de sağlayamaz", "Verim kriterini sağlayamaz (0,50 < 0,75), elektrik/ısı kriterini sağlar"], a: 0,
+    e: "η = (1.000 + 600)/2.000 = <b>0,80 ≥ 0,75</b> → sağlar. Elektrik/ısı = 1.000/600 ≈ <b>1,67 &gt; 1,5</b> → <b>sağlamaz</b>.",
+    n: "Toplam verimi yüksek bir tesis, ısısının yeterli bölümünü kullanmıyorsa yine belge alamaz. Bu tesisin ısı kullanımını en az 667 kW'a (1.000/1,5) çıkarması, örneğin LT devresini de değerlendirmesi gerekir." },
+  { t: 4, s: 42, q: "Sunumdaki örnek tesis (454 kW elektrik, 901 kW ısı, 1.500 kW giriş) içten yanmalı motorlu sistemlerin ilk iki verim belgesi kriterini sağlar mı?",
+    o: ["Evet; elektrik/ısı ≈ 0,50 ≤ 1,5 ve η ≈ 0,90 ≥ 0,75", "Hayır; elektrik/ısı ≈ 2,0 > 1,5", "Hayır; η ≈ 0,30 < 0,75", "Yalnızca verim kriterini sağlar", "Yalnızca elektrik/ısı kriterini sağlar"], a: 0,
+    e: "Elektrik/ısı = 454/901 ≈ <b>0,50 ≤ 1,5</b>; η = 1.355/1.500 ≈ <b>0,90 ≥ 0,75</b>. Her iki kriter de sağlanır.",
+    n: "Oranı ters kurmak (ısı/elektrik = 1,98) sık yapılan bir hatadır; kriterde pay elektriktir. Gaz motorlarında elektrik/ısı oranı tipik olarak 0,7–1,0 arasındadır; ısı tam kullanıldığında bu kriter kolayca sağlanır." },
+  { t: 4, s: 43, q: "Sunumdaki akış şemasına göre şebeke işletmecisinin (dağıtım şirketinin) bağlantı başvurusunda istediği belgeler arasında hangisi yoktur?",
+    o: ["Tesisin yıllık elektrik satış sözleşmesi", "Lisanssız üretim bağlantı başvuru formu (Ek-1)", "Tesisin kurulacağı yerin tapu veya kiralama belgesi", "Teknik özellikleri gösteren tek hat şeması", "Kojenerasyon tesisleri için toplam verimliliğe ilişkin belge ve başvuru ücreti dekontu"], a: 0,
+    e: "İstenen belgeler: <b>a) Ek-1 başvuru formu</b>, <b>b) tapu veya kiralama belgesi</b>, <b>c) tek hat şeması</b>, <b>d) kojenerasyon için toplam verimliliğe ilişkin belge</b>, <b>e) başvuru ücreti makbuzu</b>.",
+    n: "Dağıtım şirketi başvurudan sonra (şemada 20 gün) bağlantı görüşü verip çağrı mektubunu düzenler. Tek hat şeması, şebekenin o noktada tesisin gücünü kaldırıp kaldıramayacağını değerlendirmek için gereklidir." },
+  { t: 4, s: 43, q: "Sunumdaki akış şemasına göre lisanssız kojenerasyon sürecinde Enerji Bakanlığının görevleri nelerdir?",
+    o: ["Kojenerasyon tesislerinin verimlilik belgelerinin düzenlenmesi ve atık ısıdan elektrik üreten tesislerin “yüksek verimli kojenerasyon” kapsamına girip girmediğinin değerlendirilmesi", "Bağlantı anlaşmasının imzalanması", "Tesisin geçici kabulünün yapılması", "Sistem kullanım anlaşmasının imzalanması", "Tapu belgesinin düzenlenmesi"], a: 0,
+    e: "Enerji Bakanlığının görevleri: <b>verimlilik belgelerinin düzenlenmesi</b> ve <b>atık ısıdan elektrik üretimi yapan tesislerin “yüksek verimli kojenerasyon” kapsamına dahil olup olmadığının değerlendirilmesi</b>. Bağlantı ve sistem kullanım anlaşmaları dağıtım şirketiyle, proje onayı ve geçici kabul TEDAŞ ile yapılır.",
+    n: "Rolleri ayırt etmek sınavda önemlidir: Bakanlık → verim belgesi; dağıtım şirketi → çağrı mektubu, bağlantı ve sistem kullanım anlaşması; TEDAŞ → proje onayı ve geçici kabul." },
+  { t: 4, s: 43, q: "Sunumdaki akış şemasına göre bağlantı başvurusundan sonra dağıtım şirketinin çağrı mektubunu düzenlemesi için kaç günlük süre gösterilmiştir?",
+    o: ["20 gün", "2 yıl", "1 gün", "365 gün", "5 yıl"], a: 0,
+    e: "Şemada başvuru ile <b>bağlantı anlaşması çağrı mektubunun düzenlenmesi</b> arasında <b>20 gün</b>, sonraki proje onayı aşaması için 90 gün, inşaat döneminden geçici kabule kadar <b>2 yıl</b> gösterilir.",
+    n: "Bu süreler yatırımcının iş programını belirler; çağrı mektubu alındıktan sonra bağlantı anlaşması imzalanmazsa hak kaybedilebilir. Sınavda süre sorularında 20 gün – 90 gün – 2 yıl sıralamasını hatırlayın." },
+  { t: 4, s: 44, q: "Sunumda kojenerasyon uygulamalarında karşılaşılan sıkıntılar arasında hangisi sayılmamıştır?",
+    o: ["Doğal gaz şebekesine bağlantının yasal olarak yasak olması", "Yetersiz fizibilite", "Doğal gaz fiyatı ve döviz kuru gibi ekonomik dalgalanmalar", "Kamu uygulamalarında ihale yasası", "Kamu uygulamalarında kontrollük hizmetleri"], a: 0,
+    e: "Sıkıntılar: <b>1- yetersiz fizibilite</b>, <b>2- ekonomik dalgalanmalar (doğal gaz, döviz kuru değişimleri)</b>, <b>3- kamu uygulamaları açısından ihale yasası, kontrollük hizmetleri</b> vb.",
+    n: "Kojenerasyon ekipmanı ve bakımı büyük ölçüde döviz bazlıdır, gaz fiyatı da kur ve uluslararası fiyatlarla değişir. Fizibilitede tek bir fiyat senaryosu yerine duyarlılık analizi (farklı gaz/elektrik fiyatları ve kurlar) yapılması bu nedenle önerilir." },
+  { t: 4, s: 46, q: "Sunumdaki kötü uygulama örneğinde genset panosunun alternatöre en yakın noktaya yerleştirilmesi neden hatalıdır?",
+    o: ["Yüksek sıcaklığa sahip olacak alternatörün havalandırılmasını engeller ve panonun da ısınmasına neden olur", "Pano kablolarını kısalttığı için", "Alternatörün gürültüsünü azalttığı için", "Gaz tüketimini ölçmeyi kolaylaştırdığı için", "Panonun yağ değişimini zorlaştırdığı için"], a: 0,
+    e: "Genset panosunun alternatöre en yakın noktaya yerleştirilmesi, <b>yüksek sıcaklıktaki alternatörün havalandırılmasına engel</b> olacağı gibi <b>panonun da ısınmasına</b> neden olacaktır.",
+    n: "Elektronik kontrol ve koruma elemanlarının ömrü sıcaklık arttıkça hızla kısalır; aşırı ısınan alternatörün sargı yalıtımı da yaşlanır. Makine dairesi yerleşimi projede havalandırma, bakım boşlukları ve ısı kaynakları dikkate alınarak yapılmalıdır." },
+  { t: 4, s: 47, q: "Sunumdaki kötü uygulamalar arasında hangisi gösterilmemiştir?",
+    o: ["Baca gazı eşanjörünün fazla büyük seçilmesi", "Doğal gaz tesisatının genset etrafında çalışacak personele ve ekipman değişimine engel olacak şekilde yerleştirilmesi", "Tesis genelinden yayılacak gürültüyü önleyici önlemlerin bulunmaması", "Her iki gensetin doğal gaz tüketimini ayrı ayrı ölçecek sistemin bulunmaması", "Genset panosunun alternatöre en yakın noktaya yerleştirilmesi"], a: 0,
+    e: "Sunumdaki kötü uygulamalar: <b>gaz hattının genset çevresinde engel oluşturması</b>, <b>panonun alternatöre bitişik yerleştirilmesi</b>, <b>gürültü önleyici önlem bulunmaması</b> ve <b>her iki gensetin gazının ayrı ölçülmemesi</b>.",
+    n: "Her motorun gazı ayrı ölçülmezse motor bazında verim izlenemez, verim belgesi için gereken ölçümler yapılamaz ve bir motordaki verim düşüşü (ayar bozukluğu, aşınma) fark edilemez. Ölçemediğinizi yönetemezsiniz." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
