@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soğutma Sistemleri Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 16 · Soğutma Sistemleri ve Isı Pompası</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 16</span> 1_17.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Soğutma Sisteminin Yapısı <em>Sınavı</em></h1>
+    <p class="lede">Buhar sıkıştırmalı çevrimin dört noktası, genleşme valfi ve R22; Qc = Qe + Pc, COP ve Carnot COP’si; su ve hava soğutmalı chiller, LiBr–su absorpsiyonlu chiller; free cooling, reküperatif ve rejeneratif atık ısı geri kazanımı; ısı pompası, toprak kaynaklı sistemler ve VRF/VRV.</p>
+    <ul class="facts"><li>48 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Soğutma Sisteminin Yapısı” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum16-v1",
+topics: ["Buhar sıkıştırmalı çevrim ve soğutucu akışkan", "COP ve soğutma sistemi verimi", "Chiller ve absorpsiyonlu chiller sistemleri", "Free cooling ve atık ısı geri kazanımı", "Isı pompası ve VRF sistemleri"],
+Q: [
+  // Buhar sıkıştırmalı soğutma çevrimi ve soğutucu akışkan
+  { t: 0, s: 2, q: "Sunumdaki standart soğutma çevriminin dört ana elemanı hangileridir?",
+    o: ["Kompresör, kondenser, genleşme (expansion) valfi, evaporatör", "Kazan, türbin, kondenser, pompa", "Kompresör, kazan, brülör, baca", "Fan, filtre, nemlendirici, ısıtıcı", "Jeneratör, absorber, pompa, ısı değiştirici"], a: 0,
+    e: "Standart (buhar sıkıştırmalı) soğutma çevrimi: <b>1→2 kompresör</b>, <b>2→3 kondenser</b>, <b>3→4 genleşme valfi</b>, <b>4→1 evaporatör</b>.",
+    n: "Jeneratör–absorber ikilisi absorpsiyonlu çevrime aittir; orada kompresörün yerini bu “ısıl kompresör” alır. Kazan–türbin–kondenser–pompa ise buhar santralinin Rankine çevrimidir, yani soğutma çevriminin tersine çalışan güç çevrimi." },
+  { t: 0, s: 4, q: "Sunumdaki standart soğutma çevriminde kompresör çıkışında (nokta 2) soğutucu akışkanın durumu nedir?",
+    o: ["Yüksek basınç, yüksek sıcaklık, buhar fazında", "Düşük basınç, düşük sıcaklık, buhar fazında", "Yüksek basınç, düşük sıcaklık, sıvı fazında", "Düşük basınç, düşük sıcaklık, az buhar + çok sıvı", "Atmosfer basıncında katı"], a: 0,
+    e: "Nokta 2 (kompresör çıkışı): <b>yüksek basınç, yüksek sıcaklık, buhar fazında</b>. Kompresörde <b>basınç artışı ve ısınma</b> olur.",
+    n: "Çevrimin dört noktası: 1 düşük basınç–düşük sıcaklık buhar; 2 yüksek basınç–yüksek sıcaklık buhar; 3 yüksek basınç–düşük sıcaklık sıvı; 4 düşük basınç–düşük sıcaklık, az buhar + çok sıvı. Sınavda bu tabloyu bilmek birçok soruyu çözer." },
+  { t: 0, s: 4, q: "Sunuma göre kondenserde (2 → 3) ne olur?",
+    o: ["Soğutucu akışkan yoğuşur ve dış ortama enerji verir; yüksek basınçta sıvıya dönüşür", "Soğutucu akışkan buharlaşarak ortamdan ısı alır", "Basınç düşer", "Basınç ve sıcaklık artar", "Akışkan yakılır"], a: 0,
+    e: "Kondenserde <b>yoğuşma</b> olur ve <b>dış ortama enerji verilir</b>; akışkan nokta 3'te <b>yüksek basınç, düşük sıcaklık, sıvı fazındadır</b>.",
+    n: "Kondenserde atılan ısı, evaporatörde çekilen ısı ile kompresör işinin toplamıdır. Kondenser kirlenirse veya hava/su yetersizse yoğuşma sıcaklığı yükselir, kompresör daha çok iş yapar ve COP düşer." },
+  { t: 0, s: 4, q: "Sunuma göre genleşme (expansion) valfinden (3 → 4) çıkan soğutucu akışkanın durumu nedir?",
+    o: ["Düşük basınç, düşük sıcaklık; az buhar + çok miktarda sıvı fazında", "Yüksek basınç, yüksek sıcaklık buhar", "Tamamen kızgın buhar", "Yüksek basınç sıvı", "Katı"], a: 0,
+    e: "Genleşme valfinde <b>basınç düşer</b>; nokta 4'te akışkan <b>düşük basınç, düşük sıcaklık</b>, <b>az buhar + çok miktarda sıvı</b> fazındadır.",
+    n: "Basıncın ani düşmesiyle sıvının bir kısmı kendiliğinden buharlaşır (flaş buhar) ve bu buharlaşma kalan sıvıyı evaporasyon sıcaklığına kadar soğutur. Genleşmede iş yapılmaz ve dışarıyla ısı alışverişi olmaz; entalpi sabit kalır (p–h diyagramında düşey çizgi)." },
+  { t: 0, s: 4, q: "Sunuma göre evaporatörde (4 → 1) ne olur?",
+    o: ["Soğutucu akışkan düşük basınçta buharlaşarak soğutulan ortamdan enerji alır", "Soğutucu akışkan yoğuşarak dışarıya ısı verir", "Basınç yükselir", "Akışkan sıvılaşır", "Akışkan sıkıştırılır"], a: 0,
+    e: "Evaporatörde <b>buharlaşma</b> olur ve <b>dış ortamdan (soğutulan ortamdan) enerji alınır</b>; nokta 1'de akışkan düşük basınç, düşük sıcaklık, buhar fazındadır.",
+    n: "Soğutmanın gerçekleştiği yer evaporatördür. Evaporatör yüzeyi buzlanır veya kirlenirse ısı geçişi azalır, evaporasyon sıcaklığı düşer ve COP kötüleşir. Bu yüzden defrost ve batarya temizliği verimlilik açısından önemlidir." },
+  { t: 0, s: 5, q: "Sunumdaki termostatik genleşme valfi şemasında valfi kumanda eden algılayıcı hangi büyüklüğü ölçer?",
+    o: ["Evaporatör çıkışındaki kızgınlığı (superheat)", "Kondenser girişindeki basıncı", "Ortamın nemini", "Kompresörün akımını", "Soğutma kulesi suyunun sıcaklığını"], a: 0,
+    e: "Şemada evaporatör bataryası çıkışında <b>superheat (kızgınlık) sensörü</b> (phial/bulb) bulunur; bu algılayıcı kapiler tüp ile diyaframa bağlıdır. Diyafram–yay dengesi valf açıklığını ayarlar.",
+    n: "Kızgınlık, evaporatör çıkışındaki buhar sıcaklığının evaporasyon sıcaklığının ne kadar üzerinde olduğudur. Kızgınlık çok düşükse kompresöre sıvı gelir ve kompresör zarar görür; çok yüksekse evaporatör yetersiz beslenir ve kapasite düşer. Valf bu dengeyi kurar." },
+  { t: 0, s: 3, q: "Sunumdaki R22 (Freon 22) tablosuna göre aşağıdakilerden hangisi doğrudur?",
+    o: ["Molekül formülü CHClF₂, kaynama noktası −40,8 °C, soğutma etkisi 38,8 kcal/kg, COP 4,7", "Molekül formülü CO₂, kaynama noktası 100 °C", "Kaynama noktası +40,8 °C, COP 0,7", "Molekül ağırlığı 18, soğutma etkisi 540 kcal/kg", "Özgül hacmi 77 m³/kg"], a: 0,
+    e: "R22: formül <b>CHClF₂</b>, molekül ağırlığı <b>86,5</b>, kaynama noktası <b>−40,8 °C</b>, buharlaşma basıncı (15 °C) <b>3,02</b>, yoğunlaşma basıncı (30 °C) <b>12,2</b>, soğutma etkisi <b>38,8 kcal/kg</b>, özgül hacim <b>0,077 m³/kg</b>, COP <b>4,7</b>.",
+    n: "İyi bir soğutucu akışkanın kaynama noktası düşük olmalıdır ki atmosfer basıncına yakın basınçlarda soğuk sıcaklıklarda buharlaşabilsin. Soğutma etkisi (kg başına çekilen ısı) yüksek olmalıdır ki az akışkan dolaştırılsın." },
+  { t: 0, s: 3, q: "Sunumda R22 hangi amaçla örnek verilmiştir?",
+    o: ["Çevreye duyarlı olmamakla birlikte soğutucu akışkan özelliklerine ilişkin temel bilgileri açıkça yansıttığı için; günümüzde çevreye duyarlı akışkanlar kullanılmaktadır", "Günümüzde en çok önerilen akışkan olduğu için", "Ozon tabakasına zararı olmadığı için", "En yüksek COP'yi verdiği için", "Absorpsiyonlu chillerlerde kullanıldığı için"], a: 0,
+    e: "Sunumdaki nota göre <b>Freon 22 çevreye duyarlı bir soğutucu akışkan değildir</b>; temel özellikleri açıkça yansıttığı için örnek verilmiştir. <b>Günümüzde çevreye duyarlı soğutucu akışkanlar</b> kullanılmaktadır.",
+    n: "R22 bir HCFC'dir: molekülündeki klor ozon tabakasına zarar verir ve sera etkisi de yüksektir. Montreal Protokolü kapsamında HCFC'ler aşamalı olarak kaldırılmaktadır. Eski R22'li sistemlerin yenilenmesi hem çevre hem verimlilik açısından fırsattır." },
+  { t: 0, s: 3, q: "Sunumdaki R22 verilerine göre soğutma etkisi 38,8 kcal/kg'dır. 100 kW (86.000 kcal/h) soğutma için dolaştırılması gereken soğutucu akışkan debisi yaklaşık ne kadardır?",
+    o: ["≈ 2.216 kg/h", "≈ 3.337 kg/h", "≈ 38,8 kg/h", "≈ 222 kg/h", "≈ 86.000 kg/h"], a: 0,
+    e: "ṁ = Qe / soğutma etkisi = 86.000 kcal/h ÷ 38,8 kcal/kg ≈ <b>2.216 kg/h</b>.",
+    n: "Bu debi kompresörün emmesi gereken hacmi belirler: özgül hacim 0,077 m³/kg ise 2.216 × 0,077 ≈ 171 m³/h buhar emilir. Soğutma etkisi yüksek, özgül hacmi düşük akışkanlar daha küçük kompresörle aynı işi yapar." },
+  { t: 0, s: 3, q: "Bir R22 sisteminde kompresör saatte 2.216 kg soğutucu akışkan emmektedir. Emme tarafındaki özgül hacim 0,077 m³/kg ise kompresörün emdiği buhar hacmi yaklaşık ne kadardır?",
+    o: ["≈ 171 m³/h", "≈ 28.779 m³/h", "≈ 2.216 m³/h", "≈ 17 m³/h", "≈ 0,077 m³/h"], a: 0,
+    e: "V = ṁ × v = 2.216 kg/h × 0,077 m³/kg ≈ <b>171 m³/h</b>.",
+    n: "28.779, debinin özgül hacme bölünmesiyle bulunur; özgül hacim (m³/kg) ile çarpılmalıdır. Kompresör seçimi bu hacimsel debiye göre yapılır. Evaporasyon sıcaklığı düştükçe emme basıncı düşer, özgül hacim büyür ve aynı kompresörün kapasitesi azalır." },
+
+  // COP ve soğutma sistemi verimi
+  { t: 1, s: 7, q: "Sunuma göre standart soğutma çevriminde kondenserde ortama atılan ısı (Qc) ile evaporatörde alınan ısı (Qe) ve kompresörde tüketilen güç (Pc) arasındaki ilişki nedir?",
+    o: ["Qc = Qe + Pc", "Qc = Qe − Pc", "Qc = Pc − Qe", "Qc = Qe × Pc", "Qc = Qe / Pc"], a: 0,
+    e: "Enerji dengesi: <b>Qc = Qe + Pc</b>. Kondenserde atılan ısı, soğutulan ortamdan çekilen ısı ile kompresöre verilen enerjinin toplamıdır.",
+    n: "Bu eşitlik ısı pompasının da temelidir: ısıtma modunda yararlanılan ısı Qc'dir ve her zaman tüketilen elektrikten büyüktür. Soğutma kulesi veya kondenser de Qe değil, Qc'ye göre boyutlandırılır." },
+  { t: 1, s: 9, q: "Sunuma göre soğutma sistemlerinde standart COP (etkinlik katsayısı) nasıl tanımlanır?",
+    o: ["COP = Kazanç / Tüketim = Alınan ısı / Tüketilen güç = Qe / Pc", "COP = Pc / Qe", "COP = Qc / Qe", "COP = (Qe − Pc) / Qc", "COP = Tc / Te"], a: 0,
+    e: "<b>COP standart = Kazanç / Tüketim = Alınan ısı / Tüketilen güç = Qe / Pc</b>.",
+    n: "COP birimsizdir ve 1'den büyük olabilir; çünkü sistem enerji üretmez, ısıyı soğuk yerden sıcak yere taşır. COP 4 demek, 1 kWh elektrikle 4 kWh ısının taşınması demektir." },
+  { t: 1, s: 9, q: "Sunuma göre Carnot COP'si yaklaşık olarak nasıl ifade edilir?",
+    o: ["COP_Carnot = Qe / Pc ≈ Te / (Tc − Te) (mutlak sıcaklıklarla)", "COP_Carnot = Tc / Te", "COP_Carnot = (Tc − Te) / Te", "COP_Carnot = Te × Tc", "COP_Carnot = Pc / Qe"], a: 0,
+    e: "<b>COP_Carnot = Qe / Pc ≈ Te / (Tc − Te)</b>; Te evaporasyon, Tc kondenzasyon sıcaklığıdır (Kelvin).",
+    n: "Formülden iki pratik ders çıkar: evaporasyon sıcaklığı Te yükseltilirse pay büyür, payda küçülür; kondenzasyon sıcaklığı Tc düşürülürse payda küçülür. İki durumda da COP artar. Soğuk suyu gereğinden soğuk üretmemek ve kondenseri temiz tutmak bu yüzden önemlidir." },
+  { t: 1, s: 9, q: "Bir soğutma sisteminde evaporasyon sıcaklığı 0 °C, kondenzasyon sıcaklığı 40 °C'dir. Carnot COP'si yaklaşık kaçtır?",
+    o: ["≈ 6,8", "≈ 0", "≈ 7,8", "≈ 1,15", "≈ 0,15"], a: 0,
+    e: "Te = 273 K, Tc = 313 K: COP ≈ 273 / (313 − 273) = 273 / 40 ≈ <b>6,8</b>.",
+    n: "Formüle °C girilirse 0/40 = 0 bulunur; Carnot formülünde mutlak sıcaklık (K) kullanılmalıdır. Sıcaklık farkı ise °C ile de aynıdır. Gerçek sistemlerin COP'si Carnot değerinin yaklaşık yarısı kadardır (sunumdaki R22 için 4,7)." },
+  { t: 1, s: 9, q: "Evaporasyon sıcaklığı 0 °C olan bir sistemde kondenser temizlenerek kondenzasyon sıcaklığı 40 °C'den 35 °C'ye düşürülmüştür. Carnot COP'si nasıl değişir?",
+    o: ["≈ 6,8'den ≈ 7,8'e çıkar (≈ %14 artış)", "Değişmez", "≈ 6,8'den ≈ 5,8'e düşer", "≈ 7,8'den ≈ 6,8'e düşer", "≈ 2 katına çıkar"], a: 0,
+    e: "Önce 273/40 ≈ 6,8; sonra 273/35 ≈ <b>7,8</b>. COP ≈ %14 artar; aynı soğutma için kompresör gücü ≈ %13 azalır.",
+    n: "Kondenzasyon sıcaklığındaki her 1 °C düşüş, kompresör enerjisinde kabaca %2–3 tasarruf sağlar. Kirli kondenser bataryası, bozuk fan, yetersiz soğutma kulesi veya güneş alan kondenser yeri bu nedenle doğrudan enerji kaybıdır." },
+  { t: 1, s: 9, q: "Bir chillerin soğutma kapasitesi 350 kW, COP'si 3,5'tir. Kompresörün çektiği güç ve kondenserde atılan ısı ne kadardır?",
+    o: ["Pc = 100 kW; Qc = 450 kW", "Pc = 1.225 kW; Qc = 1.575 kW", "Pc = 100 kW; Qc = 250 kW", "Pc = 350 kW; Qc = 700 kW", "Pc = 3,5 kW; Qc = 353,5 kW"], a: 0,
+    e: "Pc = Qe / COP = 350 / 3,5 = <b>100 kW</b>; Qc = Qe + Pc = 350 + 100 = <b>450 kW</b>.",
+    n: "Soğutma kulesi veya kuru soğutucu 450 kW'ı atacak şekilde seçilmelidir, 350 kW'ı değil. Bu 450 kW'lık ısı, ısı geri kazanımıyla sıcak su üretiminde kullanılabilir." },
+  { t: 1, s: 9, q: "500 kW soğutma yükündeki bir tesiste COP'si 3 olan eski chiller, COP'si 4 olan yenisiyle değiştirilmektedir. Yılda 2.000 saat tam yükte çalışılırsa yıllık elektrik tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ 83.300 kWh", "≈ 1.000.000 kWh", "≈ 250.000 kWh", "≈ 41,7 kWh", "≈ 333.000 kWh"], a: 0,
+    e: "Eski: 500/3 ≈ 166,7 kW; yeni: 500/4 = 125 kW; fark ≈ 41,7 kW × 2.000 h ≈ <b>83.300 kWh/yıl</b> (%25 tasarruf).",
+    n: "COP'deki %33'lük artış, elektrikte %25 tasarrufa karşılık gelir: tasarruf oranı 1 − (COP_eski / COP_yeni) = 1 − 3/4. 333.000 kWh eski chillerin yıllık toplam tüketimidir." },
+  { t: 1, s: 8, q: "Sunumdaki p–h (basınç–entalpi) diyagramında evaporatörde alınan ısı (Qe) nasıl gösterilir?",
+    o: ["Alt yatay çizgide (4 → 1) evaporasyon basıncında entalpi artışı olarak", "Kompresördeki eğik çizgide (1 → 2)", "Genleşmedeki düşey çizgide (3 → 4)", "Üst yatay çizgide (2 → 3)", "Diyagramda gösterilmez"], a: 0,
+    e: "p–h diyagramında evaporatör alt yatay çizgidir (Te sıcaklığı, 4 → 1); bu çizgideki entalpi farkı <b>Qe</b>'dir. Üst yatay çizgi kondenser (Tc, 2 → 3, <b>Qc</b>), 1 → 2 kompresör (<b>Pc</b>), 3 → 4 genleşmedir.",
+    n: "Diyagram enerji dengesini görsel olarak da gösterir: Qc'nin genişliği, Qe ile Pc genişliklerinin toplamına eşittir. Kondenzasyon basıncı yükseldikçe üst çizgi yükselir, Pc uzar ve Qe kısalır, yani COP düşer." },
+
+  // Chiller ve absorpsiyonlu chiller sistemleri
+  { t: 2, s: 10, q: "Sunumdaki su soğutmalı kondenserli chiller sisteminde kondenser ısısı nereye atılır?",
+    o: ["Soğutma kulesine giden su devresiyle atmosfere", "Doğrudan soğutulan mekâna", "Soğuk–sıcak su tankına", "Evaporatöre", "Kompresöre"], a: 0,
+    e: "Kondenser, <b>soğutma kulesi</b> suyuyla soğutulur; kulede suyun bir kısmının buharlaşmasıyla ısı <b>atmosfere</b> atılır. Hava soğutmalı chillerde ise kondenser fanla doğrudan havayla soğutulur, soğutma kulesi yoktur.",
+    n: "Su soğutmalı sistemlerde kondenzasyon sıcaklığı, havanın yaş termometre sıcaklığına bağlıdır ve hava soğutmalıya göre daha düşüktür; COP genellikle daha yüksektir. Buna karşılık kule suyu, kimyasal şartlandırma ve lejyonella kontrolü gerektirir." },
+  { t: 2, s: 11, q: "Sunumdaki su soğutmalı chiller şemasında soğutma kulesi devresi ve soğutulmuş su devresi için hangi sıcaklıklar ve devre tipleri verilmiştir?",
+    o: ["Soğutma kulesi suyu açık çevrim, ≈ 35 °C → ≈ 29,4 °C; soğutulmuş su kapalı çevrim, ≈ 10 °C dönüş → ≈ 4,4 °C gidiş", "Soğutma kulesi suyu kapalı çevrim, 7 °C; soğutulmuş su açık çevrim, 35 °C", "Her iki devre de 100 °C'de çalışır", "Soğutma kulesi suyu −10 °C'dedir", "Soğutulmuş su 29,4 °C'de gider, 35 °C'de döner"], a: 0,
+    e: "Şemada <b>soğutma kulesi suyu devresi açık çevrim</b>dir (kondenserden ≈ <b>35 °C</b> çıkar, kuleden ≈ <b>29,4 °C</b> döner); <b>soğutulmuş su devresi kapalı çevrim</b>dir (hava hazırlama ünitesinden ≈ <b>10 °C</b> döner, evaporatörden ≈ <b>4,4 °C</b> gider).",
+    n: "Kule suyu atmosferle temas ettiği için açık çevrimdir: buharlaşma, sıçrama ve blöf kayıpları vardır ve sürekli besleme suyu gerekir. Soğutulmuş su ise binada kapalı çevrimde dolaşır." },
+  { t: 2, s: 12, q: "Sunumdaki ısı transfer zinciri şemasına göre binadan alınan ısı atmosfere kadar hangi sırayla taşınır?",
+    o: ["Hava → soğutulmuş su → soğutucu akışkan → kondenser suyu → soğutma kulesinde hava", "Hava → kompresör → binaya geri", "Soğutma kulesi → bina havası → kompresör", "Soğutucu akışkan → bina havası → soğutulmuş su", "Doğrudan bina havasından atmosfere"], a: 0,
+    e: "Zincir: <b>hava fanı</b> (bina havası) → <b>soğutulmuş su pompası</b> (su) → <b>kompresör</b> (soğutucu akışkan) → <b>kondenser pompası</b> (sıcak su) → <b>soğutma kulesi fanı</b> (buharlaşma, atmosfere sıcak hava).",
+    n: "Zincirdeki her halka (iki fan, iki pompa, kompresör) elektrik tüketir. Bu yüzden chiller sisteminin gerçek verimi yalnızca kompresör COP'sine değil, pompa ve fan enerjisine de bağlıdır. Değişken hızlı sürücüler bu yardımcı ekipmanlarda büyük tasarruf sağlar." },
+  { t: 2, s: 15, q: "Sunuma göre absorpsiyonlu chiller, 1 atm'de 100 °C'de kaynayan suyu nasıl ≈ 6,5 °C soğuk su üretmekte kullanabilir?",
+    o: ["Basınç azaldıkça suyun kaynama sıcaklığı düştüğü için, chiller iç basıncını 0,1 atm'den 0,01 atm'nin altına kadar düşük tutar", "Suyu −50 °C'ye soğutarak", "Suya tuz ekleyerek donma noktasını yükselterek", "Suyu kompresörle sıkıştırarak", "Suyu elektrikle ısıtarak"], a: 0,
+    e: "Suyun kaynama sıcaklığı üzerindeki <b>basıncın doğrudan fonksiyonudur</b>; basınç azalınca kaynama sıcaklığı düşer. Absorpsiyonlu chillerlerin iç basınçları <b>0,1 atm'den 0,01 atm'nin altına</b> kadar olabilir.",
+    n: "Sunumdaki şemada 0,0079 bar mutlak basınçta suyun kaynama noktası ≈ 3,6 °C, 0,09 bar'da ≈ 43,8 °C'dir. Chiller bu yüzden derin vakum altında çalışır; içeri hava sızarsa (vakum bozulursa) kapasite düşer. Bunu önlemek için purge (porç) pompası vardır." },
+  { t: 2, s: 16, q: "Sunuma göre tek kademeli dolaylı ısıtmalı absorpsiyonlu chillerin 5 ana bölümü hangileridir?",
+    o: ["Kondenser, genleşme borusu, evaporatör, absorber, jeneratör/konsantratör", "Kompresör, kondenser, evaporatör, genleşme valfi, kule", "Kazan, türbin, jeneratör, trafo, pompa", "Fan, filtre, batarya, nemlendirici, damper", "Brülör, ocak, duman borusu, baca, ekonomizer"], a: 0,
+    e: "5 bölüm: <b>1) kondenser</b>, <b>2) genleşme (genleşme borusu)</b>, <b>3) evaporatör</b>, <b>4) absorber</b>, <b>5) jeneratör/konsantratör</b>.",
+    n: "Kondenser, genleşme ve evaporatör buhar sıkıştırmalı çevrimdekiyle aynı görevi yapar. Fark, kompresör yerine absorber + pompa + jeneratörün (ısıl kompresör) kullanılmasıdır." },
+  { t: 2, s: 17, q: "Sunuma göre LiBr–su absorpsiyonlu chillerin evaporatöründe ne olur?",
+    o: ["Sıvı soğutucu (su) soğutulmuş su boru demeti üzerine püskürtülür, düşük basınçta buharlaşarak soğutulmuş sudan enerji alır", "Lityum bromür buharlaşır", "Su yüksek basınçta yoğuşur", "Buhar veya sıcak suyla çözelti ısıtılır", "Soğutma suyu gizli ısıyı alır"], a: 0,
+    e: "Evaporatörde sıvı soğutucu (su) <b>soğutulmuş su boru demeti üstüne pompalanıp püskürtülür</b>; düşük buharlaştırma basıncında buharlaşır ve <b>chilled water'dan enerji alır</b>. Oluşan buhar absorbere geçer.",
+    n: "Slaytta buharlaşma sıcaklığı “yaklaşık 38°” yazılıdır; bu Fahrenheit'tir (38 °F ≈ 3,3 °C). Kaynak İngilizce olduğu için birçok değer °F verilmiştir: 44 °F ≈ 6,7 °C soğuk su, 54 °F ≈ 12,2 °C dönüş suyu." },
+  { t: 2, s: 17, q: "Sunuma göre absorpsiyonlu chillerin absorberinde ne olur?",
+    o: ["Evaporatörden gelen su buharı üzerine LiBr çözeltisi püskürtülür; çözelti buharı emer ve açığa çıkan ısıyı soğutma suyu alır", "LiBr çözeltisi buhar veya sıcak suyla ısıtılır", "Su buharı yoğuşarak kondenserde sıvılaşır", "Soğutulmuş su üretilir", "Basınç yükseltilir ve buhar kızdırılır"], a: 0,
+    e: "Absorberde buharlaşmış soğutucu (su) üzerine <b>sıvı lityum bromür çözeltisi püskürtülür</b>; çözelti buharı <b>emer</b>, soğutma suyu buharlaşma gizli ısısını alır. Seyrelen çözeltinin bir kısmı tekrar püskürtülür, bir kısmı ısı değiştiriciden geçip jeneratöre pompalanır.",
+    n: "LiBr tuzu suya karşı çok güçlü bir çekim gösterir; evaporatördeki buharı sürekli emerek orada düşük basıncı korur. Bu emme, kompresörün emme tarafının yaptığı işin aynısıdır." },
+  { t: 2, s: 18, q: "Sunuma göre absorpsiyonlu chillerin jeneratöründe (konsantratör) ne olur?",
+    o: ["Seyreltik LiBr çözeltisi buhar veya sıcak su (atık enerji) ile ısıtılır; içindeki suyun bir kısmı buharlaşıp kondensere gider, derişen çözelti absorbere döner", "Soğutulmuş su üretilir", "Su buharı LiBr'ye emilir", "Elektrik üretilir", "Soğutma kulesine su gönderilir"], a: 0,
+    e: "Jeneratörde LiBr çözeltisi <b>buhar veya sıcak su (başka bir kaynaktan gelen atık enerji)</b> ile ısıtılır; içindeki suyun bir kısmı <b>buharlaşıp kondensere geçer</b>. <b>Derişen çözelti</b> ısı değiştiriciden geçip absorbere döner.",
+    n: "Sunumdaki şemada jeneratöre 115,5 °C (240 °F) buhar/sıcak su girer; çözelti %59'dan %64'e derişir. Isı değiştirici, absorbere giden sıcak derişik çözeltinin ısısıyla jeneratöre giden seyreltik çözeltiyi ön ısıtır ve jeneratörün ısı ihtiyacını azaltır." },
+  { t: 2, s: 20, q: "Sunuma göre absorpsiyon sisteminde buhar sıkıştırma döngüsündeki kompresörün görevini ne üstlenir?",
+    o: ["Jeneratör, absorber, pompa ve ısı değiştiriciden oluşan “termal (ısıl)” kompresör", "Genleşme valfi", "Soğutma kulesi", "Evaporatör", "Elektrik motoru"], a: 0,
+    e: "Absorpsiyon sistemi, suyu buharlaştırmak ve bu buharı daha yüksek basınca çıkarmak için <b>jeneratör, absorber, pompa ve ısı değiştiriciden oluşan “termal” kompresörü</b> kullanır.",
+    n: "Buharı sıkıştırmak yerine sıvıyı pompalamak çok daha az iş gerektirir. Bu yüzden absorpsiyonlu chillerin elektrik tüketimi çok düşüktür; asıl enerji girdisi ısıdır. Atık ısı veya kojenerasyon ısısı varsa ekonomiktir." },
+  { t: 2, s: 22, q: "Sunuma göre absorpsiyon çevriminde su (soğutucu akışkan) LiBr çözeltisinden neden ısı eklenerek kolayca ayrılabilir?",
+    o: ["Lityum bromür (absorbe edici madde) kaynamadığı için ısıtılınca yalnızca su buharlaşır", "LiBr sudan önce buharlaştığı için", "Su ve LiBr hiç karışmadığı için", "Çözelti elektrolizle ayrıldığı için", "LiBr ısıtılınca katılaşıp çöktüğü için"], a: 0,
+    e: "<b>Lityum bromür kaynamadığı için</b> ısı eklenerek su (soğutucu akışkan) çözeltiden kolayca ayrılabilir; su buharı kondensere geçer, LiBr çözeltisi absorbere döner.",
+    n: "Amonyak–su sistemlerinde ise absorbent olan su da buharlaşabildiği için jeneratör çıkışında buharı saflaştıran bir rektifikasyon kolonu gerekir. LiBr–su sistemlerinin daha basit olmasının bir nedeni budur." },
+  { t: 2, s: 19, q: "Sunumdaki basitleştirilmiş absorpsiyon çevrimi şemasına göre evaporatör–absorber bölümündeki ≈ 0,0079 bar mutlak basınçta suyun kaynama noktası yaklaşık kaçtır?",
+    o: ["≈ 3,6 °C", "≈ 100 °C", "≈ 43,8 °C", "≈ −40,8 °C", "≈ 115,5 °C"], a: 0,
+    e: "Şemada “0,0079 bar absolute basınç altında suyun kaynama noktası <b>3,58 °C</b>” yazılıdır; kondenser–jeneratör bölümündeki ≈ 0,09 bar'da ise kaynama noktası <b>43,76 °C</b>'dir.",
+    n: "Evaporatörde su ≈ 3,6 °C'de kaynadığı için 12,2 °C'de dönen soğutulmuş su 6,7 °C'ye soğutulabilir. Kondenserde ise ≈ 44 °C'de yoğuşan buharın ısısı 29,4 °C'de gelen kule suyuna verilebilir." },
+
+  // Free cooling ve atık ısı geri kazanımı
+  { t: 3, s: 23, q: "Sunumdaki free cooling (serbest soğutma) sisteminin çalışma prensibi nedir?",
+    o: ["Dış hava yeterince soğukken chiller kompresörü yerine kuru hava soğutucusu (dry air freecooler) ve plakalı eşanjör ile soğutma yapılması", "Soğutmanın tamamen ücretsiz elektrikle yapılması", "Kompresörün yaz aylarında iki kat hızlı çalıştırılması", "Soğutulmuş suyun şehir şebekesinden alınması", "Kondenserin güneşe yerleştirilmesi"], a: 0,
+    e: "Free cooling çalışma koşullarında soğutma suyu (glikol) <b>kuru hava soğutucusunda (dry air freecooler)</b> dış havayla soğutulur ve <b>plakalı eşanjör</b> üzerinden soğutulmuş su devresine aktarılır; kompresör çalışma saatleri azalır.",
+    n: "Bilgi işlem merkezleri ve proses soğutması gibi kışın da soğutma ihtiyacı olan tesisler free cooling için en uygun adaylardır. Kışın dış hava zaten soğukken kompresör çalıştırmak gereksiz enerji tüketimidir." },
+  { t: 3, s: 23, q: "Sunumdaki free cooling tablosuna göre dış hava sıcaklığı 8 °C'nin altındayken kompresör çalışma saatlerinde ne kadar azalma sağlanır?",
+    o: ["%100", "%10", "%25", "%50", "%0"], a: 0,
+    e: "Tablo: dış hava <b>10–12 °C → %10</b> azalma (95 saat/yıl tasarruf); <b>8–10 °C → %25</b> (275 saat); <b>8 °C altı → %100</b> (2.015 saat).",
+    n: "Dış hava yeterince soğuk olduğunda soğutma tamamen kompresörsüz yapılır; arada ise free cooling ön soğutma yapar, kompresör kalan yükü tamamlar (kısmi free cooling). Toplam tasarruf, tesisin bulunduğu yerin iklimine bağlıdır." },
+  { t: 3, s: 23, q: "Sunumdaki free cooling tablosundaki tasarruf saatleri (95 + 275 + 2.015) toplanırsa, 100 kW elektrik çeken bir chiller kompresörü için yıllık elektrik tasarrufu yaklaşık ne kadar olur?",
+    o: ["≈ 238.500 kWh", "≈ 23.850 kWh", "≈ 201.500 kWh", "≈ 876.000 kWh", "≈ 2.385 kWh"], a: 0,
+    e: "Toplam tasarruf = 95 + 275 + 2.015 = <b>2.385 saat/yıl</b> eşdeğer kompresör çalışması; 100 kW × 2.385 h ≈ <b>238.500 kWh/yıl</b>.",
+    n: "Gerçek net tasarruf biraz daha düşüktür, çünkü free cooler fanları ve glikol pompası da enerji tüketir. Yine de bu yardımcı ekipmanın tüketimi kompresörün küçük bir kesridir." },
+  { t: 3, s: 31, q: "Sunuma göre klima sistemlerinde ekonomizer (havayla free cooling) kullanmanın faydaları nelerdir?",
+    o: ["İlkbahar ve sonbaharda dış havayla mahal soğutularak enerji tasarrufu sağlanır ve kompresör düşük ortam sıcaklığında çalışmanın yol açabileceği arızalardan korunur", "Kışın ısıtma yükü artar", "Kompresör sürekli tam yükte çalışır", "Dış hava hiç alınmaz", "Nem kontrolü tamamen ortadan kalkar"], a: 0,
+    e: "Ekonomizerler <b>ilkbahar ve sonbaharda dış havayla mahal soğutmak</b> için kullanılır; bu <b>enerji tasarrufu</b> sağlar ve <b>kompresörü düşük ortam sıcaklığında çalışmanın yol açabileceği mekanik arızalardan korur</b>. Ekonomizer; damperler, sensörler, aktüatörler ve bir mantık kontrolöründen oluşur.",
+    n: "Kontrolör, dış hava sıcaklığı (veya entalpisi) iç havadan düşükken dış hava damperini açar. Bozuk sensör veya sıkışmış damper ekonomizerin en sık arızasıdır; bu durumda ya fırsat kaçar ya da yazın sıcak dış hava alınarak yük artar." },
+  { t: 3, s: 25, q: "Sunuma göre reküperatif ve rejeneratif atık ısı geri kazanım sistemleri arasındaki fark nedir?",
+    o: ["Reküperatifte ısı iki akışkanı ayıran bir yüzeyden sürekli geçer (plakalı, gövde-borulu, kanatlı borulu); rejeneratifte ısı bir dolgu veya ortamda depolanıp diğer akışkana devredilir (döner tekerlek, rejeneratif yakma)", "İkisi aynıdır", "Reküperatif yalnızca sıvılar, rejeneratif yalnızca gazlar içindir", "Rejeneratif sistemler elektrik üretir", "Reküperatif sistemler ısıyı depolar"], a: 0,
+    e: "Sunumda <b>reküperatif</b> örnekler: <b>plakalı eşanjörler, gövde-borulu eşanjörler, kanatlı borulu ekonomizer/hava ısıtıcılar</b>. <b>Rejeneratif</b> örnekler: <b>döner tip ısı tekerleği, rejeneratif yakma sistemi</b> ve ısı borulu sistemler.",
+    n: "Reküperatörde akışkanlar karışmaz, ısı sürekli bir duvardan geçer. Rejeneratörde dolgu malzemesi dönüşümlü olarak sıcak ve soğuk akışkanla temas eder. Rejeneratörler yüksek sıcaklıkta daha yüksek etkinlik sağlar, ancak akışkanlar arasında az miktarda kaçak olabilir." },
+  { t: 3, s: 26, q: "Sunumdaki gövde-borulu eşanjör görsellerinde hangi tipler gösterilmiştir?",
+    o: ["Düz borulu (tek geçişli ve çift geçişli) ve U-borulu eşanjörler", "Yalnızca plakalı eşanjörler", "Döner tip ısı tekerleği", "Isı borusu", "Soğutma kulesi"], a: 0,
+    e: "Görsellerde <b>düz borulu tek geçişli</b>, <b>düz borulu çift geçişli</b> ve <b>U-borulu</b> eşanjörler ile ayna (tube sheet), şaşırtma levhası (baffle), gövde (shell) ve boru demeti (tube bundle) gösterilir.",
+    n: "Şaşırtma levhaları gövde tarafındaki akışkanı borulara dik yönde zikzak yaptırarak ısı geçişini artırır. U-borulu tip ısıl genleşmeyi serbestçe karşılar; ancak boruların içi mekanik olarak zor temizlenir." },
+  { t: 3, s: 28, q: "Sunumdaki döner tip ısı tekerleği (rejeneratif sistem) nasıl çalışır?",
+    o: ["Dönen tekerlek sıcak baca gazı akımında ısınır, dönerek ısıtılacak hava akımına geçer ve depoladığı ısıyı havaya verir", "Tekerlek elektrikle ısıtılır", "Tekerlek suyu buharlaştırır", "Tekerlek havayı sıkıştırır", "Tekerlek baca gazını yakar"], a: 0,
+    e: "Tekerleğin bir yarısından <b>sıcak baca gazı</b>, diğer yarısından <b>ısıtılacak hava</b> geçer. Tekerlek döndükçe sıcak bölgede depoladığı ısıyı soğuk bölgeye taşır.",
+    n: "Isı tekerlekleri havalandırma santrallerinde de egzoz havasının ısısını taze havaya aktarmak için yaygın kullanılır; etkinlikleri %70–85'e ulaşabilir. Higroskopik kaplamalı tekerlekler nemi de geri kazanır." },
+  { t: 3, s: 29, q: "Sunumdaki rejeneratif yakma sisteminde iki rejeneratör nasıl çalışır?",
+    o: ["Yaklaşık 20 saniye aralıklarla dönüşümlü olarak biri egzoz gazıyla ısınırken diğeri depoladığı ısıyla yanma havasını ısıtır", "İkisi de sürekli egzoz gazı alır", "Biri yakıtı, diğeri suyu ısıtır", "Rejeneratörler yalnızca yazın çalışır", "Rejeneratörler elektrik üretir"], a: 0,
+    e: "Şemada brülörler <b>yaklaşık 20 saniyelik aralıklarla</b> yer değiştirir: bir taraf yakarken (giren hava 16 °C, rejeneratörden ısınarak geçer), diğer tarafın rejeneratöründen egzoz geçer ve onu ısıtır; egzoz ≈ <b>150 °C</b>'ye kadar soğuyarak çıkar.",
+    n: "Rejeneratif brülörler, yanma havasını fırın sıcaklığına yakın değerlere ısıtarak yakıt tüketimini %30–50 azaltabilir. Yüksek hava ön ısıtması NOx oluşumunu artırabileceği için düşük NOx yakma teknikleriyle birlikte kullanılır." },
+  { t: 3, s: 30, q: "Sunumdaki ısı borusunda (heat pipe) ısı nasıl taşınır?",
+    o: ["Sıcak uçta içerideki akışkan buharlaşır, buhar adyabatik bölümden soğuk uca akıp yoğuşarak ısısını verir, sıvı fitilimsi yapıyla sıcak uca döner", "Isı borunun metal gövdesinden yalnızca iletimle geçer", "Boru içinde pompa ile su dolaştırılır", "Isı elektrik akımıyla taşınır", "Boru içinde yanma olur"], a: 0,
+    e: "Isı borusunda <b>ısı girişi</b> tarafında <b>buharlaşma</b> olur, buhar <b>adyabatik bölümden</b> geçer, <b>ısı çıkışı</b> tarafında <b>yoğuşur</b>; sıvı <b>fitilimsi yapı</b> ile geri döner. Isı borulu ısı değiştiricide sıcak egzoz havasının ısısı soğuk taze havaya aktarılır.",
+    n: "Faz değişimi sayesinde ısı borusu, aynı boyuttaki bakır çubuktan yüzlerce kat fazla ısı taşıyabilir. Hareketli parçası olmadığı için bakım gerektirmez; akışkanlar birbirinden tamamen ayrı kalır, yani kirli egzozun taze havaya karışma riski yoktur." },
+
+  // Isı pompası ve VRF sistemleri
+  { t: 4, s: 33, q: "Sunumdaki ısı pompası şemasında ısıtma ve soğutma modları arasında geçişi sağlayan eleman hangisidir?",
+    o: ["Durum değiştirici (4 yollu) vana", "Baypas vanası", "Kompresör", "Sirkülasyon pompası", "Termostat"], a: 0,
+    e: "Şemada <b>durum değiştirici vana</b> kompresör çıkışındaki sıcak gazı ya dışarıdaki ya içerideki ısı değiştiriciye yönlendirerek çevrimin yönünü tersine çevirir.",
+    n: "Soğutma modunda içerideki ısı değiştirici evaporatör (soğuk hava), dışarıdaki kondenser (sıcak hava) olur. Isıtma modunda roller yer değiştirir. Aynı cihaz hem klima hem ısıtıcı olarak kullanılır." },
+  { t: 4, s: 33, q: "Sunumdaki ısı pompası soğutma modu şemasına göre içerideki ve dışarıdaki ısı değiştiriciler hangi görevi yapar?",
+    o: ["İçerideki evaporatör olarak soğuk hava verir; dışarıdaki kondenser olarak sıcak hava atar", "İçerideki kondenser, dışarıdaki evaporatördür", "İkisi de evaporatördür", "İkisi de kondenserdir", "İçerideki kompresör olarak çalışır"], a: 0,
+    e: "Soğutma modunda <b>içerideki ısı değiştirici soğuk hava</b> üretir (evaporatör), <b>dışarıdaki ısı değiştirici sıcak hava</b> atar (kondenser). Isıtma modunda bunun tersi olur.",
+    n: "Isıtma modunda dış ünite, soğuk dış havadan ısı çeker. Dış hava çok soğuk ve nemliyken dış batarya buzlanır; cihaz periyodik olarak defrost yapar. Bu süre ve düşük dış sıcaklık ısıtma COP'sini düşürür." },
+  { t: 4, s: 37, q: "Bir ısı pompası topraktan 8 kW ısı çekmekte, kompresör 2 kW elektrik tüketmektedir. Binaya verilen ısı ve ısıtma COP'si ne kadardır?",
+    o: ["10 kW; COP_ısıtma = 5", "6 kW; COP_ısıtma = 3", "8 kW; COP_ısıtma = 4", "10 kW; COP_ısıtma = 4", "16 kW; COP_ısıtma = 8"], a: 0,
+    e: "Qc = Qe + Pc = 8 + 2 = <b>10 kW</b>; ısıtma COP'si = Qc / Pc = 10 / 2 = <b>5</b> (soğutma COP'si Qe/Pc = 4).",
+    n: "Isıtma COP'si her zaman soğutma COP'sinden 1 fazladır, çünkü kompresöre verilen enerji de ısı olarak binaya ulaşır. COP 5'lik bir ısı pompası 1 kWh elektrikle 5 kWh ısı verir; elektrikli ısıtıcıda bu oran 1'dir." },
+  { t: 4, s: 35, q: "Sunumdaki toprak kaynaklı ısı pompası (ısıtma) şemasına göre ısı hangi sırayla aktarılır?",
+    o: ["Topraktan suya (toprak içi borular) → sudan gaza (evaporatör) → kompresör → gazdan havaya (kondenser)", "Havadan toprağa → kompresör → suya", "Kazandan toprağa → evaporatöre", "Kondenserden toprağa → havaya", "Doğrudan topraktan havaya, kompresörsüz"], a: 0,
+    e: "Şemada: <b>topraktan suya ısı transferi</b> (toprak içine yerleştirilmiş borular) → <b>sudan gaza</b> (evaporatör, soğuk hava serpantini) → <b>kompresör</b> (kazandan gaza takviye ısı) → <b>gazdan havaya</b> (kondenser, sıcak hava serpantini).",
+    n: "Ara su (tuzlu su/glikol) devresi, toprak boru hattında soğutucu akışkan dolaştırmamak için kullanılır. Şemadaki kazan, çok soğuk günlerde takviye ısı verir; bu tür sisteme “hibrit” denir." },
+  { t: 4, s: 36, q: "Sunumdaki toprak sıcaklığı–derinlik grafiğine göre toprak kaynaklı ısı pompasının avantajı nedir?",
+    o: ["Toprak sıcaklığı derinlik arttıkça mevsimden bağımsızlaşır (≈ 15–20 m'de ≈ 10 °C civarında sabit); kışın havadan sıcak, yazın havadan soğuk bir kaynak sağlar", "Toprak yazın 40 °C'ye ısınır", "Toprak sıcaklığı derinlikle hızla artar ve 20 m'de 100 °C olur", "Toprak sıcaklığı havayla tamamen aynıdır", "Toprak her derinlikte donar"], a: 0,
+    e: "Grafikte Şubat, Mayıs, Ağustos ve Kasım eğrileri yüzeyde birbirinden çok farklıyken, derinlik arttıkça birbirine yaklaşır ve <b>≈ 15–20 m'de ≈ 10 °C civarında birleşir</b>.",
+    n: "Kışın dış hava −5 °C iken toprak +10 °C'deyse, ısı pompası daha küçük bir sıcaklık farkını aşar ve COP'si hava kaynaklıdan belirgin şekilde yüksek olur. Yazın aynı toprak, soğutma için de havadan daha serin bir kondenser kaynağıdır." },
+  { t: 4, s: 37, q: "Sunumdaki tuzlu su döngülü ısı pompası örneğinde evaporatör ve kompresör çıkışındaki basınç ve sıcaklıklar hangisidir?",
+    o: ["Evaporatör 5,5 bar, −4 °C / 0 °C; kompresör çıkışı 17 bar, 36 °C", "Evaporatör 17 bar, 36 °C; kompresör çıkışı 5,5 bar, −4 °C", "Evaporatör 1 bar, 100 °C; kompresör çıkışı 2 bar, 120 °C", "Her yerde 5,5 bar ve 0 °C", "Evaporatör 12,2 bar, 30 °C"], a: 0,
+    e: "Şemada: genleşme vanası sonrası <b>5,5 bar, −4 °C</b>; kompresör girişi <b>5,5 bar, 0 °C</b>; kompresör çıkışı <b>17 bar, 36 °C</b>; kondenser 32 °C; genleşme vanası öncesi 17 bar, 25 °C. Tuzlu su topraktan +2 °C gelir, −1 °C döner; ısıtma döngüsü 35 °C gider, 27 °C döner.",
+    n: "Isıtma suyunun 35 °C gibi düşük sıcaklıkta tutulması (yerden ısıtma) kondenzasyon sıcaklığını düşük tutar ve COP'yi yükseltir. Aynı ısı pompasıyla 55–60 °C'lik radyatör suyu üretmek COP'yi belirgin şekilde düşürür." },
+  { t: 4, s: 37, q: "Sunumdaki ısı pompası örneğinde ısı kaynakları olarak hangileri gösterilmiştir?",
+    o: ["Toprak, hava ve su", "Yalnızca doğal gaz", "Yalnızca elektrik direnci", "Kömür ve fuel oil", "Yalnızca güneş paneli"], a: 0,
+    e: "Şemada <b>ısı kaynakları</b>: <b>toprak, hava ve su</b>.",
+    n: "Su kaynaklı sistemler (göl, deniz, yeraltı suyu) sıcaklığı yıl boyu kararlı olduğu için yüksek COP verir; ancak su kullanımı izne tabidir. Hava kaynaklı sistemler en ucuz ve en yaygın olanlardır, fakat soğuk havada COP'leri düşer." },
+  { t: 4, s: 39, q: "Sunuma göre VRF/VRV sistemlerinin enerji tasarrufu sağlayan temel özelliği nedir?",
+    o: ["Değişken soğutucu debisiyle aynı anda farklı iç ünitelerde ısıtma veya soğutma yapılabilmesi; bu esnek kullanım tasarruf sağlar", "Kompresörlerinin her zaman tam yükte çalışması", "Soğutucu akışkan kullanmaması", "Yalnızca ısıtma yapabilmesi", "Soğutma kulesi kullanması"], a: 0,
+    e: "VRF veya VRV olarak isimlendirilen <b>değişken debili soğutma sistemleri</b> ile <b>aynı anda farklı iç ünitelerde ısıtma veya soğutma</b> yapılabilir; sistemin bu esnek kullanımıyla tasarruf sağlanır.",
+    n: "VRF dış ünitesi değişken hızlı (inverter) kompresörle yüke göre çalışır. Isı geri kazanımlı (üç borulu) VRF'de, soğutma yapan güney cephesi ofislerinden çekilen ısı ısıtma isteyen kuzey cephesine verilebilir; bina içinde ısı taşınmış olur." },
+  { t: 4, s: 40, q: "Sunumdaki VRF/VRV şemasına göre deşarj hattında soğutucu akışkan hangi durumdadır?",
+    o: ["Yüksek sıcaklıkta, yüksek basınçta gaz", "Düşük sıcaklıkta, düşük basınçta gaz", "Orta sıcaklıkta, orta basınçta sıvı", "Düşük sıcaklıkta sıvı", "Katı"], a: 0,
+    e: "Şemada: <b>sıvı hattı</b> orta sıcaklıkta, orta basınçta sıvı; <b>deşarj hattı yüksek sıcaklıkta, yüksek basınçta gaz</b>; <b>emiş hattı</b> düşük sıcaklıkta, düşük basınçta gaz.",
+    n: "Deşarj hattı kompresör çıkışıdır; ısıtma yapan iç ünitelere sıcak gaz buradan gider ve iç ünitede yoğuşarak ısı verir. Soğutma yapan iç üniteler ise sıvı hattından beslenir ve buharlaşan akışkanı emiş hattıyla geri gönderir." },
+  { t: 4, s: 40, q: "Sunumdaki VRF şemasında bazı iç üniteler soğutma, bazıları ısıtma modunda, biri de “stop” konumundadır. Bu durum neyi gösterir?",
+    o: ["Her iç ünitenin bağımsız olarak çalıştırılıp durdurulabildiğini ve farklı modlarda çalışabildiğini", "Sistemin arızalı olduğunu", "Tüm ünitelerin aynı modda çalışmak zorunda olduğunu", "Dış ünitenin kapalı olduğunu", "Soğutucu akışkanın bittiğini"], a: 0,
+    e: "Şemadaki iç üniteler <b>[Soğutma], [Isıtma], [Stop]</b> gibi farklı durumlardadır; VRF sisteminde <b>her iç ünite bağımsız</b> olarak kontrol edilir ve dış ünite yalnızca ihtiyaç kadar soğutucu akışkan gönderir.",
+    n: "Kullanılmayan odaların ünitelerinin kapatılabilmesi ve kompresörün kısmi yükte verimli çalışması, merkezi sabit debili sistemlere göre tasarrufun temel kaynağıdır. Bunun için oda bazlı kontrol ve doluluk algılamayla birlikte kullanılması önerilir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
