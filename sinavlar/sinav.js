@@ -22,11 +22,23 @@ function valid(s) {
   return s && s.n === Q.length && Array.isArray(s.order) && s.order.length > 0 &&
     s.order.every(i => Q[i] && Array.isArray(s.perm?.[i])) && typeof s.ans === "object";
 }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(S));
+    // Ana sayfadaki ilerleme kartları için kısa özet
+    const all = JSON.parse(localStorage.getItem("enerji-ozet") || "{}"), c = counts();
+    all[KEY] = { n: N(), cevap: answered(), dogru: c.ok, bitti: S.done, t: Date.now() };
+    localStorage.setItem("enerji-ozet", JSON.stringify(all));
+  } catch (e) {}
+}
 function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return valid(s) ? s : null; } catch (e) { return null; } }
 
 const N = () => S.order.length;
 const answered = () => S.order.filter(i => S.ans[i] !== undefined).length;
+const HINT = {
+  pr: "Her cevaptan sonra doğru şık, açıklama ve öğretici not gösterilir.",
+  ex: "Cevaplar sınav bitince açılır; bitirmeden önce işaretinizi değiştirebilirsiniz."
+};
 const revealed = i => S.done || (S.mode === "pr" && S.ans[i] !== undefined);
 function status(i) {
   if (S.ans[i] === undefined) return "blank";
@@ -43,12 +55,14 @@ function render() {
   $("m-ex").setAttribute("aria-pressed", S.mode === "ex");
   const na = answered();
   $("pg").style.width = (na / N() * 100) + "%";
+  if ($("mhint")) $("mhint").textContent = S.done ? "Deneme tamamlandı. Sorulara dönüp açıklamaları inceleyebilirsiniz." : HINT[S.mode];
+  const pc = `<span class="pc"><b>${na}</b> / ${N()} cevaplandı</span>`;
   if (S.mode === "pr" || S.done) {
     let ok = 0, bad = 0;
     S.order.forEach(i => { if (revealed(i) && S.ans[i] !== undefined) (S.ans[i] === Q[i].a ? ok++ : bad++); });
-    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>`;
+    $("tally").innerHTML = `<span class="ok"><b>${ok}</b> doğru</span><span class="bad"><b>${bad}</b> yanlış</span><span><b>${N() - na}</b> boş</span>${pc}`;
   } else {
-    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span>`;
+    $("tally").innerHTML = `<span class="mk"><b>${na}</b> / ${N()} işaretlendi</span><span class="pc">sonuçlar sınav bitince</span>`;
   }
   $("quiz").hidden = S.view !== "q";
   $("results").hidden = S.view !== "res";
@@ -94,7 +108,7 @@ function renderQ() {
     if (!last) nav += `<button type="button" class="btn primary" id="next">Sonraki →</button>`;
   }
   $("quiz").innerHTML = `
-    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} / ${N()}</span><span class="chip">${TOPICS[q.t]}</span>${rev ? `<span class="chip src">sunumda slayt ${q.s}</span>` : ""}</div>
+    <div class="qhead"><span class="qnum">Soru ${S.cur + 1} <small>/ ${N()}</small></span><span class="chip">${TOPICS[q.t]}</span>${rev ? `<span class="chip src">sunumda slayt ${q.s}</span>` : ""}</div>
     <p class="qtext">${q.q}</p>
     <ul class="opts">${opts}</ul>
     ${fb}
@@ -142,7 +156,7 @@ function renderRes() {
   const miss = c.bad + c.blank;
   $("results").innerHTML = `
     <div class="score">
-      <div class="big">${c.ok}<small> / ${n}</small></div>
+      <div class="ring" style="--p:${pct};--ring:var(${pct >= 85 ? "--ok" : pct >= 60 ? "--spark" : "--bad"})" role="img" aria-label="${n} sorudan ${c.ok} doğru, yüzde ${pct}"><div><span><b>%${pct}</b><small>${c.ok} / ${n} doğru</small></span></div></div>
       <div class="verdict"><h2>${verdict}</h2>
         <div class="stats"><span><b>%${pct}</b> başarı</span><span><b>${c.ok}</b> doğru</span><span><b>${c.bad}</b> yanlış</span><span><b>${c.blank}</b> boş</span><span>net <b>${net.toLocaleString("tr-TR", { maximumFractionDigits: 2 })}</b></span>${nUpd ? `<span><b>${nUpd}</b> soruda veri güncellendi</span>` : ""}</div>
       </div>
@@ -175,6 +189,9 @@ function choose(k) {
 function go(k) {
   if (k < 0 || k >= N()) return;
   S.cur = k; S.view = "q"; S.ask = false; commit();
+  // Yeni sorunun başı ekranın üstünde kaldıysa soruyu görünür yap
+  const el = $("quiz"), m = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  if (el.getBoundingClientRect().top < m - 20) el.scrollIntoView({ block: "start" });
 }
 function finish() { S.done = true; S.ask = false; S.view = "res"; S.filter = "all"; commit(); window.scrollTo({ top: 0 }); }
 function commit() { save(); render(); }
@@ -207,6 +224,8 @@ document.addEventListener("click", e => {
 
 document.addEventListener("keydown", e => {
   if (e.ctrlKey || e.metaKey || e.altKey || S.view !== "q") return;
+  // Hesap makinesi veya başka bir alana yazarken kısayolları devre dışı bırak
+  if (e.defaultPrevented || e.target.closest?.("input, textarea, select, [contenteditable], .tool-panel")) return;
   const k = e.key.toLowerCase();
   const idx = Math.max("abcde".indexOf(k), "12345".indexOf(k));
   if (k.length === 1 && idx >= 0) { e.preventDefault(); return choose(idx); }
