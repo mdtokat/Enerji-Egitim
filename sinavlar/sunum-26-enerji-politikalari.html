@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enerji Politikaları Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 26 · Enerji Politikaları</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 26</span> 1-27_Enerji_Politikalari.pdf · ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Enerji Politikaları <em>Sınavı</em></h1>
+    <p class="lede">Elektrik piyasasının gelişimi ve 6446 sayılı Kanun, GÖP, GİP, DGP, yan hizmetler; 4646 sayılı Doğal Gaz, 5015 sayılı Petrol ve 5307 sayılı LPG piyasası kanunları; 5346 sayılı YEK Kanunu, YEKDEM, YEKA, yerli aksam ve yatırım modelleri; Ulusal Enerji Planı 2035 hedefleri, On İkinci Kalkınma Planı ve 2035 yenilenebilir yol haritası.</p>
+    <ul class="facts"><li>47 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Enerji Politikaları” sunumu (ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum26-v1",
+topics: ["Elektrik piyasası", "Doğal gaz, petrol ve LPG piyasaları", "YEK Kanunu ve destek mekanizmaları", "Ulusal Enerji Planı, Kalkınma Planı ve 2035 yol haritası"],
+Q: [
+  // Elektrik piyasası
+  { t: 0, s: 3, q: "Sunumdaki elektrik piyasası gelişim sürecine göre 4628 sayılı Elektrik Piyasası Kanunu hangi yıl çıkarılmış ve aynı yıl hangi kurum kurulmuştur?",
+    o: ["2001; Enerji Piyasası Düzenleme Kurumu (EPDK)", "1984; Türkiye Elektrik Kurumu (TEK)", "2013; EPİAŞ", "2007; YEGM", "2018; EÜAŞ"], a: 0,
+    e: "Zaman çizelgesinde <b>2001</b>: Elektrik Piyasası Kanunu (Kanun No: <b>4628</b>) ve <b>EPDK'nın kuruluşu</b>. Ayrıca 1994'te TEK, TEAŞ ve TEDAŞ olarak ayrılmış; TEAŞ sonra EÜAŞ, TEİAŞ ve TETAŞ'a bölünmüştür.",
+    n: "Serbestleşmenin temel adımı dikey bütünleşik yapının üretim, iletim, dağıtım ve ticaret olarak ayrıştırılmasıdır. 4628 sayılı Kanun 2013'te yerini 6446 sayılı Elektrik Piyasası Kanunu'na bırakmıştır." },
+  { t: 0, s: 3, q: "Sunumdaki zaman çizelgesine göre 5627 sayılı Enerji Verimliliği Kanunu hangi yıl yer almaktadır?",
+    o: ["2007", "2001", "2011", "2015", "1997"], a: 0,
+    e: "Zaman çizelgesinde <b>2007</b> yılında <b>Enerji Verimliliği Kanunu (Kanun No: 5627)</b>, Jeotermal Kanunu ve Nükleer Enerji Kanunu yer alır. 2011'de Gün Öncesi Piyasası açılmış, 2015'te Gün İçi Piyasası ve EPİAŞ kurulmuştur.",
+    n: "5627 sayılı Kanun, enerji yöneticisi görevlendirme, enerji etüdü ve verimlilik destekleri gibi bu eğitimin konusu olan yükümlülüklerin dayanağıdır." },
+  { t: 0, s: 4, q: "Sunumdaki yakın geçmiş zaman çizelgesine göre 2018'de elektrik piyasasında hangi gelişmeler yaşanmıştır?",
+    o: ["EÜAŞ ve TETAŞ, EÜAŞ çatısı altında birleştirildi; Yan Hizmetler Piyasası kuruldu; Kapasite Mekanizması yürürlüğe girdi", "Vadeli Elektrik Piyasası ve YEK-G sistemi kuruldu", "YEKA RES-3 ve GES-4 ihaleleri sonuçlandı", "Azami Uzlaştırma Fiyatı mekanizması yürürlüğe girdi", "Türkiye–Bulgaristan doğal gaz iletim anlaşması imzalandı"], a: 0,
+    e: "Zaman çizelgesi: <b>2018</b> EÜAŞ–TETAŞ birleşmesi, Yan Hizmetler Piyasası, Kapasite Mekanizması; <b>2019</b> yeni lisanssız üretim düzenlemesi, YEKA RES-2 ihalesi; <b>2020</b> Mini YEKA GES-3 ilanı; <b>2021</b> Vadeli Elektrik Piyasası ve YEK-G sistemi, Paris Anlaşması onayı; <b>2022</b> YEKA RES-3 ve GES-4 ihaleleri, EPDK Azami Uzlaştırma Fiyatı ve Elektrik Depolama Yönetmeliği; <b>2023</b> Türkiye–Bulgaristan doğal gaz anlaşması, Ulusal Enerji Planı ve Hidrojen Stratejisi.",
+    n: "Kapasite mekanizması, arz güvenliği için gerekli olan ancak piyasa fiyatlarıyla ayakta kalmakta zorlanan santrallere kapasite ödemesi yapar. YEK-G ise yenilenebilir kaynaklı elektriğin kaynağını belgeleyen yeşil sertifika sistemidir." },
+  { t: 0, s: 5, q: "Sunumdaki 6446 sayılı Elektrik Piyasası Kanunu özetine göre iletim faaliyetini ve organize piyasaların işletilmesini hangi kuruluşlar yürütür?",
+    o: ["İletim TEİAŞ, piyasa işletimi EPİAŞ", "İletim EPİAŞ, piyasa işletimi TEİAŞ", "İletim EÜAŞ, piyasa işletimi EPDK", "İletim BOTAŞ, piyasa işletimi EÜAŞ", "İletim dağıtım şirketleri, piyasa işletimi ETKB"], a: 0,
+    e: "Sunum (6446 sayılı Kanun): üretim kamu, özel sektör ve OSB'ler tarafından yapılabilir; <b>iletim TEİAŞ</b> tarafından yürütülür; dağıtım, lisanslarında belirtilen bölgelerde dağıtım şirketlerince yapılır; serbest tüketiciler tedarikçilerini seçebilir; <b>organize elektrik piyasalarının işletimi EPİAŞ</b> tarafından gerçekleştirilir. EPDK düzenler, lisans verir ve denetler.",
+    n: "Kanunun amacı: elektriğin yeterli, kaliteli, sürekli, düşük maliyetli ve çevreye uyumlu şekilde tüketicilere sunulması; rekabetçi, mali açıdan güçlü ve şeffaf bir piyasa oluşturulmasıdır." },
+  { t: 0, s: 5, q: "Sunuma göre 6446 sayılı Kanun kapsamında önlisansın süresi en fazla ne kadardır?",
+    o: ["36 ay", "6 ay", "10 yıl", "49 yıl", "12 ay"], a: 0,
+    e: "Sunum: <b>önlisans</b>, üretim faaliyetine başlamadan önce gerekli onay ve izinleri almak için tüzel kişilere verilir; <b>süresi en fazla 36 aydır</b>. Lisans gerektiren faaliyetler: üretim, iletim, dağıtım, toptan ve perakende satış, ithalat, ihracat, piyasa işletimi.",
+    n: "Önlisans döneminde yatırımcı arazi, ÇED, imar ve bağlantı izinlerini tamamlar; ardından üretim lisansı alır. Önlisans süresi içinde yükümlülükler yerine getirilmezse önlisans sona erer." },
+  { t: 0, s: 6, q: "Sunuma göre Gün İçi Piyasası (GİP) için hangisi doğrudur?",
+    o: ["Gün Öncesi Piyasası'nın kapanışıyla başlar ve teslimat saatinden 60 dakika öncesine kadar devam eder; EPİAŞ tarafından işletilen organize bir piyasadır", "Teslimat gününden bir gün önce işlem gören piyasadır", "15 dakika içinde devreye alınabilen yedek kapasitenin alınıp satıldığı piyasadır", "Kurul onayına tabi olmayan ikili ticari anlaşmalardır", "Gelecekteki fiyat riskinden korunmak için kullanılan türev piyasadır"], a: 0,
+    e: "Sunum: <b>Gün İçi Piyasası</b>, Gün Öncesi Piyasası'nın kapanışıyla başlayan ve elektriğin <b>teslimat saatinden 60 dk öncesine</b> kadar devam eden, elektrik ticareti ve dengeleme için kullanılan, Piyasa İşletmecisi tarafından işletilen organize bir piyasadır. <b>Gün Öncesi Piyasası</b> teslimat gününden bir gün önce; <b>Dengeleme Güç Piyasası</b> 15 dakika içinde gerçekleştirilebilen güç değişimiyle elde edilen yedek kapasite için; <b>ikili anlaşmalar</b> Kurul onayına tabi olmayan özel hukuk anlaşmalarıdır.",
+    n: "GİP, özellikle tahmin hatası yapan rüzgâr ve güneş üreticileri için önemlidir: dengesizlik cezasına kalmadan son saatlerde pozisyonlarını düzeltebilirler." },
+  { t: 0, s: 6, q: "Sunuma göre arz ve talebin gerçek zamanlı dengelenmesi amacıyla, 15 dakika içinde gerçekleştirilebilen çıkış gücü değişimiyle elde edilen yedek kapasitenin alınıp satıldığı piyasa hangisidir?",
+    o: ["Dengeleme Güç Piyasası", "Gün Öncesi Piyasası", "Gün İçi Piyasası", "Vadeli Elektrik Piyasası", "İkili Anlaşmalar Piyasası"], a: 0,
+    e: "Sunum: <b>Dengeleme Güç Piyasası</b>, arz ve talebin gerçek zamanlı olarak dengelenmesi amacıyla, <b>15 dakika içerisinde</b> gerçekleştirilebilen çıkış gücü değişimi ile elde edilen yedek kapasitenin alış-satışının gerçekleştiği piyasadır. Dengeleme Güç Piyasası ve Yan Hizmetler Piyasası <b>gerçek zamanlı piyasalardır</b>.",
+    n: "Dengeleme Güç Piyasası TEİAŞ'ın Milli Yük Tevzi Merkezi tarafından işletilir. Talep tarafı katılımı ile büyük sanayi tüketicileri de yük atma veya alma yoluyla bu piyasaya katkı sağlayabilir." },
+  { t: 0, s: 6, q: "Sunuma göre Vadeli Elektrik Piyasası'nın amacı nedir?",
+    o: ["Piyasa katılımcılarının gelecekteki fiyat değişimlerine karşı alış veya satış fiyatlarını sabitleyerek fiyat riskinden korunması ve geleceğe yönelik fiyat beklentilerini görmesi", "Arz–talebin anlık dengelenmesi", "Şebekenin güvenli çalışması için ek destek hizmetlerinin ticareti", "Elektriğin teslimat gününden bir gün önce ticareti", "Dengesizliklerden doğan alacak–borçların hesaplanması"], a: 0,
+    e: "Sunum: <b>Vadeli Elektrik Piyasası</b>, piyasa katılımcılarının <b>gelecekte oluşacak fiyat değişimlerine karşı alış veya satış fiyatlarını sabitleyerek fiyat riskinden korunmasını</b> ve geleceğe yönelik fiyat beklentilerini görmesini amaçlar. <b>Uzlaştırma</b> ise dengeleme mekanizmasından ve/veya enerji dengesizliğinden doğan alacak ve borç miktarlarının hesaplanması ve bildirimlerinin hazırlanmasıdır.",
+    n: "Büyük elektrik tüketicileri bütçe belirliliği için vadeli piyasa veya ikili anlaşmalarla fiyat sabitleyebilir; enerji yöneticisi bu kararlarda tüketim profilini (saatlik yük eğrisi) bilmelidir." },
+  { t: 0, s: 6, q: "Sunumdaki elektrik toptan satış piyasaları sınıflandırmasına göre Gün Öncesi ve Gün İçi piyasaları hangi grupta yer alır?",
+    o: ["Fiziksel elektrik ticareti – spot piyasalar", "Fiziksel olmayan elektrik ticareti – türev piyasalar", "Gerçek zamanlı piyasalar", "Perakende satış piyasaları", "Kapasite piyasaları"], a: 0,
+    e: "Sunumdaki sınıflandırma: <b>fiziksel elektrik ticareti</b> → ikili anlaşmalar, <b>spot piyasalar</b> (Gün Öncesi, Gün İçi), <b>gerçek zamanlı piyasalar</b> (Dengeleme Güç, Yan Hizmetler); <b>fiziksel olmayan elektrik ticareti</b> → <b>türev piyasalar</b> (Vadeli Elektrik Piyasası).",
+    n: "Gün Öncesi Piyasası'nda oluşan Piyasa Takas Fiyatı (PTF), Türkiye'de serbest tüketici sözleşmelerinin çoğunda referans fiyat olarak kullanılır." },
+
+  // Doğal gaz, petrol, LPG
+  { t: 1, s: 7, q: "Sunuma göre Türkiye doğal gaz piyasasında serbestleşme süreci hangi kanunla başlamıştır?",
+    o: ["2001 yılında 4646 sayılı Doğal Gaz Piyasası Kanunu", "2003 yılında 5015 sayılı Petrol Piyasası Kanunu", "2005 yılında 5307 sayılı LPG Piyasası Kanunu", "2013 yılında 6446 sayılı Elektrik Piyasası Kanunu", "2007 yılında 5627 sayılı Enerji Verimliliği Kanunu"], a: 0,
+    e: "Sunum: <b>2001 yılında 4646 sayılı Doğal Gaz Piyasası Kanunu</b>'nun yürürlüğe girmesiyle serbestleşme süreci başlamıştır; kanun piyasadaki faaliyetleri birbirinden ayırmış ve EPDK tarafından lisanslanmasını öngörmüştür.",
+    n: "Kanun ithalat, iletim, dağıtım, depolama, ticaret ve ihracat faaliyetlerini düzenler; amacı doğal gazın sürekli, kaliteli, çevreye uyumlu ve rekabetçi bir piyasada sunulmasıdır." },
+  { t: 1, s: 7, q: "Sunuma göre EPDK düzenlemeleri çerçevesinde doğal gazda hangi tüketiciler tedarikçisini seçmekte serbesttir?",
+    o: ["Evsel tüketicilerden yıllık tüketimi 75.000 m³ üzeri olanlar ile diğer tüm tüketiciler", "Yalnızca elektrik santralleri", "Yıllık tüketimi 1.000 m³ üzeri tüm evler", "Yalnızca OSB'lerdeki fabrikalar", "Hiçbir tüketici tedarikçi seçemez"], a: 0,
+    e: "Sunum: EPDK düzenlemeleri çerçevesinde <b>evsel tüketicilerden yıllık tüketimi 75.000 m³ üzeri olanlar</b> ile <b>diğer tüm tüketiciler</b> tedarikçisini seçme konusunda serbesttir.",
+    n: "Serbest tüketici olmak, sanayi işletmesine tedarikçiler arasında fiyat karşılaştırma imkânı verir; ancak serbest tüketici sözleşmelerinde al-ya-öde gibi koşullar dikkatle incelenmelidir." },
+  { t: 1, s: 8, q: "Sunuma göre 4646 sayılı Kanun kapsamında doğal gaz piyasasında ulusal iletim sistemi kime aittir ve lisanslar kaç yıl süreyle verilir?",
+    o: ["BOTAŞ'a; 10–30 yıl", "TEİAŞ'a; 2–49 yıl", "Dağıtım şirketlerine; 49 yıl", "EPİAŞ'a; 5 yıl", "Belediyelere; süresiz"], a: 0,
+    e: "Sunum: <b>ulusal iletim sistemi BOTAŞ'a</b> aittir, şehir içi dağıtım lisans alan şirketlerce yürütülür; depolama lisansı zorunludur; serbest tüketicilere satışta fiyatlar serbestçe belirlenir; <b>lisanslar 10–30 yıl</b> süreyle verilir ve tüm tüzel kişilerin EPDK'dan lisans alması gerekir.",
+    n: "Petrol piyasasında lisans süreleri faaliyete göre 2–49 yıl arasında değişir; elektrikte iletim TEİAŞ'ın sorumluluğundadır." },
+  { t: 1, s: 9, q: "Aşağıdakilerden hangisi sunumda sayılan doğal gaz tarifelerinden biri <b>değildir</b>?",
+    o: ["Kapasite mekanizması tarifesi", "Bağlantı tarifeleri", "İletim ve sevkiyat kontrol tarifeleri", "Toptan satış tarifesi", "Depolama tarifesi"], a: 0,
+    e: "Sunumdaki doğal gaz tarifeleri: <b>bağlantı tarifeleri</b>, <b>iletim ve sevkiyat kontrol tarifeleri</b>, <b>toptan satış tarifesi</b>, <b>depolama tarifesi</b>, <b>perakende satış tarifesi</b>. Kapasite mekanizması elektrik piyasasına aittir.",
+    n: "Sanayi tesisinin doğal gaz faturasındaki birim fiyat bu tarifelerin bileşimidir; dağıtım bedeli ve sistem kullanım bedelleri sözleşme türüne göre farklılaşır." },
+  { t: 1, s: 10, q: "Sunuma göre 5015 sayılı Petrol Piyasası Kanunu'na göre bir dağıtıcının pazar payı en fazla ne kadar olabilir?",
+    o: ["Toplam yurt içi pazarın %45'i", "%10'u", "%25'i", "%60'ı", "%100'ü"], a: 0,
+    e: "Sunum (5015 sayılı Kanun, 2003): dağıtıcılar kendi bayilerine akaryakıt dağıtımı yapabilir; <b>dağıtıcıların pazar payı toplam yurt içi pazarın %45'ini geçemez</b>. Bayiler yalnızca bağlı oldukları dağıtıcıdan akaryakıt temin edebilir.",
+    n: "Pazar payı sınırı rekabeti korumaya yöneliktir. Lisans süreleri faaliyet alanına göre 2–49 yıl arasında değişir." },
+  { t: 1, s: 10, q: "Sunuma göre petrol piyasasında bayiler için öngörülen kilometre sınırlaması nedir?",
+    o: ["Şehir içi yollarda 1 km, şehirlerarası yollarda 10 km", "Şehir içi 10 km, şehirlerarası 1 km", "Her yerde 5 km", "Şehir içi 100 m, şehirlerarası 500 m", "Kilometre sınırlaması yoktur"], a: 0,
+    e: "Sunum: <b>kilometre sınırlaması: şehir içi yollarda 1 km, şehirlerarası yollarda 10 km</b>.",
+    n: "Rafinerici lisansı sahipleri depolama, işleme, iletim, taşıma ve ihrakiye teslimini yapabilir ve kendi dağıtım şirketleri aracılığıyla akaryakıt dağıtabilir; EPDK lisanslı faaliyetleri denetler." },
+  { t: 1, s: 11, q: "Sunuma göre 2022 yılında Türkiye'de günlük ortalama ham petrol üretimi ve ham petrol ithalatı ne kadardır?",
+    o: ["Üretim 72 bin varil/gün; ham petrol ithalatı 672 bin varil/gün", "Üretim 672 bin varil/gün; ithalat 72 bin varil/gün", "Üretim 280 bin varil/gün; ithalat 1 milyon varil/gün", "Üretim 7 bin varil/gün; ithalat 159 bin varil/gün", "Üretim 40 bin varil/gün; ithalat 400 bin varil/gün"], a: 0,
+    e: "Sunum: 2022'de Türkiye'de ortalama <b>72 bin varil/gün ham petrol üretimi</b>; <b>672 bin varil/gün ham petrol ithalatı</b> ve <b>280 bin varil/gün işlenmiş ürün ithalatı</b> gerçekleşmiştir (1 varil = 159 L). Yerli ham petrol üretiminin toplam petrol arzına oranı 2021'de %7,2, 2022'de %7'dir.",
+    n: "Nisan 2023 itibarıyla aynı anda sondaj yapan aktif kule sayısı 40 olarak kaydedilmiş ve Türkiye Avrupa'da arama faaliyetlerinin en yoğun olduğu ülke olmuştur. Gabar keşfiyle 2023 sonrasında yerli üretim hızla artmaktadır." },
+  { t: 1, s: 11, q: "Sunumdaki 2022 verisine göre günlük 672 bin varil ham petrol ithalatı yaklaşık kaç milyon litreye karşılık gelir? (1 varil = 159 L)",
+    o: ["≈ 106,8 milyon L/gün", "≈ 10,7 milyon L/gün", "≈ 672 milyon L/gün", "≈ 4,2 milyon L/gün", "≈ 1.068 milyon L/gün"], a: 0,
+    e: "672.000 varil × 159 L/varil = 106.848.000 L ≈ <b>106,8 milyon L/gün</b>.",
+    n: "Yıllık olarak bu ≈ 39 milyar litre (≈ 245 milyon varil) eder. Petrolün neredeyse tamamının ithal edilmesi, ulaştırma ve sanayide verimlilik ile elektrifikasyonun cari açık açısından önemini gösterir." },
+  { t: 1, s: 12, q: "Sunuma göre 2020–2023 döneminde petrol piyasasında hangi ürün tüm kategorilerde (üretim, ithalat, ihracat, tüketim) en büyük paya sahiptir?",
+    o: ["Motorin türleri", "Benzin türleri", "Fuel oil türleri", "Havacılık yakıtları", "Gazyağı"], a: 0,
+    e: "Sunum: 2020–2023 arasında üretim ve tüketimde düzenli artış gözlenmiştir; <b>motorin türleri tüm kategorilerde en büyük paya</b> sahiptir; yurt içi satışlarda özellikle motorin tüketimi artmıştır. İhracatta havacılık ve denizcilik yakıtları önemli yer tutar.",
+    n: "Motorinin ağırlığı karayolu yük taşımacılığı ve dizel araç parkından kaynaklanır; bu yüzden ulaştırmada enerji verimliliği büyük ölçüde motorin tasarrufu demektir." },
+  { t: 1, s: 13, q: "Sunuma göre 5307 sayılı LPG Piyasası Kanunu'nda petrol piyasasından farklı olarak hangi zorunluluk vardır?",
+    o: ["Dolum tesislerinde ve otogaz istasyonlarında sorumlu müdür bulundurma ve asli faaliyetlerde eğitimli, sertifikalı personel çalıştırma", "Dağıtıcı pazar payının %45 ile sınırlanması", "Bayiler arasında 10 km mesafe zorunluluğu", "Rafinerici lisansı alma zorunluluğu", "Fiyatların her gün EPDK tarafından belirlenmesi"], a: 0,
+    e: "Sunum: LPG lisans sahipleri mevzuata uymak, zorunlu sigortaları yaptırmak gibi yükümlülüklerin yanında, <b>petrol piyasasından farklı olarak dolum tesislerinde ve otogaz istasyonlarında sorumlu müdür bulundurma</b>, asli faaliyetlerde <b>eğitim ve sertifika almış personel çalıştırma</b> zorunluluğuna sahiptir.",
+    n: "Lisans gerektiren LPG faaliyetleri: dağıtım, taşıma, otogaz bayiliği, depolama, tüp imalatı, dolumu, muayenesi, tamiri ve bakımı (tüplü LPG bayileri muaf). Otogaz bayileri tek bir dağıtıcıyla sözleşme yapmak zorundadır." },
+  { t: 1, s: 13, q: "Sunuma göre LPG piyasasında fiyatlar nasıl oluşur ve EPDK hangi durumda müdahale edebilir?",
+    o: ["Fiyatlar serbest piyasa koşullarında oluşur; rekabeti engelleyen eylemler tespit edilirse EPDK iki ayı aşmamak üzere taban ve/veya tavan fiyat belirleyebilir", "Fiyatları her ay ETKB belirler", "Fiyatlar sabit olup hiç değişmez", "EPDK süresiz olarak tavan fiyat uygular", "Fiyatları yalnızca otogaz bayileri belirler"], a: 0,
+    e: "Sunum: LPG alım satımında <b>fiyatlar serbest piyasa koşullarına göre</b> oluşur; rafineriler ve dağıtıcılar tavan fiyatları EPDK'ya bildirir. <b>Rekabeti engelleyen eylemler</b> tespit edilirse EPDK <b>iki ayı aşmamak üzere</b> taban ve/veya tavan fiyat belirleyebilir.",
+    n: "LPG ithalatı, EPDK'nın teknik düzenlemelerine uygunluğu ihtisas gümrüklerindeki laboratuvarlarda belirlendikten sonra yapılabilir." },
+
+  // YEK ve destek mekanizmaları
+  { t: 2, s: 15, q: "Sunuma göre 5346 sayılı Yenilenebilir Enerji Kaynaklarının Elektrik Enerjisi Üretimi Amaçlı Kullanımına İlişkin Kanun'un amacı nedir?",
+    o: ["YEK'in elektrik üretiminde kullanımını teşvik ederek ekonomiye kazandırılması, çevrenin korunması ve kaynak çeşitliliğinin artırılması", "Fosil yakıt ithalatının artırılması", "Elektrik fiyatlarının sabitlenmesi", "Nükleer santrallerin yapımının düzenlenmesi", "Doğal gaz dağıtımının özelleştirilmesi"], a: 0,
+    e: "Sunum (Madde 1): yenilenebilir enerji kaynaklarının elektrik enerjisi üretiminde kullanımı teşvik edilerek <b>ekonomiye kazandırılması, çevrenin korunması ve kaynak çeşitliliğinin artırılması</b> hedeflenir. Kanun 18 Mayıs 2005'te Resmî Gazete'de yayımlanmıştır.",
+    n: "YEK alanları (Madde 4) Bakanlık tarafından kamu, hazine ve özel arazilerde ilgili kurumların görüşüyle belirlenir ve imar planlarına işlenir." },
+  { t: 2, s: 15, q: "Sunuma göre YEK Belgesi'nin amacı nedir ve kim tarafından verilir?",
+    o: ["YEK'ten üretilen elektriğin piyasada hangi kaynaktan üretildiğinin takip edilebilmesi; EPDK tarafından üretim lisansı sahiplerine verilir", "Yatırımcılara vergi muafiyeti sağlamak; Maliye tarafından verilir", "Santralin ÇED olumlu belgesidir; Çevre Bakanlığı verir", "Yerli aksam kullanımını belgelemek; TSE verir", "Enerji yöneticisi sertifikasıdır; ETKB verir"], a: 0,
+    e: "Sunum (Madde 5): YEK'ten üretilen elektriğin piyasada alım satımında <b>hangi kaynaktan üretildiğinin takip edilebilmesi</b> için, üretim lisansı sahibi tüzel kişilere <b>EPDK tarafından</b> “Yenilenebilir Enerji Kaynak Belgesi” verilmesi zorunludur.",
+    n: "Benzer şekilde 2021'de kurulan YEK-G sistemi, tüketicilerin yenilenebilir elektrik kullandığını belgelemesini sağlar; Kapsam 2 emisyonlarının azaltılmış raporlanmasında kullanılabilir." },
+  { t: 2, s: 15, q: "Sunuma göre 5346 sayılı Kanun'daki YEK Destekleme Mekanizması (Madde 6) hangi tesisler için 10 yıl sabit fiyat uygular?",
+    o: ["18 Mayıs 2005 – 31 Aralık 2020 arasında işletmeye giren tesisler; sonrasında fiyat ve süreyi Cumhurbaşkanı belirler", "Yalnızca 2025 sonrasında işletmeye girenler", "Tüm fosil yakıtlı santraller", "Yalnızca nükleer santraller", "1984 öncesi kurulan hidroelektrik santraller"], a: 0,
+    e: "Sunum: YEK Destekleme Mekanizması (Madde 6): <b>18 Mayıs 2005 – 31 Aralık 2020</b> arasında işletmeye giren tesisler için <b>10 yıl sabit fiyat</b> uygulanır. Sonrasında devreye giren tesisler için <b>fiyat ve süreyi Cumhurbaşkanı</b> belirler.",
+    n: "Eski YEKDEM fiyatları ABD doları bazlıydı (ör. RES ve HES 7,3, GES 13,3 $cent/kWh). Yeni dönemde fiyatlar TL bazlı belirlenmiştir.",
+    g: { eski: "18 Mayıs 2005 – 31 Aralık 2020 arasında işletmeye girenlere 10 yıl ABD doları bazlı sabit fiyat.", yeni: "1 Temmuz 2021 sonrası tesisler: YEKDEM fiyatı TL bazlı ve 10 yıl, yerli katkı 5 yıl.", kaynak: "3453 sayılı Cumhurbaşkanı Kararı (RG 30.01.2021, 31380)" } },
+  { t: 2, s: 15, q: "Sunuma göre 5346 sayılı Kanun'daki lisanssız elektrik üretimi (Madde 6/A) için hangisi doğrudur?",
+    o: ["Kendi ihtiyacı için YEK'ten elektrik üretip fazlasını sisteme veren üreticiler 10 yıl süreyle belirlenen fiyatlardan yararlanır; görevli tedarik şirketleri bu enerjiyi almak zorundadır", "Lisanssız üreticiler hiçbir zaman fazla enerjiyi satamaz", "Lisanssız üretim yalnızca kömürle yapılabilir", "Lisanssız üreticiler YEKA ihalesine girmek zorundadır", "Fazla enerjiyi alma yükümlülüğü EPİAŞ'a aittir"], a: 0,
+    e: "Sunum (Madde 6/A): <b>kendi ihtiyacı için</b> YEK'ten elektrik üreten ve fazlasını sisteme veren üreticiler <b>10 yıl süreyle</b> belirlenen fiyatlardan yararlanır; <b>görevli tedarik şirketleri</b> bu enerjiyi almak zorundadır. Yerli ürün kullanan tesisler (Madde 6/B) ek teşviklerden faydalanır.",
+    n: "Sanayide çatı ve arazi GES'leri bu model kapsamındadır. Güncel düzenlemelerde lisanssız üretimde tüketimle ilişkilendirme ve mahsuplaşma kuralları belirleyicidir; GES boyutlandırması yıllık tüketime göre yapılmalıdır." },
+  { t: 2, s: 16, q: "Sunuma göre elektrik üretiminde YEK payını ve kaynak çeşitliliğini artırmak amacıyla kullanılan üç teşvik/mekanizma hangileridir?",
+    o: ["YEKDEM, YEKA ve yerli aksam destekleri", "Kapasite mekanizması, VEP ve GÖP", "Karbon vergisi, ETS ve SKDM", "Gönüllü anlaşma, etüt desteği ve VAP", "Kojenerasyon, trijenerasyon ve ORC"], a: 0,
+    e: "Sunum: <b>YEKDEM</b> (üreticilere belirlenen fiyatlarla destek sağlayan ve finansmanını tüketicilerden alınan payla karşılayan, EPDK tarafından yönetilen sistem); <b>YEKA</b> (rüzgâr ve güneşe dayalı büyük ölçekli santraller için yatırıma hazır alanları belirleyip yatırımcılara tahsis eden yarışmalar); <b>yerli aksam destekleri</b> (yerli üretim ekipman ve bileşen kullanımında sağlanan teşvik ve mali destek).",
+    n: "YEKDEM'in maliyeti tüm tüketicilere yansıtıldığı için sanayi elektrik faturasında bir bileşen olarak yer alır." },
+  { t: 2, s: 17, q: "Sunumdaki YEKA 2024 projeleri haritasına göre toplam kapasite ve RES–GES dağılımı nedir?",
+    o: ["Toplam 2.000 MW: RES 1.200 MW, GES 800 MW", "Toplam 1.000 MW: RES 500, GES 500", "Toplam 5.000 MW: RES 5.000", "Toplam 2.000 MW: RES 800, GES 1.200", "Toplam 120.000 MW: RES 60.000, GES 60.000"], a: 0,
+    e: "YEKA 2024: <b>RES 1.200 MW</b> (Edirne 410, Balkaya 340, Sergen 200, Yellice 160, Gürün 90), <b>GES 800 MW</b> (Karapınar 385, Karaman 200, Malatya 75, Van-2 60, Kütahya 40, Antalya 40); <b>toplam 2.000 MW</b>.",
+    n: "2.000 MW, 2035 yol haritasındaki “her yıl en az 2.000 MW YEKA” hedefiyle uyumludur. En büyük projeler G24-Karapınar GES (385 MW) ve R24-Edirne RES'tir (410 MW)." },
+  { t: 2, s: 18, q: "Sunumdaki yenilenebilir enerji yatırım modelleri tablosuna göre lisanssız modelde elektrik alım fiyatı neye göre belirlenir?",
+    o: ["Tarife grubuna göre EPDK tek zamanlı aktif enerji bedelinden", "5346 sayılı Kanun I sayılı cetveldeki fiyatlardan", "YEKA ihalesinde çıkan fiyattan", "Gün Öncesi Piyasası takas fiyatının iki katından", "Yatırımcının belirlediği fiyattan"], a: 0,
+    e: "Tablo: <b>lisanssız</b>: kurulu güç bağlantı anlaşması sözleşme gücüyle sınırlı; üretildiği yerde tüketim esası; alım fiyatı <b>tarife grubuna göre EPDK tek zamanlı aktif enerji bedeli</b>; 10 yıl; yerli aksama ek teşvik yok. <b>Lisanslı</b>: TEİAŞ'ın ilan ettiği trafo kapasitelerine göre; 5346 sayılı Kanun I sayılı cetvel fiyatları; 10 yıl; yerli aksam teşviki (5 yıl). <b>YEKA</b>: Bakanlığın ilan ettiği alanlar; ihale sonucu çıkan fiyat; ihale ilanındaki süre veya miktar; yerli aksam zorunluluğu.",
+    n: "Lisanssız modelin mantığı öz tüketimdir: fabrika kendi elektriğini üretir, fazlası perakende tarifeden değerlendirilir. Bu yüzden ekonomiklik, kendi tüketimindeki kaçınılan elektrik bedeline bağlıdır." },
+  { t: 2, s: 18, q: "Sunumdaki tabloya göre hangi yenilenebilir enerji yatırım modelinde yerli aksam kullanımı <b>zorunludur</b>?",
+    o: ["YEKA", "Lisanssız", "Lisanslı", "Hiçbirinde", "Hepsinde"], a: 0,
+    e: "Tablo: <b>lisanssız</b> modelde yerli aksam için ekstra teşvik yok; <b>lisanslı</b> modelde yerli aksam teşviki (işletmeye girdiği tarihten itibaren 5 yıl); <b>YEKA</b> modelinde yerli aksam <b>zorunluluk</b>.",
+    n: "YEKA modeli, büyük ölçekli kapasite tahsisini yerli panel, türbin ve bileşen üretimi şartına bağlayarak sanayileşmeyi de hedefler." },
+  { t: 2, s: 19, q: "Sunumdaki 2023 sonu verilerine göre lisanssız kurulu gücün yüzde kaçı güneştir (solar)?",
+    o: ["≈ %94,6", "≈ %26,2", "≈ %50", "≈ %12,2", "≈ %3,8"], a: 0,
+    e: "Sunum (2023 sonu): lisanssız kurulu güç: <b>solar %94,58</b>, doğal gaz %3,82, rüzgâr %0,77, biyokütle %0,73, hidrolik %0,11. Lisanssız üretimde güneşin payı %97,62'dir. Lisanslı kurulu güçte ise doğal gaz %26,20, barajlı %24,56, rüzgâr %12,16, ithal kömür %10,77, linyit %10,58 ilk sıralardadır.",
+    n: "Lisanssız üretimin neredeyse tamamı çatı ve arazi GES'leridir; bu model, sanayi tesislerinin Kapsam 2 emisyonlarını azaltmasının en yaygın yoludur." },
+  { t: 2, s: 19, q: "Sunumdaki 2023 sonu lisanslı elektrik üretiminde en büyük paya sahip kaynak hangisidir?",
+    o: ["İthal kömür (%23,27)", "Doğal gaz (%22,11)", "Hidrolik (%20,58)", "Linyit (%13,20)", "Rüzgâr (%10,93)"], a: 0,
+    e: "Lisanslı üretim (2023): <b>ithal kömür %23,27</b>, doğal gaz %22,11, hidrolik %20,58, linyit %13,20, rüzgâr %10,93, jeotermal %3,55, biyokütle %3,10, güneş %1,34.",
+    n: "Lisanslı üretimde güneşin payı küçük görünür, çünkü güneş üretiminin büyük kısmı lisanssız kategoridedir. Toplam tablo için iki pasta birlikte okunmalıdır." },
+
+  // Plan ve hedefler
+  { t: 3, s: 20, q: "Sunumdaki Ulusal Enerji Planı'na göre 2035'te birincil enerji tüketimi ne kadara ulaşır ve elektriğin nihai enerji tüketimindeki payı ne olur?",
+    o: ["205,3 Mtep; %24,9", "147,2 Mtep; %50", "100 Mtep; %10", "300 Mtep; %35,3", "189,7 Mtep; %64,7"], a: 0,
+    e: "Sunum (2020–2035): <b>birincil enerji tüketimi 205,3 Mtep</b>'e yükselir; <b>elektriğin nihai enerji tüketimindeki payı %24,9</b>'a erişir; <b>enerji yoğunluğu %35,3</b> azalır; elektrik kurulu gücü toplamda <b>189,7 GW</b>, güneş 52,9 GW, rüzgâr 29,6 GW (24,6 kara, 5 deniz), nükleer 7,2 GW olur.",
+    n: "Enerji tüketimi artarken enerji yoğunluğunun düşmesi, ekonominin enerjiden daha hızlı büyümesi (verimlilik) anlamına gelir. Ulusal Enerji Planı 2022'de yayımlanmıştır." },
+  { t: 3, s: 20, q: "Sunumdaki Ulusal Enerji Planı'na göre 2035'te rüzgâr kurulu gücü hedefi ve dağılımı nedir?",
+    o: ["29,6 GW: 24,6 GW kara, 5 GW deniz", "52,9 GW: tamamı kara", "7,2 GW: tamamı deniz", "120 GW: 60 kara, 60 deniz", "189,7 GW: 100 kara, 89,7 deniz"], a: 0,
+    e: "Ulusal Enerji Planı 2035: <b>rüzgâr 29,6 GW (24,6 GW kara, 5 GW deniz)</b>; güneş 52,9 GW; nükleer 7,2 GW; toplam kurulu güç 189,7 GW.",
+    n: "Nükleerde 7,2 GW, Akkuyu NGS'nin dört ünitesinin (4 × 1.200 MW) ötesinde ek kapasiteyi ifade eder." },
+  { t: 3, s: 20, q: "Ulusal Enerji Planı'na göre 2020–2035 döneminde enerji yoğunluğu %35,3 azalacaktır. 2020'de enerji yoğunluğu 100 birim kabul edilirse 2035'te kaç birim olur?",
+    o: ["64,7", "35,3", "135,3", "100", "73,9"], a: 0,
+    e: "100 × (1 − 0,353) = <b>64,7</b> birim.",
+    n: "Enerji yoğunluğu = birincil enerji tüketimi / GSYH. Bu azalma 15 yılda yıllık ortalama ≈ %2,9 iyileşmeye karşılık gelir: (0,647)<sup>1/15</sup> ≈ 0,971." },
+  { t: 3, s: 21, q: "Sunumdaki Ulusal Enerji Planı tablosuna göre 2035'te YEK'in elektrik üretimindeki ve kurulu güçteki payı nedir?",
+    o: ["Üretimde %54,7 (kesintili YEK %34,2); kurulu güçte %64,7 (kesintili YEK %43,5)", "Üretimde %34,2; kurulu güçte %43,5", "Üretimde %100; kurulu güçte %100", "Üretimde %24,9; kurulu güçte %35,3", "Üretimde %64,7; kurulu güçte %54,7"], a: 0,
+    e: "Tablo (2035): <b>elektrik üretimi</b> – kesintili YEK %34,2, YEK %54,7; <b>elektrik kurulu gücü</b> – kesintili YEK %43,5, YEK %64,7.",
+    n: "Kesintili YEK, rüzgâr ve güneş gibi üretimi hava koşullarına bağlı kaynaklardır. Kurulu güçteki payın üretimdeki paydan büyük olması, bu kaynakların kapasite faktörünün düşük olmasındandır." },
+  { t: 3, s: 21, q: "Sunuma göre kesintili YEK entegrasyonunun artırdığı esneklik gereksinimini karşılamak için 2035'te hangi kapasiteler öngörülmektedir?",
+    o: ["Batarya 7,5 GW (2 saat dolum süresi), elektrolizör 5,0 GW, talep tarafı katılımı 1,7 GW", "Batarya 1,7 GW, elektrolizör 7,5 GW, talep tarafı 5 GW", "Pompaj depolama 50 GW", "Batarya 120 GW", "Yalnızca doğal gaz santrali 10 GW"], a: 0,
+    e: "Sunum: kesintili YEK entegrasyonuyla sistemdeki esneklik gereksinimi artar. 2035'te: <b>batarya kapasitesi 7,5 GW (2 saat dolum süresi)</b>, <b>elektrolizör kapasitesi 5,0 GW</b>, <b>talep tarafı katılımı 1,7 GW</b>.",
+    n: "Talep tarafı katılımı, büyük tüketicilerin sistem ihtiyacına göre tüketimlerini kaydırması veya kısmasıdır; enerji yöneticileri için ek gelir veya tarife avantajı sağlayabilir." },
+  { t: 3, s: 22, q: "Sunuma göre On İkinci Kalkınma Planı hangi dönemi kapsar ve öncelikli gelişme alanları nelerdir?",
+    o: ["2024–2028; tarım ve gıda, enerji, savunma sanayii, turizm", "2019–2023; otomotiv, tekstil, inşaat", "2030–2035; bilişim, sağlık, eğitim", "2024–2053; yalnızca enerji", "2014–2018; madencilik ve demir-çelik"], a: 0,
+    e: "Sunum: On İkinci Kalkınma Planı (<b>2024–2028</b>). Planın hedefleri: istikrarlı büyüme, güçlü ekonomi; yeşil ve dijital dönüşümle rekabetçi üretim; nitelikli insan, güçlü aile, sağlıklı toplum; afetlere dirençli yaşam alanları, sürdürülebilir çevre; adaleti esas alan demokratik iyi yönetişim. <b>Öncelikli gelişme alanları: tarım ve gıda, enerji, savunma sanayii, turizm</b>.",
+    n: "Enerji, “yeşil ve dijital dönüşümle rekabetçi üretim” hedefinin altında öncelikli gelişme alanı olarak yer alır." },
+  { t: 3, s: 23, q: "Sunuma göre On İkinci Kalkınma Planı'nda enerji alanının amacı nedir?",
+    o: ["Enerjinin sürekli, kaliteli, sürdürülebilir ve uygun maliyetli arzını; yerli, yenilenebilir kaynaklar ve nükleer teknolojiden yararlanarak verimlilik ve kendine yeterliliği artırmayı; stratejik konumu güçlendiren rekabetçi bir yapı oluşturmayı", "Yalnızca fosil yakıt ithalatını artırmayı", "Elektrik fiyatlarını sıfırlamayı", "Tüm santralleri kamulaştırmayı", "Enerji tüketimini yasaklamayı"], a: 0,
+    e: "Sunum: amaç, enerjinin <b>sürekli, kaliteli, sürdürülebilir ve uygun maliyetlerle arzını</b>; <b>yerli, yenilenebilir kaynaklar ve nükleer teknolojiden</b> faydalanarak <b>enerji verimliliği ve kendine yeterliliği</b> artırmayı; <b>stratejik konumu güçlendiren rekabetçi</b> bir yapı oluşturmayı amaçlar.",
+    n: "Politika ve tedbirler arasında: akıllı şebeke ve depolama, pompaj depolamalı HES, YEKA projeleri, binalarda yenilenebilir ve verimlilik yatırımları, yeşil hidrojen, yerli kömür kullanımının sürdürülmesi, Akkuyu'nun tam kapasite devreye alınması ve küçük modüler reaktörler, kritik hammaddeler ve geri dönüşüm." },
+  { t: 3, s: 23, q: "Aşağıdakilerden hangisi sunumda On İkinci Kalkınma Planı'nın enerji politika ve tedbirleri arasında sayılmaz?",
+    o: ["Yerli kömür kullanımına son verilmesi", "Pompaj depolamalı hidroelektrik santraller", "Yeşil hidrojen üretimi ve altyapı geliştirme", "Akkuyu NGS'nin tam kapasite devreye alınması ve küçük modüler reaktörler", "Binalarda yenilenebilir enerji ve enerji verimliliği yatırımları"], a: 0,
+    e: "Sunumdaki tedbirler arasında <b>yerli kömür kullanımına devam edilmesi</b> yer alır; son verilmesi değil. Diğerleri: akıllı şebeke ve depolama, pompaj depolamalı HES, YEKA, binalarda YEK ve verimlilik, yeşil hidrojen, Akkuyu ve SMR'ler, kritik hammadde ve geri dönüşüm, maliyet bazlı fiyatlandırma.",
+    n: "Arz güvenliği ve dışa bağımlılığı azaltma hedefi nedeniyle Türkiye'nin politikası yerli kömürü korurken yenilenebilir payını artırmaktır." },
+  { t: 3, s: 24, q: "Sunumdaki Yenilenebilir Enerjide 2035 Yol Haritası'na göre RES–GES kurulu güç hedefi nedir?",
+    o: ["120.000 MW (mevcut kapasitenin 4 katı)", "52.900 MW", "29.600 MW", "7.500 MW", "2.000 MW"], a: 0,
+    e: "Sunum: <b>RES–GES kurulu güç hedefi 120.000 MW (4 kat)</b>; <b>her yıl en az 2.000 MW YEKA</b>; <b>denizüstü RES 5.000 MW</b>; uluslararası projeler; mevcut santraller için hibrit kapasite.",
+    n: "Bu hedef, 2022 Ulusal Enerji Planı'ndaki rüzgâr + güneş toplamının (≈ 82,5 GW) üzerine çıkılması anlamına gelir.",
+    g: { eski: "2035 hedefi: RES–GES 120.000 MW (4 kat), denizüstü 5.000 MW (yol haritası, 2024).", yeni: "2035 hedefi: rüzgâr + güneş 120 GW, deniz üstü rüzgâr 5 GW, depolama 7,5 GW. 2025 sonunda güneş 25,1 GW, rüzgâr 14,8 GW.", kaynak: "ETKB 2035 yenilenebilir hedef açıklaması (Ekim 2024); ETKB 2025 kurulu güç verileri" } },
+  { t: 3, s: 24, q: "2035 yol haritasındaki 120.000 MW RES–GES hedefi mevcut kapasitenin 4 katı olarak ifade edilmiştir. Buna göre yol haritası açıklandığında RES–GES kapasitesi yaklaşık ne kadardı?",
+    o: ["≈ 30.000 MW", "≈ 4.000 MW", "≈ 120.000 MW", "≈ 480.000 MW", "≈ 60.000 MW"], a: 0,
+    e: "120.000 / 4 = <b>≈ 30.000 MW</b>.",
+    n: "2024 sonunda rüzgâr + güneş kurulu gücü 30 GW'ın biraz üzerindeydi; hedef 2035'e kadar yaklaşık 85–90 GW ek kapasite, yani yılda ortalama 8 GW civarında yeni kurulum gerektirir." },
+  { t: 3, s: 24, q: "Sunumdaki yeşil iletim altyapısı hedeflerine göre 2024'ten 2035'e AC şebeke ve enterkonneksiyon kapasitesi nasıl değişir?",
+    o: ["AC hat 75.464 km'den 90.500 km'ye; trafo merkezi 798'den 942'ye; enterkonneksiyon ihracat 2.280 MW'tan 6.750 MW'a, ithalat 1.360 MW'tan 6.600 MW'a", "AC hat 90.500 km'den 75.464 km'ye düşer", "Trafo merkezi sayısı 942'den 798'e iner", "Enterkonneksiyon kapasitesi değişmez", "AC hat 10 katına çıkar"], a: 0,
+    e: "Sunum: <b>2024</b>: 75.464 km AC hat, 798 trafo merkezi, enterkonneksiyon 2.280 MW (ihracat) / 1.360 MW (ithalat). <b>2035</b>: 90.500 km AC hat, 942 trafo merkezi, 6.750 MW (ihracat) / 6.600 MW (ithalat).",
+    n: "Yenilenebilir kaynakların bulunduğu bölgelerle tüketim merkezleri farklı olduğu için iletim yatırımları, kesintili kaynakların sisteme entegrasyonunun ön koşuludur." },
+  { t: 3, s: 24, q: "Sunumdaki verilere göre enterkonneksiyon ihracat kapasitesi 2024'te 2.280 MW, 2035'te 6.750 MW olacaktır. Artış yaklaşık kaç kattır?",
+    o: ["≈ 2,96 kat", "≈ 4,85 kat", "≈ 1,2 kat", "≈ 6,75 kat", "≈ 0,34 kat"], a: 0,
+    e: "6.750 / 2.280 ≈ <b>2,96 kat</b>. (İthalat kapasitesi ise 6.600 / 1.360 ≈ 4,85 kat artar.)",
+    n: "Komşu ülkelerle güçlü bağlantı, fazla yenilenebilir üretimin ihraç edilmesine ve dengeleme ihtiyacının bölgesel olarak paylaşılmasına imkân verir." },
+  { t: 3, s: 19, q: "Sunuma göre Türkiye Ulusal Enerji Planı hangi vizyonun gerçekleştirilebilirliğini sağlamak için 2035 hedeflerini özetler?",
+    o: ["2053 yılına kadar net sıfır emisyonlu ekonomi", "2030'a kadar fosil yakıtların tamamen bırakılması", "2050'de karbon nötr ilk kıta olmak", "2023'te %100 yenilenebilir elektrik", "2040'ta nükleer enerjiden çıkış"], a: 0,
+    e: "Sunum: Türkiye Ekim 2021'de Paris Anlaşması'nı onaylamış ve ardından <b>2053 yılına kadar net sıfır emisyonlu bir ekonomiye</b> ulaşma taahhüdünü duyurmuştur. Ulusal Enerji Planı, bu 2053 vizyonunun gerçekleştirilebilirliğini sağlamak için 2035'e kadar karşılanması gereken hedefleri ETKB'nin bakış açısından özetler.",
+    n: "Not: Türkiye Paris Anlaşması'nı 22 Nisan 2016'da imzalamış, Ekim 2021'de TBMM onayıyla onaylamış ve 10 Kasım 2021'de taraf olmuştur." },
+  { t: 0, s: 4, q: "Sunumdaki zaman çizelgesine göre Vadeli Elektrik Piyasası ve YEK-G sistemi hangi yıl kurulmuştur?",
+    o: ["2021", "2018", "2015", "2011", "2023"], a: 0,
+    e: "Zaman çizelgesi: <b>2021</b>'de yeni Mini YEKA RES-3 ve Mini YEKA GES-4 duyuruları yapıldı, <b>Vadeli Elektrik Piyasası ve YEK-G sistemi kuruldu</b>, Ekim 2021'de Paris Anlaşması'nın onaylandığı açıklandı. Gün Öncesi Piyasası 2011'de açılmış, Gün İçi Piyasası ve EPİAŞ 2015'te kurulmuştur.",
+    n: "YEK-G (Yenilenebilir Enerji Kaynak Garanti) belgesi, tüketilen elektriğin yenilenebilir kaynaktan üretildiğini gösterir; şirketler bu belgelerle Kapsam 2 emisyonlarını piyasa bazlı yöntemle düşük raporlayabilir." },
+  { t: 1, s: 4, q: "Sunumdaki zaman çizelgesine göre 2023'te Türkiye ile Bulgaristan arasında imzalanan doğal gaz anlaşmasının kapasitesi ve önemi nedir?",
+    o: ["1,5 milyar m³/yıl iletim anlaşması; Türkiye'nin ilk uzun vadeli ve yüksek tutarlı gaz anlaşması", "15 milyar m³/yıl ithalat anlaşması; ilk LNG anlaşması", "0,5 milyar m³/yıl depolama anlaşması", "1,5 milyar m³/gün boru hattı anlaşması", "Elektrik enterkonneksiyon anlaşması"], a: 0,
+    e: "Sunum: <b>2023</b>'te Türkiye ve Bulgaristan <b>1,5 milyar m³/yıl doğal gaz iletim anlaşması</b> imzaladı (<b>Türkiye'nin ilk uzun vadeli ve yüksek tutarlı gaz anlaşması</b>). Aynı yıl ETKB Ulusal Enerji Planı ve Hidrojen Teknolojileri Stratejisi'ni yayımladı.",
+    n: "Bu anlaşmayla Türkiye, LNG terminalleri ve iletim altyapısını kullanarak gaz transit ve ticaret merkezi olma hedefinde ilk somut adımı atmıştır." },
+  { t: 1, s: 13, q: "Sunuma göre LPG piyasasında hangi faaliyet lisans zorunluluğundan <b>muaftır</b>?",
+    o: ["Tüplü LPG bayiliği", "LPG dağıtımı", "Otogaz bayiliği", "LPG depolaması", "LPG tüpü dolumu"], a: 0,
+    e: "Sunum: lisans zorunluluğu olan faaliyetler: LPG dağıtımı, taşınması, otogaz bayilik faaliyetleri, depolanması, LPG tüpünün imalatı, dolumu, muayenesi, tamiri ve bakımı (<b>tüplü LPG bayileri muaf</b>). Lisans başvuruları gerekli izinler alındıktan sonra EPDK'ya yapılır.",
+    n: "Otogaz bayileri tek bir dağıtıcıyla sözleşme yapmak ve yalnızca ondan LPG almak zorundadır; dökme LPG kullanıcıları da sözleşme yaptıkları dağıtıcıdan ikmal yapar." },
+  { t: 2, s: 16, q: "Sunuma göre YEKA (Yenilenebilir Enerji Kaynak Alanları) yarışmalarının amacı nedir?",
+    o: ["Rüzgâr ve güneşe dayalı büyük ölçekli santraller için yatırıma hazır alanları belirleyip yatırımcılara tahsis etmek", "Küçük çatı GES'lerine sabit fiyat vermek", "Kömür sahalarını özelleştirmek", "Doğal gaz depolama alanı belirlemek", "Enerji verimliliği etüdü yapan şirketleri yetkilendirmek"], a: 0,
+    e: "Sunum: <b>YEKA</b>, rüzgâr ve güneş enerjisine dayalı <b>büyük ölçekli santraller için yatırıma hazır alanları belirleyerek yatırımcılara tahsis etmeyi</b> amaçlar. YEKA modelinde alanlar veya bağlantı bölgeleri Bakanlık tarafından ilan edilir, alım fiyatı ihale sonucu belirlenir ve yerli aksam zorunludur.",
+    n: "YEKA, izin ve bağlantı risklerini devletin üstlenmesiyle yatırımcı riskini düşürür; bu da rekabetçi ihalelerde düşük elektrik fiyatlarına yol açar." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

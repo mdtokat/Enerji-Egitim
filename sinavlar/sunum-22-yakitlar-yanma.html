@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yakıtlar ve Yanma Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 22 · Yakıtlar – Yanma – Yakma Tesisleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 22</span> 1_23.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Yakıtlar, Yanma ve Yakma Tesisleri <em>Sınavı</em></h1>
+    <p class="lede">Katı, sıvı, gaz ve atık yakıtlar; kömürde %55–90 karbon, nem ve kül (%6 alt sınırı), uniform boyut; TS 2177 fuel-oil tablosu; LNG, su gazı, LPG; atık yakıt ısıl değerleri; paçal hesabı; stokiyometri, %100 fazla hava, alt ısıl değer; %200 fazla havalı ağır fuel-oil örneği; 3 iyi yanma şartı, ızgaralı ve akışkan yataklı sistemler, atomizasyon ve brülör tipleri.</p>
+    <ul class="facts"><li>67 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Yakıtlar – Yanma – Yakma Tesisleri” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum22-v1",
+topics: ["Yakıtlara giriş ve kömür", "Sıvı, gaz ve atık yakıtlar", "Paçal ve yanma temelleri", "Yanma çeşitleri, baca gazı ve fazla hava", "Yakma tesisleri"],
+Q: [
+  // Yakıtlara giriş ve kömür
+  { t: 0, s: 2, q: "Sunumdaki tanıma göre fosil yakıtlar nedir?",
+    o: ["Yeryüzünde doğal olarak bulunan, güneş enerjisiyle senteze uğramış bitkisel maddelerin kalıntılarından oluşan organik maddeler", "Laboratuvarda sentezlenen inorganik maddeler", "Yalnızca yeraltındaki metal cevherleri", "Nükleer reaksiyonla oluşan maddeler", "Rüzgâr ve güneşten elde edilen enerji kaynakları"], a: 0,
+    e: "Sunum: “Fosil yakıtlar yeryüzünde doğal olarak bulunan ve <b>güneş enerjisi ile senteze uğramış bitkisel maddelerin kalıntılarından</b> ibaret olan <b>organik maddelerdir</b>.”",
+    n: "Fosil yakıtlardaki enerji, milyonlarca yıl önce fotosentezle bağlanmış güneş enerjisidir. Yakıldıklarında bu süreçte bağlanmış karbon CO<sub>2</sub> olarak atmosfere döner; iklim değişikliği tartışmasının çıkış noktası budur." },
+  { t: 0, s: 3, q: "Sunuma göre enerji kaynakları yakıt olarak kaç grup altında incelenir?",
+    o: ["Dört: katı, sıvı, gaz ve atık yakıtlar", "İki: fosil ve yenilenebilir", "Üç: katı, sıvı ve gaz", "Beş: kömür, petrol, doğal gaz, odun, hidrolik", "Altı: linyit, taşkömürü, fuel-oil, motorin, LPG, doğal gaz"], a: 0,
+    e: "Sunum: enerji kaynakları yakıt olarak <b>dört grup</b> altında toplanır: <b>katı, sıvı, gaz ve atık</b> yakıtlar. Bu yakıtlar üretim, depolama ve kaynak açısından çok farklı karakteristiklere sahiptir.",
+    n: "Odun, bitki ve hayvan atıkları katı olsa da sunumda “atık yakıtlar” başlığı altında toplanır (bir sonraki slayt). Yakma sistemleri ise üç sınıftır: katı, sıvı ve gaz yakıt sistemleri." },
+  { t: 0, s: 4, q: "Sunuma göre enerji üretiminde kullanılan başlıca katı yakıtlar hangileridir?",
+    o: ["Linyit ve taş kömürü", "Odun ve fındık kabuğu", "Kok ve petrol koku", "Prina ve valonya", "Turba ve antrasit"], a: 0,
+    e: "Sunum: kömür yapısı en karmaşık fosil yakıt cinsidir; enerji üretiminde kullanılan başlıca katı yakıtlar <b>linyit ve taş kömürü</b>dür. Odun, bitki ve hayvan atıkları ise <b>atık yakıtlar</b> başlığı altında toplanır.",
+    n: "Türkiye'nin yerli kömür rezervinin büyük bölümü düşük kalorili linyittir; taş kömürü esas olarak Zonguldak havzasındadır." },
+  { t: 0, s: 5, q: "Sunuma göre kömür genellikle yüzde kaç karbon içerir?",
+    o: ["%55–90", "%10–20", "%95–100", "%30–40", "%5–10"], a: 0,
+    e: "Sunum: kömür, havanın oksijeniyle doğrudan yanabilen, genellikle <b>%55–90 karbon</b> içeren, organik bitkisel kökenli, sert ve yandığında kül bırakan katı yakıttır.",
+    n: "Kömürleşme derecesi (turba → linyit → taş kömürü → antrasit) arttıkça karbon oranı ve ısıl değer artar, nem ve uçucu madde azalır." },
+  { t: 0, s: 5, q: "Sunuma göre aşağıdakilerden hangisi kaliteli bir kömürün özelliği <b>değildir</b>?",
+    o: ["Uçucu madde ve kül içeriği yüksek olmalı", "Siyah ve parlak olmalı", "Isıl değeri yüksek olmalı", "Nem içeriği düşük olmalı", "Taş ve tozu az olmalı"], a: 0,
+    e: "Kaliteli kömür: <b>siyah ve parlak</b>; <b>ısıl değeri yüksek</b>; <b>nem, kül ve uçucu madde içeriği düşük</b>; <b>taş ve tozu az</b> olmalıdır.",
+    n: "Toz kömür ızgaradan düşer veya yanmadan uçar; taş ise ısıl değeri olmayan yüktür. Satın alma şartnamelerinde ısıl değerin yanında nem, kül ve kükürt sınırları da belirtilmelidir." },
+  { t: 0, s: 6, q: "Sunuma göre kömür analiziyle hangi bileşenlerin oranları belirlenir?",
+    o: ["Nem, karbon, hidrojen, kükürt, azot, oksijen ve kül", "Yalnızca karbon", "Yalnızca nem ve kül", "Demir, bakır ve çinko", "Metan, etan ve propan"], a: 0,
+    e: "Sunum: kömürler sabit karbon, nem, kül, kükürt, uçucu madde ve kalorifik değer açısından farklıdır; aynı ocaktan, hatta <b>aynı damarın farklı yerlerinden</b> alınan kömürler bile farklı olabilir. Analizle <b>nem, karbon, hidrojen, kükürt, azot, oksijen ve kül</b> oranları belirlenir.",
+    n: "Bu analize “elementel analiz” denir; nem, kül, uçucu madde ve sabit karbonu veren analiz ise “kısa (proximate) analiz”dir. Yanma hesabı için elementel analiz gerekir." },
+  { t: 0, s: 7, q: "Sunuma göre kömür numunesinin kalorifik değerinin laboratuvarda tayin edilmesinin tüketiciye faydası nedir?",
+    o: ["Standart dışı ve tesise uygun olmayan kömürün yakılmasını önleyebilmek", "Kömürün rengini belirlemek", "Kömürü daha ağır göstermek", "Kükürdü tamamen yok etmek", "Kömürün nemini artırmak"], a: 0,
+    e: "Sunum: kalorifik değer, yakıldığında serbest bırakılan ısı miktarıdır ve yakıt test laboratuvarlarında tayin edilebilir. Böylece tüketiciler <b>standart dışı ve tesise uygun olmayan kömürün yakılmasını önleyebilirler</b>.",
+    n: "Kömür alımında fiyat ton başına değil, kalori başına karşılaştırılmalıdır. 4.000 kcal/kg'lık kömürün tonu 6.000 kcal/kg'lıktan %33 ucuz değilse aslında daha pahalıdır." },
+  { t: 0, s: 8, q: "Sunuma göre taş kömürü, sert linyit ve yumuşak linyitin nem oranları sırasıyla nedir?",
+    o: ["%1–3; %20–30; %40–60", "%40–60; %20–30; %1–3", "%10–15; %30–40; %70–80", "%0; %5; %10", "%20–30; %1–3; %40–60"], a: 0,
+    e: "Sunum: kömürler kömürleşme derecesine göre farklı nem içerir: <b>taş kömürü %1–3</b>, <b>sert linyitler %20–30</b>, <b>yumuşak linyitler %40–60</b>.",
+    n: "Yumuşak linyitte nem yarıya yaklaşır; bu suyun buharlaştırılması için harcanan ısı bacadan su buharı olarak gider. Bu yüzden düşük kaliteli linyitler genellikle maden ağzındaki santrallerde yakılır; taşımak ekonomik değildir." },
+  { t: 0, s: 8, q: "Sunuma göre kömürdeki iki nem türü hangileridir?",
+    o: ["Yüzey suyu (kaba nem) ve bünye suyu (bağıl nem)", "Kristal suyu ve buhar suyu", "Yağmur suyu ve deniz suyu", "Serbest su ve donmuş su", "Kül suyu ve kükürt suyu"], a: 0,
+    e: "Sunum: kömürlerde atmosferik koşullar ve su ile temastan gelen <b>yüzey suyu (kaba nem)</b> ve kömürün yapısından gelen <b>bünye suyu (bağıl nem)</b> vardır.",
+    n: "Yüzey suyu kapalı depolama ve drenajla azaltılabilir; bünye suyu ise ancak kurutmayla uzaklaştırılır. Depolamada kömür atmosferden nem alarak orijinal nem değerini yükseltebilir." },
+  { t: 0, s: 9, q: "Bir işletme, normalin %12 üzerinde serbest nem içeren 500 ton kömür satın almıştır. Sunumdaki mantığa göre bu kömürle kömür fiyatına kaç ton su satın alınmıştır?",
+    o: ["60 ton", "12 ton", "6 ton", "120 ton", "440 ton"], a: 0,
+    e: "Her ton kömürde fazladan 0,12 ton su vardır: 500 × 0,12 = <b>60 ton su</b>. Sunumdaki örnek: fazladan %10 serbest nem taşıyan her ton kömür 0,1 ton su içerir; 100 ton yakıtta 10 ton su kömür fiyatına satın alınır.",
+    n: "Fazla nem üç ek maliyet getirir: suyun kömür fiyatına alınması, taşıma ücretinin artması ve yanma sırasında bu suyu buharlaştırmak için ısının bir kısmının harcanması." },
+  { t: 0, s: 11, q: "Sunuma göre kömürdeki kül türleri ve kül oranının etkisi nedir?",
+    o: ["Bitkilerden gelen bünye külü ve üretimde karışan üretim külü; kül arttıkça yanma zorlaşır, ısıl değer düşer", "Yalnızca uçucu kül; kül arttıkça ısıl değer artar", "Kırmızı kül ve siyah kül; kül yanmayı kolaylaştırır", "Kül kömürün en değerli bileşenidir", "Kül oranı ısıl değeri etkilemez"], a: 0,
+    e: "Sunum: kömürde yanmadan kalan inorganik atık maddelere kül denir, istenmeyen içeriktir. Bitkilerden gelen <b>bünye külü</b> ve üretimde karışan ara kesme, tavan taşı ve topraktan gelen <b>üretim külü</b> vardır. <b>Kül arttıkça yanma zorlaşır, ısıl değer düşer.</b>",
+    n: "Üretim külü kömür yıkama (lavvar) tesislerinde büyük ölçüde ayrılabilir; bünye külü ise kömürün yapısındadır. Kül ayrıca cüruf ve uçucu kül olarak bertaraf maliyeti getirir." },
+  { t: 0, s: 12, q: "Sunuma göre yakma cihazlarında kullanılan kömürün %6'dan az kül içermesi neden uygun değildir?",
+    o: ["Izgara üzerinde oluşan kül tabakası metalik ızgaraları yanma bölgesindeki yoğun radyasyon ısısından korur", "Kül azsa kömür hiç yanmaz", "Kül azsa baca gazında CO<sub>2</sub> ölçülemez", "Az küllü kömür daha fazla nem içerir", "Yönetmelik %6'dan az küllü kömürü yasaklar"], a: 0,
+    e: "Sunum: kömürün <b>%6'dan az kül</b> içermesi de uygun değildir. Yanma tamamlandıktan sonra ocak ızgaraları üzerinde kül tabakaları oluşur; <b>bu kül tabakaları yanma bölgesindeki yoğun radyasyon ısısından metalik ızgaraları korur</b>.",
+    n: "Yani ızgaralı yakma sistemlerinde kül için hem üst hem alt sınır vardır: çok kül ısıl değeri düşürür ve yanmayı zorlaştırır, çok az kül ızgaranın aşırı ısınıp hasar görmesine yol açar." },
+  { t: 0, s: 13, q: "Sunuma göre ızgaradaki kömür parçacıklarının boyutlarının homojen (uniform) olması neden önemlidir?",
+    o: ["Yanma havasının yakıt etrafından ve içinden düzgün dağılmasını sağlar; ince bölgeler havaya direnç gösterir, iri ve boşluklu bölgelerde hava kontrolsüz geçer", "Kömürün rengini eşitler", "Kömürün nemini artırır", "Kül oranını sıfıra indirir", "Kömürün kükürdünü giderir"], a: 0,
+    e: "Sunum: boyutların homojen olması yanma havasının dağılımının düzgün olmasını sağlar. Kömür boyutunun <b>çok ufak</b> olduğu bölgeler hava akışına <b>direnç</b> gösterir; <b>düşük direnç</b> gösteren boşluklu bölgelerde hava kontrolsüz hareket eder, yanma diğer bölgelere göre <b>daha çabuk</b> olur ve hava kontrolü zorlaşır.",
+    n: "Sunumdaki şekilde iri parçalı bölgeden büyük, ince parçalı bölgeden küçük hava okları çıkar. Sonuç: bir yerde fazla hava, başka yerde eksik hava; ikisi de verim kaybıdır. Kömür eleme ve sınıflandırma bu yüzden önemlidir." },
+
+  // Sıvı, gaz ve atık yakıtlar
+  { t: 1, s: 16, q: "Sunuma göre sıvı yakıtların asıl kaynağı nedir ve bileşimi nasıldır?",
+    o: ["Ham petrol; karbon ve hidrojenin çeşitli bileşenleri ile az miktarda azot, kükürt ve bazı metaller", "Kömür; yalnızca karbon", "Doğal gaz; yalnızca metan", "Bitkisel yağlar; yalnızca oksijen", "Deniz suyu; tuz ve su"], a: 0,
+    e: "Sunum: sıvı yakıtlar ham petrolün rafinesiyle elde edilir; kömürün sıvılaştırılmasıyla sentetik sıvı yakıt da mümkündür ama <b>asıl kaynak ham petroldür</b>. Petrol <b>karbon ve hidrojenin</b> değişik bileşenlerinden oluşur; az miktarda <b>azot, kükürt ve bazı metaller</b> de içerir.",
+    n: "Yakıttaki kükürt SO<sub>2</sub>/SO<sub>3</sub> emisyonuna ve baca gazında asit yoğuşmasına, metaller (vanadyum, sodyum) ise kazan yüzeylerinde yüksek sıcaklık korozyonuna yol açar." },
+  { t: 1, s: 17, q: "Sunuma göre sıvı yakıtlar genellikle hangi özelliklerine göre sınıflandırılır?",
+    o: ["Viskozite ve özgül ağırlık", "Renk ve koku", "Kükürt ve kül", "Fiyat ve üretici", "Parlama noktası ve donma noktası"], a: 0,
+    e: "Sunum: sıvı yakıtların sınıflandırılması genellikle <b>viskozite ve özgül ağırlık</b> değerlerine göre yapılır ve beş gruba ayrılır.",
+    n: "Viskozite, pompalama ve atomizasyon için ön ısıtma gerekip gerekmediğini belirler. Ağır fuel-oil oda sıcaklığında neredeyse katıdır; tankta ve hatta ısıtılarak taşınır." },
+  { t: 1, s: 17, q: "Sunumdaki beşli sınıflandırmada “kalorifer yakıtı” nasıl tanımlanır?",
+    o: ["Motorin + Fuel Oil 6 karışımı", "Fuel Oil 4", "Fuel Oil 5", "Saf motorin", "LPG ve motorin karışımı"], a: 0,
+    e: "Beş grup: <b>motorin</b>; <b>hafif fuel-oil (Fuel Oil 4)</b>; <b>orta fuel-oil (Fuel Oil 5)</b>; <b>kalorifer yakıtı (motorin + Fuel Oil 6)</b>; <b>ağır fuel-oil (Fuel Oil 6)</b>.",
+    n: "Numara büyüdükçe yakıt ağırlaşır ve viskozitesi artar. Kazanlar sunumundaki atomizasyon sıcaklıkları da bunu gösterir: hafif fuel-oil 43–60 °C, orta 77–94 °C, ağır 100–120 °C." },
+  { t: 1, s: 18, q: "Sunumdaki TS 2177 tablosuna göre 6 No.'lu (ağır) fuel-oil için minimum parlama noktası ve hacimce maksimum su ve tortu oranı nedir?",
+    o: ["65 °C ve %2", "55 °C ve %0,5", "55 °C ve %1", "100 °C ve %0,1", "38 °C ve %5"], a: 0,
+    e: "TS 2177 tablosu: minimum parlama noktası 4 No. 55, kalorifer yakıtı 55, 5 No. 55, <b>6 No. 65 °C</b>; hacimce maksimum su ve tortu 0,5 / 1 / 1 / <b>%2</b>; ağırlıkça maksimum kül 4, kalorifer ve 5 No. için %0,1.",
+    n: "Parlama noktası, yakıt buharının bir alevle tutuşabildiği en düşük sıcaklıktır ve depolama–taşıma güvenliği için önemlidir. Su ve tortu ise brülör memelerini tıkar ve yanmayı bozar; tank dibinden periyodik drenaj gerekir." },
+  { t: 1, s: 18, q: "Sunumdaki TS 2177 tablosunda kinematik viskozite (38 °C, cSt) değerlerine göre hangisi doğrudur?",
+    o: ["Viskozite 4 No.'dan 6 No.'ya doğru artar: 26,4 → 65 → 162 → 638 cSt", "Tüm fuel-oil türlerinde viskozite aynıdır", "4 No.'lu fuel-oil en viskoz olanıdır", "Kalorifer yakıtının viskozitesi 6 No.'dan yüksektir", "Viskozite yalnızca 6 No. için verilmiştir"], a: 0,
+    e: "Tablodaki 38 °C kinematik viskozite değerleri: 4 No. (marine dizel) <b>26,4</b>; kalorifer yakıtı <b>65</b>; 5 No. <b>162</b> (diğer satırda 81); 6 No. <b>638 cSt</b>. 6 No. için ayrıca 50 °C'de Furol Saybolt 300 verilir.",
+    n: "638 cSt'lik yakıt brülörde atomize edilemez; atomizasyon için tipik olarak 10–20 cSt'ye inmesi gerekir. Bu yüzden ağır fuel-oil 100 °C'nin üzerine ısıtılır." },
+  { t: 1, s: 19, q: "Sunuma göre gaz yakıtların sıvı ve katı yakıtlara göre üç üstünlüğü hangileridir?",
+    o: ["Fiziksel yükleme-boşaltma olmadan pompalanabilir; tamamen yanıp kül bırakmaz; alev kontrolü kolay olduğundan en az duman çıkar", "Depolaması çok kolaydır; ucuzdur; kokusuzdur", "Isıl değeri her zaman en yüksektir; zehirsizdir; patlamaz", "Taşınmaz; yakılmaz; kirletmez", "Kükürt içerir; kül bırakır; ızgarada yanar"], a: 0,
+    e: "Sunum: gaz yakıtların üç üstünlüğü: <b>fiziksel yükleme-boşaltma olmaksızın</b> merkeze pompalanabilir; <b>tamamen yanarak kül ve atık bırakmaz</b>; gaz alevinin <b>kontrolü daha kolay</b> olduğundan en az ölçüde duman çıkar. En büyük sorunu <b>depolama zorluğudur</b>.",
+    n: "Depolama zorluğu nedeniyle gaz yakıtlar ya boru hattıyla anlık olarak taşınır ya da sıvılaştırılarak (LNG, LPG) depolanır. Gaz yakıtlar ayrıca düşük fazla havayla tam yanabildiği için yüksek verim sağlar." },
+  { t: 1, s: 20, q: "Sunuma göre doğal gazın bileşimi hangisidir?",
+    o: ["Metanın yanı sıra etan, propan, bütan gibi hidrokarbonlar ile azot ve karbondioksit gibi yanmayan bileşenler", "Yalnızca hidrojen", "Propan ve bütan karışımı (tüp gaz)", "Karbonmonoksit ve hidrojen (su gazı)", "Yalnızca karbondioksit"], a: 0,
+    e: "Sunum: doğal gaz petrol ve kömür gibi doğada kendiliğinden bulunur; <b>metanın yanı sıra etan, propan ve bütan</b> gibi yüksek moleküllü hidrokarbonlar ve <b>azot ile karbondioksit</b> gibi yanmayan bileşenlerden oluşur.",
+    n: "Ana bileşen metan (tipik olarak %85–98) olduğundan doğal gazın hidrojen oranı yüksek, CO<sub>2</sub> emisyonu birim enerji başına kömür ve petrole göre düşüktür." },
+  { t: 1, s: 21, q: "Sunuma göre 0,0283 m³ sıvı metan (−162 °C, 1 atm) yaklaşık kaç m³ gaz metana eşittir? Bu, hacimde yaklaşık kaç kat küçülme demektir?",
+    o: ["17,84 m³; ≈ 630 kat", "1 m³; ≈ 35 kat", "0,283 m³; 10 kat", "178,4 m³; ≈ 6.300 kat", "2,83 m³; 100 kat"], a: 0,
+    e: "Sunum: 0,0283 m³ sıvı metan (−162 °C ve 1 atm) yaklaşık <b>17,84 m³</b> gaz metana eşittir. Oran: 17,84 / 0,0283 ≈ <b>630</b>.",
+    n: "LNG'nin avantajı bu yoğunluk farkıdır: gazı boru hattı olmayan yerlere gemiyle taşımak ve büyük miktarda depolamak mümkün olur. 0,0283 m³ = 1 ft³, 17,84 m³ ≈ 630 ft³'tür; yani örnek İngiliz birimlerinden çevrilmiştir." },
+  { t: 1, s: 21, q: "Sunuma göre su gazı nasıl üretilir ve ısıl değeri yaklaşık ne kadardır?",
+    o: ["Buharla kokun muamelesiyle; ≈ 900 kcal/m³", "Kömürün distilasyonuyla; ≈ 8.250 kcal/m³", "Petrolün damıtılmasıyla; ≈ 11.000 kcal/kg", "Suyun elektrolizinden; ≈ 3.000 kcal/m³", "Doğal gazın sıvılaştırılmasıyla; ≈ 630 kcal/m³"], a: 0,
+    e: "Sunum: <b>su gazı</b> buharla kokun muamelesiyle üretilir; ısıl değeri düşüktür, <b>≈ 900 kcal/m³</b> civarındadır; genellikle başka gazlarla karıştırılarak zenginleştirilir. <b>Kömür gazı (hava gazı)</b> ise kömürün distilasyonuyla, uçucu maddelerin alınmasıyla elde edilir.",
+    n: "Hava gazı, doğal gaz öncesinde Türkiye'de de şehir gazı olarak kullanılmıştır. Doğal gazın ≈ 8.250 kcal/Sm³ alt ısıl değeriyle karşılaştırıldığında su gazının neden zenginleştirilmesi gerektiği anlaşılır." },
+  { t: 1, s: 22, q: "Sunuma göre LPG için hangisi doğrudur?",
+    o: ["Propan, bütan veya pentan gibi petrol damıtım ürünü gazlardır; basınç altında sıvılaştırılıp tüp ve tanklarda saklanır; homojen olduğundan yakma kontrolü hassas yapılabilir", "Doğal gazın −162 °C'de sıvılaştırılmış hâlidir", "Kömürün distilasyonuyla elde edilir", "Kokun buharla muamelesiyle üretilir", "Kül bırakan katı bir yakıttır"], a: 0,
+    e: "Sunum: <b>LPG</b>, propan, bütan veya pentan gibi petrolün damıtım ürünü gazlardır; basınç altında sıvılaştırılmış olarak çelik tüplerde pazarlandığı için <b>tüp gaz</b> da denir; yeraltı / yerüstü tanklarda saklanır. Doğal gaz gibi <b>homojen</b> olduğundan yakma kontrolü otomatik sistemlerle hassas yapılabilir.",
+    n: "LPG ile LNG karıştırılmamalıdır: LPG oda sıcaklığında basınçla sıvılaşan propan–bütandır; LNG ise atmosfer basıncında −162 °C'ye soğutularak sıvılaştırılan doğal gazdır (metan)." },
+  { t: 1, s: 23, q: "Aşağıdakilerden hangisi sunumda sayılan Türkiye'deki bitkisel atık yakıtlardan biri <b>değildir</b>?",
+    o: ["Taş kömürü", "Prina (zeytin küspesi)", "Valonya (palamut küspesi)", "Pamuk sapı", "Fındık kabuğu"], a: 0,
+    e: "Sunumdaki bitkisel atıklar: <b>prina (zeytin küspesi)</b>, <b>valonya (palamut küspesi)</b>, <b>pamuk sapı</b>, <b>ağaç yongası</b>, <b>fındık kabuğu</b> ve diğer atıklar (endüstriyel yağlar, lastik, çöp, naylon, kâğıt-torba, bez, üstüpü vb.).",
+    n: "Bu atıklar bölgesel olarak bol bulunur (Ege'de prina, Karadeniz'de fındık kabuğu) ve kendi bölgesindeki sanayide ucuz yakıt olarak kullanılabilir. Atık yakmada emisyon mevzuatına uyum ayrıca gereklidir." },
+  { t: 1, s: 25, q: "Sunumdaki atık yakıt ve çöplerin ısıl değerleri tablosuna göre aşağıdakilerden hangisinin ısıl değeri en yüksektir?",
+    o: ["Polipropilen (11.033 kcal/kg)", "Odun (4.785 kcal/kg)", "Lastik (8.117 kcal/kg)", "Karton (3.785 kcal/kg)", "Sebze atığı (1.000 kcal/kg)"], a: 0,
+    e: "Tablodan: <b>polipropilen 11.033</b>, polietilen film 10.989, reçineli cam elyaf 10.833, parafin mumu 10.345, polistiren 9.833, bitüm atığı 9.205, lastik 8.117, naylon 7.567, odun 4.785, karton 3.785, siyah likör 3.000, <b>sebze atığı 1.000</b> kcal/kg (en düşük).",
+    n: "Plastikler petrol kökenli olduğundan ısıl değerleri fuel-oile yakındır. Sebze atığının düşük değeri yüksek neminden kaynaklanır. Plastik yakmada klorlu (PVC, vinil) atıkların dioksin–furan riski nedeniyle özel izin ve baca gazı arıtımı gerekir." },
+  { t: 1, s: 24, q: "Sunumdaki tabloya göre lastiğin ısıl değeri yaklaşık kaçtır ve bu değer hangi yakıta daha yakındır?",
+    o: ["8.117 kcal/kg; odundan (4.785) çok, polipropilenden (11.033) az – iyi kalite taş kömürüne yakın", "1.000 kcal/kg; sebze atığına eşit", "4.022 kcal/kg; ayakkabı derisine eşit", "11.033 kcal/kg; polipropilene eşit", "3.000 kcal/kg; siyah likörle aynı"], a: 0,
+    e: "Tabloda lastik: ısıl değer <b>8.117 kcal/kg</b>, yoğunluk 712,8 kg/m³. Odun 4.785, polipropilen 11.033, ayakkabı derisi 4.022, siyah likör 3.000 kcal/kg'dır.",
+    n: "Atık lastik bu yüksek ısıl değeri nedeniyle çimento fırınlarında alternatif yakıt olarak yaygın kullanılır; içindeki çelik tel klinkere karışarak demir kaynağı da olur." },
+
+  // Paçal ve yanma temelleri
+  { t: 2, s: 26, q: "Sunuma göre “paçal yapma” nedir?",
+    o: ["Farklı ısıl değerli iki yakıtın, istenen ısıl değeri verecek şekilde hesaplanan oranlarda karıştırılması (çoğunlukla kömürde)", "Kömürün yıkanarak külünün giderilmesi", "Fuel-oilin ısıtılarak viskozitesinin düşürülmesi", "Doğal gazın sıvılaştırılması", "Kömürün koklaştırılması"], a: 0,
+    e: "Sunum: kullanılacak yakıtın ısıl değeri istenen oranda değilse, farklı kalori değerine sahip iki yakıtın istenen ısıl değer elde edilecek şekilde hesaplanan oranlarda karıştırılmasıyla iyileştirme sağlanabilir. Bu işlem çoğunlukla katı yakıtlarda uygulanır ve <b>paçal yapma</b> olarak isimlendirilir.",
+    n: "Paçal hesabı ağırlıklı ortalamadır: (Q<sub>1</sub> × a) + (Q<sub>2</sub> × b) = Q<sub>karışım</sub> × (a + b). Aynı yöntem kükürt veya kül oranını sınır değerin altına indirmek için de kullanılır." },
+  { t: 2, s: 27, q: "Kazanda 5.000 kcal/kg ısıl değerli kömür yakılmak istenmektedir. Eldeki 3.000 kcal/kg ve 7.000 kcal/kg kömürler hangi oranda karıştırılmalıdır?",
+    o: ["%50 – %50 (eşit miktarda)", "%25 düşük – %75 yüksek kalorili", "%75 düşük – %25 yüksek kalorili", "%30 düşük – %70 yüksek kalorili", "%60 düşük – %40 yüksek kalorili"], a: 0,
+    e: "3.000 × a + 7.000 × b = 5.000 × (a + b) → 2.000 b = 2.000 a → <b>a = b</b>. İki kömür <b>eşit miktarda</b> karıştırılmalıdır.",
+    n: "İstenen değer iki değerin tam ortasında olduğu için oran 1:1 çıkar. Genel kısa yol: düşük kalorili payı = (Q<sub>yüksek</sub> − Q<sub>istenen</sub>) / (Q<sub>yüksek</sub> − Q<sub>düşük</sub>)." },
+  { t: 2, s: 27, q: "Eldeki 3.000 kcal/kg ve 7.000 kcal/kg kömürlerle 6.000 kcal/kg ısıl değerli karışım elde edilmek isteniyor. Karışımda düşük kalorili kömürün payı ne olmalıdır?",
+    o: ["%25", "%50", "%75", "%33", "%60"], a: 0,
+    e: "3.000 a + 7.000 b = 6.000 (a + b) → 1.000 b = 3.000 a → b = 3a. Düşük kalorili payı = a / (a + 3a) = <b>%25</b> (yüksek kalorili %75).",
+    n: "Kısa yol: (7.000 − 6.000) / (7.000 − 3.000) = 1.000 / 4.000 = 0,25. İstenen değer yüksek kalorili kömüre yakın olduğu için karışımda onun payı büyüktür." },
+  { t: 2, s: 27, q: "Eldeki 3.000 kcal/kg ve 7.000 kcal/kg kömürlerle 4.500 kcal/kg ısıl değerli karışım elde edilecektir. 1.000 ton karışım için kaç ton düşük kalorili kömür gerekir?",
+    o: ["625 ton", "375 ton", "500 ton", "450 ton", "750 ton"], a: 0,
+    e: "Düşük kalorili payı = (7.000 − 4.500) / (7.000 − 3.000) = 2.500 / 4.000 = 0,625. 1.000 ton × 0,625 = <b>625 ton</b> düşük kalorili, 375 ton yüksek kalorili kömür. Sağlama: (625 × 3.000 + 375 × 7.000) / 1.000 = 4.500 kcal/kg.",
+    n: "Paçal, ucuz düşük kalorili kömürü kazanın tasarım ısıl değerinin altına düşmeden kullanmanın yoludur. Ancak karışımın homojen olması ve kül–nem özelliklerinin de kontrol edilmesi gerekir." },
+  { t: 2, s: 28, q: "Sunuma göre yanma nasıl tarif edilir?",
+    o: ["Yakıttaki karbon ve hidrojenin havadaki oksijenle reaksiyonu sonucu karbondioksit, su buharı ve ısı açığa çıkması", "Yakıtın oksijensiz ortamda ısıtılıp gaza dönüşmesi", "Suyun buhara dönüşmesi", "Yakıtın elektrikle ayrıştırılması", "Kömürün nemini kaybetmesi"], a: 0,
+    e: "Sunum: yakıtta bulunan <b>karbon ve hidrojenin</b> havadaki <b>oksijen</b> ile reaksiyonu sonucu <b>karbondioksit, su buharı ve ısı</b> açığa çıkması yanma olarak tarif edilir: C + O<sub>2</sub> → CO<sub>2</sub> + enerji; 2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O + enerji.",
+    n: "Yakıttaki kükürt de yanar (S + O<sub>2</sub> → SO<sub>2</sub>); bu, sunumdaki fuel-oil örneğinde üçüncü temel reaksiyon olarak gösterilir. Kükürdün ısıl katkısı küçüktür ama çevresel ve korozyon etkisi büyüktür." },
+  { t: 2, s: 28, q: "C + O<sub>2</sub> → CO<sub>2</sub> tepkimesine göre 1 kg karbon tam yandığında kaç kg CO<sub>2</sub> oluşur?",
+    o: ["≈ 3,67 kg", "1 kg", "≈ 2,67 kg", "≈ 0,27 kg", "44 kg"], a: 0,
+    e: "12 kg C + 32 kg O<sub>2</sub> → 44 kg CO<sub>2</sub>. 1 kg C için: 44 / 12 ≈ <b>3,67 kg CO<sub>2</sub></b> (ve 32 / 12 ≈ 2,67 kg O<sub>2</sub> gerekir).",
+    n: "Bu oran karbon ayak izi hesaplarının temelidir: %85 karbonlu 1 kg fuel-oil yaklaşık 0,85 × 3,67 ≈ 3,1 kg CO<sub>2</sub> çıkarır. 2,67 seçeneği gereken oksijen miktarıdır." },
+  { t: 2, s: 28, q: "2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O tepkimesine göre 1 kg hidrojen yandığında kaç kg su oluşur?",
+    o: ["9 kg", "2 kg", "8 kg", "18 kg", "1 kg"], a: 0,
+    e: "4 kg H<sub>2</sub> + 32 kg O<sub>2</sub> → 36 kg H<sub>2</sub>O. 1 kg H<sub>2</sub> için: 36 / 4 = <b>9 kg su</b> (8 kg O<sub>2</sub> gerekir).",
+    n: "Alt ısıl değer formülündeki “9” buradan gelir: Alt ısıl değer = Üst ısıl değer − 600 × 9 × H. Oluşan her kg su ≈ 600 kcal gizli ısıyı buhar olarak bacadan götürür." },
+  { t: 2, s: 29, q: "Sunuma göre “stokiyometrik oksijen oranı” nedir ve ne işe yarar?",
+    o: ["Yakıttaki karbon ve hidrojene göre tam yanma için gereken teorik oksijen miktarıdır; mevcut yanma şartlarının karşılaştırılacağı referans noktasıdır", "Baca gazındaki ölçülen oksijen yüzdesidir", "Havadaki oksijen oranıdır (%21)", "Fazla havanın teorik havaya oranıdır", "Kazan suyundaki çözünmüş oksijendir"], a: 0,
+    e: "Sunum: yakıtın karbon ve hidrojen değerlerine bağlı olarak tam yanma için <b>teorik oksijen miktarı</b> hesaplanabilir; bu <b>stokiyometrik oksijen oranı</b>dır ve yanma veriminin belirlenmesinde mevcut yanma şartlarının karşılaştırılacağı <b>bir referans noktası</b> oluşturur.",
+    n: "Teorik hava = teorik O<sub>2</sub> / 0,21 (hacimce). Fazla hava oranı, gerçek havanın bu referanstan ne kadar saptığını gösterir." },
+  { t: 2, s: 30, q: "Sunuma göre pratikte tam yanmaya ulaşmak için neden teorik havadan daha fazla hava verilir ve hangi şartların bir araya gelmesi gerekir?",
+    o: ["Yanma hiçbir zaman ideal olmadığı için; hava miktarı, yakıt tipi ve bileşimi, yanma haznesi tasarımı, yanma hızı, brülör tasarımı ve ayarları", "Fazla hava yakıt tüketimini azalttığı için; yalnızca baca yüksekliği", "Yönetmelik zorunlu kıldığı için; yalnızca kazan basıncı", "Fazla hava CO<sub>2</sub>'yi artırdığı için; yalnızca yakıt fiyatı", "Baca gazını soğutmak için; yalnızca dış hava sıcaklığı"], a: 0,
+    e: "Sunum: pratikte yanma işlemi hiçbir zaman ideal olmadığından tam yanmaya ulaşmak için <b>teorik havadan daha fazla hava</b> verilmesi gerekir. Bunun için gerekli <b>yanma havası miktarı, yakıt tipi ve kompozisyonu, yanma haznesi dizaynı, yanma hızı, brülör dizaynı ve ayarları</b> gibi birçok şart bir araya gelmelidir.",
+    n: "Yakıt molekülleriyle oksijen molekülleri mükemmel karışmadığı için az miktarda fazla hava, her yakıt molekülünün oksijen bulmasını garanti eder. Amaç bu fazlalığı minimumda tutmaktır." },
+  { t: 2, s: 31, q: "Sunuma göre teorik olarak gerekli havanın iki katı kullanılırsa fazla hava miktarı yüzde kaçtır?",
+    o: ["%100", "%200", "%50", "%2", "%20"], a: 0,
+    e: "Sunum: fazla hava genellikle stokiyometrik miktarın yüzdesi olarak ifade edilir; <b>teorik havanın iki katının kullanılması, fazla hava miktarının %100 olması</b> demektir.",
+    n: "Hava fazlalık katsayısı bu durumda λ = 2'dir. Sunumdaki ağır fuel-oil örneğindeki “%200 fazla hava” ise teorik havanın üç katı (λ = 3) demektir." },
+  { t: 2, s: 33, q: "Kütlece %11,4 hidrojen içeren ağır fuel-oilin üst ve alt ısıl değeri arasındaki fark sunumdaki formüle göre yaklaşık kaç kcal/kg'dır?",
+    o: ["≈ 616 kcal/kg", "≈ 1.350 kcal/kg", "≈ 68 kcal/kg", "≈ 5.400 kcal/kg", "≈ 103 kcal/kg"], a: 0,
+    e: "Fark = 600 × 9 × H = 600 × 9 × 0,114 ≈ <b>616 kcal/kg</b>. (Sunumdaki ikinci yazımla: 6 × 9 × 11,4 ≈ 616.)",
+    n: "Metan (%25 H) için fark 1.350 kcal/kg'dır. Fuel-oilde hidrojen az olduğu için üst–alt farkı daha küçüktür; yoğuşmalı teknolojinin kazancı da sıvı yakıtlarda daha sınırlıdır." },
+  { t: 2, s: 32, q: "Sunumdaki etan örneğinde üst ve alt ısıl değer arasındaki fark neyle açıklanır?",
+    o: ["Yanma ürünü 3 H<sub>2</sub>O'nun su buharı olarak kalmasıyla buharlaşma ısısının kullanılamaması", "Karbonun CO yerine CO<sub>2</sub>'ye yanması", "Etanın sıvı hâlde yakılması", "Havadaki azotun yanması", "Yanma havasının ön ısıtılmaması"], a: 0,
+    e: "Denklemin ikinci satırında 3 H<sub>2</sub>O “<b>su buharı + enerji</b>” olarak çevrelenmiştir: su buhar hâlinde kaldığında buharlaşma ısısı onunla gider ve elde edilen ısı <b>alt</b> ısıl değerdir. Su yoğuşturulursa bu ısı da alınır; bu da <b>üst</b> ısıl değerdir.",
+    n: "Kazan verim hesapları Türkiye'de genellikle alt ısıl değere göre yapılır; bu yüzden yoğuşmalı kazanlar kataloglarda %100'ün üzerinde (ör. %108) verimle görünebilir." },
+
+  // Yanma çeşitleri, baca gazı ve fazla hava
+  { t: 3, s: 35, q: "Sunuma göre az hava ile yanmada baca gazı analizinde ne görülür ve ısı geçiş yüzeylerinde ne olur?",
+    o: ["Fazla miktarda CO görülür; yüzeylerde is ve kurum birikir, ısı geçişi zorlaşır", "Fazla O<sub>2</sub> görülür; yüzeyler parlak kalır", "CO hiç görülmez; yüzeyler temizlenir", "Yalnızca su buharı görülür; yüzeyler soğur", "SO<sub>2</sub> sıfırdır; yüzeylerde kireç oluşur"], a: 0,
+    e: "Az hava ile yanma: alev olması gerekenden <b>koyu</b>; analizde <b>fazla miktarda CO</b>; ısı geçiş yüzeylerinde <b>is ve kurum birikir</b>, ısı geçişi zorlaşır; yakıtın kimyasal enerjisinin tamamı ısıya çevrilemediği için yakıt tüketimi artar; CO ile çevre kirlenir.",
+    n: "Kurum tabakası ısıl direnç oluşturur ve baca gazı sıcaklığını yükseltir. Yani az hava hem kimyasal (yanmamış yakıt) hem ısıl (kirli yüzey) kayıp yaratır." },
+  { t: 3, s: 36, q: "Sunuma göre fazla hava ile yanmada ocak ve baca gazı sıcaklıkları nasıl değişir?",
+    o: ["Ocak sıcaklığı düşer, baca gazı sıcaklığı artar", "Ocak sıcaklığı artar, baca gazı sıcaklığı düşer", "İkisi de artar", "İkisi de düşer", "İkisi de değişmez"], a: 0,
+    e: "Fazla hava ile yanma: alev <b>çok açık ve parlak</b>; baca gazı hemen hemen görünmez; <b>ocak sıcaklığı düşer, baca gazı sıcaklığı artar</b>; aynı buhar için daha fazla yakıt yakılır; çevre daha çok kirlenir.",
+    n: "Fazla hava alevi soğutur (ocakta radyasyonla ısı geçişi azalır) ve gaz debisini artırır (gaz yüzeylerde kısa süre kalır). İki etki birleşince baca gazı daha sıcak çıkar." },
+  { t: 3, s: 37, q: "Sunuma göre tam yanmanın özelliklerinden hangisi <b>yanlıştır</b>?",
+    o: ["Baca gazında yüksek miktarda CO bulunur", "Alev katı ve sıvı yakıtlarda açık sarı portakal, gaz yakıtlarda mavidir", "Yanma ürünlerinde ve geri kalan kısımlarda yanıcı madde bulunmaz", "O<sub>2</sub> ölçümüyle yanmanın fazla hava yönünde olup olmadığı araştırılmalıdır", "Baca gazı içinde CO bulunmaz"], a: 0,
+    e: "Tam yanma: alev katı ve sıvı yakıtlarda <b>açık sarı portakal</b>, gaz yakıtlarda <b>mavi</b>; yanma ürünlerinde yanıcı madde yok; <b>baca gazında CO yok</b>; O<sub>2</sub> ölçümüyle fazla hava yönünde olup olmadığı araştırılmalı.",
+    n: "CO'nun sıfır olması tek başına yeterli değildir: çok fazla havayla da CO sıfır olabilir. Bu yüzden CO ile birlikte O<sub>2</sub> de ölçülerek en düşük fazla havada CO'suz çalışma noktası aranır." },
+  { t: 3, s: 38, q: "Sunuma göre baca gazının (egzoz gazının) analiz edilmesi neden önemlidir?",
+    o: ["Stokiyometrik orandan fazla veya eksik havayla yakma, kazanı terk eden gazın kompozisyonunu değiştirir; analizle yanmanın niteliği hakkında bilgi edinilir", "Yalnızca bacanın yüksekliğini belirlemek için", "Yakıtın fiyatını belirlemek için", "Kazan suyunun iletkenliğini ölçmek için", "Kazan basıncını ayarlamak için"], a: 0,
+    e: "Sunum: stokiyometrik orandan fazla veya eksik hava ile yakma, kazanı terk eden yanma gazı kompozisyonunu değiştirir. Bu nedenle <b>egzoz gazının analiz edilmesiyle kazandaki yanma işleminin niteliği</b> hakkında bilgi edinilebilir.",
+    n: "Taşınabilir baca gazı analizörü O<sub>2</sub>, CO, CO<sub>2</sub> (hesaplanan), NO<sub>x</sub>, baca gazı ve ortam sıcaklığını ölçer ve yanma verimini doğrudan hesaplar. Enerji etütlerinin temel ölçümüdür." },
+  { t: 3, s: 39, q: "Sunumdaki yanma diyagramında eksik hava tarafından fazla hava tarafına gidildikçe bileşenler nasıl değişir?",
+    o: ["CO azalarak stokiyometrik noktada sıfıra iner; CO<sub>2</sub> stokiyometrik civarında en yüksek değerine ulaşıp sonra azalır; O<sub>2</sub> stokiyometrik noktadan sonra artar", "CO sürekli artar", "O<sub>2</sub> eksik hava tarafında en yüksektir", "CO<sub>2</sub> fazla hava tarafında sürekli artar", "Tüm bileşenler sabit kalır"], a: 0,
+    e: "Diyagram (A–E): eksik hava tarafında <b>CO yüksek</b>, stokiyometrik havaya (C) doğru sıfıra iner; <b>CO<sub>2</sub></b> stokiyometrik civarında tepe yapar; <b>O<sub>2</sub></b> stokiyometrik noktadan sonra fazla havayla artar. <b>Normal çalışma</b> (D) stokiyometrinin biraz fazla hava tarafındadır.",
+    n: "Pratik ayar: brülör havası yavaşça kısılırken CO izlenir; CO yükselmeye başladığı noktanın biraz üstünde (fazla hava tarafında) sabitlenir. Bu, D noktasının sahadaki karşılığıdır." },
+  { t: 3, s: 40, q: "Sunumdaki %200 fazla hava örneğinde ağır fuel-oilin analizi (ağırlıkça) nedir?",
+    o: ["Karbon %85,4; hidrojen %11,4; kükürt %2,8; kül vb. %0,4", "Karbon %75; hidrojen %25", "Karbon %60; hidrojen %5; kül %35", "Karbon %95; kükürt %5", "Karbon %85,4; oksijen %14,6"], a: 0,
+    e: "Örnek yakıt (ağır fuel-oil), ağırlıkça: <b>karbon 85,4</b>; <b>hidrojen 11,4</b>; <b>sülfür 2,8</b>; oksijen –; <b>kül vb. 0,4</b>; toplam 100. Hesap 100 kg yakıt için yapılmıştır.",
+    n: "%2,8 kükürt yüksek bir değerdir; bu yakıtta baca gazı asit yoğuşma sınırı (≈ 180 °C) özellikle önemlidir. Günümüzde kükürt sınırları çok daha düşüktür." },
+  { t: 3, s: 40, q: "Sunumdaki örnekte 100 kg ağır fuel-oil (C 85,4 kg, H 11,4 kg, S 2,8 kg) için stokiyometrik (gerekli) O<sub>2</sub> kaç kmol bulunmuştur?",
+    o: ["10,06 kmol", "7,12 kmol", "20,12 kmol", "30,18 kmol", "37,84 kmol"], a: 0,
+    e: "C: 85,4 / 12 = 7,12 kmol → 7,12 kmol O<sub>2</sub>. H<sub>2</sub>: 11,4 / 2 = 5,70 kmol → 5,70 / 2 = 2,85 kmol O<sub>2</sub>. S: 2,8 / 32 = 0,09 kmol → 0,09 kmol O<sub>2</sub>. Toplam = 7,12 + 2,85 + 0,09 = <b>10,06 kmol O<sub>2</sub></b>.",
+    n: "Hidrojenin oksijen ihtiyacı H<sub>2</sub> molünün yarısıdır (H<sub>2</sub> + ½O<sub>2</sub> → H<sub>2</sub>O). 37,84 kmol seçeneği teorik havayla gelen N<sub>2</sub>'dir (10,06 × 79/21)." },
+  { t: 3, s: 40, q: "Aynı örnekte %200 fazla havayla yanmada toplam O<sub>2</sub> ve baca gazındaki N<sub>2</sub> miktarı kaç kmol'dür?",
+    o: ["Toplam O<sub>2</sub> 30,18 kmol; N<sub>2</sub> 113,52 kmol", "Toplam O<sub>2</sub> 20,12 kmol; N<sub>2</sub> 37,84 kmol", "Toplam O<sub>2</sub> 10,06 kmol; N<sub>2</sub> 75,68 kmol", "Toplam O<sub>2</sub> 30,18 kmol; N<sub>2</sub> 37,84 kmol", "Toplam O<sub>2</sub> 40,24 kmol; N<sub>2</sub> 151,4 kmol"], a: 0,
+    e: "Fazla O<sub>2</sub> = 10,06 × 2 = 20,12 kmol; toplam O<sub>2</sub> = 10,06 + 20,12 = <b>30,18 kmol</b>. N<sub>2</sub> = 30,18 × 79 / 21 = <b>113,52 kmol</b> (teorik 37,84 + fazla 75,68). Fazla O<sub>2</sub> (20,12 kmol) yanmadan baca gazına geçer.",
+    n: "Havada her 21 mol O<sub>2</sub>'ye 79 mol N<sub>2</sub> eşlik eder. Azot yanmaz ama baca sıcaklığına kadar ısınıp ısıyı bacadan taşır; %200 fazla havada baca gazının %77'si azottur." },
+  { t: 3, s: 40, q: "Sunumdaki %200 fazla hava örneğinde kuru baca gazındaki O<sub>2</sub> ve CO<sub>2</sub> hacim yüzdeleri nedir?",
+    o: ["O<sub>2</sub> %14,28; CO<sub>2</sub> %5,06", "O<sub>2</sub> %13,73; CO<sub>2</sub> %4,86", "O<sub>2</sub> %21; CO<sub>2</sub> %0", "O<sub>2</sub> %3; CO<sub>2</sub> %15,8", "O<sub>2</sub> %80,60; CO<sub>2</sub> %0,06"], a: 0,
+    e: "Kuru ürünler (toplam 140,85 kmol): CO<sub>2</sub> 7,12 → <b>%5,06</b>; SO<sub>2</sub> 0,09 → %0,06; N<sub>2</sub> 113,52 → %80,60; O<sub>2</sub> 20,12 → <b>%14,28</b>. Yaş ürünlerde (146,55 kmol, su buharı dahil) O<sub>2</sub> %13,73, CO<sub>2</sub> %4,86, H<sub>2</sub>O %3,89'dur.",
+    n: "Baca gazı analizörleri numuneyi soğutup nemini aldığı için <b>kuru</b> bazda ölçer. Fazla hava formülleri (O<sub>2</sub> / (21 − O<sub>2</sub>)) de kuru baz değerlerle kullanılır." },
+  { t: 3, s: 44, q: "Sunumdaki örnekte kuru baca gazında ölçülen %14,28 O<sub>2</sub> değeri, O<sub>2</sub>'ye dayalı fazla hava formülüne konursa yaklaşık kaç bulunur?",
+    o: ["≈ %212 (örnekteki %200'e yakın)", "≈ %68", "≈ %14", "≈ %47", "≈ %100"], a: 0,
+    e: "Fazla hava oranı = O<sub>2</sub> / (21 − O<sub>2</sub>) × 100 = 14,28 / (21 − 14,28) × 100 = 14,28 / 6,72 × 100 ≈ <b>%212</b>.",
+    n: "Formül, yakıttaki hidrojen ve kükürt gibi bileşenleri hesaba katmayan yaklaşık bir bağıntıdır; bu yüzden %200 yerine %212 verir. Fazla hava arttıkça bu sapma büyür; olağan %10–30 aralığında yeterince doğrudur." },
+  { t: 3, s: 44, q: "Sunumdaki ağır fuel-oil için stokiyometrik yanmada kuru baca gazı CO<sub>2</sub> + SO<sub>2</sub> + N<sub>2</sub> = 7,12 + 0,09 + 37,84 kmol'dür. Bu yakıtın (CO<sub>2</sub>)<sub>max</sub> değeri yaklaşık yüzde kaçtır?",
+    o: ["≈ %15,8", "≈ %11,74", "≈ %5,06", "≈ %21", "≈ %7,1"], a: 0,
+    e: "(CO<sub>2</sub>)<sub>max</sub> = 7,12 / (7,12 + 0,09 + 37,84) × 100 = 7,12 / 45,05 × 100 ≈ <b>%15,8</b>.",
+    n: "Doğal gazın (CO<sub>2</sub>)<sub>max</sub> değeri %11,74'tür; fuel-oilde karbon oranı daha yüksek olduğu için değer büyüktür. Sağlama: CO<sub>2</sub> formülüyle %200 örneğinde 15,8 / 5,06 − 1 ≈ 2,12 → %212, O<sub>2</sub> formülüyle aynı sonuç." },
+  { t: 3, s: 44, q: "Baca gazında O<sub>2</sub> = %9 ölçülmüştür. Fazla hava oranı ve hava fazlalık katsayısı nedir?",
+    o: ["%75 ve 1,75", "%42,9 ve 1,43", "%9 ve 1,09", "%175 ve 2,75", "%57 ve 1,57"], a: 0,
+    e: "Fazla hava oranı = 9 / (21 − 9) × 100 = 9 / 12 × 100 = <b>%75</b>. Hava fazlalık katsayısı = 75 / 100 + 1 = <b>1,75</b>.",
+    n: "%75 fazla hava, eski ve ayarsız sıvı yakıtlı kazanlarda rastlanan bir değerdir. Brülör ayarıyla %15–20'ye indirmek baca gazı kaybını birkaç puan azaltır." },
+  { t: 3, s: 45, q: "Sunuma göre yanma sistemi hangi hava / yakıt oranında ayarlanmalıdır?",
+    o: ["Yanma problemlerine neden olmayacak minimum hava / yakıt oranını verecek seviyede", "Mümkün olan en yüksek hava / yakıt oranında", "Tam stokiyometrik oranda, hiç fazla hava olmadan", "Baca gazında CO en yüksek olacak şekilde", "Hava / yakıt oranı önemli değildir"], a: 0,
+    e: "Sunum: yanma sistemi <b>yanma problemlerine neden olmayacak minimum hava / yakıt oranı</b> verecek çalışma seviyesinde ayarlanmalıdır. Fazla hava gereğinden çok olursa baca gazı miktarı artar, ısınan fazla hava ısıyı bacadan atar; gaz debisi ve hızı artar, ısı transferi düşer.",
+    n: "Yük değiştikçe ideal hava miktarı da değişir. O<sub>2</sub> trim sistemleri baca gazı O<sub>2</sub>'sini sürekli ölçüp hava damperini otomatik ayarlayarak her yükte bu minimuma yakın kalır." },
+
+  // Yakma tesisleri
+  { t: 4, s: 47, q: "Sunuma göre bir yakma sisteminde iyi bir yanma için hangi şartların sağlanması ve sürekli olması gerekir?",
+    o: ["Yeterli ocak sıcaklığı, yeterli yanma zamanı ve optimum yakıt–hava oranı", "Yüksek baca, yüksek basınç ve düşük sıcaklık", "Yalnızca yüksek fazla hava", "Yalnızca pahalı yakıt", "Düşük ocak sıcaklığı ve kısa yanma zamanı"], a: 0,
+    e: "Sunum: yakma sisteminde iyi yanma için <b>yeterli ocak sıcaklığının</b>, <b>yeterli yanma zamanının</b> ve <b>optimum yakıt–hava oranının</b> sağlanması ve bu şartların <b>süreklilik</b> arz etmesi gereklidir.",
+    n: "Bu şartlar literatürde “3T” olarak bilinir: temperature (sıcaklık), time (zaman), turbulence (türbülans, yani karışım). Herhangi biri eksikse yakıt tam yanmadan ocaktan çıkar." },
+  { t: 4, s: 48, q: "Sunuma göre yakma sisteminin verimini yakma ekipmanının performansı dışında ne etkiler?",
+    o: ["Sisteme uygun olmayan yakıtın kullanılması", "Kazan dairesinin boyası", "Bacanın rengi", "Personelin kıyafeti", "Kazanın bulunduğu katın yüksekliği"], a: 0,
+    e: "Sunum: iyi bir yanma için yakma ekipmanları kullanacakları yakıtın özelliklerine bağlı olarak seçilmiş olmalıdır. Yakma sisteminin performansı kadar, <b>sisteme uygun olmayan yakıtın kullanılması</b> da yakma sisteminin verimini etkiler.",
+    n: "Örneğin taş kömürü için tasarlanmış bir ızgarada yüksek nemli linyit yakmak, ocak sıcaklığını düşürür ve eksik yanmaya yol açar. Yakıt değişikliği kararında brülör ve ocak uyumu da değerlendirilmelidir." },
+  { t: 4, s: 49, q: "Sunuma göre iyi yanma için yakıt türlerine göre hangi koşullar sağlanmalıdır?",
+    o: ["Katı yakıtta tane büyüklüğü, nem, uçucu madde ve reaktiviteye göre homojen karışım; sıvı yakıtta sabit viskozite ve minimum sıcaklık dalgalanması; gazda brülöre giriş basıncının sabit olması", "Katı yakıtta yüksek nem; sıvı yakıtta değişken viskozite; gazda değişken basınç", "Her yakıtta yalnızca yüksek fazla hava", "Katı yakıtta ince toz; sıvı yakıtta soğuk yakıt; gazda düşük basınç", "Yakıt türüne göre koşul gerekmez"], a: 0,
+    e: "Sunum: <b>katı yakıtlarda</b> tane büyüklüğü, nem, uçucu madde ve reaksiyona girebilme kabiliyeti göz önüne alınarak <b>homojen karışım</b>; <b>sıvı yakıtlarda</b> yakıt <b>sabit viskozitede</b> olmalı ve aşırı sıcaklık dalgaları minimuma indirilmeli; <b>gazlarda</b> brülöre giren <b>gaz basıncı sabit</b> olmalıdır.",
+    n: "Gaz basıncındaki dalgalanma brülörün yakıt debisini ve dolayısıyla hava–yakıt oranını bozar; bu yüzden gaz hattında regülatör kullanılır. Sıvı yakıtta ön ısıtıcı termostatı viskoziteyi sabit tutar." },
+  { t: 4, s: 50, q: "Sunuma göre yakma sistemleri kaç sınıfa ayrılır ve katı ile sıvı–gaz yakıtların yakılmasında kullanılan başlıca donanımlar nelerdir?",
+    o: ["Üç sınıf (katı, sıvı, gaz); katı yakıt için ocak, sıvı ve gaz yakıt için brülör", "İki sınıf; her ikisinde de ızgara", "Dört sınıf; tümünde brülör", "Beş sınıf; katı yakıtta brülör, gazda ocak", "Tek sınıf; tüm yakıtlar için akışkan yatak"], a: 0,
+    e: "Sunum: yakma sistemleri yakıt cinsine göre <b>üç sınıfa</b> ayrılır: katı, sıvı ve gaz yakıt sistemleri. <b>Ocak</b> katı yakıtların, <b>brülör</b> ise sıvı ve gaz yakıtların yakılması için kullanılan başlıca donanımlardır.",
+    n: "Katı yakıt sistemindeki ocak; ızgara, küllük ve yanma hücresi bölümlerinden oluşur. Pülverize kömür sistemleri ise kömürü toz hâlinde brülörle yakar; bu yüzden büyük santrallerde kömür için de brülör kullanılır." },
+  { t: 4, s: 51, q: "Sunuma göre katı yakıtların kullanıldığı sistemlerdeki ocak hangi bölümlerden oluşur?",
+    o: ["Izgara, küllük ve yanma hücresi", "Brülör, fan ve meme", "Ekonomizer, degazör ve pompa", "Kompresör, kurutucu ve tank", "Türbin, jeneratör ve kondenser"], a: 0,
+    e: "Sunum: katı yakıtların kullanıldığı sistemlerdeki ocak, <b>ızgara, küllük ve yanma hücresi</b> bölümlerinden oluşur.",
+    n: "Küllük, ızgaradan düşen külü toplar; birincil yanma havası da genellikle küllük tarafından, ızgaranın altından verilir." },
+  { t: 4, s: 52, q: "Sunuma göre mekanik ızgaralı yakma sistemlerinde birincil ve ikincil hava nereden verilir?",
+    o: ["Birincil hava ızgaranın alt kısmından, ikincil hava yatağın üst kısmından", "Birincil hava bacadan, ikincil hava kapıdan", "Her ikisi de yakıt bunkerinden", "Birincil hava yatağın üstünden, ikincil hava ızgara altından", "Hava verilmez; doğal çekişle yanar"], a: 0,
+    e: "Sunum: yakıt bir bunkerden beslenir ve hareketli ızgara üzerine sürekli ve düzenli bir tabaka hâlinde serilir; ızgara yakıtı ocak boyunca taşır. <b>Cebri çekişli fan</b> yardımıyla <b>birincil hava ızgaranın alt kısmından</b>, <b>ikincil hava yatağın üst kısmından</b> ocağa beslenir.",
+    n: "Birincil hava yatakta kömürü (sabit karbonu) yakar; ikincil hava yataktan yükselen uçucu maddeleri ve CO'yu ocak içinde tamamlar. İkincil havanın türbülans yaratacak şekilde verilmesi dumanı azaltır." },
+  { t: 4, s: 54, q: "Sunuma göre hareketli koklaştırma sistemlerinde uçucu maddeler nasıl yakılır?",
+    o: ["Kömür önce koklaştırma levhasında ocak ısısıyla uçucularını bırakır; uçucular ikincil havayla karışıp akkor kömür üzerinden geçerken dumansız yanar", "Uçucu maddeler bacaya atılır", "Uçucu maddeler helezonla geri beslenir", "Uçucu maddeler su ile söndürülür", "Uçucu maddeler ayrı bir tankta depolanır"], a: 0,
+    e: "Sunum: bunkerden beslenen kömür, düz plaka şeklindeki bir parçanın <b>piston hareketiyle</b> ızgara üzerine itilir. Kömür önce <b>koklaştırma levhası</b> üzerinde biriktirilir ve ocak ısısıyla uçucu maddeler ayrılır. Ayrılan uçucular <b>ikincil havayla</b> karışarak akkor hâldeki kömür üzerinden geçerken <b>dumansız</b> yanar.",
+    n: "Kara duman, uçucu maddelerin yeterli sıcaklık ve oksijen bulamadan soğuk yüzeylere çarpmasıyla oluşur. Koklaştırma, uçucuları kontrollü biçimde ayırıp sıcak bölgeden geçirerek bunu önler." },
+  { t: 4, s: 56, q: "Sunuma göre alttan beslemeli yakma sistemlerinin ana elemanı nedir?",
+    o: ["İçinde hareketli bir helezon bulunan konik yakıt haznesi", "Hareketli zincir ızgara", "Silis kumundan oluşan akışkan yatak", "Rotatif fincan", "Seramik rejeneratör"], a: 0,
+    e: "Sunum: alttan beslemeli sistemin ana elemanı, <b>içinde hareketli bir helezon bulunan konik yakıt haznesidir</b>. Helezonun hareketiyle kömür alt kısımdan yukarı yükselir ve üstteki akkor bölgeden ısı alır; ayrılan uçucular haznenin üstündeki hava kanallarından gelen havayla karışarak yanar.",
+    n: "Taze kömür alttan geldiği için uçucular, üstteki sıcak kömür tabakasından geçerek yanar; bu da duman oluşumunu azaltır. Küçük ve orta kapasiteli kalorifer kazanlarında yaygındır." },
+  { t: 4, s: 59, q: "Sunuma göre akışkan yataklı yakma sistemlerinde yatak neyden oluşur ve sıcaklığı kaçtır?",
+    o: ["Silis gibi atıl bir maddenin partiküllerinden, altından verilen havayla akışkan tutulan yatak; 800–1.000 °C", "Hareketli zincir ızgara; 200–300 °C", "Su dolu bir hazne; 100 °C", "Seramik bilyeler; 1.500–2.000 °C", "Toz kömür bulutu; 300–400 °C"], a: 0,
+    e: "Sunum: akışkan yatakta yanmada, <b>silis gibi atıl bir maddenin partiküllerinden</b> oluşan ve partiküllerin altından verilen yanma havasının etkisiyle <b>akışkan durumda tutulan sıcak yatağın (800–1.000 °C)</b> içine katı yakıt püskürtülür; yüksek verimli yanma elde edilebilir.",
+    n: "Düşük yatak sıcaklığı NO<sub>x</sub> oluşumunu sınırlar; yatağa kireç taşı katılarak kükürt yanma sırasında tutulabilir. Bu yüzden akışkan yatak, Türkiye'deki düşük kaliteli, yüksek kükürtlü linyitler için uygun bir teknolojidir." },
+  { t: 4, s: 63, q: "Sunuma göre sıvı yakıt sistemlerinin katı yakıt sistemlerine üstünlükleri nelerdir?",
+    o: ["Daha düşük fazla hava oranlarında çalışabilme, kül ve kurumun az olması, otomatik kontrolün kolaylığı ve daha verimli yanma", "Depolama gerektirmemesi ve ön ısıtma ihtiyacının olmaması", "Kükürt içermemesi ve hiç emisyon vermemesi", "Izgara ve küllük kullanması", "Yakıtın her zaman daha ucuz olması"], a: 0,
+    e: "Sunum: sıvı yakıt sistemleri <b>daha düşük “fazla hava” oranlarında</b> çalışabilmesi, <b>kül ve kurum gibi kirleticilerin az</b> olması, <b>otomatik kontrolün daha kolay</b> uygulanabilmesi ve sonuçta <b>yanmanın daha verimli</b> olması nedeniyle katı yakıt sistemlerinden üstündür.",
+    n: "Tipik fazla hava değerleri: gaz yakıtta %5–15, sıvı yakıtta %10–25, ızgaralı katı yakıtta %30–60. Fazla hava ne kadar azsa baca gazı kaybı o kadar düşüktür." },
+  { t: 4, s: 64, q: "Sunuma göre sıvı yakıtlar brülöre gelmeden önce hangi ön işlemlerden geçer?",
+    o: ["Katı maddelerin temizlenmesi için süzgeçler ve uygun viskozite için ön ısıtıcılar", "Kurutma fırını ve elek", "Degazör ve su yumuşatma", "Kırıcı ve değirmen", "Sıvılaştırma ve basınçlandırma"], a: 0,
+    e: "Sunum: sıvı yakıtların brülöre gelmeden önce bazı ön işlemlerden geçmesi gerekir: bazı katı maddelerin temizlenmesi için <b>süzgeçler</b>, yakıtın uygun viskozite değerine sahip olabilmesi için <b>ön ısıtıcılar</b>.",
+    n: "Tıkanmış süzgeç yakıt debisini düşürüp hava–yakıt oranını bozar; ön ısıtıcı arızası ise atomizasyonu bozup is ve kurum oluşturur. İkisi de periyodik bakım listesinde olmalıdır." },
+  { t: 4, s: 65, q: "Sunuma göre birçok brülör tasarımında hava yanma bölgesine nasıl verilir?",
+    o: ["İki kademede: yakıtla iyice karıştırılan birincil hava (yanmayı başlatır) ve tam yanma için ayrıca verilen ikincil hava", "Tek kademede, yalnızca bacadan", "Yalnızca yakıt tankına", "Hava verilmez, yakıt kendi oksijeniyle yanar", "Yalnızca brülör söndükten sonra"], a: 0,
+    e: "Sunum: birçok brülör tasarımında hava <b>iki kademede</b> sağlanır. <b>Birincil hava</b> yakıtla tam anlamıyla karıştırılıp brülörde veya brülörden önce verilir; yanmayı başlatır ama tamamlamaya yetmez. <b>İkincil hava</b> tam yanma için brülör memesine veya yanma bölgesine ayrı olarak, yakıtla karıştırılmadan verilir.",
+    n: "Kademeli hava verilmesi alevin şeklini ve sıcaklık dağılımını kontrol eder; düşük NO<sub>x</sub>'lu brülörler de bu prensiple alev tepe sıcaklığını düşürür." },
+  { t: 4, s: 66, q: "Sunuma göre sıvı yakıtlar neden atomize edilerek ocağa gönderilir?",
+    o: ["Kütlesine oranla ısı transfer yüzeyini büyütüp gazlaşmayı kolaylaştırmak ve hızlandırmak için", "Yakıtın ısıl değerini artırmak için", "Yakıttaki kükürdü gidermek için", "Yakıtı soğutmak için", "Yakıt tüketimini ölçmek için"], a: 0,
+    e: "Sunum: <b>kütlesine oranla ısı transfer yüzeyini büyütüp gazlaşmayı kolaylaştırmak ve hızlandırmak</b> amacıyla sıvı yakıtlar atomize edilerek ocağa gönderilir. İyi bir yakıt–hava karışımı için yakıta ve yanma havasına ayrıca <b>dönüş (döndürme) hareketi</b> verilir.",
+    n: "Sıvı yakıt damlası önce buharlaşmalı, sonra yanmalıdır. Damla çapı yarıya indiğinde yüzey/hacim oranı iki katına çıkar ve buharlaşma çok hızlanır. İri damlalar ocaktan yanmadan çıkıp kurum oluşturur." },
+  { t: 4, s: 67, q: "Sunuma göre sıvı yakıtın atomizasyonu genellikle hangi yollarla gerçekleştirilir?",
+    o: ["Basınçlı hava ya da buharla püskürterek, ince bir delikten yüksek basınçla püskürterek veya yakıt filmini santrifüj kuvvetle yırtarak", "Yakıtı donma noktasının altına soğutup kırarak", "Yakıtı suyla karıştırıp çöktürerek", "Yakıtı ızgara üzerine sererek", "Yakıtı akışkan yatağın içine gömerek"], a: 0,
+    e: "Sunum: atomizasyon genellikle; yakıt <b>basınçlı hava ya da buharla</b> püskürtülerek; yakıt <b>ince bir delikten yüksek basınçla</b> püskürtülerek; yakıt filmi <b>santrifüj kuvvetle yırtılarak</b> gerçekleştirilir. Sıvı yakıtların atomize olabilmesi için belirli bir <b>viskozite</b> değerinde bulunması gerekir.",
+    n: "Bu üç yöntem, bir sonraki slayttaki dört brülör grubuna karşılık gelir: buhar ve basınçlı hava püskürtmeli brülörler (birinci yöntem), mekanik-basınçlı brülörler (ikinci), rotatif brülörler (üçüncü)." },
+  { t: 4, s: 68, q: "Sunuma göre atomizasyon yöntemine göre brülörler hangi dört gruba ayrılır?",
+    o: ["Buhar püskürtmeli, basınçlı hava püskürtmeli, mekanik püskürtmeli-basınçlı ve rotatif (dönel) brülörler", "Atmosferik, üflemeli, katalitik ve elektrikli brülörler", "Tek kademeli, iki kademeli, oransal ve modülasyonlu brülörler", "Reküperatif, rejeneratif, çok yakıtlı ve oksi-yakıt brülörler", "Kömür, fuel-oil, doğal gaz ve LPG brülörleri"], a: 0,
+    e: "Atomizasyon yöntemine göre brülörler: <b>buhar püskürtmeli</b>, <b>basınçlı hava püskürtmeli</b>, <b>mekanik püskürtmeli-basınçlı</b> ve <b>rotatif (dönel)</b> brülörler.",
+    n: "Rotatif brülörde yakıt hızla dönen bir fincanın iç yüzeyinde ince film hâline gelip kenardan savrulur; ağır yakıtlarda iyi atomizasyon sağlar. Reküperatif ve rejeneratif brülörler ise sunumda gaz yakıt sistemleri altında geçer." },
+  { t: 4, s: 70, q: "Sunumda gaz yakıt sistemleri başlığı altında hangi brülör tipleri sayılmıştır?",
+    o: ["Çok yakıtlı brülörler, reküperatif (self-recuperative) brülörler ve rejeneratif seramik brülörler", "Buhar püskürtmeli ve rotatif brülörler", "Mekanik ızgara ve alttan beslemeli sistemler", "Akışkan yatak ve pülverize kömür sistemleri", "Yalnızca atmosferik brülörler"], a: 0,
+    e: "Gaz yakıt sistemleri: <b>çok yakıtlı brülörler (multi fuel burners)</b>, <b>reküperatif brülörler (self-recuperative burners)</b>, <b>rejeneratif seramik brülör (regenerative ceramic burner)</b>.",
+    n: "Reküperatif ve rejeneratif brülörler, fırın egzozunun ısısıyla yanma havasını ön ısıtır. Kazanlar sunumundaki kurala göre yanma havasının her 28 °C ısıtılması verimi ≈ %1 artırır; yüksek sıcaklıklı fırınlarda bu brülörlerle yakıt tasarrufu %30'u aşabilir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

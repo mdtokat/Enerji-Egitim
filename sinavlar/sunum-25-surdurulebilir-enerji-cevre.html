@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sürdürülebilir Enerji ve Çevre Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 25 · Sürdürülebilir Enerji ve Çevre</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 25</span> 1-26_Surdurulebilir_Enerji_ve_Cevre.pdf · ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Sürdürülebilir Enerji ve Çevre <em>Sınavı</em></h1>
+    <p class="lede">Sürdürülebilirlik ve sürdürülebilir kalkınma, üç boyut, 1972–2015 kilometre taşları, SKA 7 ve 13; yeşil aklama, net sıfır, karbon dengeleme, YDA; TSRS eşikleri; döngüsel ekonomi ve yeşil taksonomi; enerji kaynaklı hava kirleticileri ve mevzuat; UNFCCC, Paris Anlaşması tarihçesi, 2022 envanteri, Kapsam 1-2-3; Yeşil Mutabakat, SKDM, karbon piyasaları, ETS, İklim Kanunu, NDC ve 2053.</p>
+    <ul class="facts"><li>55 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Sürdürülebilir Enerji ve Çevre” sunumu (ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum25-v1",
+topics: ["Sürdürülebilirlik ve sürdürülebilir kalkınma", "Kurumsal sürdürülebilirlik, döngüsel ekonomi ve taksonomi", "Hava kirleticileri ve çevre mevzuatı", "İklim değişikliği, UNFCCC ve emisyon envanteri", "Yeşil Mutabakat, SKDM, karbon piyasaları ve Türkiye politikaları"],
+Q: [
+  // Sürdürülebilirlik
+  { t: 0, s: 4, q: "Sunumdaki tanıma göre sürdürülebilir kalkınma nedir?",
+    o: ["Gelecek nesillerin ihtiyaçlarını karşılayabilme yeteneğini tehlikeye atmadan bugünün ihtiyaçlarını karşılayan kalkınma", "Yalnızca ekonomik büyümeyi en üst düzeye çıkaran kalkınma", "Doğal kaynakların tamamen korunup hiç kullanılmaması", "Yalnızca gelişmiş ülkelerin uyguladığı kalkınma modeli", "Bugünün ihtiyaçlarını gelecek nesillere bırakan kalkınma"], a: 0,
+    e: "Sunum: <b>sürdürülebilir kalkınma</b>, gelecek nesillerin ihtiyaçlarını karşılayabilme yeteneğini tehlikeye atmadan, <b>bugünün ihtiyaçlarını karşılayan</b> kalkınmadır; çevresel, ekonomik ve sosyal alanlarda denge sağlayarak bugünü ve geleceği güvence altına almak şeklinde de tanımlanır.",
+    n: "Bu tanım 1987 Brundtland Raporu'ndan (“Ortak Geleceğimiz”) gelir. Sunumdaki slogan: “Sürdürülebilir kalkınma sürdürülebilirliğe giden yoldur.”" },
+  { t: 0, s: 4, q: "Sunuma göre sürdürülebilir enerji için yapılacak adımlar hangileridir?",
+    o: ["Yenilenebilir enerji kullanımının artırılması, enerji verimliliğinin artırılması ve enerji politikalarının belirlenmesi", "Fosil yakıt üretiminin artırılması ve ithalatın büyütülmesi", "Enerji tüketiminin tamamen durdurulması", "Yalnızca nükleer santral kurulması", "Enerji fiyatlarının sabitlenmesi"], a: 0,
+    e: "Sunum: sürdürülebilir enerji için yapılacak adımlar: <b>yenilenebilir enerji kaynaklarının kullanımının artırılması</b>, <b>enerji verimliliğinin artırılması</b>, <b>enerji politikalarının belirlenmesi</b>.",
+    n: "Sürdürülebilir enerji; gelecek nesillerin ihtiyaç duyacağı kaynakları tüketmeden ve yeterliliklerini tehlikeye atmadan bugünün ihtiyaçlarını karşılayan enerji biçimidir. Enerji verimliliği “ilk yakıt” olarak da anılır: tasarruf edilen enerji en ucuz ve en temiz enerjidir." },
+  { t: 0, s: 5, q: "Sunuma göre sürdürülebilir kalkınmanın genel kabul gören üç boyutu hangileridir?",
+    o: ["Ekonomik, sosyal ve çevresel sürdürülebilirlik", "Askerî, siyasi ve kültürel sürdürülebilirlik", "Teknolojik, hukuki ve idari sürdürülebilirlik", "Yerel, ulusal ve küresel sürdürülebilirlik", "Enerji, su ve gıda sürdürülebilirliği"], a: 0,
+    e: "Sunum: sürdürülebilir kalkınmanın kavram olarak kullanılmaya başlandığından beri kabul edilen üç boyutu vardır: <b>ekonomik</b> (uzun vadeli refah ve adil kaynak dağıtımı), <b>sosyal</b> (eşitlik, adalet ve katılım) ve <b>çevresel</b> (doğal kaynakları ve ekosistemleri koruma) sürdürülebilirlik.",
+    n: "Kurumsal dünyada bu üç boyut “ESG” (çevresel, sosyal, yönetişim) veya “üçlü sorumluluk” (insan, gezegen, kâr) olarak da karşımıza çıkar." },
+  { t: 0, s: 5, q: "Aşağıdakilerden hangisi sunumda sayılan sürdürülebilir kalkınmanın temel özelliklerinden biri <b>değildir</b>?",
+    o: ["Kaynakların sınırsız tüketimi", "Nesiller arası eşitlik", "Çevre ve kalkınmanın entegrasyonu", "Katılımcı yönetim", "Dayanıklılık ve uyum"], a: 0,
+    e: "Sunumdaki özellikler: <b>nesiller arası eşitlik</b>, <b>çevre ve kalkınmanın entegrasyonu</b>, <b>kapsayıcı ekonomik büyüme</b>, <b>sosyal katılım ve eşitlik</b>, <b>sürdürülebilir kaynak yönetimi</b>, <b>katılımcı yönetim</b>, <b>dayanıklılık ve uyum</b>, <b>teknolojik yenilik</b>.",
+    n: "Sürdürülebilir kalkınma ekonomik büyümeyi, sosyal eşitliği ve çevre korumayı dengelemeyi amaçlar; kaynakların sınırsız tüketimi bu dengenin tam tersidir." },
+  { t: 0, s: 6, q: "Sunumdaki “sürdürülebilirlikten sürdürülebilir kalkınmaya” zaman çizelgesinde Brundtland Raporu hangi yıla aittir?",
+    o: ["1987", "1972", "1992", "2002", "2015"], a: 0,
+    e: "Zaman çizelgesi: <b>1972</b> Stockholm Konferansı; <b>1987</b> Brundtland Raporu; <b>1992</b> BM Çevre ve Kalkınma Konferansı (Rio); <b>2002</b> Johannesburg Dünya Sürdürülebilir Kalkınma Zirvesi; <b>2012</b> BM Sürdürülebilir Kalkınma Konferansı (Rio+20); <b>2015</b> Sürdürülebilir Kalkınma Zirvesi.",
+    n: "1992 Rio Zirvesi'nde BM İklim Değişikliği Çerçeve Sözleşmesi (UNFCCC) imzaya açılmıştır. 2015'te hem Sürdürülebilir Kalkınma Hedefleri hem de Paris Anlaşması kabul edilmiştir." },
+  { t: 0, s: 7, q: "Sunuma göre BM Sürdürülebilir Kalkınma Hedefleri ne zaman kabul edilmiştir ve hangi yıla kadar yol haritası niteliğindedir?",
+    o: ["2015'te kabul edildi; 2030'a kadar", "2000'de kabul edildi; 2015'e kadar", "1992'de kabul edildi; 2050'ye kadar", "2021'de kabul edildi; 2053'e kadar", "1987'de kabul edildi; 2000'e kadar"], a: 0,
+    e: "Sunum: Birleşmiş Milletler, küresel bir eylem çağrısı olan Sürdürülebilir Kalkınma Hedeflerini <b>2015</b> yılında kabul etmiştir; bu eylem çağrısı <b>2030</b> yılına kadar sürdürülebilir kalkınmayı sağlamak için bir yol haritasıdır.",
+    n: "SKA'lar toplam 17 hedeften oluşur ve 2030 Gündemi olarak da anılır. Enerji yöneticileri için en ilgili olanlar 7 (erişilebilir ve temiz enerji) ve 13 (iklim eylemi) numaralı hedeflerdir." },
+  { t: 0, s: 7, q: "Sunuma göre 7 ve 13 numaralı Sürdürülebilir Kalkınma Hedefleri neyi amaçlar?",
+    o: ["7: herkes için satın alınabilir, güvenilir, sürdürülebilir ve çağdaş enerjiye erişim; 13: iklim değişikliği ve etkileriyle mücadelede acilen eyleme geçilmesi", "7: temiz su; 13: yoksulluğun sona erdirilmesi", "7: iklim eylemi; 13: temiz enerji", "7: nitelikli eğitim; 13: sağlıklı yaşam", "7: sorumlu üretim; 13: barış ve adalet"], a: 0,
+    e: "Sunum: <b>7 numaralı hedef</b> “herkes için satın alınabilir, güvenilir, sürdürülebilir ve çağdaş enerjiye erişimi sağlamak”; <b>13 numaralı hedef</b> “iklim değişikliği ve etkileri ile mücadele konusunda acilen eyleme geçilmesi”dir.",
+    n: "SKA 7'nin alt hedefleri arasında yenilenebilir enerji payının artırılması ve küresel enerji verimliliği iyileşme hızının iki katına çıkarılması da vardır." },
+  { t: 0, s: 8, q: "Sunuma göre bir şirketin reklam ve kamu mesajlarıyla kendini gerçekte olduğundan daha çevre dostu göstermeye çalışmasına ne denir?",
+    o: ["Yeşil aklama / yeşil badana (greenwashing)", "Karbon dengeleme", "Net sıfır", "Döngüsel ekonomi", "Yaşam döngüsü analizi"], a: 0,
+    e: "Sunum: <b>yeşil aklama / yeşil badana (greenwashing)</b>, bir şirketin çevresel açıdan sürdürülebilir ve gerçekte olduğundan daha çevre dostu görünmeye çalışmak için reklam ve kamu mesajlarını kullanmasıdır.",
+    n: "Yeşil taksonomi ve standart sürdürülebilirlik raporlaması (TSRS), yatırımcıları yeşil aklamaya karşı korumak için geliştirilen araçlardandır." },
+  { t: 0, s: 8, q: "Sunuma göre “net sıfır” nedir?",
+    o: ["İnsan faaliyetleriyle atmosfere salınan sera gazının, insan faaliyetleriyle tutulan ya da yakalanan sera gazı miktarına denk gelmesi", "Hiç sera gazı salınmaması", "Yalnızca CO<sub>2</sub> emisyonunun sıfırlanması, diğer gazların göz ardı edilmesi", "Enerji tüketiminin sıfıra indirilmesi", "Fosil yakıt ithalatının sıfırlanması"], a: 0,
+    e: "Sunum: <b>net sıfır</b>, insan faaliyetleriyle atmosfere saldığımız sera gazının, insan faaliyetleriyle tuttuğumuz ya da yakaladığımız sera gazı miktarına <b>denk gelmesidir</b>.",
+    n: "Net sıfırda emisyon tamamen sıfır olmak zorunda değildir; kalan emisyonlar ormanlar gibi yutaklar veya karbon yakalama ile dengelenir. Türkiye'nin net sıfır hedef yılı 2053'tür." },
+  { t: 0, s: 8, q: "Sunuma göre “karbon dengeleme” nedir?",
+    o: ["Açığa çıkan sera gazı salımlarının eşdeğer bir sera gazı tasarrufuyla karşılanması; emisyon azaltan projelere yatırımla karbon ayak izinin azaltılması", "Bir ürünün tüm yaşam döngüsündeki çevresel etkilerin analizi", "Atmosferdeki sera gazlarının sıcaklığı artırması", "Ürünlerin yeniden kullanılıp geri dönüştürülmesi", "Emisyonların CO<sub>2</sub> eşdeğeri olarak ifade edilmesi"], a: 0,
+    e: "Sunum: <b>karbon dengeleme</b>, açığa çıkan sera gazı salımlarının yine eşdeğer bir sera gazı tasarrufu ile karşılanmasıdır; bireylerin ve kuruluşların sera gazı emisyonlarını azaltan projelere yatırım yaparak karbon ayak izlerini azaltmalarının bir yoludur.",
+    n: "Dengeleme genellikle karbon kredisi satın alarak yapılır (1 kredi = 1 ton CO<sub>2</sub>e azaltım). İyi uygulamada önce emisyon azaltılır, kaçınılamayan kısım dengelenir." },
+  { t: 0, s: 8, q: "Sunuma göre bir ürünün hammadde çıkarılmasından üretimine, kullanımına ve bertarafına kadar tüm aşamalardaki çevresel etkilerini analiz eden metodoloji hangisidir?",
+    o: ["Yaşam döngüsü analizi (YDA)", "Karbon dengeleme", "Yeşil taksonomi", "Emisyon ticaret sistemi", "Çevresel etki değerlendirmesi (ÇED)"], a: 0,
+    e: "Sunum: <b>yaşam döngüsü analizi (YDA)</b>, bir ürünün, hizmetin veya sürecin tüm yaşam döngüsü boyunca çevresel etkilerini belirlemek, değerlendirmek ve anlamak için kullanılan bir metodolojidir; <b>hammaddelerin çıkarılmasından üretimine, kullanımına, atılmasına ve bertaraf edilmesine</b> kadar tüm aşamaları kapsar.",
+    n: "Karbon ayak izi ise belirli bir faaliyet sonucu doğrudan veya dolaylı yayılan sera gazlarının CO<sub>2</sub> eşdeğeri olarak ifadesidir. Ürün karbon ayak izi, YDA'nın yalnızca iklim değişikliği etki kategorisine odaklanan hâlidir." },
+
+  // Kurumsal, döngüsel ekonomi, taksonomi
+  { t: 1, s: 9, q: "Aşağıdakilerden hangisi sunumda sayılan sürdürülebilir iş uygulamalarının faydalarından biri <b>değildir</b>?",
+    o: ["Çevre mevzuatından muaf tutulma", "Maliyet tasarrufu", "Rekabet avantajı", "İyileştirilmiş itibar", "Riske karşı koruma"], a: 0,
+    e: "Sunum: kurumsal sürdürülebilirlik, bir işletmenin çevre ve toplum üzerindeki olumsuz etkisini en aza indirmeye yardımcı olan uygulamaların benimsenmesidir. Faydaları: <b>maliyet tasarrufu</b>, <b>rekabet avantajı</b>, <b>iyileştirilmiş itibar</b>, <b>artan kâr</b>, <b>riske karşı koruma</b>.",
+    n: "Enerji verimliliği bu faydaların hepsine aynı anda katkı yapan nadir uygulamalardandır: maliyeti ve emisyonu düşürür, SKDM gibi karbon maliyetlerine karşı riski azaltır." },
+  { t: 1, s: 9, q: "Sunuma göre Türkiye Sürdürülebilirlik Raporlama Standartları (TSRS) hangi kurum tarafından ve ne zaman yayımlanmıştır?",
+    o: ["Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu (KGK); 29 Aralık 2023", "Enerji Piyasası Düzenleme Kurumu (EPDK); 1 Ocak 2024", "Sermaye Piyasası Kurulu (SPK); 2021", "Türk Standardları Enstitüsü (TSE); 2016", "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı; 2014"], a: 0,
+    e: "Sunum: TSRS, <b>Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu (KGK)</b> tarafından <b>29 Aralık 2023</b> tarihinde Resmî Gazete'de (sayı 32414, 1. mükerrer) yayımlanmıştır.",
+    n: "TSRS, şirketlerin uluslararası standartlara uygun raporlama yapmasını sağlayarak AB standartlarına uyumu da kolaylaştırır." },
+  { t: 1, s: 10, q: "Sunuma göre TSRS hangi uluslararası standartlara dayanır ve hangi iki başlıktan oluşur?",
+    o: ["ISSB'nin IFRS S1 ve IFRS S2 standartlarına; TSRS 1 Genel Hükümler ve TSRS 2 İklimle İlgili Açıklamalar", "ISO 14001 ve ISO 50001'e; TSRS 1 Çevre ve TSRS 2 Enerji", "GRI ve CDP'ye; TSRS 1 Sosyal ve TSRS 2 Yönetişim", "Kyoto Protokolü'ne; TSRS 1 Emisyon ve TSRS 2 Ticaret", "ISO 14064'e; TSRS 1 Kapsam 1 ve TSRS 2 Kapsam 2"], a: 0,
+    e: "Sunum: TSRS, <b>Uluslararası Sürdürülebilirlik Standartları Kurulu (ISSB)</b> tarafından yayımlanan <b>IFRS S1 ve IFRS S2</b> standartlarına dayanır. İki başlık: <b>TSRS 1</b> Sürdürülebilirlikle İlgili Finansal Bilgilerin Açıklanmasına İlişkin Genel Hükümler; <b>TSRS 2</b> İklimle İlgili Açıklamalar.",
+    n: "TSRS 2 kapsamında şirketler Kapsam 1, 2 ve 3 sera gazı emisyonlarını da açıklar; bu yüzden karbon ayak izi hesaplaması raporlamanın temel girdisidir." },
+  { t: 1, s: 10, q: "Sunumdaki TSRS uygulama kapsamına göre sürdürülebilirlik raporlaması hangi işletmeler için zorunludur?",
+    o: ["Çalışan sayısı 250, aktif toplamı 500 milyon TL ve yıllık net satış hasılatı 1 milyar TL eşiklerinden en az ikisini art arda iki raporlama döneminde aşan işletmeler", "Yalnızca borsada işlem gören bankalar", "Çalışanı 50'yi aşan tüm işletmeler", "Yalnızca enerji sektöründeki şirketler", "Üç eşiğin üçünü de tek bir dönemde aşan işletmeler"], a: 0,
+    e: "Sunum: aşağıdaki ölçütlerden <b>en az ikisinin</b> eşik değerlerini <b>art arda iki raporlama döneminde</b> aşan işletmelerde raporlama zorunludur: <b>çalışan sayısı 250 kişi</b>, <b>aktif toplamı 500 milyon TL</b>, <b>yıllık net satış hasılatı 1 milyar TL</b>. Kapsama girenler 1/1/2024'te başlayan hesap dönemi için raporlama yapar; yani 2024 faaliyetlerini 2025 içinde raporlar.",
+    n: "Eşik değerler parasal olduğu için KGK tarafından zaman içinde güncellenebilir; uygulamada güncel Kurul kararına bakılmalıdır." },
+  { t: 1, s: 10, q: "Bir işletmenin son iki raporlama döneminde çalışan sayısı 320, aktif toplamı 420 milyon TL ve yıllık net satış hasılatı 1,3 milyar TL'dir. Sunumdaki TSRS eşiklerine göre durumu nedir?",
+    o: ["İki ölçütü (çalışan ve hasılat) art arda iki dönem aştığı için raporlama zorunludur", "Aktif toplamı eşiğin altında olduğu için zorunlu değildir", "Yalnızca bir ölçütü aştığı için zorunlu değildir", "Üç ölçütün üçünü de aşması gerektiği için zorunlu değildir", "Yalnızca gönüllü raporlama yapabilir"], a: 0,
+    e: "Eşikler: çalışan 250 (320 > 250 ✓), aktif 500 milyon TL (420 < 500 ✗), hasılat 1 milyar TL (1,3 > 1 ✓). <b>En az iki ölçüt</b> art arda iki dönem aşıldığından raporlama <b>zorunludur</b>.",
+    n: "Kural “üçten ikisi” şeklindedir; aktif toplamın eşik altında kalması tek başına muafiyet sağlamaz." },
+  { t: 1, s: 11, q: "Sunuma göre döngüsel ekonomi, geleneksel (lineer) ekonominin “Al-Yap-At” yaklaşımı yerine hangi prensipleri benimser?",
+    o: ["Azalt – Yeniden Kullan – Geri Dönüştür", "Üret – Tüket – Bertaraf Et", "Çıkar – İşle – Sat", "İthal Et – Depola – Yak", "Al – Sakla – At"], a: 0,
+    e: "Sunum: döngüsel ekonomi, ürünlerin yaşam döngüsünün iyileştirilmesini ve atıkların en aza indirilmesini amaçlayan bir üretim ve tüketim modelidir; lineer ekonominin “<b>Al-Yap-At</b>” yaklaşımı yerine “<b>Azalt – Yeniden Kullan – Geri Dönüştür</b>” prensiplerini benimser. Azalt: ham madde kullanımının azaltılması; Yeniden kullan: ürün ve bileşenlerin yeniden değerlendirilmesi; Geri dönüştür: ham maddelerin etkin ve yüksek kalitede yeniden kullanımı.",
+    n: "Döngüsel ekonomi enerji verimliliğiyle doğrudan bağlantılıdır: geri dönüştürülmüş alüminyum, birincil üretime göre yaklaşık %95 daha az enerji gerektirir." },
+  { t: 1, s: 11, q: "Sunuma göre kaynak verimliliği nedir?",
+    o: ["Para, malzeme, personel ve diğer varlıkların arzının en az israfla en üst düzeye çıkarılması; dünyanın sınırlı kaynaklarını sürdürülebilir kullanırken çevresel etkiyi en aza indirmek", "Kaynakların mümkün olduğunca hızlı tüketilmesi", "Yalnızca enerji fiyatlarının düşürülmesi", "Tüm kaynakların ithal edilmesi", "Atıkların yakılarak bertaraf edilmesi"], a: 0,
+    e: "Sunum: <b>kaynak verimliliği</b>, bir kişi veya kuruluşun etkili işlev görebilmesi için kullanabileceği para, malzeme, personel ve diğer varlıkların arzının <b>en az israfla en üst düzeye</b> çıkarılmasıdır; dünyanın sınırlı (doğal) kaynaklarını sürdürülebilir kullanırken <b>çevresel etkiyi en aza indirmek</b> anlamına gelir.",
+    n: "Enerji verimliliği, kaynak verimliliğinin enerji boyutudur: aynı ürün veya hizmet daha az enerjiyle elde edilir." },
+  { t: 1, s: 12, q: "Sunuma göre yeşil taksonomi nedir?",
+    o: ["“Yeşil” ve “çevre dostu” kabul edilen ekonomik faaliyetleri çevresel veya sosyal etkilerine göre tanımlayan ve ayıran standartlaştırılmış sınıflandırma sistemi", "Bitki türlerinin bilimsel sınıflandırması", "Yeşil renkli ürünlerin etiketleme sistemi", "Karbon vergisinin hesaplama yöntemi", "Yenilenebilir enerji santrallerinin lisans türleri"], a: 0,
+    e: "Sunum: <b>yeşil taksonomi</b>, “yeşil” ve “çevre dostu” kabul edilen ekonomik faaliyetler hakkında net bir çerçeve sunan, faaliyetleri <b>çevresel veya sosyal etkilerine göre tanımlayan ve ayıran standartlaştırılmış bir sınıflandırma sistemidir</b>. Amaçları: özel sektörün sürdürülebilir yatırımlarını artırmak, açık tanımlar oluşturmak, yatırımcıları yeşil aklamaya karşı korumak, yatırımları en çok ihtiyaç duyulan yerlere kaydırmak.",
+    n: "AB Taksonomi Tüzüğü Temmuz 2020'de yürürlüğe girmiştir. Taksonomi, bir yatırımın “yeşil finansman” kapsamında değerlendirilip değerlendirilemeyeceğini belirler." },
+  { t: 1, s: 12, q: "Sunuma göre Ulusal Yeşil Taksonomi çalışmaları kapsamında oluşturulan taslak teknik tarama kriterleri kaç çevresel hedef ve kaç faaliyet içerir?",
+    o: ["6 çevresel hedef, 144 faaliyet", "17 çevresel hedef, 169 faaliyet", "3 çevresel hedef, 15 faaliyet", "13 çevresel hedef, 55 faaliyet", "7 çevresel hedef, 41 faaliyet"], a: 0,
+    e: "Sunum: Ticaret Bakanlığı'nın 2021 Yeşil Mutabakat Eylem Planı'nda yeşil finansman başlığı altında taksonomi mevzuatı hazırlığı yer alır. Çalışmalar dahilinde: Taksonomi Teknik Uzman Grubu oluşturuldu; çalıştaylar düzenlendi; kamu, akademi ve özel sektör katılımıyla <b>15 sektör toplantısı</b> yapıldı; <b>taslak teknik tarama kriterleri (6 çevresel hedef, 144 faaliyet)</b> oluşturuldu; Türkiye Yeşil Taksonomi Yönetmeliği hazırlandı.",
+    n: "AB taksonomisindeki 6 çevresel hedef: iklim değişikliğinin azaltılması, iklim değişikliğine uyum, su ve deniz kaynakları, döngüsel ekonomi, kirlilik önleme ve kontrolü, biyoçeşitlilik ve ekosistemler." },
+
+  // Hava kirleticileri ve mevzuat
+  { t: 2, s: 15, q: "Sunuma göre aşağıdakilerden hangisi doğal hava kirletici kaynaklarından biri <b>değildir</b>?",
+    o: ["Motorlu taşıtlar", "Volkanik patlamalar", "Orman yangınları", "Toz fırtınaları", "Okyanuslar ve denizler"], a: 0,
+    e: "Sunum: <b>doğal kaynaklar</b>: volkanik patlamalar, orman yangınları, toz fırtınaları, okyanuslar ve denizler, bitkiler. <b>Yapay kaynaklar</b>: ısınmadan, motorlu taşıtlardan ve sanayiden kaynaklanan hava kirliliği.",
+    n: "Hava kirleticileri genel olarak kükürt oksitler, azot oksitler, karbon monoksit, organik maddeler, hidrokarbonlar ve askıda partikül maddeler (tozlar ve aeroseller) olarak sayılır." },
+  { t: 2, s: 17, q: "Sunuma göre kükürt dioksit (SO<sub>2</sub>) emisyonunun yaklaşık yüzde kaçı kömürün yakılmasıyla oluşur?",
+    o: ["%60", "%5", "%85–95", "%100", "%25"], a: 0,
+    e: "Sunum: kükürt oksitler (SO<sub>x</sub>) en çok bilinen hava kirleticileridir; en önemli pay kükürt dioksittir. SO<sub>2</sub> renksiz, yanmayan ve parlamayan bir gazdır; <b>yaklaşık %60'ı kömürün yakılmasıyla</b> oluşur.",
+    n: "%85–95 seçeneği karbon monoksitte içten yanmalı motorların payıdır. SO<sub>2</sub> azaltımında düşük kükürtlü yakıt ve baca gazı desülfürizasyonu (kireç taşı ile yıkama) kullanılır." },
+  { t: 2, s: 17, q: "Sunuma göre karbon monoksitin (CO) başlıca kaynağı nedir ve sağlığa etkisi nasıldır?",
+    o: ["İçten yanmalı motorlar (%85–95); kanın oksijen taşıma kapasitesini azaltarak beyin, kalp gibi organlarda fonksiyon bozukluğuna yol açar", "Volkanlar; cildi tahriş eder", "Bitkiler; alerjiye yol açar", "Termik santrallerde yüksek sıcaklıkta yanma; asit yağmuruna yol açar", "Kurşunlu benzin; kemik erimesine yol açar"], a: 0,
+    e: "Sunum: CO renksiz, kokusuz bir gazdır; yakıtlardaki karbon tam yanmadığında oluşur. <b>Başlıca kaynağı içten yanmalı motorlardır (%85–95)</b>; endüstri, odun yakılması ve orman yangınları da kaynaktır. CO'nun <b>oksijen taşıma kapasitesini azaltması</b> sonucu kandaki oksijen yetersizliğiyle damar çeperleri, beyin ve kalp gibi hassas organlarda fonksiyon bozuklukları oluşur.",
+    n: "CO, hemoglobine oksijenden yaklaşık 200 kat daha güçlü bağlanır. Kazan dairelerinde CO dedektörü bu yüzden hayati bir güvenlik önlemidir." },
+  { t: 2, s: 17, q: "Sunuma göre azot oksitler (NO<sub>x</sub>) nasıl oluşur ve iki önemli kaynağı nedir?",
+    o: ["Yüksek sıcaklıklarda yanma sonucu genellikle NO, az miktarda NO<sub>2</sub> oluşur; iki önemli kaynağı motorlu taşıtlar ve termik santrallerdir", "Düşük sıcaklıkta fermantasyonla oluşur; kaynağı tarımdır", "Kömürdeki kükürtten oluşur; kaynağı madenlerdir", "Eksik yanmadan oluşur; kaynağı sobalardır", "Buharlaşmadan oluşur; kaynağı akaryakıt istasyonlarıdır"], a: 0,
+    e: "Sunum: NO<sub>x</sub> <b>yüksek sıcaklıklarda</b> oluşan oldukça reaktif gazlardır; pek çok türü renksiz ve kokusuzdur, suda erimez. Yüksek sıcaklıkta yanma sonucu genellikle <b>azot monoksit (NO)</b>, az miktarda <b>azot dioksit (NO<sub>2</sub>)</b> oluşur. İki önemli kaynağı <b>motorlu taşıtlar ve termik santrallerdir</b>.",
+    n: "Yanma havasının ön ısıtılması verimi artırır ama alev sıcaklığını da artırarak NO<sub>x</sub>'u yükseltebilir. Düşük NO<sub>x</sub>'lu brülörler ve baca gazı resirkülasyonu bu yüzden reküperatörlerle birlikte kullanılır." },
+  { t: 2, s: 18, q: "Sunuma göre karbondioksit (CO<sub>2</sub>) için hangisi doğrudur?",
+    o: ["Atmosferin olağan bileşenidir ve önemli bir kirletici değildir; ancak fosil yakıt tüketimiyle düzeyi sürekli arttığından küresel ısınmaya karşı önlemlerin başında CO<sub>2</sub> salınımının azaltılması gelir", "Zehirli bir gazdır ve doğrudan solunum yolu hastalıklarına yol açar", "Yalnızca volkanlardan çıkar", "Atmosferdeki düzeyi sürekli azalmaktadır", "Fotokimyasal sisin tek nedenidir"], a: 0,
+    e: "Sunum: CO<sub>2</sub> <b>atmosferin olağan bileşenidir</b>, önemli bir kirletici değildir, ancak <b>atmosferdeki düzeyi sürekli artmaktadır</b>. Nüfus artışı ve sanayileşmeye bağlı aşırı fosil yakıt tüketiminden kaynaklanan bu artışın küresel sıcaklığı kritik bir değere ulaştırabileceği düşünülmektedir; küresel ısınmaya karşı önlemlerin başında <b>CO<sub>2</sub> salınımının azaltılması</b> gelir.",
+    n: "Yanma ürünü CO<sub>2</sub>, filtre veya katalizörle tutulamaz; yakılan karbonla doğru orantılıdır. Bu yüzden CO<sub>2</sub>'yi azaltmanın yolu daha az yakıt yakmak (verimlilik) veya düşük karbonlu kaynaklara geçmektir." },
+  { t: 2, s: 18, q: "Sunuma göre partikül maddeler (PM10, PM2,5) için hangisi doğrudur?",
+    o: ["İs, toz, çok küçük sıvı damlacıklar ve diğer maddelerden oluşur; 10 mikrometre veya daha küçük tanecikler kalp ve akciğeri etkileyerek ciddi sorunlara yol açar", "Yalnızca okyanuslardan gelen tuz kristalleridir", "Boyutları sağlık etkisiyle ilgisizdir", "Yalnızca doğal gaz yakıldığında oluşur", "Renksiz ve kokusuz bir gazdır"], a: 0,
+    e: "Sunum: partikül madde insan sağlığını etkileyen en önemli kirleticilerden biridir; <b>is, toz, çok küçük sıvı damlacıklar</b> ve diğer materyallerden oluşur; kömür, dizel yakıt ve odunun yanmasıyla havaya verilir. PM boyutları sağlık sorunu potansiyeliyle <b>doğrudan bağlantılıdır</b>; <b>10 mikrometre</b> çapında veya daha küçük tanecikler kalp ve akciğeri etkiler.",
+    n: "Sunumdaki diğer kirleticiler: hidrokarbonlar (fotokimyasal sis; havadaki HC'lerin %60'ı kentsel bölgelerde), uçucu organik bileşikler (300'den fazla tür; benzen, toluen, etilbenzen, ksilen en riskli olanlar) ve kurşun (hava kirliliğine yol açan en önemli metal)." },
+  { t: 2, s: 19, q: "Sunuma göre hava kirleticileri azaltım teknolojilerinin adımları hangi sıradadır?",
+    o: ["Kaynakta kontrol → toplama → soğutma → arıtma → deşarj", "Deşarj → arıtma → toplama → soğutma → kaynakta kontrol", "Arıtma → deşarj → kaynakta kontrol → toplama → soğutma", "Toplama → deşarj → soğutma → kaynakta kontrol → arıtma", "Soğutma → toplama → deşarj → arıtma → kaynakta kontrol"], a: 0,
+    e: "Sunum: 1. <b>emisyonların kaynakta kontrolü</b>; 2. <b>toplanması</b>; 3. <b>soğutulması</b> (seyreltme, ısı değiştiriciler, yıkama); 4. <b>arıtılması</b> (gazlar: gaz yıkayıcılar, adsorpsiyon, yakma, katalitik yakma; tozlar: çöktürme odaları, siklonlar, torba filtreler, yaş tutucular, elektrostatik filtreler); 5. <b>deşarj</b>. Teknoloji seçiminde Mevcut En İyi Teknikler (BAT) referans belgeleri esas alınır.",
+    n: "Soğutma adımındaki ısı değiştirici aynı zamanda bir atık ısı geri kazanım fırsatıdır: baca gazını filtreye uygun sıcaklığa indirirken çıkan ısı proseste kullanılabilir." },
+  { t: 2, s: 20, q: "Sunumdaki enerjide çevre mevzuatı listesine göre Çevre Kanunu'nun sayısı ve tarihi nedir?",
+    o: ["2872 sayılı, 11 Ağustos 1983", "5627 sayılı, 2 Mayıs 2007", "7552 sayılı, 9 Temmuz 2025", "5346 sayılı, 18 Mayıs 2005", "4628 sayılı, 3 Mart 2001"], a: 0,
+    e: "Sunum: <b>11 Ağustos 1983 tarihli 2872 sayılı Çevre Kanunu</b>. Diğerleri: 5627 Enerji Verimliliği Kanunu, 7552 İklim Kanunu, 5346 Yenilenebilir Enerji Kanunu, 4628 Elektrik Piyasası Kanunu.",
+    n: "Çevre Kanunu, ÇED, Çevre İzin ve Lisans, Sanayi Kaynaklı Hava Kirliliğinin Kontrolü gibi yönetmeliklerin dayanağıdır." },
+  { t: 2, s: 20, q: "Sunumdaki mevzuat listesine göre aşağıdaki eşleştirmelerden hangisi doğrudur?",
+    o: ["Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği – 3 Temmuz 2009", "ÇED Yönetmeliği – 2 Nisan 2015", "Atık Yönetimi Yönetmeliği – 29 Temmuz 2022", "Çevre İzin ve Lisans Yönetmeliği – 7 Kasım 2023", "Radyoaktif Atık ve Kullanılmış Yakıt Yönetimi Yönetmeliği – 10 Eylül 2014"], a: 0,
+    e: "Sunumdaki tarihler: ÇED Yönetmeliği <b>29 Temmuz 2022</b> (RG 31907); Çevre İzin ve Lisans Yönetmeliği <b>10 Eylül 2014</b> (29115); Atık Yönetimi Yönetmeliği <b>2 Nisan 2015</b> (29314); Radyoaktif Atık ve Kullanılmış Yakıt Yönetimi Yönetmeliği <b>7 Kasım 2023</b> (32362); <b>Sanayi Kaynaklı Hava Kirliliğinin Kontrolü Yönetmeliği 3 Temmuz 2009</b> (27277).",
+    n: "Diğer yönetmelikler: Su Kirliliği Kontrolü (31 Aralık 2004), Çevresel Gürültü Kontrol (30 Kasım 2022), Sera Gazı Emisyonlarının Takibi (17 Mayıs 2014), Büyük Endüstriyel Kazaların Önlenmesi (2 Mart 2019)." },
+  { t: 2, s: 21, q: "Sunumdaki mevzuat listesine göre Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik hangi tarihte yayımlanmıştır?",
+    o: ["17 Mayıs 2014 (RG 29003)", "30 Kasım 2022 (RG 32029)", "2 Mart 2019 (RG 30702)", "31 Aralık 2004 (RG 25687)", "3 Temmuz 2009 (RG 27277)"], a: 0,
+    e: "Sunum: <b>17 Mayıs 2014</b> tarih ve <b>29003</b> sayılı Resmî Gazete'de yayımlanan Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik. 30 Kasım 2022 Çevresel Gürültü, 2 Mart 2019 Büyük Endüstriyel Kazalar, 31 Aralık 2004 Su Kirliliği Kontrolü yönetmelikleridir.",
+    n: "Bu yönetmelik kapsamındaki tesisler emisyonlarını izleme planına göre hesaplar ve doğrulanmış raporlarını Bakanlığa sunar. Türkiye ETS'si bu izleme–raporlama–doğrulama (İRD) altyapısının üzerine kurulmuştur.",
+    g: { eski: "Sunumda iklim kanunu yer almıyor; sera gazı izleme 2014 tarihli yönetmeliğe dayanıyordu.", yeni: "7552 sayılı İklim Kanunu (RG 09.07.2025, 32951) ETS'yi kurdu; Türkiye ETS Yönetmeliği RG 27.08.2026, 33353 ile yürürlüğe girdi.", kaynak: "Resmî Gazete (9 Temmuz 2025 ve 27 Ağustos 2026)" } },
+
+  // İklim, UNFCCC, envanter
+  { t: 3, s: 24, q: "Sunuma göre iklim değişikliği ile küresel ısınma arasındaki fark nedir?",
+    o: ["Küresel ısınma ortalama sıcaklıklardaki uzun vadeli sürekli yükseliştir; iklim değişikliği ise sıcaklık, yağış, rüzgâr ve diğer iklim unsurlarındaki uzun vadeli belirgin değişikliklerin tümüdür", "İkisi tamamen aynı kavramdır", "İklim değişikliği yalnızca sıcaklık artışıdır; küresel ısınma yağış değişimidir", "Küresel ısınma kısa vadeli hava olaylarıdır", "İklim değişikliği yalnızca doğal nedenlerle oluşur"], a: 0,
+    e: "Sunum: <b>iklim değişikliği</b>, sera gazı konsantrasyonlarının artışı sonucu yerküre genelinde uzun vadede meydana gelen <b>sıcaklık, yağış, rüzgâr ve diğer iklim unsurlarındaki</b> belirgin değişikliklerdir. <b>Küresel ısınma</b>, sera gazı konsantrasyonundaki artış nedeniyle Dünya yüzeyinin, okyanusların ve atmosferin <b>ortalama sıcaklıklarında</b> uzun vadede meydana gelen sürekli yükseliştir.",
+    n: "Etkileri: aşırı hava olayları, deniz seviyesinin yükselmesi, biyoçeşitlilik kaybı, tarımsal üretimde düşüş, altyapı hasarı, su kaynaklarının azalması, gıda ve su güvensizliği, göç ve sağlık sorunları." },
+  { t: 3, s: 25, q: "Sunuma göre UNFCCC'nin temel ilkelerinden “ortak fakat farklılaştırılmış sorumluluklar” ne anlama gelir?",
+    o: ["Kalkınma öncelikleri ve ülkelerin özel koşulları dikkate alınarak farklı sorumluluk ve kapasitelerin göz önünde bulundurulması", "Tüm ülkelerin aynı emisyon azaltımını yapması", "Yalnızca gelişmekte olan ülkelerin sorumlu olması", "Sorumluluğun yalnızca özel sektöre ait olması", "Hiçbir ülkenin sorumluluk taşımaması"], a: 0,
+    e: "Sunum: UNFCCC'nin temel ilkeleri: <b>uluslararası iş birliği</b>; <b>ortak fakat farklılaştırılmış sorumluluklar</b> (kalkınma öncelikleri ve ülkelerin özel koşulları dikkate alınarak farklı sorumluluklar ve kapasiteler); <b>sera gazı emisyonlarının azaltılması</b> (kaynak ve yutakların korunması, izlenmesi, geliştirilmesi); <b>araştırma ve teknoloji</b> iş birliği.",
+    n: "Bu ilke, tarihsel emisyonların büyük kısmından sorumlu gelişmiş ülkelerin daha fazla yük üstlenmesi gerektiği düşüncesine dayanır." },
+  { t: 3, s: 26, q: "Sunuma göre Türkiye UNFCCC'ye ne zaman taraf olmuştur ve sözleşme listelerindeki durumu nedir?",
+    o: ["24 Mayıs 2004; Ek-II listesinden çıkarılıp Ek-I ülkeleri arasında yer almıştır", "1992; Ek-II listesinde kalmıştır", "2021; hiçbir listede yer almaz", "2009; Ek-II'ye eklenmiştir", "2015; Ek-I'den çıkarılmıştır"], a: 0,
+    e: "Sunum: Türkiye <b>24 Mayıs 2004</b>'te UNFCCC'ye taraf olmuştur; gelişmiş ülkelerin bulunduğu <b>Ek-II listesinden çıkarılmış ve Ek-I ülkeleri arasında</b> yer almıştır. Bu statüyle gelişmiş ülkelerle aynı ölçüde finansal destek sağlama yükümlülüğünden muaf tutulmuş, ancak emisyonları izleme, raporlama ve azaltma sorumluluğunu üstlenmiştir.",
+    n: "Ek-II ülkelerinin temel yükümlülüğü gelişmekte olan ülkelere finansman ve teknoloji transferidir. Türkiye'nin yükümlülükleri: ulusal sera gazı envanteri, ulusal bildirimler ve iki yıllık raporlar, iklim politikalarının uygulanması." },
+  { t: 3, s: 26, q: "Sunuma göre Türkiye Kyoto Protokolü'ne ve Paris Anlaşması'na hangi yıllarda taraf olmuştur ve 2022'de hangi taahhüdü vermiştir?",
+    o: ["Kyoto 2009, Paris 2021; 2030'a kadar emisyonlarını %41 azaltma", "Kyoto 1997, Paris 2015; 2030'a kadar %21 azaltma", "Kyoto 2004, Paris 2016; 2050'de net sıfır", "Kyoto 2012, Paris 2023; 2035'e kadar %55 azaltma", "Kyoto 2009, Paris 2016; 2053'e kadar %41 azaltma"], a: 0,
+    e: "Sunum: Türkiye UNFCCC'nin yürütme aracı olan <b>Kyoto Protokolü'ne 2009'da</b>, <b>Paris Anlaşması'na 2021'de</b> taraf olmuş ve <b>2022'de 2030'a kadar emisyonlarını %41 azaltmayı</b> taahhüt etmiştir.",
+    n: "%41 azaltım, mutlak bir düşüş değil, referans (iş-her-zamanki-gibi) senaryoya göre azaltımdır. Türkiye ayrıca 2022–2024 dönemini kapsayan İki Yıllık Şeffaflık Raporu'nu UNFCCC Sekretaryası'na sunmuştur.",
+    g: { eski: "Sunumda 2030 için %41 azaltım taahhüdü ve 2053 net sıfır hedefi yer alıyor.", yeni: "2030'da referans senaryoya göre %41 azaltım (695 Mt); 2035'te 643 Mt CO₂e üst sınır (referansa göre 466 Mt azaltım); 2053 net sıfır.", kaynak: "Türkiye'nin güncellenmiş Ulusal Katkı Beyanı (COP30, Kasım 2025); İKV değerlendirme notu (Mart 2026)" } },
+  { t: 3, s: 27, q: "Sunumdaki Paris Anlaşması zaman çizelgesine göre aşağıdaki eşleştirmelerden hangisi doğrudur?",
+    o: ["22 Nisan 2016 imza; 21 Eylül 2021 Cumhurbaşkanı onayı ve 2053 net sıfır beyanı; 10 Kasım 2021 taraf olma; 15 Kasım 2022 %41 hedef ilanı", "10 Kasım 2021 imza; 22 Nisan 2016 taraf olma", "15 Kasım 2022 imza; 13 Nisan 2023 net sıfır beyanı", "21 Eylül 2021 imza; 22 Nisan 2016 onay", "13 Nisan 2023 taraf olma; 10 Kasım 2021 NDC güncellemesi"], a: 0,
+    e: "Zaman çizelgesi: <b>22 Nisan 2016</b> Türkiye Paris Anlaşması'nı imzaladı; <b>21 Eylül 2021</b> Cumhurbaşkanı'nın Paris Anlaşması onayı ve 2053 Net Sıfır hedefine ilişkin beyanı; <b>10 Kasım 2021</b> Paris Anlaşması'na taraf olundu; <b>15 Kasım 2022</b> ulusal katkı hedefinin %41'e çıkarıldığı ilan edildi; <b>13 Nisan 2023</b> birinci güncellenmiş ulusal katkı (NDC) yayımlandı.",
+    n: "İmza ile taraf olma farklıdır: imza niyet beyanıdır, taraf olma ise TBMM onayı ve onay belgesinin tevdiiyle gerçekleşir." },
+  { t: 3, s: 28, q: "Sunuma göre sera gazları nasıl sera etkisi yaratır?",
+    o: ["Güneş ışığını geçirip yeryüzünden yayılan ısıyı (uzun dalga radyasyonu) tutarak", "Güneş ışığını tamamen yansıtarak", "Atmosferdeki oksijeni tüketerek", "Ozon tabakasını kalınlaştırarak", "Yağmuru artırarak"], a: 0,
+    e: "Sunum: sera gazları atmosferde bulunarak Dünya'nın yüzey sıcaklığını dengeleyen ve yaşanabilir bir ortam sağlayan gazlardır; <b>güneş ışığını geçirip yeryüzünden yayılan ısıyı tutarak</b> sera etkisi yaratırlar. İnsan faaliyetleri bu gazların birikimini artırarak küresel ısınmaya neden olur.",
+    n: "Doğal sera etkisi olmasaydı Dünya'nın ortalama sıcaklığı yaklaşık −18 °C olurdu (bugün ≈ +15 °C). Sorun, insan kaynaklı ek sera gazlarının bu dengeyi bozmasıdır." },
+  { t: 3, s: 29, q: "Sunumdaki ulusal sera gazı envanterine (NIR) göre Türkiye'nin 2022 yılı toplam emisyonu ve enerji sektörünün payı nedir?",
+    o: ["558,3 Mt CO<sub>2</sub>e; enerji %71,8 (400,6 Mt)", "400,6 Mt CO<sub>2</sub>e; enerji %100", "558,3 Mt CO<sub>2</sub>e; enerji %39,3", "145,0 Mt CO<sub>2</sub>e; enerji %26", "1.000 Mt CO<sub>2</sub>e; enerji %50"], a: 0,
+    e: "Sunum (2022): toplam <b>558,3 Mt CO<sub>2</sub>e</b>; <b>enerji 400,6 Mt (%71,8)</b>, endüstriyel işlemler 69,9 Mt (%12,5), tarım 71,5 Mt (%12,8), atık 16,3 Mt (%2,9).",
+    n: "Emisyonların yaklaşık dörtte üçünün enerji sektöründen gelmesi, enerji verimliliğinin iklim politikasındaki merkezi rolünü açıklar.",
+    g: { eski: "Toplam 558,3 Mt CO₂e; enerji 400,6 Mt (%71,8), endüstriyel işlemler %12,5, tarım %12,8, atık %2,9 (2022).", yeni: "Toplam 584,5 Mt CO₂e (2024, +%5,3); enerji %71,8 (419,9 Mt), endüstriyel işlemler %12,9, tarım %12,6, atık %2,6.", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024 (27 Mart 2026)" } },
+  { t: 3, s: 29, q: "Sunumdaki 2022 envanterine göre enerji sektörü emisyonlarının alt kırılımında en büyük pay hangisidir?",
+    o: ["Enerji sanayii (157,3 Mt, %39,3)", "Ulaştırma (92,5 Mt, %23,1)", "İmalat sanayi ve inşaat (65,5 Mt, %16,4)", "Diğer (73,1 Mt, %18,2)", "Yakıtlardan kaçak emisyonlar (12,2 Mt, %3,0)"], a: 0,
+    e: "Enerji sektörü alt kırılımı (2022): <b>enerji sanayii 157,3 Mt (%39,3)</b>, ulaştırma 92,5 (%23,1), diğer 73,1 (%18,2), imalat sanayi ve inşaat 65,5 (%16,4), kaçak emisyonlar 12,2 (%3,0). Elektrik ve ısı üretimi 145,0 Mt ile toplam emisyonun ≈ %26'sıdır (bir önceki yıla göre %2,8 düşüş).",
+    n: "Enerji sanayii esas olarak elektrik ve ısı üreten santrallerdir. Elektrik tasarrufu bu yüzden dolaylı olarak en büyük emisyon kalemini azaltır; bu emisyonlar tüketici açısından Kapsam 2'dir." },
+  { t: 3, s: 29, q: "Sunumdaki 2022 envanterine göre ulaştırmanın (92,5 Mt) toplam emisyon (558,3 Mt) içindeki payı yaklaşık yüzde kaçtır?",
+    o: ["≈ %16,6", "≈ %23,1", "≈ %71,8", "≈ %9,3", "≈ %39,3"], a: 0,
+    e: "92,5 / 558,3 × 100 ≈ <b>%16,6</b>. (%23,1, ulaştırmanın yalnızca enerji sektörü içindeki payıdır: 92,5 / 400,6.)",
+    n: "Yüzde sorularında paydaya dikkat: sunumdaki enerji alt kırılım tablosu yüzdeleri enerji sektörüne (400,6 Mt) göre verilmiştir, toplam envantere göre değil." },
+  { t: 3, s: 29, q: "Sunuma göre Türkiye'nin küresel emisyonlardaki ve tarihsel kümülatif emisyonlardaki payı nedir?",
+    o: ["Küresel emisyonlarda %1,2'den az; tarihsel kümülatif emisyonlarda %0,64", "Küresel emisyonlarda %10; tarihsel %5", "Küresel emisyonlarda %55,5; tarihsel %71,8", "Küresel emisyonlarda %0,1; tarihsel %0,01", "Küresel emisyonlarda %3; tarihsel %12"], a: 0,
+    e: "Sunum: Türkiye küresel emisyonlarda <b>%1,2'den daha az</b> paya sahiptir; tarihsel kümülatif emisyonlarda payı <b>%0,64</b>'tür. ABD, AB ve Çin'in tarihsel payı <b>%55,5</b>'tir.",
+    n: "Bu veriler “ortak fakat farklılaştırılmış sorumluluklar” ilkesi tartışmalarında Türkiye'nin tezini destekler." },
+  { t: 3, s: 30, q: "Sunumdaki Kapsam 1, 2, 3 sınıflandırmasına göre bir şirketin binalarında kullandığı satın alınmış elektrikten kaynaklanan emisyonlar hangi kapsamdadır?",
+    o: ["Kapsam 2 – dolaylı enerji emisyonları", "Kapsam 1 – doğrudan emisyonlar", "Kapsam 3 – diğer dolaylı emisyonlar", "Kapsam 0", "Hiçbir kapsama girmez"], a: 0,
+    e: "Sunum: <b>Kapsam 1 (doğrudan)</b>: doğrudan fosil yakıt tüketimi, fabrika emisyonları, şirket araç emisyonları. <b>Kapsam 2 (dolaylı enerji)</b>: şirket binalarında kullanılan <b>elektrik</b> kaynaklı, yenilenebilir olmayan enerji kaynakları. <b>Kapsam 3 (diğer dolaylı)</b>: tedarik zinciri, ürün yaşam döngüsü, iş seyahati ve işe gidiş-geliş.",
+    n: "Kazanda yakılan doğal gaz Kapsam 1, şebekeden alınan elektrik Kapsam 2'dir. SKDM'de çimento ve gübre için Kapsam 1 ve 2 birlikte dikkate alınır." },
+  { t: 3, s: 30, q: "Aşağıdakilerden hangisi sunuma göre Kapsam 3 (diğer dolaylı) emisyonlara örnektir?",
+    o: ["Çalışanların iş seyahati ve işe gidiş-geliş emisyonları", "Şirket kazanında yakılan doğal gaz", "Şirkete ait forkliftlerin dizel tüketimi", "Şirket binasında kullanılan şebeke elektriği", "Fabrika bacasından çıkan proses emisyonları"], a: 0,
+    e: "Kapsam 3: <b>tedarik zinciri emisyonları</b>, <b>ürün yaşam döngüsü emisyonları</b>, <b>iş seyahati ve işe gidiş-geliş emisyonları</b>. Kazan, forklift ve proses emisyonları Kapsam 1, şebeke elektriği Kapsam 2'dir.",
+    n: "Kapsam 3 çoğu şirkette toplam ayak izinin en büyük kısmıdır ama ölçmesi en zor olanıdır; tedarikçilerden veri toplamayı gerektirir." },
+  { t: 3, s: 31, q: "Aşağıdakilerden hangisi sunumda “yeni teknolojiler ile emisyon azaltımı” başlığında sayılmıştır?",
+    o: ["Karbon yakalama, kullanım ve depolama (CCUS)", "Ağaçlandırma", "Toplu taşıma altyapısı", "Sıfır atık politikaları", "Karbon fiyatlandırma"], a: 0,
+    e: "Sunumdaki 8 yöntem: 1) enerji verimliliği ve tasarrufu; 2) yenilenebilir enerji; 3) <b>yeni teknolojiler</b> (hidrojen, <b>CCUS</b>, dijitalleşme ve yapay zekâ, akıllı şebekeler, alternatif yakıtlar, enerji depolama, nükleer); 4) sürdürülebilir ulaşım (elektrikli araçlar, toplu taşıma); 5) döngüsel ekonomi (sıfır atık); 6) doğa temelli çözümler (ağaçlandırma); 7) piyasa mekanizmaları (karbon fiyatlandırma); 8) emisyon izleme ve raporlama.",
+    n: "Sıralamanın ilk maddesinin enerji verimliliği olması tesadüf değildir: en hızlı ve çoğunlukla negatif maliyetli (kendini ödeyen) azaltım yöntemidir." },
+
+  // Yeşil Mutabakat, SKDM, piyasalar, Türkiye
+  { t: 4, s: 32, q: "Sunuma göre Avrupa Yeşil Mutabakatı'nın temel hedefi nedir?",
+    o: ["AB'nin 2050 yılında karbon nötr ilk kıta olması", "AB'nin 2030'da fosil yakıtları tamamen yasaklaması", "AB'nin 2053'te net sıfıra ulaşması", "AB'nin enerji ithalatını iki katına çıkarması", "AB'nin 2025'te tüm kömür santrallerini kapatması"], a: 0,
+    e: "Sunum: Avrupa Yeşil Mutabakatı, AB'nin <b>2050 yılında karbon nötr ilk kıta olma</b> hedefini ortaya koyan yol haritasıdır; iklim değişikliğiyle mücadele ederken ekonomik büyümeyi de sürdürülebilir kılmayı amaçlar. Kapsadığı alanlar: enerji, sanayi, ulaştırma, tarım.",
+    n: "Fit for 55 paketi, AB'nin 2030'a kadar net emisyonlarını 1990'a göre en az %55 azaltma hedefini hayata geçiren mevzuat paketidir; SKDM bu paketin parçasıdır. Türkiye'nin hedef yılı ise 2053'tür." },
+  { t: 4, s: 33, q: "Sunuma göre Türkiye Yeşil Mutabakat Eylem Planı (2021) hangi kurum tarafından yayımlanmıştır ve amacı nedir?",
+    o: ["Ticaret Bakanlığı; AB Yeşil Mutabakatı'na uyum sağlayıp ekonominin rekabet gücünü koruyarak çevresel sürdürülebilirlik hedeflerini desteklemek", "EPDK; elektrik tarifelerini belirlemek", "TÜİK; emisyon istatistiği yayımlamak", "Sanayi ve Teknoloji Bakanlığı; teşvik belgesi vermek", "KGK; sürdürülebilirlik raporlama standartlarını belirlemek"], a: 0,
+    e: "Sunum: <b>Ticaret Bakanlığı</b> tarafından 2021'de yayımlanan plan, <b>AB Yeşil Mutabakatı'na uyum</b> sağlamayı ve Türkiye ekonomisinin <b>rekabet gücünü koruyarak</b> çevresel sürdürülebilirliği desteklemeyi amaçlar. Öncelikli alanlar: yeşil ve döngüsel ekonomi, enerji dönüşümü, karbon fiyatlama, yeşil finansman.",
+    n: "AB, Türkiye'nin en büyük ihracat pazarıdır; bu nedenle SKDM gibi düzenlemeler doğrudan ihracatçı sanayinin rekabet gücünü etkiler." },
+  { t: 4, s: 34, q: "Sunuma göre Sınırda Karbon Düzenleme Mekanizması'nın (SKDM) amaçları nelerdir?",
+    o: ["Karbon kaçağı riskinin önüne geçilmesi ve Avrupa'daki üretici sektörlerin rekabet gücünün korunması", "AB'ye ithalatın tamamen yasaklanması", "Türkiye'ye karbon kredisi verilmesi", "Doğal gaz fiyatlarının düşürülmesi", "AB içindeki emisyonların artırılması"], a: 0,
+    e: "Sunum: SKDM'nin amaçları: <b>karbon kaçağı riskinin önüne geçilmesi</b> ve <b>Avrupa'da üretici sektörlerin rekabet gücünün korunması</b>. Süreç: 14 Temmuz 2021 Fit for 55 kapsamında teklif; 14 Aralık 2022 uzlaşı metni; 18 Nisan 2023 Avrupa Parlamentosu onayı; 16 Mayıs 2023 Resmî Gazete; 17 Ağustos 2023 geçiş dönemi uygulama usul ve esasları.",
+    n: "Karbon kaçağı, sıkı karbon fiyatlaması olan bölgedeki üretimin daha gevşek kuralları olan ülkelere kaymasıdır; bu durumda küresel emisyon azalmaz, yalnızca yer değiştirir." },
+  { t: 4, s: 35, q: "Sunuma göre aşağıdakilerden hangisi SKDM kapsamındaki sektörlerden biri <b>değildir</b>?",
+    o: ["Tekstil", "Çelik", "Alüminyum", "Çimento", "Gübre"], a: 0,
+    e: "Sunum: SKDM kapsamındaki sektörler: <b>çelik, alüminyum, çimento, gübre, elektrik ve hidrojen</b>. Tekstil kapsamda değildir.",
+    n: "Bir ülke SKDM'den üç şekilde etkilenir: AB ETS'ye katılarak SKDM dışında kalmak (Norveç, İzlanda, Lihtenştayn), AB ETS'ye entegre olmak (İsviçre) veya AB'ye ihracat yapan üçüncü ülke olmak (Türkiye, Çin)." },
+  { t: 4, s: 36, q: "Sunuma göre SKDM geçiş dönemi hangi tarihleri kapsar ve bu dönemde ihracatçıların yükümlülüğü nedir?",
+    o: ["1 Ekim 2023 – 31 Aralık 2025; yalnızca raporlama (mal miktarı, Kapsam 1 ve 2 gömülü emisyonlar, ülkedeki karbon fiyatı)", "2026–2034; tam ödeme", "1 Ocak 2020 – 31 Aralık 2022; hiçbir yükümlülük yok", "2035 sonrası; yalnızca ödeme", "1 Ocak 2024 – 31 Aralık 2030; yalnızca vergi"], a: 0,
+    e: "Sunum: <b>geçiş dönemi (1 Ekim 2023 – 31 Aralık 2025)</b>: <b>raporlama yükümlülüğü</b>; 3 aylık dönemleri takip eden ilk ay; ilk raporlama Ocak 2024; mal miktarı (MWh veya ton), toplam gömülü emisyonlar (Kapsam 1 ve 2), ülkedeki karbon fiyatı. <b>Kademeli tam uygulama (2026–2034)</b>: ETS serbest tahsisatlarının kademeli sonlandırılması, fiyatlandırma, her yıl 31 Mayıs'a kadar SKDM beyanı. Sonrasında <b>tam uygulama</b>: ETS'de serbest tahsisat yok.",
+    n: "Tam uygulama döneminde AB'deki ithalatçı, ithal ettiği ürünün gömülü emisyonu kadar SKDM sertifikası satın alır. İhracatçının ürettiği emisyon verisi bu yüzden doğrudan maliyete dönüşür.",
+    g: { eski: "Geçiş dönemi 1 Ekim 2023 – 31 Aralık 2025; kademeli tam uygulama 2026'da başlayacak.", yeni: "SKDM kesin (finansal) dönemi 1 Ocak 2026'da başladı; geçiş dönemi raporlaması sona erdi.", kaynak: "AB Tüzüğü 2023/956 (SKDM); Avrupa Komisyonu SKDM sayfası" } },
+  { t: 4, s: 36, q: "Sunumdaki SKDM fiyatlandırma ilkesine göre AB ETS karbon fiyatı 80 €/t CO<sub>2</sub> iken, karbon yoğunluğu 1,9 t CO<sub>2</sub>/t olan 10.000 ton çelik ihraç eden ve kendi ülkesinde 20 €/t CO<sub>2</sub> karbon fiyatı ödemiş bir üreticinin SKDM yükü yaklaşık ne kadardır?",
+    o: ["≈ 1,14 milyon €", "≈ 1,52 milyon €", "≈ 0,38 milyon €", "≈ 1,9 milyon €", "≈ 0,8 milyon €"], a: 0,
+    e: "SKDM = AB ETS fiyatı × ürün miktarı × karbon yoğunluğu − ülkede ödenen karbon fiyatı. Gömülü emisyon = 10.000 × 1,9 = 19.000 t CO<sub>2</sub>. SKDM = 19.000 × (80 − 20) = <b>1.140.000 € ≈ 1,14 milyon €</b>.",
+    n: "Ülkede ödenen karbon fiyatı düşülmeseydi yük 19.000 × 80 = 1,52 milyon € olurdu. Bu yüzden ulusal ETS kurulması, karbon bedelinin AB yerine Türkiye'de kalmasını sağlar. Enerji verimliliğiyle karbon yoğunluğunu düşürmek ise yükü doğrudan azaltır." },
+  { t: 4, s: 37, q: "Sunuma göre karbon piyasaları hangi iki ana gruba ayrılır?",
+    o: ["Uyumlu (zorunlu) piyasalar – AB ETS, Çin Ulusal ETS; gönüllü piyasalar – Gold Standard, Verified Carbon Standard (Verra)", "Yerel ve uluslararası borsalar", "Kamu ve özel bankalar", "Elektrik ve doğal gaz piyasaları", "Spot ve vadeli piyasalar"], a: 0,
+    e: "Sunum: karbon piyasaları <b>uyumlu piyasalar</b> (AB ETS, Çin Ulusal ETS) ve <b>gönüllü piyasalar</b> (Gold Standard, Verified Carbon Standard – Verra) olarak ikiye ayrılır. İşleyiş mekanizmaları: <b>tavan-ticaret sistemi (cap and trade)</b> ve <b>karbon kredisi ticareti</b> (1 ton CO<sub>2</sub> azaltımını temsil eden kredilerin ticareti).",
+    n: "Uyumlu piyasalarda katılım yasal zorunluluktur; gönüllü piyasalarda şirketler kendi taahhütlerini (ör. karbon nötr ürün) karşılamak için kredi alır." },
+  { t: 4, s: 38, q: "Sunuma göre karbon vergisi hangi prensibe dayanır?",
+    o: ["“Kirleten öder” prensibi", "“İlk gelen alır” prensibi", "“Tüketen kazanır” prensibi", "“Üreten muaftır” prensibi", "“Devlet öder” prensibi"], a: 0,
+    e: "Sunum: karbon vergisi, karbon içeren yakıtların kullanımı sonucu ortaya çıkan CO<sub>2</sub> emisyonlarını ekonomik bir değerle yönetmeyi hedefleyen düzenleme mekanizmasıdır; <b>“kirleten öder”</b> prensibiyle emisyonların azaltılmasını teşvik eder ve ekonomik araçlarla çevresel sürdürülebilirlik sağlar.",
+    n: "Karbon vergisinde fiyat sabittir, emisyon miktarı belirsizdir; ETS'de ise toplam emisyon (tavan) sabittir, fiyat piyasada oluşur." },
+  { t: 4, s: 39, q: "Sunuma göre Emisyon Ticaret Sistemi'nin (ETS) işleyiş adımları hangi sıradadır?",
+    o: ["Üst sınır belirleme (cap) → izinlerin dağıtımı → ticaret → izleme ve raporlama → uyumluluk", "Ticaret → üst sınır → uyumluluk → dağıtım → izleme", "Uyumluluk → izleme → ticaret → dağıtım → üst sınır", "İzinlerin dağıtımı → uyumluluk → üst sınır → izleme → ticaret", "İzleme → ticaret → dağıtım → uyumluluk → üst sınır"], a: 0,
+    e: "Sunum: 1. <b>üst sınır belirleme (cap)</b>: toplam emisyon sınırlanır ve zamanla azaltılır; 2. <b>izinlerin dağıtımı</b>: ücretsiz tahsis veya açık artırma; 3. <b>ticaret</b>: fiyat arz–talebe göre oluşur; 4. <b>izleme ve raporlama</b>: bağımsız doğrulama; 5. <b>uyumluluk</b>: dönem sonunda gerçekleşen emisyona eşdeğer izin teslimi.",
+    n: "Enerji verimliliği yatırımı yapan bir tesis, ihtiyacından fazla kalan izinleri satarak ek gelir elde edebilir; bu, ETS'nin azaltımı en düşük maliyetli yerde gerçekleştirme mantığıdır." },
+  { t: 4, s: 39, q: "Sunuma göre ETS'de izinlerin ücretsiz tahsis edilmesinin amacı nedir?",
+    o: ["Bazı sektörlerin rekabet gücünü korumak", "Emisyonları artırmak", "Devlet gelirini en üst düzeye çıkarmak", "Karbon fiyatını sıfırlamak", "Üst sınırı kaldırmak"], a: 0,
+    e: "Sunum: izinlerin dağıtımında <b>ücretsiz tahsis</b>, bazı sektörlere <b>rekabet gücünü korumak</b> için verilir; <b>açık artırma</b> ile satılan izinlerden elde edilen gelir iklim projelerine yönlendirilebilir.",
+    n: "AB'de SKDM'nin devreye girmesiyle SKDM kapsamındaki sektörlerin ücretsiz tahsisatları 2026–2034 arasında kademeli olarak sonlandırılmaktadır." },
+  { t: 4, s: 40, q: "Sunuma göre Türkiye'nin İklim Kanunu hangi düzenlemeleri içerir?",
+    o: ["Sera gazı azaltımı ve uyum için kapsamlı yasal çerçeve; yerel yönetimlere uyum planı zorunluluğu; karbon ticaret mekanizmalarının düzenlenmesi; 2053 net sıfır hedefinin yasal dayanağı", "Yalnızca elektrik piyasası lisanslarını düzenler", "Yalnızca su kirliliğini düzenler", "Enerji verimliliği etütlerini yasaklar", "Yalnızca doğal gaz ithalatını düzenler"], a: 0,
+    e: "Sunum: İklim Kanunu, sera gazı emisyonlarını azaltmak ve uyum sürecini hızlandırmak için kapsamlı bir yasal çerçeve oluşturmayı hedefler; <b>yerel yönetimlerin uyum planlarını hazırlamalarını zorunlu</b> kılar ve <b>karbon ticaret mekanizmalarını düzenler</b>; <b>2053 Net Sıfır hedefini</b> destekleyen en önemli yasal dayanaklardandır.",
+    n: "Kanunla kurulan Türkiye ETS'si, SKDM karşısında karbon bedelinin yurt içinde ödenmesine imkân verir.",
+    g: { eski: "Sunumda İklim Kanunu’nun sayısı, yayım tarihi ve ETS’nin yürürlüğü verilmiyor.", yeni: "7552 sayılı İklim Kanunu (RG 09.07.2025, 32951) ETS'yi kurdu; Türkiye ETS Yönetmeliği RG 27.08.2026, 33353 ile yürürlüğe girdi.", kaynak: "Resmî Gazete (9 Temmuz 2025 ve 27 Ağustos 2026)" } },
+  { t: 4, s: 40, q: "Sunuma göre Türkiye'nin Uzun Dönemli İklim Stratejisi (LTS) nerede açıklanmıştır?",
+    o: ["Bakü'de gerçekleştirilen COP29'da (Kasım 2024)", "Paris'teki COP21'de", "Glasgow'daki COP26'da", "Şarm El-Şeyh'teki COP27'de", "Dubai'deki COP28'de"], a: 0,
+    e: "Sunum: LTS, Türkiye'nin <b>2053 Net Sıfır</b> hedefi doğrultusunda hazırlanmış ve <b>Kasım ayında Bakü'de gerçekleştirilen COP29'da</b> açıklanmıştır. Plan; enerji dönüşümü, sanayinin karbonsuzlaştırılması, düşük karbonlu ulaşım altyapısı, uluslararası iş birliği ve yeşil finansmanı kapsar.",
+    n: "2053 hedefi için öngörülen başlıca araçlar: yenilenebilir enerji payının artırılması, enerji verimliliği yatırımlarının hızlandırılması, karbonsuz ulaşım ve ormanlaştırma gibi yutak alanlarının genişletilmesi." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

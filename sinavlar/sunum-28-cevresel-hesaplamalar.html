@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Çevresel Hesaplamalar Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 28 · Enerjide Çevresel Hesaplamalar</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 28</span> 1-29_Enerjide_Cevresel_Hesaplamalar.pdf · ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Enerjide Çevresel Hesaplamalar <em>Sınavı</em></h1>
+    <p class="lede">Karbon ayak izi, Kapsam 1-2-3, sınırlar, ISO 14064-1 ve doğrulama; CO<sub>2</sub>e = etkinlik verisi × emisyon faktörü × GWP; IPCC Tier 1-2-3; ithal kömür ve doğal gaz santrali hesap örnekleri; su ayak izi (mavi, yeşil, gri), Falkenmark indeksi, Su Verimliliği Yönetmeliği, ISO 14046, EÜAŞ örnekleri; yaşam döngüsü analizi, ISO 14040/14044 ve ReCiPe.</p>
+    <ul class="facts"><li>49 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Enerjide Çevresel Hesaplamalar” sunumu (ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum28-v1",
+topics: ["Karbon ayak izi ve kapsamlar", "Sera gazı emisyon hesaplamaları", "Su ayak izi kavramları ve mevzuat", "Su ayak izi hesap örnekleri", "Yaşam döngüsü analizi"],
+Q: [
+  // Karbon ayak izi
+  { t: 0, s: 5, q: "Sunuma göre karbon ayak izi nedir ve hangi birimle ifade edilir?",
+    o: ["Bireylerin, işletmelerin, ürünlerin veya hizmetlerin doğrudan ve dolaylı yollarla saldığı CO<sub>2</sub> ve diğer sera gazlarının ölçümüdür; CO<sub>2</sub> eşdeğeri (CO<sub>2</sub>e) ile ifade edilir", "Yalnızca bacadan çıkan duman miktarıdır; m³ ile ifade edilir", "Bir ürünün kullandığı su miktarıdır; litre ile ifade edilir", "Bir tesisin elektrik tüketimidir; kWh ile ifade edilir", "Yalnızca CO emisyonudur; ppm ile ifade edilir"], a: 0,
+    e: "Sunum: karbon ayak izi, bireylerin, işletmelerin, ürünlerin veya hizmetlerin <b>doğrudan ve dolaylı</b> yollarla atmosfere saldığı toplam CO<sub>2</sub> ve diğer (metan, nitröz oksit gibi) sera gazı emisyonlarının ölçümüdür. Farklı gazları tek metrikte toplamak için <b>CO<sub>2</sub> eşdeğeri (CO<sub>2</sub>e)</b> standart birim olarak kullanılır.",
+    n: "Doğrudan (birincil) ayak izi, evsel enerji ve ulaşımda fosil yakıtların yanmasından doğan CO<sub>2</sub>'dir; dolaylı (ikincil) ayak izi, kullandığımız ürünlerin tüm yaşam döngüsünden kaynaklanan emisyonlardır." },
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi sunumda sayılan enerji yönetiminde karbon ayak izi hesaplamasının önemlerinden biri <b>değildir</b>?",
+    o: ["Enerji tüketimini artırmak", "Enerji verimsizliklerini belirleme", "Düzenleyici gereklilikleri karşılamak", "Maliyet tasarrufu", "Karşılaştırmalı değerlendirme ve ilerlemenin takibi"], a: 0,
+    e: "Sunum: karbon ayak izi hesaplamasının önemi: <b>enerji verimsizliklerini belirleme</b>, <b>düzenleyici gereklilikleri karşılama</b>, <b>sürdürülebilirlik hedefleri</b>, <b>maliyet tasarrufu</b>, <b>itibarı geliştirme</b>, <b>karşılaştırmalı değerlendirme ve ilerlemenin takibi</b>.",
+    n: "Karbon ayak izi çoğu işletmede büyük ölçüde enerji tüketiminin aynasıdır: Kapsam 1 yakıt, Kapsam 2 elektrik. Bu yüzden enerji yöneticisinin ölçüm verisi aynı zamanda karbon envanterinin temelidir." },
+  { t: 0, s: 6, q: "Sunuma göre bir fabrikanın kazanında yakılan doğal gaz, şirket araçlarının yakıtı ve klima sistemlerinden soğutucu kaçakları hangi kapsamdadır?",
+    o: ["Kapsam 1 – doğrudan emisyonlar", "Kapsam 2 – dolaylı enerji emisyonları", "Kapsam 3 – yukarı akış emisyonları", "Kapsam 3 – aşağı akış emisyonları", "Hiçbir kapsama girmez"], a: 0,
+    e: "Sunum: <b>Kapsam 1</b>, kuruluşun sahip olduğu veya kontrol ettiği kaynaklardan kaynaklanan emisyonlardır: <b>yakıt yanması</b> (fırın ve kazanlarda kömür, petrol, doğal gaz), <b>şirkete ait araçlar</b>, <b>endüstriyel işlemler</b> (çimento üretimi, metal eritme, klimalardaki soğutucular).",
+    n: "Soğutucu akışkanların küresel ısınma potansiyeli çok yüksek olabilir (bazı HFC'ler binlerce kat CO<sub>2</sub>); küçük bir kaçak bile karbon envanterinde belirgin bir kalem oluşturur." },
+  { t: 0, s: 6, q: "Sunuma göre Kapsam 2 emisyonları nedir?",
+    o: ["Kuruluşun satın alarak tükettiği elektrik, buhar, ısıtma veya soğutmanın üretiminden kaynaklanan emisyonlar", "Kuruluşun kendi kazanlarında yaktığı yakıttan kaynaklanan emisyonlar", "Satılan ürünlerin kullanımından kaynaklanan emisyonlar", "Çalışanların işe gidiş-gelişinden kaynaklanan emisyonlar", "Tedarikçilerin üretiminden kaynaklanan emisyonlar"], a: 0,
+    e: "Sunum: <b>Kapsam 2 (dolaylı emisyonlar)</b>, bir kuruluşun tükettiği <b>satın alınan elektrik, buhar, ısıtma veya soğutmanın üretiminden</b> kaynaklanan emisyonlardır: şebekeden satın alınan elektrik; dış tedarikçiden gelen buhar, ısı ve soğutma.",
+    n: "Kapsam 2 için ETKB, Türkiye ulusal elektrik şebekesi emisyon faktörünü ve elektrik üretim–tüketim noktası emisyon faktörlerini yayımlar; şirketler elektrik tüketimlerini bu faktörlerle çarparak Kapsam 2 emisyonunu hesaplar." },
+  { t: 0, s: 7, q: "Sunuma göre aşağıdakilerden hangisi <b>aşağı akış</b> Kapsam 3 emisyonlarına örnektir?",
+    o: ["Satılan ürünlerin kullanımı ve kullanım ömrü sonu işlemleri", "Satın alınan mal ve hizmetler", "Çalışanların iş seyahatleri", "Çalışanların işe gidip gelmeleri", "Yukarı akışta kiralanan varlıklar"], a: 0,
+    e: "Sunum: <b>yukarı akış</b> (şirketten önce): satın alınan mal ve hizmetler, taşıma ve dağıtım, iş seyahatleri, işe gidip gelme, atık bertarafı, yukarı akışta kiralanan varlıklar. <b>Aşağı akış</b> (şirketten sonra): <b>ürün kullanımı</b>, <b>satılan ürünlerin kullanım ömrü sonu işlemleri</b>, aşağı akış taşımacılığı ve dağıtımı, franchise'lar, aşağı akışta kiralanan varlıklar.",
+    n: "Kapsam 3 ölçülmesi en zor olan, ama genellikle karbon ayak izinin en büyük kısmıdır. Örneğin bir motor üreticisinin en büyük emisyonu, sattığı motorların ömrü boyunca tükettiği elektriktir (aşağı akış)." },
+  { t: 0, s: 8, q: "Sunuma göre kurumsal karbon ayak izinin sınırları hangi dört başlıkta tanımlanır?",
+    o: ["Örgütsel, operasyonel, coğrafi ve zamansal sınırlar", "Teknik, mali, hukuki ve sosyal sınırlar", "Yerel, bölgesel, ulusal ve küresel sınırlar", "Kapsam 1, Kapsam 2, Kapsam 3 ve Kapsam 4", "Hava, su, toprak ve gürültü sınırları"], a: 0,
+    e: "Sunum: kurumsal karbon ayak izinin sınırları: <b>örgütsel</b>, <b>operasyonel</b> (hangi emisyonların Kapsam 1, 2, 3 olarak dahil edileceği), <b>coğrafi</b> (hangi bölge ve tesislerin kapsandığı), <b>zamansal</b> (hesaplama dönemi) sınırlar.",
+    n: "Sınırların açıkça tanımlanması, verilerin tutarlı, karşılaştırılabilir ve alakalı olmasını sağlar; yıllar arası karşılaştırmada sınır değişiklikleri (yeni tesis, satılan birim) ayrıca belirtilmelidir." },
+  { t: 0, s: 9, q: "Sunuma göre karbon ayak izi hesaplamasında zamansal sınır için tipik yaklaşım nedir?",
+    o: ["Genellikle kuruluşun mali yılıyla uyumlu 12 aylık bir süre", "Yalnızca tek bir gün", "Her zaman 5 yıllık dönem", "Kuruluşun kuruluşundan bugüne tüm süre", "Yalnızca kış ayları"], a: 0,
+    e: "Sunum: zamansal sınırlar hesaplamanın zaman çerçevesini belirtir; tipik yaklaşım, <b>genellikle kuruluşun mali yılıyla uyumlu 12 aylık</b> bir süre boyunca emisyonları ölçmektir; bu, verilerin tutarlılığını ve karşılaştırılabilirliğini sağlar.",
+    n: "Bir yıl seçilmesi mevsimsel etkileri (kış ısıtma, yaz soğutma) dengeler. Azaltım hedefleri genellikle bir “baz yıl”a göre tanımlanır." },
+  { t: 0, s: 10, q: "Sunuma göre kurumsal sera gazı envanterleri için en yaygın tanınan standart hangisidir?",
+    o: ["ISO 14064-1", "ISO 50001", "ISO 14046", "ISO 9001", "ISO 45001"], a: 0,
+    e: "Sunum: en yaygın tanınan standart <b>ISO 14064-1</b>'dir; GHG Protokolü ile uyumludur, kurumsal düzeyde sera gazı envanterlerinin planlanması, geliştirilmesi, ölçülmesi, izlenmesi, raporlanması ve doğrulanması için yönergeler sağlar. Diğer yaygın standartlar: GHG Protocol, Carbon Trust Standard, Carbon Disclosure Project (CDP), ISO 14040.",
+    n: "ISO 50001 enerji yönetim sistemi, ISO 14046 su ayak izi, ISO 14040/14044 yaşam döngüsü analizi standartlarıdır." },
+  { t: 0, s: 11, q: "Sunuma göre karbon ayak izi raporu doğrulamasında hangi güvence seviyeleri vardır?",
+    o: ["Makul güvence ve sınırlı güvence", "Tam güvence ve sıfır güvence", "Birinci, ikinci ve üçüncü derece güvence", "Yerel ve uluslararası güvence", "İç ve dış güvence"], a: 0,
+    e: "Sunum: karbon ayak izi raporu doğrulaması, verilerin doğru, güvenilir, tutarlı ve ISO 14064-1 veya GHG Protokolü ile uyumlu olduğunun <b>bağımsız üçüncü taraf</b> tarafından incelenmesidir. Adımlar: veri incelemesi, metodoloji kontrolü (doğru yöntem ve emisyon faktörü), rapor incelemesi. <b>Doğrulama seviyeleri: makul güvence, sınırlı güvence</b>. Zorluklar: veri kalitesi, karmaşık değer zincirleri, maliyet ve zaman.",
+    n: "Makul güvence daha kapsamlı ve pahalı bir denetimdir (finansal denetime benzer); sınırlı güvencede doğrulayıcı yalnızca önemli bir hata görmediğini beyan eder." },
+  { t: 0, s: 13, q: "Sunumdaki temel karbon ayak izi hesaplama formülü hangisidir?",
+    o: ["Karbon ayak izi (CO<sub>2</sub>e) = etkinlik verisi × emisyon faktörü × küresel ısınma potansiyeli (GWP)", "Karbon ayak izi = etkinlik verisi + emisyon faktörü", "Karbon ayak izi = emisyon faktörü / etkinlik verisi", "Karbon ayak izi = GWP / etkinlik verisi", "Karbon ayak izi = etkinlik verisi × ısıl değer"], a: 0,
+    e: "Sunum: <b>Karbon ayak izi (CO<sub>2</sub>e) = etkinlik verileri × emisyon faktörü × küresel ısınma potansiyeli (GWP)</b>. Etkinlik verisi: yakıt miktarı, elektrik tüketimi, kat edilen km gibi ölçülebilir faaliyet miktarı. Emisyon faktörü: birim faaliyet başına sera gazı (ör. kg CO<sub>2</sub>/L yakıt, kg CO<sub>2</sub>/kWh). GWP: belirli bir gazın iklim etkisinin CO<sub>2</sub>'ye göre ölçekleme faktörü.",
+    n: "CO<sub>2</sub>'nin GWP'si 1'dir. Sunumdaki santral örneklerinde CH<sub>4</sub> için 25, N<sub>2</sub>O için 298 GWP kullanılmıştır." },
+  { t: 0, s: 12, q: "Sunumdaki karbon ayak izi hesaplama adımlarının doğru sırası hangisidir?",
+    o: ["Kurumsal sınırların tanımlanması → emisyon kaynaklarının belirlenmesi (Kapsam 1, 2, 3) → etkinlik verilerinin toplanması → emisyon faktörlerinin seçimi → emisyonların hesaplanması → kapsamlar arasında tahsis", "Emisyonların hesaplanması → sınırların tanımlanması → veri toplama", "Emisyon faktörü seçimi → doğrulama → sınır tanımlama", "Raporlama → veri toplama → sınır tanımlama", "Kapsamlar arasında tahsis → sınır tanımlama → veri toplama"], a: 0,
+    e: "Sunumdaki adımlar: <b>kurumsal sınırların tanımlanması</b>; <b>sera gazı emisyon kaynaklarının belirlenmesi (Kapsam 1, 2, 3)</b>; <b>etkinlik verilerinin toplanması</b>; <b>emisyon kaynağına göre emisyon faktörlerinin seçimi</b>; <b>emisyonların hesaplanması</b>; <b>emisyonların kapsamlar arasında tahsis edilmesi</b>.",
+    n: "Etkinlik verisinin en güvenilir kaynakları faturalar ve sayaçlardır: doğal gaz faturası (Sm³), elektrik faturası (kWh), akaryakıt alım kayıtları (L)." },
+  { t: 0, s: 13, q: "Bir işletme yılda 1.000.000 kWh şebeke elektriği tüketmektedir. Şebeke emisyon faktörü 0,44 kg CO<sub>2</sub>/kWh kabul edilirse işletmenin Kapsam 2 emisyonu kaç ton CO<sub>2</sub>'dir?",
+    o: ["440 t CO<sub>2</sub>", "44 t CO<sub>2</sub>", "4.400 t CO<sub>2</sub>", "0,44 t CO<sub>2</sub>", "2.273 t CO<sub>2</sub>"], a: 0,
+    e: "Emisyon = etkinlik verisi × emisyon faktörü = 1.000.000 kWh × 0,44 kg CO<sub>2</sub>/kWh = 440.000 kg = <b>440 t CO<sub>2</sub></b>.",
+    n: "Faktör yalnızca hesap alıştırması içindir; resmi hesaplarda ETKB'nin ilgili yıl için yayımladığı elektrik tüketim noktası emisyon faktörü kullanılmalıdır. %10 elektrik tasarrufu Kapsam 2'yi doğrudan 44 t azaltır." },
+
+  // Sera gazı hesaplamaları
+  { t: 1, s: 16, q: "Sunuma göre Türkiye'nin ulusal sera gazı emisyon envanteri ile ilgili hangisi doğrudur?",
+    o: ["Türkiye Ek-1 ülkesi olarak envanteri yıllık hazırlar; TÜİK koordinasyonunda 2024'te yayımlanan rapor 1990–2022 yıllarını kapsar", "Envanter 5 yılda bir hazırlanır", "Envanteri yalnızca özel şirketler hazırlar", "Türkiye envanter hazırlamakla yükümlü değildir", "Son envanter yalnızca 2010 yılını kapsar"], a: 0,
+    e: "Sunum: BMİDÇS'nin 4. ve 12. maddeleri ülkeleri envanter geliştirmeye, güncellemeye ve sunmaya davet eder; 5. Taraflar Konferansı kararıyla Ek-1 ülkeleri envanter hazırlamakla yükümlü olmuştur. <b>Türkiye Ek-1 ülkesi olarak ulusal envanteri yıllık hazırlar</b>; <b>TÜİK koordinasyonunda 2024'te yayımlanan rapor 1990–2022</b> yıllarını kapsar.",
+    n: "Envanter, IPCC 2006 Kılavuzu ile hesaplanır ve her yıl Nisan ayında BMİDÇS Sekretaryası'na sunulur.",
+    g: { eski: "Son envanter raporu 1990–2022 yıllarını kapsıyor (2024'te yayımlandı).", yeni: "TÜİK, 1990–2024 yıllarını kapsayan sera gazı emisyon istatistiklerini 27 Mart 2026'da yayımladı: 2024 toplamı 584,5 Mt CO₂e.", kaynak: "TÜİK, Sera Gazı Emisyon İstatistikleri 1990–2024 (27 Mart 2026)" } },
+  { t: 1, s: 17, q: "Sunuma göre ulusal sera gazı envanterlerinin hesaplanmasında kullanılan kılavuz hangisidir ve envanter BMİDÇS Sekretaryası'na ne zaman sunulur?",
+    o: ["IPCC 2006 Sera Gazı Emisyon Envanterleri Kılavuzu; her yıl Nisan ayında", "ISO 50001; her yıl Aralık ayında", "GHG Protokolü; 5 yılda bir", "ISO 14046; her yıl Ocak ayında", "Kyoto Protokolü; 10 yılda bir"], a: 0,
+    e: "Sunum: BMİDÇS kapsamında <b>IPCC</b> tarafından <b>2006</b> yılında Sera Gazı Emisyon Envanterleri için Hesaplama Kılavuzu yayımlanmıştır. Türkiye'de bu kılavuzla TÜİK koordinasyonunda hesaplanan envanter <b>her yıl Nisan ayında</b> BMİDÇS Sekretaryası'na sunularak yayımlanır.",
+    n: "Envanter enerji, endüstriyel süreçler ve ürün kullanımı (IPPU), tarım, atık ve arazi kullanımı–ormancılık sektörlerini kapsar." },
+  { t: 1, s: 18, q: "Sunuma göre IPCC kılavuzundaki hesaplama kademeleri (Tier) için hangisi doğrudur?",
+    o: ["Tier 1 uluslararası standart emisyon faktörü kullanır ve belirsizliği yüksektir; Tier 2 ülkeye özgü faktörler kullanır; Tier 3 tesis bazında faktör, kütle ve enerji dengesi kullanır", "Tier 1 en detaylı yöntemdir", "Tier 3 uluslararası varsayılan faktör kullanır", "Tier 2 hiç emisyon faktörü kullanmaz", "Üç kademe de aynı belirsizliğe sahiptir"], a: 0,
+    e: "Sunum: <b>Tier 1</b> basit yaklaşım; emisyon faktörü hesaplamak gerekmez, <b>uluslararası standart emisyon faktörü</b> kullanılır, <b>belirsizlik yüksektir</b>. <b>Tier 2</b> ortalama yaklaşım; <b>ülkeye özgü emisyon faktörleri</b> hesaplanır, belirsizlik daha azdır. <b>Tier 3</b> çok detaylı; <b>tesis bazında emisyon faktörleri</b>, kütle ve enerji dengesi kullanılır.",
+    n: "Sunuma göre elektrik ve ısı üretimi için Tier 3 metodolojisi kullanılmaktadır; çünkü santrallerin yakıt analizleri ve tüketimleri tesis bazında bilinmektedir." },
+  { t: 1, s: 18, q: "Sunuma göre Türkiye'de elektrik ve ısı üretimi kaynaklı emisyonlar hangi kademe (Tier) metodolojisiyle hesaplanır?",
+    o: ["Tier 3", "Tier 1", "Tier 2", "Tier 0", "Hiçbiri; tahmin edilir"], a: 0,
+    e: "Sunum: “<b>Elektrik ve ısı üretimi için Tier 3 metodolojisi kullanılmaktadır.</b>” Tier 3'te tesis bazında emisyon faktörleri hesaplanır, kütle ve enerji dengesi kullanılır.",
+    n: "ETKB, ulusal envanter kapsamında elektrik ve ısı üretiminden kaynaklanan sera gazını her yıl yakıt bazında ve gaz türüne göre hesaplamaktadır." },
+  { t: 1, s: 20, q: "Sunuma göre ETKB'nin yayımladığı Türkiye Ulusal Elektrik Şebekesi Emisyon Faktörü ve elektrik tüketim noktası emisyon faktörleri ne amaçla kullanılır?",
+    o: ["Yenilenebilir enerji kullanımı gibi yöntemlerle sağlanan azaltımların hesaplanmasında ve kurumsal firmaların elektrik tüketiminden kaynaklanan Kapsam 2 emisyonlarının hesaplanmasında", "Elektrik faturası tutarının belirlenmesinde", "Santrallerin lisans süresinin belirlenmesinde", "Doğal gaz tarifelerinin hesaplanmasında", "Kapsam 1 yakıt emisyonlarının hesaplanmasında"], a: 0,
+    e: "Sunum: ETKB, emisyon ticareti, sürdürülebilirlik ve kurumsal raporlamalarda <b>yenilenebilir enerji kullanımı vb. yöntemlerle sağlanan azaltımların</b> hesaplanmasında kullanılan Türkiye Ulusal Elektrik Şebekesi Emisyon Faktörü'nü yayımlar. Ayrıca kurumsal firmaların elektrik tüketimleri kaynaklı <b>Kapsam 2</b> emisyonlarını hesaplayabilmesi için Türkiye Elektrik Üretimi ve Elektrik Tüketim Noktası Emisyon Faktörlerini yayımlar.",
+    n: "Tüketim noktası faktörü, iletim ve dağıtım kayıplarını da içerdiği için üretim faktöründen biraz yüksektir; tüketici için doğru olan tüketim noktası faktörüdür." },
+  { t: 1, s: 19, q: "Sunuma göre emisyonlar kısaca hangi formülle hesaplanır?",
+    o: ["Emisyon = faaliyet verisi × emisyon faktörü", "Emisyon = faaliyet verisi / emisyon faktörü", "Emisyon = faaliyet verisi + emisyon faktörü", "Emisyon = emisyon faktörü − faaliyet verisi", "Emisyon = faaliyet verisi²"], a: 0,
+    e: "Sunum: <b>Emisyonlar = faaliyet verisi × emisyon faktörü</b>. Faaliyet verisi: yakıt tüketimi (ton, TJ, litre vb.), elektrik tüketimi (kWh, MWh vb.). Emisyon faktörü: aktivite türüne göre farklı birimlerde (ton GHG/TJ, kg GHG/kWh gibi).",
+    n: "Birim uyumuna dikkat: emisyon faktörü TJ başına verilmişse yakıt miktarı ton veya Sm³'ten önce ısıl değerle TJ'ye çevrilmelidir. Bu, TEP hesabındaki ısıl değer dönüşümüyle aynı mantıktır." },
+  { t: 1, s: 21, q: "Sunumdaki ithal kömür örneğinde A santralinde elektrik üretimi için yılda 3.461.060 ton kömür (86.944,6 TJ) yakılmaktadır. CO<sub>2</sub> emisyon faktörü 94,354 t CO<sub>2</sub>/TJ ise CO<sub>2</sub> emisyonu yaklaşık ne kadardır?",
+    o: ["≈ 8,20 milyon t CO<sub>2</sub>", "≈ 326,6 milyon t CO<sub>2</sub>", "≈ 0,92 milyon t CO<sub>2</sub>", "≈ 82,0 milyon t CO<sub>2</sub>", "≈ 3,46 milyon t CO<sub>2</sub>"], a: 0,
+    e: "CO<sub>2</sub> = 86.944,6 TJ × 94,354 t CO<sub>2</sub>/TJ ≈ <b>8.203.532 t ≈ 8,20 milyon t CO<sub>2</sub></b>.",
+    n: "326,6 milyon t seçeneği ton cinsinden yakıtın doğrudan faktörle çarpılmasıdır (birim hatası). Kömürün ısıl değeri 86.944,6 TJ / 3.461.060 t ≈ 25,1 GJ/t'dir." },
+  { t: 1, s: 21, q: "Sunumdaki ithal kömür örneğinde CH<sub>4</sub> emisyonu 60,86 ton, N<sub>2</sub>O emisyonu 121,72 tondur. Örnekte kullanılan GWP değerleri (CH<sub>4</sub> 25, N<sub>2</sub>O 298) ile bu gazların CO<sub>2</sub>e katkısı nedir?",
+    o: ["CH<sub>4</sub> ≈ 1.521,5 t CO<sub>2</sub>e; N<sub>2</sub>O ≈ 36.273 t CO<sub>2</sub>e", "CH<sub>4</sub> ≈ 60,9 t; N<sub>2</sub>O ≈ 121,7 t CO<sub>2</sub>e", "CH<sub>4</sub> ≈ 18.136 t; N<sub>2</sub>O ≈ 3.043 t CO<sub>2</sub>e", "CH<sub>4</sub> ≈ 2,4 t; N<sub>2</sub>O ≈ 0,4 t CO<sub>2</sub>e", "CH<sub>4</sub> ≈ 36.273 t; N<sub>2</sub>O ≈ 1.521,5 t CO<sub>2</sub>e"], a: 0,
+    e: "CH<sub>4</sub>: 60,86 × 25 ≈ <b>1.521,5 t CO<sub>2</sub>e</b>. N<sub>2</sub>O: 121,72 × 298 ≈ <b>36.273 t CO<sub>2</sub>e</b>. Toplam CO<sub>2</sub>e = 8.203.532 + 1.521,5 + 36.273 ≈ <b>8.241.327 t</b>.",
+    n: "Emisyon faktörleri CH<sub>4</sub> için 0,7 kg/TJ, N<sub>2</sub>O için 1,4 kg/TJ'dir (86.944,6 × 0,7 kg = 60,86 t). Kütlesi küçük olsa da N<sub>2</sub>O'nun yüksek GWP'si nedeniyle katkısı CH<sub>4</sub>'ten çok büyüktür; yine de CO<sub>2</sub>'nin yanında toplam etkisi %0,5'in altındadır." },
+  { t: 1, s: 22, q: "Sunumdaki doğal gaz örneğinde B santralinde 38.661,56 TJ doğal gaz yakılmaktadır; CO<sub>2</sub> emisyon faktörü 56,117 t CO<sub>2</sub>/TJ'dir. CO<sub>2</sub> emisyonu yaklaşık ne kadardır?",
+    o: ["≈ 2,17 milyon t CO<sub>2</sub>", "≈ 21,7 milyon t CO<sub>2</sub>", "≈ 0,69 milyon t CO<sub>2</sub>", "≈ 59,7 milyon t CO<sub>2</sub>", "≈ 1,06 milyon t CO<sub>2</sub>"], a: 0,
+    e: "CO<sub>2</sub> = 38.661,56 × 56,117 ≈ <b>2.169.554 t ≈ 2,17 milyon t CO<sub>2</sub></b>. CH<sub>4</sub> (1 kg/TJ) 38,66 t → 966,5 t CO<sub>2</sub>e; N<sub>2</sub>O (3 kg/TJ) 115,98 t → 34.563 t CO<sub>2</sub>e; toplam ≈ 2.205.084 t CO<sub>2</sub>e.",
+    n: "Örnekte yakıt miktarı 1.063.108 ton olarak verilmiştir; bu doğal gazın kütlesidir ve ısıl değeri ≈ 36,4 GJ/t'dir." },
+  { t: 1, s: 22, q: "Sunumdaki santral örneklerine göre birim enerji (TJ) başına toplam emisyon (CO<sub>2</sub>e) ithal kömürde ve doğal gazda yaklaşık ne kadardır?",
+    o: ["İthal kömür ≈ 94,8 t CO<sub>2</sub>e/TJ; doğal gaz ≈ 57,0 t CO<sub>2</sub>e/TJ – kömür yaklaşık 1,7 kat fazla", "İkisi de eşittir", "Doğal gaz kömürün iki katıdır", "İthal kömür ≈ 25 t/TJ; doğal gaz ≈ 36 t/TJ", "İthal kömür ≈ 8,2 t/TJ; doğal gaz ≈ 2,2 t/TJ"], a: 0,
+    e: "İthal kömür: 8.241.327 / 86.944,6 ≈ <b>94,8 t CO<sub>2</sub>e/TJ</b>. Doğal gaz: 2.205.084 / 38.661,56 ≈ <b>57,0 t CO<sub>2</sub>e/TJ</b>. Oran ≈ 1,66.",
+    n: "Ayrıca kombine çevrim doğal gaz santralinin elektrik verimi (≈ %55–60) kömür santralinden (≈ %38–42) yüksek olduğundan kWh başına fark daha da büyür. Kömürden gaza ve gazdan yenilenebilire geçiş bu yüzden emisyonları hızla düşürür." },
+  { t: 1, s: 17, q: "Sunuma göre ulusal sera gazı envanterinde doğrudan sera gazlarının yanında hangi dolaylı gazlar da yer alır?",
+    o: ["Azot oksitler (NO<sub>x</sub>), karbon monoksit (CO), metan olmayan uçucu organik bileşikler (NMVOC), kükürt dioksit (SO<sub>2</sub>) ve amonyak (NH<sub>3</sub>)", "Yalnızca oksijen ve azot", "Yalnızca su buharı", "Helyum ve argon", "Ozon ve hidrojen"], a: 0,
+    e: "Sunum: envanterde CO<sub>2</sub>, CH<sub>4</sub> ve F-gazları (HFC'ler, PFC'ler, SF<sub>6</sub>, NF<sub>3</sub>) gibi doğrudan sera gazlarının yanında <b>NO<sub>x</sub>, CO, NMVOC, SO<sub>2</sub> ve NH<sub>3</sub></b> da yer alır; enerji, IPPU, tarım, atık, arazi kullanımı ve ormancılıktan kaynaklı emisyon ve uzaklaştırmalar dahildir.",
+    n: "Dolaylı gazlar kendileri doğrudan sera etkisi yapmasa da atmosferde ozon ve aerosol oluşumunu etkileyerek iklim ve hava kalitesine katkıda bulunur." },
+
+  // Su ayak izi kavramları
+  { t: 2, s: 25, q: "Sunumdaki su ayak izi tarihsel gelişimine göre aşağıdaki eşleştirmelerden hangisi doğrudur?",
+    o: ["2002 su ayak izi kavramı; 2014 ISO 14046 standardı; 2016 TSE EN ISO 14046; 2024 Su Verimliliği Yönetmeliği", "2014 su ayak izi kavramı; 2002 ISO 14046", "2024 ISO 14046; 2016 Su Verimliliği Yönetmeliği", "1997 ISO 14046; 2002 TSE EN ISO 14046", "2015 su ayak izi kavramı; 2024 ISO 14040"], a: 0,
+    e: "Tarihsel gelişim: <b>2002</b> su ayak izi kavramı; <b>2014</b> ISO 14046 standardı; <b>2016</b> TSE EN ISO 14046; <b>2024</b> Su Verimliliği Yönetmeliği.",
+    n: "Su ayak izi kavramı Arjen Hoekstra tarafından 2002'de ortaya atılmıştır; sanal su kavramının üzerine kurulmuştur." },
+  { t: 2, s: 26, q: "Sunuma göre su ile ilgili BM Sürdürülebilir Kalkınma Hedefi hangisidir ve 2030'a kadar neyi amaçlar?",
+    o: ["SKA 6: herkes için suyun ve sıhhi koşulların erişilebilirliği ve sürdürülebilir yönetimi; kirliliğin azaltılması, arıtılmamış atık su oranının yarıya düşürülmesi, geri kazanım ve güvenli kullanımın artırılması", "SKA 7: temiz enerji", "SKA 13: iklim eylemi", "SKA 1: yoksulluğun sona erdirilmesi", "SKA 17: ortaklıklar"], a: 0,
+    e: "Sunum: <b>SKA 6</b>, herkes için suyun ve sıhhi koşulların erişilebilirliği ve sürdürülebilir yönetiminin güvence altına alınmasıdır; 2030'a kadar kirliliğin azaltılması, doğrudan boşaltımların engellenmesi, tehlikeli kimyasalların en aza indirilmesi, <b>arıtılmamış atık su oranının yarıya düşürülmesi</b> ve geri kazanım ile güvenli kullanımın artırılması yoluyla su kalitesinin iyileştirilmesini kapsar.",
+    n: "Enerji ve su birbirine bağlıdır (su–enerji bağı): termik santraller soğutma suyu, su arıtma ve pompalama ise enerji ister." },
+  { t: 2, s: 27, q: "Sunuma göre Dünya Kaynakları Enstitüsü'nün (WRI) değerlendirmesinde 2040'ta kaç ülkenin son derece yüksek su sıkıntısıyla karşılaşacağı öngörülmüştür ve Türkiye kaçıncı sıradadır?",
+    o: ["33 ülke; Türkiye 27. sırada", "167 ülke; Türkiye 1. sırada", "10 ülke; Türkiye listede yok", "50 ülke; Türkiye 33. sırada", "27 ülke; Türkiye 167. sırada"], a: 0,
+    e: "Sunum: WRI, farklı iklim modelleri ve sosyoekonomik senaryolarla 2020, 2030 ve 2040 için <b>167 ülke</b> arasında gelecekteki su sıkıntısını değerlendirmiştir. 2040'ta <b>33 ülkenin son derece yüksek</b> su sıkıntısıyla karşılaşacağı öngörülmüş, <b>Türkiye 27. sırada</b> yer almıştır.",
+    n: "Haritada su sıkıntısı, çekilen suyun mevcut arza oranıyla sınıflandırılır; “son derece yüksek” > %80 demektir." },
+  { t: 2, s: 28, q: "Sunumdaki DSİ verilerine göre Türkiye'nin yıllık ortalama yağışı, toplam kullanılabilir (net) suyu ve toplam kullanılan su miktarı nedir?",
+    o: ["574 mm/yıl; 112 milyar m³; 57 milyar m³ (sulama 44, içme-kullanma ve sanayi 13)", "1.000 mm/yıl; 450 milyar m³; 186 milyar m³", "300 mm/yıl; 57 milyar m³; 112 milyar m³", "574 mm/yıl; 186 milyar m³; 18 milyar m³", "783 mm/yıl; 44 milyar m³; 13 milyar m³"], a: 0,
+    e: "DSİ: yıllık ortalama yağış <b>574 mm</b>; yüzölçümü 783.577 km²; yıllık yağış miktarı 450 milyar m³; yıllık yüzey akışı 186 milyar m³; yeraltı suyu çekilebilir 18 milyar m³; <b>toplam kullanılabilir (net) su 112 milyar m³</b>; kullanılan: sulama 44, içme-kullanma ve sanayi 13, <b>toplam 57 milyar m³</b>.",
+    n: "Kullanılan suyun ≈ %77'si tarımsal sulamaya gider; bu yüzden su verimliliğinde en büyük potansiyel basınçlı sulama sistemlerindedir." },
+  { t: 2, s: 28, q: "Türkiye'nin yüzölçümü 783.577 km² ve yıllık ortalama yağışı 574 mm'dir. Yıllık yağış miktarı yaklaşık kaç milyar m³'tür?",
+    o: ["≈ 450 milyar m³", "≈ 45 milyar m³", "≈ 4.500 milyar m³", "≈ 112 milyar m³", "≈ 1.365 milyar m³"], a: 0,
+    e: "Hacim = yağış yüksekliği × alan = 0,574 m × 783.577 × 10<sup>6</sup> m² ≈ 449,8 × 10<sup>9</sup> m³ ≈ <b>450 milyar m³</b>.",
+    n: "1 km² = 10<sup>6</sup> m², 1 mm = 0,001 m. Aynı mantık sunumdaki yeşil su ayak izi hesabında kullanılır: yağış (m) × alan (m²) = su hacmi (m³)." },
+  { t: 2, s: 28, q: "Türkiye'nin toplam kullanılabilir suyu 112 milyar m³'tür. Nüfus ≈ 86 milyon kabul edilirse kişi başına kullanılabilir su ve sunumdaki Falkenmark eşiklerine göre durum nedir?",
+    o: ["≈ 1.300 m³/kişi·yıl; su stresi (1.000–1.700 aralığı)", "≈ 130 m³/kişi·yıl; mutlak kıtlık", "≈ 13.000 m³/kişi·yıl; su zengini", "≈ 600 m³/kişi·yıl; su kıtlığı (500–1.000)", "≈ 1.300 m³/kişi·yıl; su kıtlığı (500–1.000)"], a: 0,
+    e: "112 × 10<sup>9</sup> / 86 × 10<sup>6</sup> ≈ <b>1.300 m³/kişi·yıl</b>. Sunuma göre Falkenmark indeksinde kişi başı yılda <b>1.000–1.700 m³</b> kullanılabilir tatlı su <b>su stresi</b>, <b>500–1.000 m³</b> <b>su kıtlığı</b> olarak kabul edilir.",
+    n: "Nüfus arttıkça kişi başı su azalır; Türkiye'nin 2030'lu yıllarda su kıtlığı eşiğine yaklaşacağı öngörülmektedir. Falkenmark'a göre kişi başı asgari evsel ihtiyaç günde 100 L, tarım ve sanayi dahil 500–2.000 L/gün'dür." },
+  { t: 2, s: 30, q: "Sunuma göre “sanal su” nedir?",
+    o: ["Doğrudan su kullanımıyla tükettiğimiz mal ve hizmetlerin üretim ve işlenme süreçlerinde kullanılan suyun toplamı", "Bilgisayar simülasyonlarındaki su", "Yalnızca yağmur suyu", "Arıtılmış atık su", "Deniz suyu"], a: 0,
+    e: "Sunum: <b>sanal su</b>, doğrudan su kullanımı ile tükettiğimiz <b>mal ve hizmetlerin üretim ve işlenme süreçlerinde kullanılan suyun toplamıdır</b>. Tatlı su ise düşük tuz konsantrasyonlu, içilebilir su üretimine uygun doğal sudur.",
+    n: "Bir ürünü ithal etmek, onun üretiminde kullanılan “sanal suyu” da ithal etmek demektir; su kıtlığı çeken ülkeler için ticaret politikası bu yüzden su politikasıyla ilişkilidir." },
+  { t: 2, s: 31, q: "Sunuma göre su ayak izi hesabında “su tüketimi” ile “su çekimi” arasındaki fark nedir?",
+    o: ["Su tüketimi, suyun kullanım sonrası alıcı ortama aynı kalitede geri verilememesidir; su çekiminde çekilen su diğer kullanıcılar ve doğal ortam için tekrar kullanılabilir", "İkisi aynıdır", "Su çekimi yalnızca yağmur suyudur", "Su tüketimi yalnızca içme suyudur", "Su çekimi atık suyun arıtılmasıdır"], a: 0,
+    e: "Sunum: <b>su tüketimi</b>, suyun kullanım sonrası alıcı ortama <b>aynı kalitede geri verilememesi</b> ve diğer kullanıcıların aynı miktar ve değerde kullanımını engelleyen durumdur. <b>Su çekimi</b> ise çekilen suyun diğer kullanıcılar ve doğal ortam için <b>tekrar kullanılabilir</b> olduğu durumdur. Bu nedenle su ayak izi hesabında su tüketimi ölçülebilir değeri gösterir.",
+    n: "Örneğin bir santralin açık devre soğutma suyu büyük ölçüde nehre geri verilir (çekim); soğutma kulesinde buharlaşan su ise tüketimdir." },
+  { t: 2, s: 29, q: "Sunuma göre 27.12.2024 tarihli Su Verimliliği Yönetmeliği'ndeki su verimliliği belgeleri hangileridir?",
+    o: ["Mavi, yeşil ve turkuaz belge; sistemi kuranlara mavi verilir, belirli kurumlar 3 veya 5 yıl içinde yeşil belgeye başvurmakla yükümlüdür, turkuaz gönüllüdür", "Altın, gümüş ve bronz belge", "A, B ve C sınıfı belge", "Kırmızı, sarı ve yeşil belge", "Tek tip belge"], a: 0,
+    e: "Sunum: su verimliliği belgesi <b>mavi, yeşil ve turkuaz</b> olmak üzere üç seviyededir. Ek-1 kapsamında sistemi kuranlara <b>mavi</b> belge verilir. Büyükşehir ve il belediyeleri ile nüfusu 50.000 üzeri ilçe belediyeleri <b>en fazla 3 yıl</b>, 500 ha üzeri sulama tesisleri, 250 oda ve üstü turizm işletmeleri, havalimanları, üniversite kampüsleri, OSB'ler, serbest ve endüstri bölgeleri ile Ek-2'deki NACE faaliyetleri <b>en fazla 5 yıl</b> içinde <b>yeşil</b> belge için başvurmakla yükümlüdür. <b>Turkuaz</b> belge gönüllüdür.",
+    n: "Yönetmelik RG 32765 ile yayımlanmıştır; sistem Tarım ve Orman Bakanlığı'nın usul ve esaslarına göre kurulur: personel görevlendirme, plan hazırlama, eğitim, uygulama, izleme ve raporlama." },
+  { t: 2, s: 33, q: "Sunuma göre su ayak izinin üç bileşeni ve tanımları hangisinde doğru verilmiştir?",
+    o: ["Mavi: yüzey ve yeraltı tatlı su kaynaklarından tüketilen su; yeşil: üretimde kullanılan yağmur suyu; gri: kirlilik yükünü su kalitesi standartlarına göre bertaraf etmek için gereken tatlı su", "Mavi: deniz suyu; yeşil: atık su; gri: yağmur suyu", "Mavi: yağmur suyu; yeşil: yeraltı suyu; gri: içme suyu", "Mavi: buharlaşan su; yeşil: buz; gri: bulut", "Mavi: atık su; yeşil: deniz suyu; gri: yüzey suyu"], a: 0,
+    e: "Sunum: <b>mavi su ayak izi</b> = buharlaşan mavi su + ürüne dahil olan mavi su + drenaj (su kayıpları); yüzey ve yeraltı tatlı su kaynakları. <b>Yeşil su ayak izi</b> = buharlaşan yeşil su + ürüne dahil olan yeşil su; kullanılan toplam yağmur suyu. <b>Gri su ayak izi</b> = kirletici yükü / (C<sub>max</sub> − C<sub>nat</sub>); kirlilik yükünün su kalitesi standartlarına göre bertarafı için gereken tatlı su.",
+    n: "Su ayak izi türleri: ülkenin, havzanın, bireyin ve ürünün su ayak izi. Hesap araçları: Water Footprint Network (WFN), ISO 14046, WEAP gibi hidrolojik modeller, uydu verileri." },
+  { t: 2, s: 34, q: "Sunuma göre ISO 14046 standardı neyi düzenler ve hangi yaklaşımı kullanır?",
+    o: ["Su ayak izinin hesaplanması, raporlanması ve doğrulanması için ilke ve gereklilikleri; yaşam döngüsü değerlendirmesi yaklaşımını kullanır", "Kurumsal sera gazı envanterini; GHG Protokolü'nü kullanır", "Enerji yönetim sistemini; PUKÖ döngüsünü kullanır", "İş sağlığı ve güvenliğini; risk matrisini kullanır", "Kalite yönetimini; altı sigmayı kullanır"], a: 0,
+    e: "Sunum: dünya çapında geçerli <b>ISO 14046</b>, <b>su ayak izinin hesaplanması, raporlanması ve doğrulanması</b> için gereken bilgi ve ilkeleri açıklar; bir ürün, süreç veya kuruluşla ilişkili su kaynaklı potansiyel çevresel etkileri ele alır ve <b>yaşam döngüsü değerlendirmesi yaklaşımını</b> kullanır. Organizasyonel sınırlar tayin edilmeli; kuruluş düzeyinde doğrudan su ayak izi dikkate alınmalıdır.",
+    n: "Tek bir göstergeyle yapılan çalışma “gösterge sonucu”, birden fazla parametreyle yapılan çalışma “su ayak izi profili” olarak adlandırılır." },
+
+  // Su ayak izi hesap örnekleri
+  { t: 3, s: 38, q: "Sunumdaki EÜAŞ Genel Müdürlük yerleşkesi örneğinde mavi su ayak izi hangi kalemlerden oluşur ve toplam ne kadardır?",
+    o: ["Genel kullanım 26.194 m³ + bahçe suyu 37.992 m³ + içme suyu 267,69 m³ = 64.453,69 m³/yıl", "Yalnızca içme suyu: 267,69 m³/yıl", "Yağmur suyu: 47.698,56 m³/yıl", "Atık su: 71.849,22 m³/yıl", "Proses suyu: 238.355 m³/yıl"], a: 0,
+    e: "Mavi su ayak izi: <b>genel kullanım (temizlik, mutfak, WC) 26.194,00 m³</b> + <b>bahçe suyu 37.992,00 m³</b> + <b>içme suyu 267,69 m³</b> = <b>64.453,69 m³/yıl</b>. Sayaç ve faturalar (birincil veri) kullanılmış, kapıdan kapıya (gate-to-gate) yaklaşım uygulanmıştır.",
+    n: "Bahçe sulaması mavi su ayak izinin yarısından fazlasıdır; damla sulama, sulama saatinin geceye alınması veya yağmur suyu hasadı en etkili tasarruf önlemleri olur." },
+  { t: 3, s: 40, q: "Sunumdaki EÜAŞ yerleşkesi örneğinde KOİ için kirletici yükü 22.230,15 kg/yıl, C<sub>max</sub> = 344,90 mg/L ve C<sub>nat</sub> = 35,50 mg/L'dir. KOİ'ye göre gri su ayak izi yaklaşık ne kadardır?",
+    o: ["≈ 71.849 m³/yıl", "≈ 64.454 m³/yıl", "≈ 626.201 m³/yıl", "≈ 7.185 m³/yıl", "≈ 22.230 m³/yıl"], a: 0,
+    e: "Gri su ayak izi = L / (C<sub>max</sub> − C<sub>nat</sub>) = 22.230,15 kg/yıl / (344,90 − 35,50) mg/L = 22.230.150 g / 309,4 g/m³ ≈ <b>71.849 m³/yıl</b>.",
+    n: "mg/L = g/m³ olduğundan kg'ı g'a çevirmek yeterlidir. Kirletici yükü L = Q × C = 64.453,9 m³/yıl × 344,9 g/m³ ≈ 22.230 kg/yıl'dır." },
+  { t: 3, s: 41, q: "Sunumdaki EÜAŞ yerleşkesi örneğinde KOİ, BOİ ve AKM için ayrı gri su ayak izi hesaplanmıştır (71.849,22; 69.908,55; 70.364,28 m³/yıl). Gri su ayak izi olarak hangi değer alınır ve toplam su ayak izi nedir?",
+    o: ["En yüksek değer (KOİ: 71.849,22 m³/yıl) alınır; toplam = 64.453,69 + 47.698,56 + 71.849,22 = 184.001,47 m³/yıl", "Üçünün toplamı alınır; toplam ≈ 324.000 m³/yıl", "En düşük değer (BOİ) alınır; toplam ≈ 182.060 m³/yıl", "Ortalaması alınır; toplam ≈ 182.860 m³/yıl", "Gri su hesaba katılmaz; toplam 112.152 m³/yıl"], a: 0,
+    e: "Sunum: KOİ, BOİ ve AKM parametre bazında gri su ayak izi hesaplanmış, <b>üç kirletici yükünden yüksek çıkan değer</b> gri su ayak izine dahil edilmiştir (KOİ: 71.849,22). <b>Toplam su ayak izi = mavi 64.453,69 + yeşil 47.698,56 + gri 71.849,22 = 184.001,47 m³/yıl</b>.",
+    n: "En yüksek değerin alınmasının nedeni, aynı seyreltme suyunun tüm kirleticileri birlikte seyreltmesidir; en kritik kirletici gereken su miktarını belirler." },
+  { t: 3, s: 43, q: "Sunumdaki Deriner Barajı örneğinde rezervuar buharlaşması E = 960 mm/yıl, rezervuar alanı 2.640 ha ve yıllık üretim 1.830.323.400 kWh'tir. Brüt su ayak izi (m³/kWh) yaklaşık kaçtır?",
+    o: ["≈ 0,0138 m³/kWh", "≈ 0,0028 m³/kWh", "≈ 1,38 m³/kWh", "≈ 0,138 m³/kWh", "≈ 0,00014 m³/kWh"], a: 0,
+    e: "W<sub>E</sub> = 10 × E × A = 10 × 960 × 2.640 = 25.344.000 m³/yıl. WF<sub>brüt</sub> = 25.344.000 / 1.830.323.400 ≈ <b>0,0138 m³/kWh</b>.",
+    n: "10 çarpanı mm × ha'yı m³'e çevirir: 1 mm × 1 ha = 0,001 m × 10.000 m² = 10 m³. 0,0028 m³/kWh seçeneği net su ayak izidir." },
+  { t: 3, s: 43, q: "Deriner örneğinde baraj altı alanın (2.690 ha) baraj öncesi evapotranspirasyonu 750 mm/yıldır. Rezervuar buharlaşmasından (25.344.000 m³/yıl) bu doğal buharlaşma düşülerek hesaplanan net su ayak izi kaç m³/kWh'tir?",
+    o: ["≈ 0,0028 m³/kWh", "≈ 0,0138 m³/kWh", "≈ 0,0110 m³/kWh", "≈ 0,028 m³/kWh", "≈ 0,0003 m³/kWh"], a: 0,
+    e: "Baraj altı: 10 × 750 × 2.690 = 20.175.000 m³/yıl. Net = (25.344.000 − 20.175.000) / 1.830.323.400 = 5.169.000 / 1.830.323.400 ≈ <b>0,002824 m³/kWh</b>.",
+    n: "Net yaklaşım, baraj yapılmasaydı da o alandan buharlaşacak suyu düşer; böylece yalnızca barajın neden olduğu ek tüketim hesaplanır. HES'lerin su ayak izi yorumu bu yüzden yönteme çok bağlıdır." },
+  { t: 3, s: 48, q: "Sunumdaki Bursa doğal gaz kombine çevrim santrali örneğinde sülfat (SO<sub>4</sub>) kirletici yükü 183.080,48 kg/yıl, C<sub>max</sub> = 3.000 mg/L, C<sub>nat</sub> = 0'dır. SO<sub>4</sub>'e göre gri su ayak izi ne kadardır?",
+    o: ["≈ 61.027 m³/yıl", "≈ 549.241 m³/yıl", "≈ 6.103 m³/yıl", "≈ 238.355 m³/yıl", "≈ 183.080 m³/yıl"], a: 0,
+    e: "Gri = 183.080.480 g / 3.000 g/m³ ≈ <b>61.027 m³/yıl</b>. KOİ (7.218), AKM (8.896), SO<sub>4</sub> (61.027), Cl (5.649) ve Fe (13.110) arasından en yüksek değer olan SO<sub>4</sub> gri su ayak izine dahil edilmiştir.",
+    n: "Kirletici yükü L = Q × C = 238.355 m³/yıl × 768,1 g/m³ ≈ 183.080 kg/yıl'dır. Santrallerde sülfat genellikle soğutma suyu şartlandırma kimyasallarından ve konsantrasyon artışından kaynaklanır." },
+  { t: 3, s: 49, q: "Sunumdaki Bursa santralinde 2022'de proses için 238.355 m³ su çekilmiş ve 4.213.628,67 MWh elektrik üretilmiştir. Enerji başına tüketilen su miktarı ne kadardır?",
+    o: ["≈ 0,0565 m³/MWh", "≈ 17,7 m³/MWh", "≈ 0,565 m³/MWh", "≈ 5,65 m³/MWh", "≈ 0,00565 m³/MWh"], a: 0,
+    e: "238.355 / 4.213.628,67 ≈ <b>0,0565 m³/MWh</b> (≈ 56,5 L/MWh). Santralin toplam (proses) su ayak izi: mavi 281.144 + gri 61.026,83 = 342.170,83 m³; yeşil su ayak izi 394.751,84 m³ ayrıca hesaplanmıştır.",
+    n: "Santralin kurulu gücü 1.432 MWe'dir. Termik santrallerde su tüketimini esas olarak soğutma sistemi belirler; ıslak soğutma kuleli santrallerde MWh başına tüketim çok daha yüksektir. Bu gösterge, santraller arası karşılaştırma ve su verimliliği hedefleri için kullanılır." },
+  { t: 3, s: 39, q: "Sunumdaki örneklerde yeşil su ayak izi nasıl hesaplanmıştır?",
+    o: ["Meteorolojiden alınan yağış miktarı (mm → m) ile tesisin kapladığı alanın (m²) çarpılmasıyla", "Atık su debisinin kirletici konsantrasyonuna bölünmesiyle", "Sayaç ve faturalardaki şebeke suyunun toplanmasıyla", "Elektrik üretiminin buharlaşmaya bölünmesiyle", "Proses suyunun iki katı alınarak"], a: 0,
+    e: "Sunum: yeşil su ayak izi hesaplarında Meteoroloji Genel Müdürlüğü'nden alınan <b>yağış (mm) m³'e çevrilip tesisin kapladığı alanla (m²) çarpılmıştır</b>. EÜAŞ yerleşkesinde (121.960 m²) sonuç 47.698,56 m³/yıl; Bursa santralinde açık alan 558.032 m² üzerinden 394.751,84 m³/yıldır.",
+    n: "Örneğin Bursa: 0,7074 m × 558.032 m² ≈ 394.752 m³. Yeşil su ayak izi esas olarak tarımsal ürünlerde anlamlıdır; tesislerde yağış potansiyeli, yağmur suyu hasadı fırsatını gösterir." },
+  { t: 3, s: 37, q: "Sunumdaki EÜAŞ örneklerinde hesaplamalarda hangi yaklaşım uygulanmıştır ve ürün su ayak izinde hangi yaklaşım da kullanılabilir?",
+    o: ["Kapıdan kapıya (gate-to-gate); ürünlerde beşikten mezara (cradle-to-grave)", "Beşikten mezara; ürünlerde kapıdan kapıya", "Yalnızca beşikten kapıya", "Mezardan beşiğe", "Yaklaşım belirtilmemiştir"], a: 0,
+    e: "Sunum: ISO 14046 kullanılmış ve hesaplamalarda <b>kapıdan kapıya (gate-to-gate)</b> yaklaşımı uygulanmıştır; ürünlerin su ayak izi hesaplamasında <b>beşikten mezara</b> yaklaşımı da kullanılabilir. Kapıdan kapıya yaklaşım yalnızca operasyonel sınırlar içindeki tesislerin su tüketimini kapsar; tedarik zinciri kapsam dışındadır.",
+    n: "EÜAŞ 21.169 MW kurulu güçle Türkiye'nin en büyük elektrik üretim şirketidir; 2022'de %72'si yerli ve yenilenebilir olmak üzere 46,97 milyar kWh ile Türkiye üretiminin %14,4'ünü karşılamıştır." },
+
+  // YDA
+  { t: 4, s: 53, q: "Sunuma göre yaşam döngüsü analizi (YDA) nedir?",
+    o: ["Bir ürün sisteminin yaşam döngüsü boyunca girdilerinin, çıktılarının ve potansiyel çevresel etkilerinin derlenmesi ve değerlendirilmesi", "Bir ürünün yalnızca satış fiyatının analizi", "Bir çalışanın kariyer planlaması", "Bir makinenin bakım takvimi", "Bir şirketin finansal tablolarının analizi"], a: 0,
+    e: "Sunum: <b>YDA</b>, bir ürün sisteminin yaşam döngüsü boyunca <b>girdilerinin, çıktılarının ve potansiyel çevresel etkilerinin</b> derlenmesi ve değerlendirilmesidir. Yaşam döngüsü yaklaşımı, ürünlerin beşikten mezara; kaynakların elde edilmesi, üretim/işleme, dağıtım, kullanım ve ömür sonu aşamalarından oluşan bir döngüye sahip olduğu analojisine dayanır.",
+    n: "YDA, ürün ve hizmetlerin gerçekten sürdürülebilir olup olmadığını bütünsel olarak değerlendirmeyi sağlar; bir aşamadaki iyileşmenin başka aşamaya yük kaydırmasını (problem shifting) ortaya çıkarır." },
+  { t: 4, s: 52, q: "Sunumdaki YDA tarihsel gelişimine göre ilk LCA çalışması hangi yıl, kim tarafından yapılmış ve ISO 14040 hangi yıl yayımlanmıştır?",
+    o: ["1969 Coca-Cola; ISO 14040 1997", "1997 Coca-Cola; ISO 14040 1969", "1963 Harold Smith; ISO 14040 2021", "1972 USEPA; ISO 14040 1990", "1990 SETAC; ISO 14040 2006"], a: 0,
+    e: "Tarihsel gelişim: 1963 Dünya Enerji Konferansı (Harold Smith); <b>1969 Coca-Cola ilk LCA çalışması</b>; 1970–1975 USEPA “Kaynak ve Çevresel Profil Analiz Metodu”; 1972 “The Limits to Growth” ve “A Blueprint for Survival”; 1980–1990 metodoloji çalışmaları; 1990 SETAC metodoloji standartları; <b>1997 ISO 14040 yayımlandı</b>.",
+    n: "Coca-Cola'nın çalışması cam ve plastik ambalajların kaynak tüketimi ve çevresel etkilerini karşılaştırmak içindi; bugünkü ambalaj YDA'larının öncüsüdür." },
+  { t: 4, s: 56, q: "Sunuma göre ISO 14040 ve ISO 14044 standartlarına göre YDA'nın dört aşaması hangileridir?",
+    o: ["Amaç ve kapsamın tanımlanması, yaşam döngüsü envanteri, yaşam döngüsü etki değerlendirmesi (YDEA), yorumlama", "Planlama, uygulama, kontrol, önlem alma", "Ölçüm, hesap, rapor, doğrulama", "Hammadde, üretim, dağıtım, bertaraf", "Kapsam 1, Kapsam 2, Kapsam 3, Kapsam 4"], a: 0,
+    e: "Sunum: YDA, ISO 14040 ve 14044'e göre 4 aşamadan oluşur: <b>amaç ve kapsamın tanımlanması</b> (amaç, kapsam, sınırlar, detay düzeyi); <b>yaşam döngüsü envanteri</b> (enerji, su, hammadde kullanımı ve emisyonlar); <b>yaşam döngüsü etki değerlendirmesi (YDEA)</b> (insan sağlığı ve çevre üzerindeki olası etkiler); <b>yorumlama</b> (sonuçlar değerlendirilip tercih yapılır, belirsizlikler açıkça belirtilir).",
+    n: "Hammadde–üretim–dağıtım–kullanım–bertaraf ise analiz edilen ürünün yaşam döngüsü aşamalarıdır, YDA çalışmasının metodolojik aşamaları değildir." },
+  { t: 4, s: 55, q: "Aşağıdakilerden hangisi sunumda YDA'nın sağladığı faydalar arasında sayılmaz?",
+    o: ["Ürünün çevresel etkilerinin gizlenmesi", "Kapsamlı çevresel etki değerlendirmesi", "Sürdürülebilirlik kararlarında rehberlik", "Maliyet tasarrufu ve verimlilik artışı", "Regülasyonlara uyum ve risk yönetimi"], a: 0,
+    e: "Sunum: YDA özetle <b>kapsamlı çevresel etki değerlendirmesi</b>, <b>sürdürülebilirlik kararlarında rehberlik</b>, <b>maliyet tasarrufu ve verimlilik artışı</b>, <b>pazar ve rekabet avantajı</b>, <b>regülasyonlara uyum ve risk yönetimi</b> konularında fayda sağlar.",
+    n: "YDA sonuçları Çevresel Ürün Beyanı (EPD) gibi belgelerle paylaşılır; özellikle AB pazarına ihracatta yeşil kamu alımları ve inşaat malzemelerinde giderek talep edilmektedir." },
+  { t: 4, s: 57, q: "Sunuma göre YDA etki değerlendirme yöntemi ReCiPe ile kaç orta nokta ve kaç uç nokta göstergesi hesaplanabilir?",
+    o: ["17 orta nokta; 3 uç nokta (insan sağlığı, doğal çevre, doğal kaynaklar)", "3 orta nokta; 17 uç nokta", "5 orta nokta; 1 uç nokta", "100 orta nokta; 10 uç nokta", "1 orta nokta; 1 uç nokta"], a: 0,
+    e: "Sunum: ReCiPe ile <b>17 orta nokta</b> (iklim değişikliği, partikül madde, asitlenme, ozon tabakasının incelmesi, arazi kullanımı, insan toksisitesi, su kaynaklarının tükenmesi, fosil yakıtların tükenmesi, ötrofikasyon, fotokimyasal ozon oluşumu …) ve <b>3 uç nokta</b> göstergesi (<b>insan sağlığı, doğal çevre, doğal kaynaklar</b>) hesaplanabilir.",
+    n: "Orta nokta göstergeleri belirli çevresel sorunlara (iklim değişikliği, asitleşme) odaklanır; uç nokta göstergeleri ise bu etkileri insan sağlığı, biyoçeşitlilik ve kaynak kıtlığı gibi üç üst düzeyde toplar. Karbon ayak izi, “iklim değişikliği” orta nokta göstergesine karşılık gelir." },
+  { t: 4, s: 58, q: "Sunumdaki plastik şişe YDA örneğinde aşamalar ve önerilen iyileştirmeler hangisinde doğru verilmiştir?",
+    o: ["Aşamalar: hammadde çıkarma, üretim, dağıtım, kullanım, atık yönetimi; iyileştirmeler: sürdürülebilir orman yönetimi, enerji üretiminde yenilenebilir kaynak, atık aşamasında geri dönüşüm ve geri kazanım", "Aşamalar yalnızca üretim; iyileştirme yok", "Aşamalar: satış ve pazarlama; iyileştirme: reklam", "Aşamalar: sevkiyat; iyileştirme: daha fazla plastik kullanımı", "Aşamalar: kullanım; iyileştirme: şişelerin yakılması"], a: 0,
+    e: "Sunum: plastik şişenin yaşam döngüsü <b>hammaddelerin çıkarılması, üretim, dağıtım, kullanım ve atık yönetimi</b> aşamalarından oluşur; veriler toplanır, çevresel etkiler değerlendirilir, sonuçlar analiz edilir. Önerilen iyileştirmeler: hammadde aşamasında <b>sürdürülebilir orman yönetimi</b>, enerji üretiminde <b>yenilenebilir kaynaklar</b>, atık yönetiminde <b>geri dönüşüm ve geri kazanım</b>.",
+    n: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın DEEP Projesi kapsamında plastikler için yaşam döngüsü analizi gerçekleştirilmiştir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

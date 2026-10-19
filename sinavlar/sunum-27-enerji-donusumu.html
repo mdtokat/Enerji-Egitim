@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enerji Dönüşümü Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 27 · Enerji Dönüşümü</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 27</span> 1-28_Enerji_Donusumu.pdf · ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Enerji Dönüşümü <em>Sınavı</em></h1>
+    <p class="lede">Enerji dönüşümünün dört ayağı; enerji verimliliğinin tanımı ve gerekçeleri, enerji yoğunluğu (2000–2022 %31,2); kurulu güç ve yenilenebilir pay (Ekim 2024), 2035 hedefleri; güneş, rüzgâr, hidrolik ve pompaj depolama, biyoenerji, jeotermal, dalga, nükleer ve SMR; elektrifikasyon ve ısı pompası COP'u; enerji depolama, hidrojen ve CCUS.</p>
+    <ul class="facts"><li>44 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Enerji Dönüşümü” sunumu (ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum27-v1",
+topics: ["Enerji dönüşümü ve enerji verimliliği", "Türkiye'de yenilenebilir enerji ve hedefler", "Yenilenebilir ve nükleer teknolojiler", "Elektrifikasyon ve ısı pompası", "Depolama, hidrojen ve karbon yakalama"],
+Q: [
+  // Enerji dönüşümü ve verimlilik
+  { t: 0, s: 2, q: "Sunumdaki içeriğe göre enerji dönüşümünün başlıkları hangileridir?",
+    o: ["Enerji dönüşümü, enerji verimliliği, temiz ve yenilenebilir enerji, elektrifikasyon, teknolojiler ve inovasyon (depolama, hidrojen, karbon yakalama)", "Yalnızca kömür ve doğal gaz yatırımları", "Elektrik piyasası, doğal gaz piyasası ve petrol piyasası", "Kazanlar, kurutma ve pompalar", "TEP hesabı, ölçü aletleri ve etüt raporu"], a: 0,
+    e: "Sunum içeriği: 1) <b>enerji dönüşümü</b>, 2) <b>enerji verimliliği</b>, 3) <b>temiz ve yenilenebilir enerji</b> (güneş, rüzgâr, hidrolik, biyokütle, jeotermal, dalga, nükleer), 4) <b>elektrifikasyon</b>, 5) <b>teknolojiler ve inovasyon</b> (enerji depolama, hidrojen, karbon yakalama, kullanma ve depolama).",
+    n: "Bu başlıklar birbirini tamamlar: verimlilik talebi azaltır, elektrifikasyon kullanımı elektriğe taşır, yenilenebilir kaynaklar bu elektriği temiz üretir, depolama ve hidrojen esnekliği sağlar." },
+  { t: 0, s: 3, q: "Sunuma göre Türkiye'nin enerji yoğunluğu 2000'li yılların başından itibaren yılda ortalama ne oranda azalmaktadır?",
+    o: ["%1,7", "%17", "%0,1", "%6,2", "%31,2"], a: 0,
+    e: "Sunum: Türkiye'nin enerji yoğunluğu 2000'li yılların başından itibaren <b>yılda ortalama %1,7</b> oranında azalmaktadır. Ulusal Enerji Verimliliği Eylem Planı, 2023'te birincil enerji tüketiminin baz senaryoya göre %16 azaltılmasını hedeflemiştir.",
+    n: "%6,2 yalnızca 2022 yılındaki düşüş, %31,2 ise 2000–2022 toplam düşüştür. Bu toplam düşüş yıllık ≈ %1,7'lik bir ortalamaya karşılık gelir." },
+  { t: 0, s: 3, q: "Sunuma göre Ulusal Enerji Verimliliği Eylem Planı 2023 yılında birincil enerji tüketiminin baz senaryoya göre ne kadar azaltılmasını hedeflemiştir?",
+    o: ["%16", "%1,7", "%40", "%50", "%5"], a: 0,
+    e: "Sunum: Ulusal Enerji Verimliliği Eylem Planı, <b>2023</b> yılında birincil enerji tüketiminin <b>baz senaryoya göre %16</b> oranında azaltılmasını hedeflemiştir.",
+    n: "Hedef mutlak bir düşüş değil, verimlilik önlemleri alınmasaydı oluşacak tüketime (baz senaryo) göre bir azaltımdır. İkinci Ulusal Enerji Verimliliği Eylem Planı 2024–2030 dönemini kapsar." },
+  { t: 0, s: 3, q: "Sunuma göre Türkiye'nin mevcut elektrik talebinin yaklaşık ne kadarı yenilenebilir enerjiden, ne kadarı güneş ve rüzgârdan gelmektedir?",
+    o: ["≈ %40 yenilenebilir; dağıtık sistemlerle birlikte güneş ve rüzgâr ≈ %16", "≈ %10 yenilenebilir; güneş ve rüzgâr %1", "≈ %90 yenilenebilir; güneş ve rüzgâr %80", "≈ %59 yenilenebilir; güneş ve rüzgâr %47", "≈ %25 yenilenebilir; güneş ve rüzgâr %25"], a: 0,
+    e: "Sunum: Türkiye'nin mevcut toplam elektrik talebinin <b>yaklaşık %40'ı yenilenebilir</b> enerjiden gelmektedir; dağıtık sistemlerle birlikte <b>güneş ve rüzgârın payı %16</b> civarındadır.",
+    n: "Yenilenebilir payının büyük kısmı hâlâ hidroliktir; hidrolik üretim yağışa göre yıldan yıla dalgalanır. Güneş ve rüzgâr payı son yıllarda hızla artmaktadır." },
+  { t: 0, s: 4, q: "Sunumdaki tanıma göre enerji verimliliği nedir?",
+    o: ["Binalarda yaşam standardı ve hizmet kalitesinin, endüstride üretim kalitesi ve miktarının düşüşüne yol açmadan birim hizmet veya ürün başına enerji tüketiminin azaltılması", "Enerji tüketiminin üretimi azaltarak düşürülmesi", "Yalnızca yenilenebilir enerji kullanılması", "Enerji fiyatlarının düşürülmesi", "Konfordan vazgeçilerek enerji tasarrufu yapılması"], a: 0,
+    e: "Sunum: enerji verimliliği; <b>binalarda yaşam standardı ve hizmet kalitesinin</b>, <b>endüstriyel işletmelerde ise üretim kalitesi ve miktarının düşüşüne yol açmadan</b> birim hizmet veya ürün miktarı başına enerji tüketiminin azaltılmasıdır. Verimlilik yatırımları genellikle enerji tüketiminde <b>kalıcı</b> azalma sağlar.",
+    n: "Tasarruf (davranışsal kısma) ile verimlilik (aynı hizmeti daha az enerjiyle sağlama) farklıdır. Özgül enerji tüketimi (kWh/ton ürün) verimliliğin temel göstergesidir." },
+  { t: 0, s: 4, q: "Sunumda Uluslararası Enerji Ajansı verilerine dayanarak verilen bilgiye göre enerji verimliliğine harcanan 1 Avro, enerji yatırımlarında ne kadar azalma sağlar?",
+    o: ["2 Avro", "0,5 Avro", "1 Avro", "10 Avro", "Azalma sağlamaz"], a: 0,
+    e: "Sunum: Uluslararası Enerji Ajansı verilerine göre <b>1 Avro'luk enerji verimliliği harcaması, enerji yatırımlarında 2 Avro'luk bir azalma</b> sağlar.",
+    n: "Tasarruf edilen enerji için yeni santral, şebeke ve ithalat altyapısı kurmak gerekmez; bu yüzden verimlilik çoğu zaman en ucuz “enerji kaynağı” olarak anılır." },
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi sunumda sayılan enerji verimliliği politikalarının uygulanma nedenlerinden biri <b>değildir</b>?",
+    o: ["Yerli enerji kaynaklarının talebi fazlasıyla karşılaması", "Fosil kaynakların hızla tükenmesi", "Alternatif enerji kaynaklarının istenen ekonomik yapıya henüz ulaşmamış olması", "Artan talep nedeniyle üretimin daha maliyetli alanlara kayması ve fiyat artışı", "Mevcut üretim–tüketim yapısının iklim değişikliği gibi ekolojik bozulmalara yol açması"], a: 0,
+    e: "Sunumdaki nedenler: fosil kaynakların hızla tükenmesi; alternatif kaynakların henüz istenen ekonomik yapıya ulaşmaması; artan talep nedeniyle enerji fiyatlarının artışı; <b>yerli kaynakların talebi henüz karşılayamaması nedeniyle ithalata bağımlılığın sürmesi</b>; iklim değişikliği başta olmak üzere ekolojik bozulmalar.",
+    n: "Sunum ayrıca Türkiye'nin enerji ihtiyacının büyük oranda ithalatla karşılandığını, bu yüzden kalkınma ve sanayileşme için verimlilik politikalarının son derece önemli olduğunu vurgular." },
+  { t: 0, s: 5, q: "Sunumdaki cam, seramik ve çimento sektörü örneğine göre bu tesislerde enerji tasarrufu sağlayan önlemler hangileridir?",
+    o: ["Sinter ve kurutma fırınlarından çıkan yüksek sıcaklıktaki gazlardan geri kazanım, brülör yanma ayarı, fırın sızdırmazlığı, yalıtımın iyileştirilmesi, hammadde ve mamul transfer sistemlerinin iyileştirilmesi", "Fırın sıcaklığının 3.000 °C'ye çıkarılması", "Fırınların gün içinde sürekli açılıp kapatılması", "Yalıtımın sökülmesi", "Fazla havanın artırılması"], a: 0,
+    e: "Sunum: taş ve toprağın <b>1.000 °C üzerinde</b> işlendiği yüksek sıcaklık proseslerinde <b>sinter ve kurutma fırınlarından çıkan sıcak gazların enerjisinin geri kazanılması</b>, <b>brülör yanma verimlerinin iyi ayarlanması</b>, <b>fırın sızdırmazlığı</b>, <b>yalıtımın iyileştirilmesi</b> ve <b>hammadde–mamul transfer sistemlerinin iyileştirilmesi</b> enerji tasarrufu sağlar. Yatırım kapsamı: verimli ekipman ve sistem, yalıtım, rehabilitasyon ve proses düzenleme, atık enerji geri kazanımı.",
+    n: "Bu önlemler kazanlar, kurutma ve verimlilik önlemleri sunumlarındaki ilkelerin (baca gazı sıcaklığı, fazla hava, yalıtım, ısı geri kazanımı) sektöre uygulanmış hâlidir." },
+  { t: 0, s: 6, q: "Sunumdaki verilere göre Türkiye'nin birincil enerji yoğunluğu 2000–2022 döneminde, 2012–2022 döneminde ve yalnızca 2022 yılında ne kadar azalmıştır?",
+    o: ["2000–2022 %31,2; 2012–2022 %19,5; 2022 %6,2", "2000–2022 %6,2; 2012–2022 %19,5; 2022 %31,2", "2000–2022 %68,8; 2012–2022 %31,2; 2022 %1,7", "2000–2022 %19,5; 2012–2022 %6,2; 2022 %31,2", "Enerji yoğunluğu artmıştır"], a: 0,
+    e: "Sunum: birincil enerji yoğunluğu <b>2022'de %6,2</b>, <b>2012–2022'de %19,5</b>, <b>2000–2022'de %31,2</b> azalmıştır. Grafikte 2000 = 100 alındığında 2022 değeri <b>68,8</b>'dir.",
+    n: "Türkiye 2021'de enerji yoğunluğunu iki yıl üst üste azaltan üç G20 ülkesinden biri ve 2021'de enerji yoğunluğunu en fazla azaltan ikinci G20 ülkesi olmuştur." },
+  { t: 0, s: 6, q: "Sunumdaki grafikte 2000 yılı enerji yoğunluğu 100 kabul edildiğinde 2022 değeri 68,8'dir. Bu, 22 yılda yıllık ortalama yaklaşık yüzde kaç azalmaya karşılık gelir?",
+    o: ["≈ %1,7", "≈ %3,1", "≈ %0,7", "≈ %6,2", "≈ %31,2"], a: 0,
+    e: "Yıllık ortalama azalma = 1 − (68,8/100)<sup>1/22</sup> = 1 − 0,983 ≈ <b>%1,7</b>. Bu, sunumdaki “yılda ortalama %1,7” ifadesiyle tutarlıdır.",
+    n: "31,2 / 22 ≈ %1,4 basit bölmesi doğru değildir; yüzde değişimler bileşik olarak hesaplanır. %3,1 seçeneği ise %31,2'nin yanlışlıkla 10'a bölünmesidir." },
+
+  // Türkiye yenilenebilir ve hedefler
+  { t: 1, s: 7, q: "Sunuma göre 2024 Ekim sonu itibarıyla Türkiye'nin kurulu gücü ve yenilenebilir kaynakların payı nedir?",
+    o: ["≈ 114.590 MW; yenilenebilir 67.788 MW ile %59,2", "≈ 67.788 MW; yenilenebilir %100", "≈ 189.700 MW; yenilenebilir %64,7", "≈ 95.900 MW; yenilenebilir %40", "≈ 120.000 MW; yenilenebilir %47"], a: 0,
+    e: "Sunum (Ekim 2024): <b>Türkiye kurulu gücü ≈ 114.590 MW</b>; <b>yenilenebilir kurulu güç 67.788 MW</b>; yenilenebilir kaynakların toplam kurulu güçteki payı <b>%59,2</b>.",
+    n: "Yenilenebilir payının kurulu güçte %59 iken üretimde %47 olması, rüzgâr ve güneşin kapasite faktörünün termik santrallerden düşük olmasındandır.",
+    g: { eski: "Kurulu güç ≈ 114,6 GW; yenilenebilir 67.788 MW (%59,2) (Ekim 2024).", yeni: "Kurulu güç 122.519 MW; yenilenebilir 76.281 MW ile %62,3 (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 1, s: 8, q: "Sunumdaki 2024 Ekim sonu tablosuna göre yenilenebilir kaynaklar arasında kurulu gücü en büyük olan kaynak ve payı nedir?",
+    o: ["Hidrolik: 32.203 MW (%28,1)", "Güneş: 19.005 MW (%16,6)", "Rüzgâr: 12.446 MW (%10,9)", "Biyokütle: 2.443 MW (%2,1)", "Jeotermal: 1.691 MW (%1,6)"], a: 0,
+    e: "Tablo (Ekim 2024, kurulu güç / toplamdaki pay): <b>hidrolik 32.203 MW (%28,1)</b>, güneş 19.005 MW (%16,6), rüzgâr 12.446 MW (%10,9), biyokütle (atık ısı dahil) 2.443 MW (%2,1), jeotermal 1.691 MW (%1,6). Üretimde: hidrolik 66.166 GWh (%22,9), rüzgâr 30.055 (%10,4), güneş 23.703 (%8,2), jeotermal 9.161 (%3,2), biyokütle 8.702 (%3,0); yenilenebilir toplam 137.787 GWh (%47,06).",
+    n: "Güneş kurulu güçte rüzgârı geçmiş, ancak üretimde hâlâ rüzgârın gerisindedir; güneşin kapasite faktörü (≈ %17–20) rüzgârınkinden (≈ %30–35) düşüktür.",
+    g: { eski: "Güneş 19.005 MW, toplam kurulu güçte %16,6 (Ekim 2024).", yeni: "Güneş 25.109 MW, %20,5 ile ikinci sırada (2025 sonu).", kaynak: "ETKB verileri (Aralık 2025)" } },
+  { t: 1, s: 8, q: "Sunumdaki tabloya göre güneşin kurulu güçteki payı %16,6, üretimdeki payı %8,2'dir. Bu fark neyi gösterir?",
+    o: ["Güneşin kapasite faktörünün (yıllık ortalama kullanım oranının) diğer kaynaklara göre düşük olduğunu", "Güneş santrallerinin yarısının hiç çalışmadığını", "Ölçüm hatası olduğunu", "Güneşin en yüksek kapasite faktörüne sahip olduğunu", "Güneş elektriğinin tamamının ihraç edildiğini"], a: 0,
+    e: "Kurulu güç payının üretim payının yaklaşık iki katı olması, güneşin yıl boyunca kurulu gücüne göre daha az enerji ürettiğini, yani <b>kapasite faktörünün düşük</b> olduğunu gösterir (gece ve bulutlu saatlerde üretim yoktur).",
+    n: "Kapasite faktörü = yıllık üretim / (kurulu güç × 8.760 h). Termik ve nükleer santrallerde %70–90, rüzgârda %30–35, güneşte %17–20 civarındadır." },
+  { t: 1, s: 9, q: "Sunuma göre 2035 RES–GES kurulu güç hedefi ve öngörülen yatırım tutarı nedir?",
+    o: ["120.000 MW (4 katına çıkarılacak); 80 milyar dolar yatırım", "52.900 MW; 10 milyar dolar", "29.600 MW; 5 milyar dolar", "189.700 MW; 200 milyar dolar", "67.788 MW; 1 milyar dolar"], a: 0,
+    e: "Sunum: <b>2035 RES–GES kurulu güç hedefi 120.000 MW</b>, <b>4 katına çıkarılacak</b>, <b>80 milyar dolar yatırım</b>.",
+    n: "Bu hedef, Ulusal Enerji Planı'ndaki 2035 rüzgâr (29,6 GW) ve güneş (52,9 GW) değerlerinin toplamından (≈ 82,5 GW) daha iddialıdır; 2024'te açıklanan yol haritasıyla yükseltilmiştir." },
+  { t: 1, s: 10, q: "Sunumdaki yenilenebilir enerji hedefleri grafiğine göre 2035'te toplam elektrik üretimi ve kurulu güç ne kadar olacaktır?",
+    o: ["Üretim 507,7 TWh; kurulu güç 189,7 GW", "Üretim 306,7 TWh; kurulu güç 95,9 GW", "Üretim 380,2 TWh; kurulu güç 116,2 GW", "Üretim 452,7 TWh; kurulu güç 149,1 GW", "Üretim 1.000 TWh; kurulu güç 300 GW"], a: 0,
+    e: "Grafik: elektrik üretimi 2020 306,7; 2025 380,2; 2030 452,7; <b>2035 507,7 TWh</b>. Kurulu güç 2020 95,9; 2025 116,2; 2030 149,1; <b>2035 189,7 GW</b>. 2035'te güneş 52,9 GW, hidrolik 35,1 GW, gaz 35,5 GW, rüzgâr 29,6 GW, kömür 24,3 GW, nükleer 7,2 GW.",
+    n: "2035 üretiminde güneş 84,0 TWh, rüzgâr 90,1 TWh, hidrolik 87,9 TWh, nükleer 55,8 TWh, termik 173,7 TWh öngörülür." },
+  { t: 1, s: 10, q: "Sunumdaki 2035 hedeflerine göre güneş (84,0 TWh) ve rüzgârın (90,1 TWh) toplam elektrik üretimindeki (507,7 TWh) payı yaklaşık yüzde kaçtır?",
+    o: ["≈ %34,3", "≈ %17,7", "≈ %54,7", "≈ %64,7", "≈ %50"], a: 0,
+    e: "(84,0 + 90,1) / 507,7 = 174,1 / 507,7 ≈ <b>%34,3</b>. Bu değer, Ulusal Enerji Planı'ndaki 2035 “kesintili YEK” üretim payıyla (%34,2) tutarlıdır.",
+    n: "Kesintili kaynakların üretimdeki payı %30'u aştığında batarya, pompaj, talep tarafı katılımı ve güçlü iletim hatları gibi esneklik araçları zorunlu hâle gelir." },
+  { t: 1, s: 11, q: "Sunumdaki güneş radyasyonu haritasına göre Türkiye'de yıllık toplam güneş radyasyonu hangi aralıkta değişir ve en yüksek değerler hangi bölgelerdedir?",
+    o: ["≈ 1.400–2.000 kWh/m²·yıl; güney (Akdeniz) ve güneydoğu–doğu (ör. Hakkari, Van) bölgelerinde en yüksek", "≈ 100–200 kWh/m²·yıl; Karadeniz'de en yüksek", "≈ 5.000–6.000 kWh/m²·yıl; Marmara'da en yüksek", "Her yerde aynıdır", "≈ 1.400–2.000 kWh/m²·yıl; Karadeniz kıyısında en yüksek"], a: 0,
+    e: "Haritada yıllık toplam güneş radyasyonu <b>1.400–1.450</b> (Karadeniz ve Marmara'nın kuzeyi) ile <b>1.800–2.000 kWh/m²·yıl</b> arasında değişir; en yüksek değerler <b>Akdeniz kıyıları (Antalya, Mersin, Karaman)</b> ve <b>güneydoğu–doğu (Van, Hakkari)</b> bölgelerindedir.",
+    n: "Aynı panel, Antalya'da Samsun'a göre yaklaşık %25–30 daha fazla enerji üretir. Bu yüzden büyük ölçekli GES'ler (ör. Karapınar) iç ve güney bölgelerde yoğunlaşır." },
+
+  // Teknolojiler
+  { t: 2, s: 12, q: "Sunuma göre güneş fotovoltaik (PV) sistemlerin çalışma prensibi ve tipik verimliliği nedir?",
+    o: ["Hücrelere çarpan ışık, genellikle silikon olan bir yarı iletkenle doğru akım elektriğe dönüşür, invertörle alternatif akıma çevrilir; tipik verim ≈ %15–22", "Güneş ısısı suyu kaynatıp türbin çevirir; verim ≈ %90", "Güneş ışığı rüzgâr üretir; verim ≈ %50", "Işık doğrudan alternatif akım üretir; verim ≈ %100", "Güneş ışığı hidrojen üretir; verim ≈ %5"], a: 0,
+    e: "Sunum: fotovoltaik hücrelere çarpan ışık, genellikle <b>silikon</b> olan bir yarı iletken tarafından elektriğe dönüştürülür; birkaç hücreden oluşan dizi <b>12, 24 veya 48 V</b> doğru akım üretir; doğru akım <b>invertör</b> ile alternatif akıma çevrilir. <b>Tipik verimlilik ≈ %15–22</b>. Maksimum üretim = (1.300 W/m² enerji potansiyeli, Türkiye) × verimlilik.",
+    n: "Verimlilik = üretilen elektrik / alınan güneş enerjisi. Panel verimi sıcaklık arttıkça düşer; bu yüzden iyi havalanan montaj ve temizlik üretimi artırır." },
+  { t: 2, s: 12, q: "Sunumdaki formüle göre (maksimum üretim = 1.300 W/m² × verimlilik) %20 verimli bir PV panelin 1 m²'sinden elde edilebilecek maksimum güç ne kadardır?",
+    o: ["260 W", "1.300 W", "65 W", "2.600 W", "20 W"], a: 0,
+    e: "Maksimum üretim = 1.300 W/m² × 0,20 = <b>260 W/m²</b>.",
+    n: "Bu anlık tepe değerdir. Yıllık enerji için radyasyon haritasındaki kWh/m²·yıl değeri kullanılır: 1.700 kWh/m²·yıl × %20 ≈ 340 kWh/m²·yıl (sistem kayıpları hariç)." },
+  { t: 2, s: 13, q: "Aşağıdakilerden hangisi sunumda sayılan güneş PV avantajlarından biri <b>değildir</b>?",
+    o: ["Gece de tam kapasiteyle üretim yapması", "Kirletmeyen bir enerji kaynağı olması", "Modüler bileşenlerin ev çatılarına kolayca uyum sağlaması", "Bileşenlerin 20–30 yıl dayanması ve düşük bakım gerektirmesi", "Hareketli parça olmaması ve inşasının bir yıldan kısa sürmesi"], a: 0,
+    e: "Sunumdaki PV avantajları: kirletmeyen ve birçok bölgede mevcut kaynak; “güneşli” iklimlerle sınırlı değil; şebekeye erişimi zor bölgelerde elektrik; modüler, çatılara uygun; <b>20–30 yıl ömür</b>, düşük bakım; su veya türbin gerekmez, <b>hareketli parça yok</b>, ısı içermez; <b>inşası hızlı (bir yıldan az)</b>; rüzgârdan daha aralıklı ama daha öngörülebilir üretim.",
+    n: "PV gece üretim yapmaz; bu yüzden güneşin payı arttıkça akşam puantı için depolama veya esnek santral ihtiyacı büyür." },
+  { t: 2, s: 14, q: "Sunuma göre rüzgâr nasıl oluşur ve rüzgâr türbini enerjiyi nasıl dönüştürür?",
+    o: ["Güneşin yeryüzünü eşit olmayan şekilde ısıtıp soğutması ve basınç farklarıyla oluşan hava hareketidir; türbin rüzgârın kinetik enerjisini mekanik, sonra elektrik enerjisine çevirir", "Dünyanın manyetik alanından oluşur; türbin manyetik enerjiyi ısıya çevirir", "Denizlerin buharlaşmasından oluşur; türbin kimyasal enerji üretir", "Ayın çekiminden oluşur; türbin potansiyel enerjiyi depolar", "Yalnızca dağlarda oluşur; türbin elektriği doğrudan üretir"], a: 0,
+    e: "Sunum: rüzgâr, <b>güneşin yeryüzünü eşit olmayan şekilde ısıtıp soğutmasının ve basınç farklarının</b> meydana getirdiği hava hareketleridir. Rüzgâr türbini, rüzgârın <b>kinetik enerjisini mekanik enerjiye</b>, ardından <b>elektrik enerjisine</b> dönüştürür. Parçalar: pervane kanatları, kontrol ünitesi, vites kutusu, kule, çark, jeneratör, düşük ve yüksek hız mili, makine bölümü, durdurma kolu, anemometre, sapma sürücüsü ve motoru.",
+    n: "Rüzgâr gücü hızın küpüyle orantılıdır (P ∝ v³): rüzgâr hızı iki katına çıkınca güç sekiz katına çıkar. Bu yüzden saha seçimi rüzgâr ölçümüne çok bağlıdır." },
+  { t: 2, s: 15, q: "Sunuma göre rüzgâr enerjisinin güneşe göre avantajı nedir?",
+    o: ["1 MW rüzgâr türbini, aynı kapasitedeki güneş santraline göre çok daha az alan kullanır ve uygun rüzgârda gece–gündüz üretim yapar", "Rüzgâr türbinleri hiç bakım gerektirmez", "Rüzgâr her zaman sabit hızda eser", "Rüzgâr santralleri hareketli parça içermez", "Rüzgâr türbinleri yalnızca çatıya kurulabilir"], a: 0,
+    e: "Sunum: rüzgârın yakıtı ücretsiz ve sınırsızdır; üretimde sera gazı salınmaz; geniş arazi gereksinimi olmadan kurulabilir; <b>1 MW rüzgâr türbini aynı kapasitedeki güneş santraline göre çok daha az alan</b> kullanır; uygun rüzgâr koşullarında <b>gece ve gündüz</b> üretim sağlar.",
+    n: "Türbinler arasında boşluk bırakılması gerekse de bu alanlar tarım ve otlatmaya açık kalabilir; GES ise kapladığı alanı büyük ölçüde örter." },
+  { t: 2, s: 17, q: "Sunuma göre pompalı depolamalı hidroelektrik santraller için hangisi doğrudur?",
+    o: ["Enerji depolamanın en yaygın hâlidir; 2022'de şebeke ölçeğindeki depolama kapasitesinin %86'sını oluşturur; 2021'de küresel kapasite 163 GW; dönüşüm verimi %70–85", "Verimleri %10–20'dir", "Yalnızca nehir tipi santrallerdir", "Şebeke depolamasının %1'ini oluşturur", "Rezervuar gerektirmez"], a: 0,
+    e: "Sunum: pompalı depolama <b>enerji depolamanın en popüler hâlidir</b>; şebeke ölçeğindeki depolama kapasitesinin <b>%86'sını</b> temsil eder (2022); <b>163 GW</b> küresel kapasite (2021); <b>dönüşüm verimliliği %70–85</b>; kapalı devre ve açık devre sistemleri vardır. Fazla elektrikle su alt rezervuardan üst rezervuara pompalanır, ihtiyaçta türbinden geçirilerek elektrik üretilir.",
+    n: "Nehir tipi HES'lerde (Türkiye'de “HES” olarak bilinir) rezervuar yoktur, üretim dalgalıdır ve çevresel hasar tartışmalıdır. Barajlı santraller ise taşkın ve kuraklık kontrolü, sulama ve içme suyu gibi ek faydalar sunar." },
+  { t: 2, s: 17, q: "Dönüşüm verimi %80 olan bir pompaj depolamalı santralde, pompalama için şebekeden 1.000 MWh elektrik çekilirse türbin modunda yaklaşık ne kadar elektrik geri alınır?",
+    o: ["800 MWh", "1.000 MWh", "1.250 MWh", "200 MWh", "80 MWh"], a: 0,
+    e: "Geri alınan enerji = 1.000 × 0,80 = <b>800 MWh</b>; 200 MWh pompa, türbin ve boru kayıplarıyla kaybolur.",
+    n: "Pompaj depolamanın ekonomisi fiyat farkına dayanır: ucuz saatlerde pompalanır, pahalı saatlerde üretilir. Fiyat farkı kayıpları karşılamaya yetmelidir." },
+  { t: 2, s: 18, q: "Sunuma göre biyoyakıtlar 2022'de taşımacılıkta küresel talebin yüzde kaçını karşılamıştır ve etanol hangi oranda karıştırılarak tüm motorlarda kullanılabilir?",
+    o: ["%3,6; %10–15", "%36; %100", "%0,36; %1", "%21; %50", "%86; %70–85"], a: 0,
+    e: "Sunum: biyoyakıtlar küresel talebin <b>%3,6</b>'sını karşılamaktadır (2022). <b>Etanol</b> şeker veya nişasta bitkilerinden (şeker kamışı, şeker pancarı, mısır, buğday) fermantasyon ve damıtmayla üretilir; <b>tüm motorlar için %10–15 karışım</b> uygundur, modifiye motorlar için %100. <b>Biyodizel</b> bitkisel veya hayvansal yağdan (kanola, palmiye, soya, ayçiçeği, kullanılmış yemeklik yağ) üretilir.",
+    n: "Biyoenerji formları: katı (biyokütle), sıvı (biyoyakıtlar), gaz (biyogaz, biyometan). Gelişmiş biyoyakıt araştırmaları, gıda ile rekabet etmeyen selülozik hammaddelere odaklanır." },
+  { t: 2, s: 19, q: "Sunuma göre biyokütle neden “karbon nötr” bir kaynak kabul edilir?",
+    o: ["Bitkiler büyürken fotosentezle atmosferden CO<sub>2</sub> yakalar, yakıldığında bu CO<sub>2</sub>'yi serbest bırakır", "Biyokütle yandığında hiç CO<sub>2</sub> çıkmaz", "Biyokütle yalnızca suyla yanar", "Biyokütle CO<sub>2</sub>'yi kalıcı olarak toprağa gömer", "Biyokütle oksijen tüketmez"], a: 0,
+    e: "Sunum: biyokütle bitkilerden ve hayvanlardan elde edilen yenilenebilir organik maddedir. <b>Karbon nötr</b> kabul edilir, çünkü <b>bitkiler büyüme sırasında atmosferden CO<sub>2</sub> yakalar (fotosentez), yakıldığında bu CO<sub>2</sub>'yi serbest bırakır</b>. Çevre sorunları: ormansızlaşma, artan su ve gübre kullanımı, bazı biyoyakıtların düşük yaşam döngüsü emisyon tasarrufu, gıda–yakıt tartışması.",
+    n: "Karbon nötrlük, yakılan biyokütlenin yeniden yetiştirilmesi şartına bağlıdır. Sera gazı envanterlerinde biyokütle kaynaklı CO<sub>2</sub> genellikle enerji sektörü toplamına eklenmez, ayrı raporlanır." },
+  { t: 2, s: 20, q: "Sunuma göre jeotermal enerjinin kısıtlılıkları hangileridir?",
+    o: ["Her yerde mevcut değil; su kirliliği ve gaz emisyonu riski; rüzgâr ve güneşe göre daha yüksek yatırım; bazı kaynakların zamanla zayıflayabilmesi", "Kapasite faktörünün çok düşük olması", "Yalnızca ısı üretip elektrik üretememesi", "Olgunlaşmamış bir teknoloji olması", "Yenilenebilir olmaması"], a: 0,
+    e: "Sunum: jeotermalin <b>avantajları</b>: yenilenebilir, güvenilir (yüksek kapasite faktörü), hem güç hem ısı üretebilir, olgun teknoloji. <b>Kısıtlılıkları</b>: her yerde mevcut değil; su kirliliği ve gaz emisyonu riski; rüzgâr ve güneşe göre daha yüksek yatırım; bazı kaynakların zamanla tükenebilmesi veya zayıflayabilmesi.",
+    n: "Türkiye jeotermal elektrikte dünyada ilk sıralardadır (Ege bölgesi). Jeotermal akışkanın reenjeksiyonu hem rezervuarı korur hem de çevresel riski azaltır." },
+  { t: 2, s: 21, q: "Sunuma göre dalga enerjisinin durumu nedir?",
+    o: ["Büyük potansiyel ancak sınırlı ilerleme; rüzgâr veya güneşten yaklaşık 10 kat daha pahalı", "En ucuz yenilenebilir kaynaktır", "Türkiye elektriğinin yarısını karşılar", "Olgun ve yaygın bir teknolojidir", "Hiç potansiyeli yoktur"], a: 0,
+    e: "Sunum: dalga enerjisinin <b>büyük potansiyeli ancak sınırlı ilerlemesi</b> vardır; <b>rüzgâr veya güneşten 10 kat daha pahalıdır</b>.",
+    n: "Deniz ortamının korozif ve fırtınalı koşulları, ekipman dayanımı ve bakım maliyetini artırır; bu yüzden dalga enerjisi hâlâ pilot ölçektedir." },
+  { t: 2, s: 22, q: "Aşağıdakilerden hangisi sunumda sayılan nükleer enerjinin avantajlarından biri <b>değildir</b>?",
+    o: ["Nükleer atıkların kalıcı bertaraf tesislerinin her ülkede hazır olması", "Sıfır emisyon", "Enerji arz güvenliği", "Fosil yakıt fiyatlarından bağımsız maliyet", "Kesintisiz ve güvenilir temel yük üretimi"], a: 0,
+    e: "Sunumdaki avantajlar: sıfır emisyon, arz güvenliği, fosil yakıt fiyatlarından bağımsız maliyet, kesintisiz temel yük, düşük alan gereksinimi. Dezavantajlar arasında ise <b>nükleer atık: henüz hiçbir ülkede kalıcı tesis yok</b> ifadesi yer alır.",
+    n: "Sunumdaki diğer dezavantajlar: kamu ve siyasi direnç, Fukushima sonrası güvenlik endişeleri, düşük gaz fiyatları ve ucuzlayan yenilenebilirler, yaşlanan tesisler (ortalama yaş 32), yayılma riski, yüksek ilk maliyet ve uzun inşaat süresi." },
+  { t: 2, s: 24, q: "Sunuma göre Küçük Modüler Reaktörler (SMR) için hangisi doğrudur?",
+    o: ["10–300 MW kapasitelidir; modüler tasarım, seri üretim ve sahada montajla maliyeti düşürmeyi, kurulumu hızlandırmayı hedefler; 2022 itibarıyla 70 farklı model geliştirilmektedir", "1.000–2.000 MW kapasitelidir", "Yalnızca uzay araçlarında kullanılır", "Fosil yakıtla çalışır", "Tek bir model vardır"], a: 0,
+    e: "Sunum: SMR'ler <b>10–300 MW</b> kapasitelidir; büyük nükleer santrallerin “boyut sorunlarına” çözüm olarak sunulur; <b>modüler tasarım, seri üretim, sahada montaj</b>, küçük boyut ve basitlik ile maliyeti düşürmek, kurulumu hızlandırmak, kaliteyi ve güvenliği artırmak amaçlanır. <b>2022 itibarıyla 70 farklı model</b> geliştirilmektedir.",
+    n: "On İkinci Kalkınma Planı'nda da küçük modüler reaktörler ve ileri nesil teknolojilere yatırım yapılması tedbirler arasında yer alır." },
+
+  // Elektrifikasyon ve ısı pompası
+  { t: 3, s: 25, q: "Sunuma göre bir enerji sisteminin elektrifikasyon seviyesi nasıl ölçülür ve 2022'de küresel seviye ne kadardır?",
+    o: ["Toplam nihai enerji tüketimindeki elektriğin payıyla; ≈ %21", "Kurulu güçteki yenilenebilir payıyla; ≈ %59", "Elektrik santrali sayısıyla; ≈ 1.000", "Kişi başına elektrik tüketimiyle; ≈ 3.000 kWh", "Şebeke uzunluğuyla; ≈ 90.500 km"], a: 0,
+    e: "Sunum: elektrifikasyon, bir sistemi veya cihazı elektriğin ana enerji kaynağı olacak şekilde dönüştürmektir. Enerji sisteminin elektrifikasyon seviyesi <b>toplam nihai enerji tüketimindeki elektriğin payı</b> ile ölçülür; <b>2022 küresel seviye ≈ %21</b>.",
+    n: "Türkiye Ulusal Enerji Planı'nda elektriğin nihai tüketimdeki payının 2035'te %24,9'a ulaşması öngörülür. Elektrifikasyon, ısıtma ve mobilitede fosil yakıttan yenilenebilire geçişte verimliliğin kritik bileşenidir." },
+  { t: 3, s: 25, q: "Aşağıdakilerden hangisi sunumda önerilen elektrifikasyon politikalarından biri <b>değildir</b>?",
+    o: ["Doğal gaz boru hatlarının ısı pompalarına tercih edilerek genişletilmesi", "Elektrik ve doğal gaz sübvansiyonlarının eşitlenmesi", "Konut ve sanayide fosil yakıta vergi getirilerek ısı pompası gibi elektrikli teknolojilere geçişin hızlandırılması", "Yıllık net ölçüm/faturalama sistemi kurulması", "Binalarda ve sanayide belirli bir tarihten sonra kömür ve doğal gaz kullanımının sınırlandırılması"], a: 0,
+    e: "Sunumdaki politikalar: elektrik ve doğal gaz sübvansiyonlarının eşitlenmesi; fosil yakıtlara vergi ile ısı pompalarına geçişin hızlandırılması; <b>doğal gaz boru hatlarını genişletmek yerine ısı pompaları ve elektrikli çözümlerin teşvik edilmesi</b>; yıllık net ölçüm/faturalama sistemi; belirli bir tarihten sonra kömür ve doğal gaz kullanımının sınırlandırılması.",
+    n: "Net ölçüm, çatı GES'inin yaz fazlasını kış tüketimine mahsup etmeye imkân verir; böylece güneş ve ısı pompası birlikte daha ekonomik hâle gelir." },
+  { t: 3, s: 26, q: "Sunuma göre elektrikli araçlar (EV) enerji dönüşümüne nasıl katkı sağlar?",
+    o: ["İçten yanmalı motorlara göre ulaşımı daha verimli kılar; yenilenebilir elektrikle şarj edildiğinde ulaşımda yenilenebilir payını artırır; akıllı şarj daha fazla güneş ve rüzgâr entegrasyonu sağlar", "Daha fazla benzin tüketir", "Şebekeye hiçbir etkisi yoktur", "Yalnızca kömür santrallerinden şarj edilebilir", "Ulaşımda verimliliği düşürür"], a: 0,
+    e: "Sunum: elektrikli araçlar içten yanmalı motorlara kıyasla <b>ulaşımı daha verimli</b> hâle getirir; EV'ler yenilenebilir elektrikle beslendiğinde <b>ulaşımın nihai tüketiminde yenilenebilir payı artar</b>; <b>akıllı şarj</b>, güç sistemine daha fazla güneş ve rüzgâr entegrasyonunu sağlayarak sistemi daha verimli kılar.",
+    n: "İçten yanmalı motorlarda yakıt enerjisinin yalnızca ≈ %25–30'u tekerleğe ulaşırken elektrikli araçlarda bu oran %80'in üzerindedir." },
+  { t: 3, s: 27, q: "Sunuma göre ısı pompasında COP değeri nedir ve 2,5'lik COP ne anlama gelir?",
+    o: ["Isıtma kapasitesinin toplam güç girişine oranıdır; 1 kW elektrikle 2,5 kW ısı üretilir", "Elektrik gücünün ısı kapasitesine oranıdır; 2,5 kW elektrikle 1 kW ısı üretilir", "Isı pompasının ömrüdür; 2,5 yıl", "Soğutucu akışkan basıncıdır; 2,5 bar", "Yakıtın ısıl değeridir; 2,5 kWh/m³"], a: 0,
+    e: "Sunum: COP (performans katsayısı), <b>ısıtma kapasitesinin toplam güç girişine oranıdır</b>. <b>2,5'lik COP, 1 kW elektrik girişi için 2,5 kW ısıtma kapasitesi</b> üretmek demektir. Doğal gaz kazanı ortalama 0,9'luk bir “COP” elde ederken ısı pompaları için bu değer, sıcaklığın kararlılığına bağlı olarak <b>1,5 ile 4</b> arasında değişir.",
+    n: "Isı pompası ısıyı üretmez, dış ortamdan (hava, toprak, su) alıp taşır; bu yüzden 1'in üzerinde COP mümkündür. Dış sıcaklık düştükçe COP azalır." },
+  { t: 3, s: 27, q: "10 kW ısı ihtiyacı olan bir mekân, COP'u 2,5 olan bir ısı pompasıyla ısıtılırsa kaç kW elektrik gerekir? Aynı ısı, sunumdaki 0,9 değerli doğal gaz kazanıyla sağlanırsa kaç kW yakıt gücü gerekir?",
+    o: ["4 kW elektrik; ≈ 11,1 kW yakıt", "25 kW elektrik; 9 kW yakıt", "2,5 kW elektrik; 10 kW yakıt", "10 kW elektrik; 10 kW yakıt", "4 kW elektrik; 9 kW yakıt"], a: 0,
+    e: "Isı pompası: 10 / 2,5 = <b>4 kW elektrik</b>. Kazan: 10 / 0,9 ≈ <b>11,1 kW yakıt</b>.",
+    n: "Isı pompası nihai enerjide ≈ 2,8 kat daha az enerji kullanır. Birincil enerji ve maliyet karşılaştırmasında ise elektriğin üretim verimi ve elektrik / doğal gaz fiyat oranı da dikkate alınmalıdır." },
+  { t: 3, s: 25, q: "Sunuma göre elektrifikasyon enerji dönüşümünü nasıl hızlandırır?",
+    o: ["Elektrikli teknolojiler fosil yakıtlı teknolojilerin yerini alarak sistem verimliliğini artırır ve elektrik talebinin yenilenebilir enerjiyle karşılanmasını mümkün kılar", "Fosil yakıt tüketimini artırır", "Elektrik talebini sıfıra indirir", "Yenilenebilir enerji ihtiyacını ortadan kaldırır", "Şebeke yatırımlarını gereksiz kılar"], a: 0,
+    e: "Sunum: yeni elektrikle çalışan teknolojiler, <b>geleneksel fosil yakıt bazlı teknolojilerin yerini alarak sistem verimliliğini artırır</b>. Elektrifikasyon aynı zamanda <b>elektrik talebinin yenilenebilir enerjiyle karşılanması</b> yoluyla dönüşümün hızlanmasına katkı sağlar.",
+    n: "Elektrifikasyon elektrik talebini artırır; bu yüzden yenilenebilir kapasite ve şebeke yatırımlarıyla birlikte planlanmalıdır." },
+
+  // Depolama, hidrojen, CCUS
+  { t: 4, s: 29, q: "Aşağıdakilerden hangisi sunumda sayılan enerji depolama çözümlerinin kullanım amaçlarından biri <b>değildir</b>?",
+    o: ["Fosil yakıt tüketimini artırmak", "Maksimum kapasitenin sağlanması", "Zaman kaydırma", "Arbitraj", "Frekans düzenlemesi"], a: 0,
+    e: "Sunumdaki depolama çözümleri: <b>maksimum kapasitenin sağlanması, zaman kaydırma, yenilenebilir entegrasyonu, arbitraj, frekans düzenlemesi, talep yönetimi</b> ve diğerleri. Yenilenebilir payı arttıkça güvenilir güç, şebeke güvenliği ve maliyet azaltımı için farklı ölçeklerde depolama artacaktır.",
+    n: "Sunumdaki Li-iyon kullanım alanları şeması: üretim tarafında yenilenebilir dengeleme, puant santrali ikamesi, frekans ve gerilim desteği; iletimde sıkışıklığın giderilmesi; tüketici tarafında (sayaç arkası) talep ücreti azaltma, kullanım zamanı tarifesi, PV yönetimi ve yedek güç." },
+  { t: 4, s: 28, q: "Sunumdaki Li-iyon kullanım alanları şemasına göre tüketici tarafında (“sayaç arkası”) bataryaların kullanım amaçları hangileridir?",
+    o: ["Kullanım zamanı tarifesinden yararlanma, talep (demand) ücretini azaltma, talep yanıtı, PV yönetimi, sanal santral, yedek güç", "Siyah başlatma ve nükleer baz yük", "İletim hattı sıkışıklığının giderilmesi", "Gaz türbini puant santrallerinin ikamesi", "Dönen yedek (spinning reserve)"], a: 0,
+    e: "Şema (müşteri, “behind the meter”): <b>time of use</b> (kullanım zamanı), <b>demand charge</b> (talep ücreti), <b>demand response</b> (talep yanıtı), <b>PV management</b>, <b>virtual power plants</b> (sanal santral), <b>back-up power</b> (yedek güç), özelleştirilmiş mikro şebeke hizmetleri.",
+    n: "Sanayi tesisinde batarya, çok zamanlı tarifede ucuz saatte şarj edip puant saatte kullanarak maliyeti düşürebilir; çatı GES'iyle birlikte öz tüketim oranını artırır." },
+  { t: 4, s: 31, q: "Sunuma göre hidrojenin “neden hidrojen?” sorusuna verilen üç temel özelliği nedir?",
+    o: ["Sürdürülebilir (evrende en bol element), yüksek güç (yüksek yanma enerjisi), temiz (yanması sonucu CO<sub>2</sub> değil su oluşur)", "Ucuz, ağır ve renkli", "Radyoaktif, yoğun ve zehirli", "Sıvı, katı ve kokulu", "Yalnızca fosil yakıttan üretilebilir, kirletici ve az bulunur"], a: 0,
+    e: "Sunum: hidrojen <b>sürdürülebilir</b> (evrendeki en bol element), <b>yüksek güç</b> (yüksek yanma enerjisi), <b>temiz</b> (yanma sonucu karbondioksit emisyonu olmayan su üretilir). Hidrojen evrendeki en hafif ve en bol elementtir; renksiz, kokusuz, tatsız bir gazdır; bir proton ve bir elektrondan oluşur.",
+    n: "Hidrojenin temizliği nasıl üretildiğine bağlıdır: doğal gazdan buhar reformuyla üretilen “gri” hidrojen CO<sub>2</sub> salar; yenilenebilir elektrikle elektrolizle üretilen “yeşil” hidrojen salmaz." },
+  { t: 4, s: 33, q: "Sunuma göre hidrojenin 5 ana kullanım alanı hangileridir?",
+    o: ["Bina ısısı ve gücü, enerji depolama ve güç üretimi, ulaşım, sanayi enerjisi, endüstri hammaddesi", "Yalnızca roket yakıtı", "Yalnızca gübre üretimi", "Yalnızca balon doldurma", "Yalnızca su arıtma"], a: 0,
+    e: "Sunum: hidrojenin 5 ana kullanım alanı: 1) <b>bina ısısı ve gücü</b>, 2) <b>enerji depolama ve güç üretimi</b>, 3) <b>ulaşım</b>, 4) <b>sanayi enerjisi</b>, 5) <b>endüstri hammaddesi</b>. Üretim: hidrokarbon + ısı (ör. buhar reformu, gazlaştırma, piroliz) veya su + elektrik (elektroliz); ayrıca fotoelektrokimyasal ve biyolojik (biyo-fotoliz, fermantasyon) yollar.",
+    n: "Hidrojen, doğrudan elektrifikasyonun zor olduğu “azaltılması zor” sektörlerde (çelik, amonyak, rafineri, ağır taşımacılık) özellikle önemlidir." },
+  { t: 4, s: 32, q: "Sunumdaki hidrojen üretim yöntemleri şemasında suyun elektrik enerjisiyle hidrojen ve oksijene ayrıştırılması hangi yöntemdir?",
+    o: ["Elektroliz", "Buhar reformu", "Piroliz", "Gazlaştırma", "Fermantasyon"], a: 0,
+    e: "Şemadaki yöntemler: <b>termal</b> (buhar reformu, gazlaştırma, piroliz), <b>elektrokimyasal</b> (<b>elektroliz</b>, fotoelektrokimyasal), <b>biyolojik</b> (biyo-fotoliz, fermantasyon). <b>Elektroliz</b>, su + elektrik → hidrojen + oksijen dönüşümüdür.",
+    n: "Ulusal Enerji Planı 2035'te 5 GW elektrolizör kapasitesi öngörür; elektrolizörler fazla yenilenebilir elektriği hidrojene çevirerek sisteme esneklik de sağlar." },
+  { t: 4, s: 34, q: "Sunumdaki Türkiye'nin ilk hidrojen vadisi projesi (HySouthMarmara / HY Güney Marmara) için hangisi doğrudur?",
+    o: ["500 ton yeşil hidrojen ve 4 MW elektrolizör hedefi; Türkiye'den 12 ortak; AB tarafından ortak finanse edilir", "5.000 ton gri hidrojen; 400 MW elektrolizör", "Yalnızca Almanya'da kurulmuştur", "Nükleer hidrojen üretir", "Tek ortaklı bir özel sektör projesidir"], a: 0,
+    e: "Sunum: Türkiye'nin ilk hidrojen vadisi projesi <b>HY Güney Marmara</b>: <b>500 ton yeşil H<sub>2</sub></b>, <b>elektrolizör (4 MW)</b>; <b>Türkiye'den 12 ortak</b> ile Almanya, İtalya ve Fas'tan ortaklar; Temiz Hidrojen Ortaklığı kapsamında <b>AB tarafından ortak finanse</b> edilir.",
+    n: "Hidrojen vadisi, üretim, depolama, taşıma ve kullanımın aynı bölgede entegre edildiği bir ekosistemdir." },
+  { t: 4, s: 36, q: "Sunuma göre dünya genelinde karbon yakalama, kullanma ve depolama (CCUS) projelerinin durumu nedir?",
+    o: ["Farklı aşamalarda 569 proje; 14 ülkede 47 operasyonel proje ile yıllık 90 milyon tonun üzerinde kapasite; 2030'a kadar 45 ülkede 364 proje ile yıllık 765 milyon tonun üzerinde kapasite", "Hiç operasyonel proje yoktur", "Yalnızca Türkiye'de 569 proje vardır", "47 proje ile yıllık 765 milyar ton kapasite", "2030'a kadar tüm projeler kapatılacaktır"], a: 0,
+    e: "Sunum: dünya genelinde farklı gelişim aşamalarında <b>569 proje</b>; <b>47 operasyonel proje, 14 farklı ülke</b>, yıllık <b>90 milyon tondan</b> fazla yakalama, taşıma ve depolama kapasitesi; <b>2030'a kadar 364 proje, 45 ülke</b>, yıllık <b>765 milyon tondan</b> fazla kapasite.",
+    n: "765 Mt/yıl bile küresel CO<sub>2</sub> emisyonunun (≈ 38 Gt) yalnızca ≈ %2'sidir. Bu yüzden CCUS, verimlilik ve yenilenebilir enerjinin yerine değil, azaltılması zor emisyonlar için tamamlayıcıdır." },
+  { t: 4, s: 35, q: "Sunumdaki CCUS tarihsel gelişim çizelgesine göre CCUS'un ilk kullanım alanlarından biri olan, 1970–1980 döneminde öne çıkan uygulama nedir?",
+    o: ["Gelişmiş petrol geri kazanımı (EOR)", "Yeşil hidrojen üretimi", "Elektrikli araç şarjı", "Pompaj depolama", "Güneş paneli üretimi"], a: 0,
+    e: "Çizelge: <b>1920–1970</b> başlangıç evresi: pazarlanabilir gazları ayırma (yakalama teknolojisi); <b>1970–1980</b>: <b>petrol geri kazanımı (EOR)</b>; <b>1980–2005</b> biçimlendirici evre (1988 IPCC, 1992 UNFCCC, 1997 Kyoto, 2003 CSLF); <b>2005–2015</b> yavaş büyüme; <b>2016–2023</b> hızlı büyüme (2015 Paris, 2018 1,5 °C raporu, negatif emisyon teknolojileri).",
+    n: "EOR'da yakalanan CO<sub>2</sub>, üretimi azalan petrol sahalarına basılarak petrol çıkarımını artırmak için kullanılır; CO<sub>2</sub>'nin bir kısmı yer altında kalır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

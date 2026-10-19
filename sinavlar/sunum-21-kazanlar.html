@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kazanlarda Enerji Verimliliği Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 21 · Kazanlarda Enerji Verimliliği</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 21</span> 1_22.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Kazanlarda Enerji Verimliliği <em>Sınavı</em></h1>
+    <p class="lede">Kazan tipleri, dry-back ve wet-back; az, fazla ve tam yanma; alt ısıl değer (600 × 9 × H); basınç düşürmeyle %1–2 tasarruf; fazla hava oranı ve (CO<sub>2</sub>)<sub>max</sub> = %11,74; her 17 °C baca gazı ≈ %1, her 28 °C yanma havası ≈ %1; 180 / 110 °C asit yoğuşma sınırı; yük, yüzey kaybı, blöf formülleri ve iletkenlik tablosu; kireç taşı, besi suyu, kondens; direkt ve kayıplar metodu.</p>
+    <ul class="facts"><li>64 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Kazanlarda Enerji Verimliliği” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum21-v1",
+topics: ["Kazan tanımı ve tipleri", "Yanma ve verimli işletme", "Baca gazı ve fazla hava kayıpları", "Yük, yüzey kaybı, blöf ve kireç taşı", "Besi suyu, kondens ve yanma havası", "Kazan verimi hesap metotları"],
+Q: [
+  // Kazan tanımı ve tipleri
+  { t: 0, s: 2, q: "Sunumdaki tanıma göre “kazan” nedir?",
+    o: ["Yakıtın kimyasal enerjisini yanma yoluyla ısı enerjisine dönüştüren ve bu ısıyı taşıyıcı akışkana aktaran makine", "Basınçlı havayı depolayan kap", "Elektrik enerjisini doğrudan buhara çeviren cihaz", "Buharı yoğuşturarak suya çeviren ısı değiştirici", "Yakıtı depolayan ve ön ısıtan tank"], a: 0,
+    e: "Sunum: “Yakıtın kimyasal enerjisini <b>yanma yoluyla ısı enerjisine</b> dönüştüren ve bu ısı enerjisini <b>taşıyıcı akışkana aktaran</b> makinalara ‘kazan’ diyoruz.”",
+    n: "Taşıyıcı akışkan su, buhar veya kızgın yağ olabilir. Kazanda iki dönüşüm vardır: yanma (kimyasal → ısıl) ve ısı transferi (gaz → akışkan). Verim kayıpları da bu iki adımda ortaya çıkar." },
+  { t: 0, s: 2, q: "Sunuma göre kazan verimi neye bağlıdır?",
+    o: ["Yanma sonucu oluşan ısı enerjisinin hangi oranda taşıyıcı akışkana veya kullanma mahalline taşındığına", "Yalnızca kazanın kurulu gücüne", "Yalnızca yakıtın fiyatına", "Kazan dairesinin büyüklüğüne", "Baca yüksekliğine"], a: 0,
+    e: "Sunum: kazanların verimi, yanma sonucu oluşan ısı enerjisinin <b>hangi oranda taşıyıcı akışkana veya kullanma mahalline taşınmasına</b> bağlıdır. Ne kadar yüksek yararlanırsak yakıt tüketimi o oranda düşük, atmosfere atılan atık gaz o kadar az olur.",
+    n: "Verim artışı hem maliyet hem çevre kazancıdır: aynı faydalı ısı için daha az yakıt yakılır, dolayısıyla CO<sub>2</sub> ve diğer emisyonlar da orantılı olarak azalır." },
+  { t: 0, s: 4, q: "Sunumdaki kazan tipleri sınıflandırmasında aşağıdakilerden hangisi “buhar kazanı” altında yer alır?",
+    o: ["Doymuş buhar kazanı ve kızgın buhar kazanı", "Sıcak su kazanı ve kızgın su kazanı", "Kızgın yağ kazanı", "Absorpsiyonlu chiller", "Ekonomizer ve degazör"], a: 0,
+    e: "Sunumdaki ağaç: <b>kızgın yağ kazanı</b>; <b>su kazanı</b> (sıcak su kazanı, kızgın su kazanı); <b>buhar kazanı</b> (<b>doymuş buhar kazanı, kızgın buhar kazanı</b>).",
+    n: "Kızgın su, atmosfer basıncında kaynama noktasının (100 °C) üzerinde, basınç altında sıvı tutulan sudur. Kızgın buhar ise doyma sıcaklığının üzerine ısıtılmış buhardır; türbinlerde ve uzun hatlarda yoğuşmayı azaltmak için kullanılır." },
+  { t: 0, s: 5, q: "Dry-back ve wet-back kazanlar arasındaki temel fark nedir?",
+    o: ["Wet-back kazanda yanma gazlarının döndüğü arka hazne su ceketiyle çevrilidir; dry-back kazanda arka dönüş haznesi kuru (refrakter) yapıdadır", "Dry-back kazanlar yalnızca katı yakıt, wet-back kazanlar yalnızca gaz yakar", "Wet-back kazanda su boruların içinde, dry-back kazanda dışında dolaşır", "Dry-back kazanlarda buhar üretilemez", "Aralarında fark yoktur, yalnızca üretici adıdır"], a: 0,
+    e: "Sunumdaki kesitlerde alev ve yanma gazları 1. geçiş (yanma tüpü) sonunda arka haznede dönerek 2. geçiş duman borularına girer. <b>Dry-back</b>'te bu dönüş haznesi kazan suyunun dışında kalır; <b>wet-back</b>'te dönüş haznesi <b>su kütlesiyle çevrilidir</b>.",
+    n: "Wet-back tasarımda arka hazne de ısıtma yüzeyi olur; refrakter tuğla bakımı azalır ve yüzey kaybı düşer. Dry-back kazanlarda arka kapak açılarak boru temizliği kolaydır ama refrakter bakımı gerekir." },
+  { t: 0, s: 7, q: "Alev borulu ve su borulu kazanlar arasındaki fark nedir?",
+    o: ["Alev borulu kazanda sıcak gazlar boruların içinden geçer, su boruların dışındadır; su borulu kazanda su boruların içinden geçer, gazlar dışarıdan ısıtır", "Alev borulu kazanda su boruların içinde, gazlar dışındadır", "Su borulu kazanlarda yanma olmaz", "Alev borulu kazanlar yalnızca kızgın buhar üretir", "İkisi de aynıdır; yalnızca boru çapı farklıdır"], a: 0,
+    e: "Sunumdaki örnekte <b>alev borulu</b> kazanda alev ve duman boruların içinden geçip etrafındaki suyu ısıtır; <b>su borulu</b> kazanda su ve buhar boruların içindedir, yanma gazları boruların dışından geçer. Su borulu örnekte <b>gaz yönlendirici</b> ve <b>ekonomizer</b> gösterilir.",
+    n: "Su borulu kazanlar yüksek basınç ve büyük kapasite için uygundur (enerji santralleri). Alev borulu (skoç tipi) kazanlar daha düşük basınç ve orta kapasitede, sanayide yaygındır; su hacmi büyük olduğu için yük dalgalanmalarına daha dayanıklıdır." },
+  { t: 0, s: 10, q: "Sunumdaki su borulu kazan örneğinde, baca gazının ısısıyla besi suyunu ön ısıtan eleman hangisidir?",
+    o: ["Ekonomizer", "Degazör", "Brülör", "Blöf separatörü", "Buhar kapanı"], a: 0,
+    e: "Su borulu kazan örneğinde <b>ekonomizer</b>, <b>gaz yönlendirici</b> ve <b>brülör</b> işaretlenmiştir. Ekonomizer baca gazının artık ısısıyla kazana giden besi suyunu ısıtır.",
+    n: "Ekonomizer iki kazanç sağlar: baca gazı sıcaklığı düşer (her 17 °C ≈ %1 verim) ve besi suyu ısınır. Kükürtlü yakıtlarda baca gazının asit yoğuşma sınırının altına inmemesine dikkat edilir." },
+
+  // Yanma ve verimli işletme
+  { t: 1, s: 11, q: "Sunumda sayılan yanma çeşitleri hangileridir?",
+    o: ["Az hava ile yanma, fazla hava ile yanma, tam yanma", "Hızlı yanma, yavaş yanma, patlamalı yanma", "Katı yanma, sıvı yanma, gaz yanma", "Kuru yanma, ıslak yanma, kızgın yanma", "Birincil, ikincil ve üçüncül yanma"], a: 0,
+    e: "Sunum: yakıtın oksijenle tepkimeye girerek ısı ve yanma ürünleri oluşturmasına yanma denir. Yanma çeşitleri: <b>a) az hava ile yanma, b) fazla hava ile yanma, c) tam yanma</b>.",
+    n: "Pratikte hedef “tam yanma”yı mümkün olan en az fazla havayla sağlamaktır. Hiç fazla hava vermeden (stokiyometrik) çalışmak, karışım kusurları nedeniyle CO oluşturur." },
+  { t: 1, s: 12, q: "Sunumdaki etan yanma denkleminde (C<sub>2</sub>H<sub>6</sub> + 7/2 O<sub>2</sub> → 2 CO<sub>2</sub> + 3 H<sub>2</sub>O) 1 mol etan için kaç gram oksijen gerekir?",
+    o: ["112 g", "32 g", "56 g", "64 g", "224 g"], a: 0,
+    e: "O<sub>2</sub> = 7/2 × 32 = <b>112 g</b>. Etanın kütlesi: C = 2 × 12 = 24 g, H = 6 × 1 = 6 g → 30 g. Ürünler: 2 CO<sub>2</sub> (2 × 44 = 88 g) ve 3 H<sub>2</sub>O (3 × 18 = 54 g).",
+    n: "Kütle korunur: 30 + 112 = 142 g = 88 + 54. Hava kütlece yaklaşık %23,2 O<sub>2</sub> içerdiği için 30 g etanı yakmak için ≈ 112 / 0,232 ≈ 483 g hava gerekir (≈ 16 kg hava / kg etan)." },
+  { t: 1, s: 12, q: "Sunumdaki etan denkleminin ikinci satırında “enerji<sub>alt</sub>” ve su buharıyla birlikte ayrıca gösterilen “enerji” neyi anlatır?",
+    o: ["Yanma ürünü suyun buharlaşma (gizli) ısısını; bu enerji su buhar halinde bacadan atılırsa kullanılamaz ve alt ısıl değer elde edilir", "Kazan yüzeyinden kaybolan ısıyı", "Yanma havasının ön ısıtma enerjisini", "Brülör fanının elektrik tüketimini", "Kükürdün yanma ısısını"], a: 0,
+    e: "Denklemin ikinci satırı, oluşan 3 H<sub>2</sub>O'nun <b>su buharı</b> olarak kaldığını ve buharlaşma ısısının onunla birlikte gittiğini gösterir. Bacadan su buharı olarak atılan bu enerji kullanılmazsa elde edilen ısı <b>alt ısıl değer</b>dir.",
+    n: "Üst ısıl değer, yanma ürünlerindeki suyun yoğuşturulduğu durumdaki ısıdır. Yoğuşmalı kazanlar baca gazını çiğlenme noktasının altına soğutarak bu gizli ısının bir kısmını geri kazanır." },
+  { t: 1, s: 13, q: "Sunumdaki formülle, kütlece %25 hidrojen içeren bir yakıtın üst ve alt ısıl değeri arasındaki fark kaç kcal/kg'dır?",
+    o: ["1.350 kcal/kg", "600 kcal/kg", "5.400 kcal/kg", "150 kcal/kg", "2.250 kcal/kg"], a: 0,
+    e: "Alt ısıl değer = Üst ısıl değer − (600 × 9 × H). H = 0,25 için fark = 600 × 9 × 0,25 = <b>1.350 kcal/kg</b>. Sunumdaki ikinci yazım (6 × 9 × 25, H yüzde olarak) aynı sonucu verir.",
+    n: "9 çarpanı: 1 kg H<sub>2</sub> yandığında 9 kg su oluşur (2 g H → 18 g H<sub>2</sub>O). 600 ise suyun yaklaşık buharlaşma ısısıdır (kcal/kg). %25 hidrojen metanın (CH<sub>4</sub>: 4/16) kütlece H oranıdır." },
+  { t: 1, s: 15, q: "Sunuma göre <b>az hava ile yanmanın</b> belirtileri hangisinde doğru verilmiştir?",
+    o: ["Alev rengi koyu, baca gazında fazla CO, ısı geçiş yüzeylerinde is ve kurum, yakıt tüketiminde artış", "Alev çok açık ve parlak, baca gazı görünmez, ocak sıcaklığı düşer", "Alev mavi, baca gazında CO yok", "Baca gazında O<sub>2</sub> çok yüksek, CO<sub>2</sub> çok düşük", "Baca gazı sıcaklığı çok düşük, kazan verimi yükselir"], a: 0,
+    e: "Az hava ile yanma: alev rengi olması gerekenden <b>daha koyu</b>; baca gazı analizinde <b>fazla miktarda CO</b>; ısı geçiş yüzeylerinde <b>is ve kurum birikir</b>, ısı geçişi zorlaşır; yakıtın kimyasal enerjisi tamamen ısıya çevrilemediği için <b>yakıt tüketimi artar</b>; zararlı CO ile çevre kirlenir.",
+    n: "Az hava kaybı katlanarak büyür: hem yanmamış yakıt bacadan gider hem de kurum tabakası yalıtkan gibi davranıp baca gazı sıcaklığını yükseltir. CO ayrıca kazan dairesinde zehirlenme riskidir." },
+  { t: 1, s: 16, q: "Sunuma göre <b>fazla hava ile yanmada</b> aşağıdakilerden hangisi görülür?",
+    o: ["Alev çok açık ve parlak, baca gazı hemen hemen görünmez, ocak sıcaklığı düşer, baca gazı sıcaklığı artar", "Alev koyu renkli, bol is ve kurum oluşur", "Baca gazında yüksek CO ölçülür", "Ocak sıcaklığı yükselir, baca gazı sıcaklığı düşer", "Aynı buhar için daha az yakıt yakılır"], a: 0,
+    e: "Fazla hava ile yanma: alev rengi <b>çok açık ve parlak</b>; baca gazı hemen hemen gözle görülmez; <b>ocak sıcaklığı düşer, baca gazı sıcaklığı artar</b>; aynı buhar için <b>daha fazla yakıt</b> yakılır; hem ekonomi hem çevre yönünden olumsuzdur.",
+    n: "Fazla hava görünmez bir kayıptır: baca temiz görünür ama ısıtılan fazla hava bacadan ısı taşır. Bu yüzden yalnızca göze değil baca gazı analizörüne (O<sub>2</sub>, CO) bakılarak ayar yapılmalıdır." },
+  { t: 1, s: 17, q: "Sunuma göre tam yanmada gaz yakıtlarda alev rengi nasıldır?",
+    o: ["Mavi", "Koyu kırmızı", "Açık sarı portakal", "Siyah dumanlı", "Beyaz parlak"], a: 0,
+    e: "Tam yanmada alev rengi <b>katı ve sıvı yakıtlarda açık sarı portakal</b>, <b>gaz yakıtlarda mavidir</b>. Yanma ürünlerinde yanıcı madde ve baca gazında CO bulunmaz; O<sub>2</sub> ölçümüyle de fazla hava yönünde olup olmadığı araştırılmalıdır.",
+    n: "Sunumda ayrıca yakıtta karbon arttıkça alevin kırmızıya döndüğü, hidrojen arttıkça yanma sonucu oluşan su buharının arttığı belirtilir." },
+  { t: 1, s: 18, q: "Sunuma göre ideal bir yanmada baca gazı neyden oluşmalıdır?",
+    o: ["Karbondioksit, azot ve bir miktar oksijen", "Karbonmonoksit, hidrojen ve metan", "Yalnızca oksijen ve azot", "Kükürt dioksit ve is", "Yalnızca su buharı"], a: 0,
+    e: "Sunum: “İdeal bir yanmada baca gazının <b>karbondioksit ve azot gazından ve bir miktar oksijenden</b> oluşması gerekir.” (Yakıttaki hidrojenden gelen su buharı da bulunur.)",
+    n: "Bir miktar O<sub>2</sub>, tam yanma için verilen küçük fazla havanın göstergesidir. Doğal gaz kazanlarında tipik hedef %2–3 O<sub>2</sub> ve birkaç ppm düzeyinde CO'dur." },
+  { t: 1, s: 19, q: "Sunuma göre iyi bir yanma sonucunda baca gazında, yakıt cinsine bağlı olarak en fazla yüzde kaç CO<sub>2</sub> bulunmalıdır?",
+    o: ["%12–13", "%2–3", "%20–21", "%5–6", "%30–35"], a: 0,
+    e: "Sunum: iyi bir yanma neticesinde baca gazı içinde yakıt cinsine bağlı olarak maksimum <b>(%12–13 CO<sub>2</sub>)</b> bulunmalı, CO miktarı ise mümkün olan en alt seviyeye indirilmelidir.",
+    n: "CO<sub>2</sub> yüzdesi, yakıtın stokiyometrik (CO<sub>2</sub>)<sub>max</sub> değerine yaklaştıkça fazla hava azalmış demektir. Doğal gazda bu tavan %11,74'tür; sıvı ve katı yakıtlarda daha yüksektir." },
+  { t: 1, s: 14, q: "Sunumdaki baca gazı kompozisyonu – hava grafiğinde (A–E çizgileri) CO, CO<sub>2</sub> ve O<sub>2</sub> eğrileri için hangisi doğrudur?",
+    o: ["Eksik hava tarafında CO yüksektir; CO<sub>2</sub> stokiyometrik nokta civarında en yüksektir; fazla hava arttıkça O<sub>2</sub> artar ve CO<sub>2</sub> düşer; normal çalışma noktası stokiyometrinin biraz fazla hava tarafındadır", "CO fazla hava tarafında en yüksektir", "O<sub>2</sub> eksik hava tarafında en yüksektir", "CO<sub>2</sub> fazla hava arttıkça sürekli artar", "Normal çalışma noktası eksik hava bölgesindedir"], a: 0,
+    e: "Grafikte <b>eksik hava</b> tarafında CO hızla yükselir; <b>CO<sub>2</sub></b> eğrisi stokiyometrik hava civarında tepe yapar; <b>fazla hava</b> tarafında O<sub>2</sub> artar, CO<sub>2</sub> düşer. <b>Normal çalışma</b> (D) çizgisi stokiyometrik noktanın (C) biraz sağında, fazla hava tarafındadır.",
+    n: "Normal çalışma noktası, CO'nun pratikte sıfıra indiği en düşük fazla havadır. Bu noktanın solunda CO kaybı, sağında baca gazı (fazla hava) kaybı artar." },
+  { t: 1, s: 20, q: "Sunuma göre kazan seçimi yapılırken neyin göz önüne alınması gerekir?",
+    o: ["İşletmenin yıllık, aylık ve günlük bazda buhar ihtiyaçları", "Yalnızca en yüksek anlık buhar ihtiyacı", "Yalnızca kazan dairesinin alanı", "Yalnızca yakıtın fiyatı", "Yalnızca kazanın rengi ve markası"], a: 0,
+    e: "Sunum: “Kazan seçimi yaparken işletmenin <b>yıllık, aylık ve günlük bazda</b> buhar ihtiyaçlarının göz önüne alınması gereklidir.”",
+    n: "Aşırı büyük seçilen kazan çoğu zaman düşük yükte çalışır; düşük yükte yüzey kaybı oranı ve aç–kapa (purge) kayıpları büyür. İhtiyaç profili dalgalıysa birden çok küçük kazan daha verimli olabilir." },
+  { t: 1, s: 21, q: "Kullanım yerindeki buhar basıncı kazan basıncından sürekli olarak düşükse, kazan çalışma basıncının düşürülmesiyle sunuma göre yakıt faturasında ne kadar tasarruf sağlanır?",
+    o: ["%1–2", "%10–15", "%25", "%0,01", "Tasarruf olmaz, yakıt tüketimi artar"], a: 0,
+    e: "Sunum: kullanılan yerde buhar basıncı kazan basıncından düşükse ve devamlı bu durumda kalıyorsa kazan çalışma buhar basıncı düşürülebilir → <b>yakıt faturasında %1–2'lik bir tasarruf</b>.",
+    n: "Basınç düşünce doyma sıcaklığı düşer; kazan suyu ile baca gazı arasındaki sıcaklık farkı büyür ve baca gazı daha çok soğur. Ancak basınç çok düşürülürse buhar hızı artar ve ıslak buhar sürüklenmesi (carry-over) riski doğar." },
+  { t: 1, s: 23, q: "Sunuma göre kazan buhar basıncının düşürülmesi hangi iki kaybı azaltarak verimi artırır?",
+    o: ["Baca gazı sıcaklığı ve kazan yüzey kayıpları", "Blöf ve kondens kayıpları", "Yakıt pompası ve fan elektrik tüketimi", "Eksik yanma ve is kayıpları", "Besi suyu ve yumuşatma kayıpları"], a: 0,
+    e: "Sunumdaki akış: <b>buhar basıncının düşürülmesi</b> → <b>baca gazı sıcaklığı düşmesi</b> → <b>kazan yüzey kayıplarının düşmesi</b>.",
+    n: "Düşük basınçta kazan suyu daha soğuk olduğundan hem baca gazına hem de dış yüzeye olan sıcaklık farkı değişir: baca gazı daha iyi soğur, gövde sıcaklığı düşük olduğu için çevreye radyasyon ve konveksiyon kaybı azalır." },
+  { t: 1, s: 22, q: "Sunumdaki “kazan işletme basıncının azaltılması yoluyla verim artışı” grafiğine göre hangisi doğrudur?",
+    o: ["Orijinal basınç ne kadar yüksekse ve basınç ne kadar çok düşürülürse verim artışı o kadar büyüktür; 15 bar'dan 100 PSIG'ye (≈ 7 bar) inmek ≈ %0,85 kazanç verir", "Basınç düşürmenin verime etkisi orijinal basınçtan bağımsızdır", "Basınç düşürmek her durumda verimi azaltır", "Verim artışı en fazla %0,1'dir", "Grafikte yalnızca kızgın yağ kazanları gösterilir"], a: 0,
+    e: "Grafikte yatay eksen orijinal işletme basıncı (bar / PSIG), eğriler hedef basınçtır (2 bar … 350 PSIG). Kırmızı okla gösterilen örnekte <b>15 bar</b>'dan <b>100 PSIG</b> eğrisine inmek ≈ <b>%0,85</b> verim artışı verir. Yüksek basınçtan çok düşük basınca inildikçe artış %4,5'e kadar çıkar.",
+    n: "Grafik okurken: önce orijinal basınçtan dik çıkın, hedef basınç eğrisini kestiğiniz noktadan sola giderek verim artışını okuyun. 1 bar ≈ 14,5 PSI (100 PSIG ≈ 6,9 bar gösterge)." },
+
+  // Baca gazı ve fazla hava kayıpları
+  { t: 2, s: 24, q: "Aşağıdakilerden hangisi sunumda sayılan kazan verimini etkileyen faktörlerden biri <b>değildir</b>?",
+    o: ["Kazan dairesinin aydınlatma seviyesi", "Blöf nedeniyle olan ısı kaybı", "Besi suyu sıcaklığına bağlı ısı kaybı", "Kazan yüküne bağlı ısı kaybı", "Yanma havası sıcaklığına bağlı ısı kaybı"], a: 0,
+    e: "Faktörler: eksik yanma; baca gazındaki su buharı; kuru baca gazı; fazla hava; baca gazı sıcaklığı; yakıtın özelliği; yakma sistemleri; <b>kazan yükü; kazan yüzeyleri; blöf; besi suyu sıcaklığı; kondens dönüşü; yanma havası sıcaklığı</b>.",
+    n: "Bu listenin ilk yarısı yanma ve baca gazı tarafı, ikinci yarısı su–buhar tarafı ve işletme koşullarıdır. Etüt raporlarında kayıplar metodunda bunların her biri ayrı ayrı hesaplanır." },
+  { t: 2, s: 26, q: "Sunuma göre eksik yanma ile olan ısı kaybı ne zaman ortaya çıkar?",
+    o: ["Yanabilir maddeler yanmadan kül ve cürufta kaldığında ya da baca gazında yanmamış karbon (is, kurum, CO) oluştuğunda", "Baca gazında O<sub>2</sub> fazla olduğunda", "Kazan yüzeyleri yalıtıldığında", "Besi suyu sıcaklığı yükseldiğinde", "Blöf yapıldığında"], a: 0,
+    e: "Sunum: eksik yanma kayıpları katı, sıvı veya gaz yakıttaki yanabilir maddelerin <b>yanmayarak kül, cüruf içinde kaldığı</b> ya da baca gazında <b>yanmamış karbon (is, kurum, CO)</b> oluştuğu zaman meydana gelir.",
+    n: "Katı yakıtlı kazanlarda cüruftaki yanmamış karbon önemli bir kayıptır; gaz yakıtlarda bu kayıp esas olarak CO üzerinden izlenir." },
+  { t: 2, s: 27, q: "Sunuma göre baca gazındaki su buharıyla olan ısı kaybını azaltmak için ne yapılmalıdır?",
+    o: ["Yakıttaki serbest nem mümkün olduğunca azaltılmalı", "Baca gazı sıcaklığı yükseltilmeli", "Fazla hava artırılmalı", "Blöf sıklığı artırılmalı", "Kazan basıncı yükseltilmeli"], a: 0,
+    e: "Yakıtlar serbest nem ve kimyasal kompozisyonları nedeniyle nem içerir; bu nem yanmada buharlaşır ve faydalı enerjinin bir kısmını bacadan atar. Sunum: “<b>Yakıttaki serbest nemin mümkün olduğunca azaltılması</b> enerji tasarrufu için gereklidir.”",
+    n: "Kömür, biyokütle gibi katı yakıtların açıkta değil kapalı ve havalandırmalı depolanması, gerekirse atık ısıyla kurutulması bu kaybı azaltır." },
+  { t: 2, s: 28, q: "Sunuma göre “kuru baca gazı” ile olan ısı kaybı hangi bileşenler tarafından taşınır ve nasıl kontrol edilir?",
+    o: ["CO<sub>2</sub> ve azot ısı taşır; gereğinden fazla O<sub>2</sub> de ısıyı bacaya taşır; fazla hava ve baca gazı sıcaklığı optimum seviyeye indirilerek kontrol edilir", "Su buharı taşır; yakıt kurutularak kontrol edilir", "Kurum taşır; brülör değiştirilerek kontrol edilir", "Blöf suyu taşır; iletkenlik ölçülerek kontrol edilir", "Kondens taşır; buhar kapanıyla kontrol edilir"], a: 0,
+    e: "Sunum: baca gazındaki <b>CO<sub>2</sub> ve azot</b> dışarı ısı taşır; yanma için gerekli <b>O<sub>2</sub>'nin gereğinden yüksek olması</b> da faydalı ısıyı bacaya taşır. Kayıplar <b>fazla hava ve baca gazı sıcaklığı optimum seviyeye</b> indirilerek kontrol edilmelidir.",
+    n: "Kuru baca gazı kaybı ≈ (baca gazı kütlesi) × (özgül ısı) × (T<sub>baca</sub> − T<sub>hava</sub>). Fazla hava kütleyi, kirli yüzeyler sıcaklık farkını büyütür; ikisi çarpım halinde etki eder." },
+  { t: 2, s: 29, q: "Sunumdaki doğal gaz oksijen – karbondioksit – fazla hava grafiğinde doğal gaz için (CO<sub>2</sub>)<sub>max</sub> değeri kaçtır?",
+    o: ["%11,74", "%21", "%15,5", "%9,5", "%3"], a: 0,
+    e: "Grafik başlığı: “Doğal Gaz Oksijen – Karbondioksit – Fazla Hava Grafiği (<b>CO<sub>2</sub> maksimum = 11,74</b>)”. Fazla hava %0'da CO<sub>2</sub> = %11,74, O<sub>2</sub> = 0'dır.",
+    n: "(CO<sub>2</sub>)<sub>max</sub>, yakıtın stokiyometrik havayla tam yandığında kuru baca gazındaki CO<sub>2</sub> oranıdır; yakıtın C/H oranına bağlıdır. Hidrojeni çok olan doğal gazda düşük, kömür ve fuel oilde daha yüksektir." },
+  { t: 2, s: 29, q: "Sunumdaki doğal gaz grafiğinde örnek olarak işaretlenen nokta için hangisi doğrudur?",
+    o: ["CO<sub>2</sub> ≈ %9,5 iken fazla hava ≈ %23, O<sub>2</sub> ≈ %4", "CO<sub>2</sub> ≈ %9,5 iken fazla hava ≈ %60, O<sub>2</sub> ≈ %8", "CO<sub>2</sub> ≈ %11,74 iken fazla hava ≈ %50", "O<sub>2</sub> ≈ %21 iken fazla hava ≈ %0", "CO<sub>2</sub> ≈ %4 iken fazla hava ≈ %23"], a: 0,
+    e: "Grafikte CO<sub>2</sub> = %9,5'ten yatay çizilen ok, CO<sub>2</sub> eğrisini fazla hava ≈ <b>%23</b>'te keser; aynı fazla havada O<sub>2</sub> eğrisi ≈ <b>%4</b>'tür. Formülle sağlama: 11,74 / 9,5 − 1 = 0,236 → %23,6; 4 / (21 − 4) = 0,235 → %23,5.",
+    n: "Grafiğin sağ ekseni ve renkli çizgiler, farklı baca gazı sıcaklıklarında (120–300 °C) baca gazı kaybını verir. Aynı fazla havada baca gazı sıcaklığı yükseldikçe kayıp artar." },
+  { t: 2, s: 30, q: "Sunuma göre fazla hava oranı nasıl tanımlanır?",
+    o: ["Mevcut durumdaki fazla havanın teorik (stokiyometrik) hava miktarına bölünmesi", "Toplam havanın teorik havaya bölünmesi", "Baca gazındaki CO miktarının CO<sub>2</sub>'ye oranı", "Yanma havası sıcaklığının dış hava sıcaklığına oranı", "Teorik havanın toplam havaya oranı"], a: 0,
+    e: "Sunum: mevcut durumda <b>fazla havanın</b>, <b>teorik hava (stokiyometrik) miktarına</b> bölünmesiyle elde edilen değer <b>fazla hava oranı</b>dır. Toplam havanın teorik havaya oranı ise <b>hava fazlalık katsayısı</b>dır.",
+    n: "İkisi arasındaki ilişki: hava fazlalık katsayısı (λ) = fazla hava oranı / 100 + 1. Örneğin %20 fazla hava → λ = 1,2." },
+  { t: 2, s: 30, q: "Baca gazı analizinde O<sub>2</sub> = %3 ölçülmüştür. Sunumdaki formüle göre fazla hava oranı yaklaşık kaçtır?",
+    o: ["≈ %16,7", "≈ %3", "≈ %14,3", "≈ %30", "≈ %85,7"], a: 0,
+    e: "Fazla hava oranı (%) = O<sub>2</sub> / (21 − O<sub>2</sub>) × 100 = 3 / 18 × 100 ≈ <b>%16,7</b>.",
+    n: "%3 O<sub>2</sub> doğal gaz kazanlarında iyi ayarlı kabul edilir. 21, havadaki oksijen yüzdesidir; ölçülen O<sub>2</sub> 21'e yaklaştıkça fazla hava sonsuza gider." },
+  { t: 2, s: 30, q: "Doğal gaz yakan bir kazanda baca gazında CO<sub>2</sub> = %10 ölçülmüştür ((CO<sub>2</sub>)<sub>max</sub> = %11,74). Fazla hava oranı yaklaşık kaçtır?",
+    o: ["≈ %17,4", "≈ %10", "≈ %85", "≈ %1,74", "≈ %117"], a: 0,
+    e: "Fazla hava oranı (%) = [(CO<sub>2</sub>)<sub>max</sub> / CO<sub>2</sub> − 1] × 100 = (11,74 / 10 − 1) × 100 = <b>%17,4</b>.",
+    n: "%117 seçeneği hava fazlalık katsayısının (λ = 1,174) yüzde gibi yazılmış hâlidir; −1 yapılmazsa bu hataya düşülür." },
+  { t: 2, s: 31, q: "Baca gazında O<sub>2</sub> = %6 ölçülen bir kazanda hava fazlalık katsayısı kaçtır?",
+    o: ["1,40", "0,40", "1,29", "1,06", "2,50"], a: 0,
+    e: "Hava fazlalık katsayısı = O<sub>2</sub> / (21 − O<sub>2</sub>) + 1 = 6 / 15 + 1 = 0,40 + 1 = <b>1,40</b>. (Fazla hava oranı %40.)",
+    n: "%40 fazla hava doğal gaz kazanı için yüksektir; brülör ayarıyla %10–20'ye indirilmesi baca gazı kaybını belirgin şekilde azaltır. Bu, en ucuz verim önlemlerinden biridir." },
+  { t: 2, s: 31, q: "Hava fazlalık katsayısı λ = 1,25 olan bir yanmada fazla hava oranı kaçtır?",
+    o: ["%25", "%125", "%1,25", "%80", "%20"], a: 0,
+    e: "Hava fazlalık katsayısı = (fazla hava oranı / 100) + 1 → fazla hava oranı = (1,25 − 1) × 100 = <b>%25</b>.",
+    n: "%80 seçeneği 1/1,25 hesabıdır (teorik havanın toplam havaya oranı). Tanımları karıştırmamak için: λ her zaman 1'den büyük bir sayıdır, fazla hava oranı ise yüzde olarak 0'dan başlar." },
+  { t: 2, s: 32, q: "Sunuma göre fazla hava miktarının gereğinden çok olması hangi sonuçları doğurur?",
+    o: ["Baca gazı miktarı artar, ısıtılan fazla hava ısıyı bacadan atar; gaz debisi ve hızı artar, ısı transferi düşer", "Baca gazı miktarı azalır, ısı transferi artar", "Baca gazında CO artar, is oluşur", "Ocak sıcaklığı yükselir, verim artar", "Yalnızca fan gürültüsü artar"], a: 0,
+    e: "Sunum: fazla hava çok olursa <b>baca gazı miktarını artırır</b>; artan hava baca gazı sıcaklığına kadar ısınıp enerji alacağından daha fazla ısı bacadan atılır; baca gazı miktarının artması <b>gaz debisini ve hızını artırır</b>, <b>ısı transferi düşer</b>.",
+    n: "Yüksek gaz hızı, gazın ısı transfer yüzeylerinde kalma süresini kısaltır; bu yüzden baca gazı sıcaklığı da yükselir. Sonuç: hem kütle hem sıcaklık artar, kayıp çift taraflı büyür." },
+  { t: 2, s: 33, q: "Sunuma göre baca gazı sıcaklığının yüksek olmasının iki ana nedeni nedir?",
+    o: ["Isı transfer yüzeylerinin yetersizliği ve ısı transfer yüzeylerinde oluşan kirlilikler", "Yakıt fiyatının yüksekliği ve düşük kazan basıncı", "Fazla blöf ve düşük besi suyu iletkenliği", "Baca yüksekliği ve dış hava sıcaklığı", "Brülör markası ve kazan yaşı"], a: 0,
+    e: "Sunum: baca gazı sıcaklığının yüksek olmasının iki ana nedeni: <b>ısı transfer yüzeylerinin yetersiz oluşu</b> ve <b>ısı transfer yüzeylerinde oluşan kirlilikler</b>.",
+    n: "Gaz tarafındaki is–kurum ve su tarafındaki kireç taşı, ısı geçişine direnç ekler. Baca gazı sıcaklığının zamanla tırmanması, temizlik zamanının geldiğinin en pratik göstergesidir." },
+  { t: 2, s: 33, q: "Sunuma göre baca gazında normal gaz sıcaklığının üzerine çıkan her kaç °C'lik artış verimde yaklaşık %1 düşüşe neden olur?",
+    o: ["17 °C", "28 °C", "5 °C", "50 °C", "100 °C"], a: 0,
+    e: "Sunum: “Baca gazında normal gaz sıcaklığının üzerine çıkan <b>her 17 °C'lik artış</b> verimlilikte <b>yaklaşık %1'lik düşüşe</b> neden olmaktadır.”",
+    n: "Karıştırılmaması gereken ikinci kural: yanma havasının her 28 °C ısıtılması verimi ≈ %1 artırır. 17 °C baca gazı içindir, 28 °C yanma havası içindir." },
+  { t: 2, s: 33, q: "Normal baca gazı sıcaklığı 190 °C olan bir kazanda, kirlenme nedeniyle baca gazı sıcaklığı 258 °C'ye çıkmıştır. Sunumdaki kurala göre verim yaklaşık kaç puan düşmüştür?",
+    o: ["≈ 4 puan", "≈ 1 puan", "≈ 2,4 puan", "≈ 6,8 puan", "≈ 17 puan"], a: 0,
+    e: "Artış = 258 − 190 = 68 °C. Verim düşüşü ≈ 68 / 17 = <b>4 puan</b> (%4).",
+    n: "2,4 seçeneği 68 / 28 hesabıdır; 28 °C kuralı yanma havası içindir. Yüzeyler temizlenip baca gazı tekrar 190 °C'ye indirilirse bu 4 puan geri kazanılır." },
+  { t: 2, s: 35, q: "Sunuma göre baca gazı sıcaklığı kükürt içeren yakıtlarda ve doğal gazda hangi sıcaklıkların altına düşmemelidir?",
+    o: ["Kükürtlü yakıtlarda ≈ 180 °C, doğal gazda ≈ 110 °C", "Kükürtlü yakıtlarda ≈ 110 °C, doğal gazda ≈ 180 °C", "Her ikisinde de 60 °C", "Kükürtlü yakıtlarda 300 °C, doğal gazda 250 °C", "Her ikisinde de 100 °C"], a: 0,
+    e: "Sunum: baca gazı sıcaklığının <b>kükürt içeren yakıtlarda</b> asit yoğuşma sıcaklığı olan <b>≈ 180 °C</b>'nin, <b>doğal gazda ≈ 110 °C</b>'nin altına düşmemesi gerekir. Altına düşerse bacada <b>korozyon</b> ve <b>baca çekişinde düşüş</b> olur.",
+    n: "Kükürtlü yakıtlarda SO<sub>3</sub>, baca gazındaki su buharıyla birleşip sülfürik asit oluşturur (sunumun tam yanma slaytı). Yoğuşmalı kazanlar ise doğal gazda bilinçli olarak bu sınırın altına inerek gizli ısıyı geri kazanır; bunun için korozyona dayanıklı malzeme ve uygun baca gerekir." },
+  { t: 2, s: 37, q: "Sunumdaki tabloya göre ağır fuel oilin atomizasyon sıcaklığı hangi aralıktadır?",
+    o: ["100 – 120 °C", "77 – 94 °C", "43 – 60 °C", "180 – 200 °C", "20 – 30 °C"], a: 0,
+    e: "Atomizasyon sıcaklıkları: <b>ağır fuel oil 100–120 °C</b>; orta fuel oil 77–94 °C; hafif fuel oil 43–60 °C.",
+    n: "Ağır yakıtlar yüksek viskoziteli olduğu için püskürtülmeden önce ısıtılır; doğru viskozitede ince damlacıklar oluşur ve tam yanma sağlanır. Düşük ön ısıtma iri damla, is ve eksik yanma demektir." },
+  { t: 2, s: 37, q: "Sunuma göre farklı yakıtların farklı oranda karbon ve hidrojen içermesi hangilerini değiştirir?",
+    o: ["Isıl değeri, baca gazındaki nem miktarını, cüruf ve kurum miktarını", "Yalnızca yakıtın rengini", "Yalnızca kazan basıncını", "Besi suyunun iletkenliğini", "Kondens dönüş oranını"], a: 0,
+    e: "Sunum: farklı yakıtlar farklı oranda karbon ve hidrojen içerdikleri için <b>ısıl değerleri</b>, yanma sonucu oluşan <b>baca gazındaki nem miktarı</b> ve <b>cüruf ve kurum miktarı</b> değişir.",
+    n: "Hidrojen oranı yüksek yakıtlarda (doğal gaz) baca gazındaki su buharı fazladır; üst ve alt ısıl değer farkı da büyüktür (doğal gazda ≈ %10). Bu yüzden yoğuşmalı teknoloji en çok doğal gazda kazanç sağlar." },
+
+  // Yük, yüzey kaybı, blöf, kireç taşı
+  { t: 3, s: 38, q: "Sunuma göre kazanlarda maksimum verime genel olarak hangi yük aralığında ulaşılır?",
+    o: ["Tam yükün %50'sinden yukarı yüklerde (düşük yük ve aşırı yük dışında)", "Tam yükün %10'unun altında", "Yalnızca %125 aşırı yükte", "Yükten bağımsız olarak her zaman aynı verimde", "Yalnızca kazan ilk çalıştırıldığında"], a: 0,
+    e: "Sunum: kazanlardan genellikle <b>düşük yükte ve aşırı yük durumunda çalıştırılmadıkları</b> zaman en yüksek verim elde edilir; yük oranı <b>%50'nin altına</b> düştüğünde verim eğrisi hızla düşer. Maksimum verim genel olarak <b>tam yükün %50'sinden yukarı</b> yüklerde.",
+    n: "Düşük yükte sabit kayıplar (yüzey kaybı, aç–kapa purge kayıpları) faydalı ısıya göre büyür. Sunumdaki grafikte verim %0 yük civarında ≈ %41'den başlar, %60–90 yük aralığında ≈ %78 ile tepe yapar." },
+  { t: 3, s: 38, q: "Sunuma göre kazan yükü %50'nin altına düştüğünde verimin hızla düşmesinin nedenleri nelerdir?",
+    o: ["Kazan yüzeylerinden olan ısı kaybı (oransal olarak) artar ve yakılan yakıt miktarı artar", "Baca gazında CO<sub>2</sub> artar", "Besi suyu sıcaklığı yükselir", "Blöf ihtiyacı ortadan kalkar", "Yakıtın ısıl değeri azalır"], a: 0,
+    e: "Sunumda yük %50'nin altına düştüğünde verim eğrisinin hızla düşmesine eşlik eden sonuçlar: <b>kazan yüzeylerinden ısı kaybı artar</b>, <b>yakılan yakıt miktarı artar</b> (birim faydalı ısı başına).",
+    n: "Yüzey kaybı kW cinsinden yaklaşık sabittir; yük yarıya inince yüzde olarak iki katına çıkar. Bu, bir sonraki slayttaki “Kayıp (%) = 100 / yük (%)” bağıntısının mantığıdır." },
+  { t: 3, s: 40, q: "Sunuma göre kazan yüzeyinden olan ısı kaybı hangi şekillerde olur ve yeni / eski kazanlarda tipik değerleri nedir?",
+    o: ["Radyasyon ve konveksiyon; yeni kazanlarda %1, eski kazanlarda %10", "Yalnızca iletim; yeni kazanlarda %10, eski kazanlarda %1", "Radyasyon ve konveksiyon; her kazanda %25", "Yalnızca konveksiyon; yeni kazanlarda %5, eski kazanlarda %50", "Buharlaşma; yeni kazanlarda %0,1, eski kazanlarda %0,5"], a: 0,
+    e: "Sunum: kazan yüzeyinden olan ısı kaybı <b>radyasyon ve konveksiyon</b> şeklinde olur; <b>yeni kazanlarda %1</b>, <b>eski kazanlarda %10</b>.",
+    n: "Eski kazanlarda yalıtım bozulmuş, kapaklar ve kapılar yalıtımsız kalmış olabilir. Termal kamerayla gövde taraması yapılarak sıcak bölgeler bulunur ve yalıtım onarılır." },
+  { t: 3, s: 40, q: "Tam yükte yüzey kaybı %1 olan yeni bir kazan %25 yükte çalıştırılmaktadır. Sunumdaki formüle göre yüzey kaybı yüzde kaçtır?",
+    o: ["%4", "%1", "%0,25", "%25", "%2"], a: 0,
+    e: "Kayıp (%) = 100 / kazan çalışma yükü (%) = 100 / 25 = <b>%4</b>.",
+    n: "Formül, tam yükteki %1'lik yüzey kaybının mutlak değerinin (kW) sabit kaldığını varsayar: yük dörtte bire inince aynı kayıp faydalı ısının dört katı oranında görünür. Eski kazanda (tam yükte %10) aynı yük oranı kaybı da orantılı büyütür." },
+  { t: 3, s: 41, q: "Sunuma göre “blöf” nedir?",
+    o: ["Kazan içindeki suyun bir miktarının belli aralıklarla boşaltılması", "Brülörün ateşlemeden önce ocağı havayla süpürmesi", "Buhar hattındaki kondensin buhar kapanıyla atılması", "Baca gazının ekonomizerden geçirilmesi", "Besi suyuna kimyasal dozlanması"], a: 0,
+    e: "Sunum: kazan suyundaki bazı mineraller yüksek sıcaklıkta çözünürlüklerinin değişmesiyle tortulaşır ve ısı transferini azaltır. Tortular temizlenmezse kireç taşı oluşur. <b>Kazan içerisindeki suyun bir miktarının belli aralıklarla boşaltılmasına BLÖF</b> adı verilir.",
+    n: "Buhar saf su olarak ayrılırken çözünmüş tuzlar kazanda kalır ve derişimi artar. Blöf, bu derişimi izin verilen iletkenlik sınırında tutmak için yapılır. Gereğinden fazla blöf ise sıcak suyla birlikte enerji atmaktır." },
+  { t: 3, s: 41, q: "Sunuma göre kazanda tortu ve kireç taşı oluşumunu azaltmak için kazana nasıl bir besi suyu verilmelidir?",
+    o: ["İletkenliği düşük besi suyu", "İletkenliği yüksek besi suyu", "Mümkün olduğunca soğuk besi suyu", "Oksijeni yüksek besi suyu", "Tuz eklenmiş besi suyu"], a: 0,
+    e: "Sunum: “Kazana <b>iletkenliği düşük besi suyu</b> verilmelidir.” İletkenlik, sudaki çözünmüş tuz miktarının göstergesidir.",
+    n: "Besi suyu iletkenliği ne kadar düşükse gereken blöf oranı o kadar küçük olur (BD = S<sub>f</sub> / S<sub>b</sub>). Su yumuşatma, demineralizasyon ve kondens dönüşünün artırılması iletkenliği düşürür." },
+  { t: 3, s: 42, q: "Sunuma göre blöf ile dışarı atılan enerjinin bir kısmı hangi yollarla geri kazanılabilir?",
+    o: ["Isı değiştirici ile ve flaş tankında basınç düşürülerek oluşan flaş buharın yeniden kullanılmasıyla", "Blöf suyunun doğrudan bacaya verilmesiyle", "Blöf suyunun yanma havasına karıştırılmasıyla", "Blöf vanasının tamamen kapatılmasıyla", "Blöf suyunun yakıt tankına gönderilmesiyle"], a: 0,
+    e: "Sunum: blöf miktarı yüksek işletmelerde enerjinin bir kısmı geri kazanılabilir: <b>ısı değiştirici vasıtasıyla</b> ısı geri kazanımı ve <b>flaş tankında basıncın düşürülmesiyle</b> sıcak suyun tekrar buharlaşmasıyla oluşan <b>flaş buharın yeniden kullanılması</b>.",
+    n: "Tipik uygulama ikisini birleştirir: önce flaş tankında düşük basınçlı buhar ayrılıp degazöre verilir, kalan sıcak su da ısı değiştiricide besi suyu takviyesini (make-up) ısıtır." },
+  { t: 3, s: 44, q: "Besi suyu iletkenliği 350 ppm, kazanda izin verilen maksimum iletkenlik 3.500 ppm'dir. Sunumdaki formüle göre besi suyu miktarına göre blöf oranı yüzde kaçtır?",
+    o: ["%10", "%11,1", "%1", "%90", "%3,5"], a: 0,
+    e: "BD (besi suyuna göre) = S<sub>f</sub> / S<sub>b</sub> × 100 = 350 / 3.500 × 100 = <b>%10</b>.",
+    n: "Buhar miktarına göre aynı blöf S<sub>f</sub> / (S<sub>b</sub> − S<sub>f</sub>) = 350 / 3.150 ≈ %11,1 olur. Hangi miktara göre sorulduğuna dikkat edin: besi suyu = buhar + blöf olduğundan buhara göre oran her zaman daha büyüktür." },
+  { t: 3, s: 45, q: "Besi suyu iletkenliği 250 ppm olan 15 bar'lık bir kazan, sunumdaki tablodaki izin verilen maksimum iletkenlikte işletilmektedir. Buhar miktarına göre blöf oranı yaklaşık kaçtır?",
+    o: ["≈ %7,7", "≈ %7,1", "≈ %8,3", "≈ %12,5", "≈ %0,77"], a: 0,
+    e: "Tablo: 0–20 bar → S<sub>b</sub> = 3.500. BD (buhar miktarına göre) = S<sub>f</sub> / (S<sub>b</sub> − S<sub>f</sub>) × 100 = 250 / (3.500 − 250) × 100 = 250 / 3.250 × 100 ≈ <b>%7,7</b>.",
+    n: "%7,1 seçeneği besi suyuna göre orandır (250 / 3.500). Örneğin 10 t/h buhar üreten bu kazanda ≈ 0,77 t/h sıcak su blöfle atılır; bu suyun ısısı flaş tankı ve ısı değiştiriciyle geri kazanılmaya değerdir." },
+  { t: 3, s: 46, q: "Sunumdaki tabloya göre 45 bar işletme basıncındaki bir kazanda izin verilen maksimum kazan suyu iletkenliği kaçtır?",
+    o: ["2.000 ppm", "3.500 ppm", "2.500 ppm", "1.000 ppm", "500 ppm"], a: 0,
+    e: "Tablo: 0–20 bar 3.500; 21–30 bar 3.000; 31–40 bar 2.500; <b>41–50 bar 2.000</b>; 51–60 bar 1.500; 61–67 bar 1.250; 68–100 bar 1.000; 101–133 bar 750; 134 bar ve üstü 500 ppm.",
+    n: "Basınç arttıkça izin verilen iletkenlik düşer, çünkü yüksek basınç ve sıcaklıkta tuz çökelmesi ve buharla sürüklenme (carry-over) riski artar. Yüksek basınçlı kazanlar bu yüzden demineralize su ister." },
+  { t: 3, s: 46, q: "Besi suyu iletkenliği 200 ppm olan bir kazan 80 bar'da çalışmaktadır. Tablodaki sınıra göre buhar miktarına göre blöf oranı kaçtır?",
+    o: ["%25", "%20", "%5,7", "%8,7", "%2,5"], a: 0,
+    e: "Tablo: 68–100 bar → S<sub>b</sub> = 1.000. BD (buhara göre) = 200 / (1.000 − 200) × 100 = 200 / 800 × 100 = <b>%25</b>. (Besi suyuna göre: 200 / 1.000 = %20.)",
+    n: "%25 blöf kabul edilemeyecek kadar yüksektir; yüksek basınçlı kazanlarda besi suyu demineralize edilerek iletkenlik birkaç ppm'e indirilir. Örnek, yüksek basınçta su hazırlamanın neden zorunlu olduğunu gösterir." },
+  { t: 3, s: 47, q: "Sunumdaki kireç taşı kalınlığı – verim kaybı grafiğinde işaretlenen örneğe göre 0,5 mm kireç taşı yaklaşık ne kadar verim kaybına yol açar?",
+    o: ["≈ %6", "≈ %0,5", "≈ %1", "≈ %16", "≈ %30"], a: 0,
+    e: "Grafikte 0,5 mm'den çıkan kırmızı çizgi eğriyi ≈ <b>%6</b> verim kaybında keser. Eğri 1 mm'de ≈ %9, 2 mm'de ≈ %14, 3 mm'de ≈ %16,5'e ulaşır.",
+    n: "Eğri başta diktir: ilk yarım milimetre en pahalısıdır. Kireç taşının ısı iletkenliği çeliğinkinin onlarca kat altındadır; ayrıca boru metali aşırı ısınarak deformasyon ve patlama riski doğar." },
+
+  // Besi suyu, kondens ve yanma havası
+  { t: 4, s: 49, q: "Sunuma göre kazan suyu zaman içinde hangi nedenlerle eksilir?",
+    o: ["Açık kondens tanklarında buharlaşma, proseste direkt buhar kullanımı ve blöf", "Yalnızca baca gazıyla", "Yakıt tüketimiyle", "Kireç taşı oluşumuyla", "Yalnızca emniyet ventili açılmasıyla"], a: 0,
+    e: "Sunum: kazan suyu <b>açık kondens tanklarında buharlaşma</b>, <b>proseste direkt buhar kullanımı</b> ve <b>blöf yapılması</b> sonucu zamanla eksilir. Tasfiye edilmiş su ve kondensle takviye edilmeli ve bu su <b>mümkün olduğunca yüksek sıcaklıkta</b> olmalıdır.",
+    n: "Eksilen her kilogram su soğuk takviye suyuyla tamamlanır; bu su hem ısıtılmalı hem de arıtılmalıdır. Kondens dönüşünü artırmak takviye suyunu, dolayısıyla su hazırlama ve ısıtma maliyetini azaltır." },
+  { t: 4, s: 50, q: "Sunumdaki besi suyu ön ısıtma grafiğinde işaretlenen örneğe göre besi suyunun 20 °C ön ısıtılması yaklaşık ne kadar verim artışı sağlar?",
+    o: ["≈ %3,6", "≈ %20", "≈ %1", "≈ %11", "≈ %0,2"], a: 0,
+    e: "Grafikte 20 °C'den çıkan çizgi doğruyu ≈ <b>%3,6</b> verim artışında keser. Grafik doğrusaldır ve 60 °C'de ≈ %11'e ulaşır.",
+    n: "Grafikten çıkan pratik kural: besi suyu her ≈ 5,5–6 °C ısıtıldığında verim ≈ %1 artar. Ekonomizer, blöf ısı değiştiricisi ve sıcak kondens dönüşü besi suyu sıcaklığını yükseltmenin başlıca yollarıdır." },
+  { t: 4, s: 51, q: "Sunuma göre kondensatın kazana döndürülmesi için hangi koşul gerekir?",
+    o: ["Prosesten kaynaklanabilecek herhangi bir kirlenme söz konusu olmamalıdır", "Kondensat sıcaklığı 20 °C'nin altında olmalıdır", "Kazan basıncı 100 bar'ın üzerinde olmalıdır", "Kondensat mutlaka atmosfere açık tankta bekletilmelidir", "Hiçbir koşul gerekmez; her kondensat kazana döner"], a: 0,
+    e: "Sunum: buhar kapanlarıyla buharın sistemde kalması ve kondensatın geri alınması sağlanabilir. <b>Prosesten kaynaklanabilecek herhangi bir kirlenme söz konusu değilse</b>, sıcak ve kaliteli su olan kondensat besi suyu olarak <b>maksimum oranda</b> kazana döndürülmelidir.",
+    n: "Kondensat hem sıcak (enerji) hem de saf (düşük iletkenlik → az blöf, az kimyasal) olduğu için iki yönlü kazanç sağlar. Kirlenme riski olan hatlarda iletkenlik veya bulanıklık sensörüyle otomatik ayırma yapılabilir." },
+  { t: 4, s: 52, q: "Sunuma göre kondensat kirli olup kazana döndürülmesi sakıncalıysa ne yapılabilir?",
+    o: ["Sıcak kondensat saf su aranmayan yerde kullanılabilir veya bir ısı değiştiriciden geçirilerek ısısı geri kazanılabilir", "Mutlaka kanala atılmalıdır, başka seçenek yoktur", "Kimyasal eklenmeden doğrudan kazana basılmalıdır", "Yakıta karıştırılarak yakılmalıdır", "Baca gazına püskürtülmelidir"], a: 0,
+    e: "Sunum: kondensatın kirli olması ve kazana döndürülmesinin sakıncalı olduğu durumlarda <b>sıcak kondensat saf su aranmayan yerde kullanılabilir</b>; <b>kirli kondensat bir ısı değiştiriciden geçirilerek</b> sahip olduğu ısı geri kazanılabilir.",
+    n: "Örnek kullanım yerleri: temizlik ve yıkama suyu, proses ön ısıtması, kullanım sıcak suyu ön ısıtması. Kirli kondensatın ısısı, takviye suyunu ısıtmak için de kullanılabilir." },
+  { t: 4, s: 53, q: "Sunumdaki kondensat geri dönüş grafiğine göre %75 geri dönüş oranı ve 80 °C kondensat sıcaklığında kazanda yakıt tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ %8", "≈ %4,7", "≈ %14", "≈ %2,5", "≈ %75"], a: 0,
+    e: "Grafikte mavi okla işaretlenen örnek: 80 °C'den çıkılıp %75 eğrisi kesilince ≈ <b>%8</b> yakıt tasarrufu okunur. Kırmızı okla işaretlenen diğer örnek: %50 dönüş ve 70 °C → ≈ %4,7.",
+    n: "Tasarruf, dönüş oranı ve kondensat sıcaklığıyla birlikte artar; %100 dönüş ve ≈ 100 °C'de ≈ %14'e yaklaşır. Kondens hatlarının yalıtılması, aynı dönüş oranında sıcaklığı yükselterek tasarrufu büyütür." },
+  { t: 4, s: 54, q: "Sunumdaki grafiğe göre besi suyundaki çözünmüş oksijen miktarı sıcaklıkla nasıl değişir?",
+    o: ["Sıcaklık arttıkça azalır; ≈ 100 °C'de sıfıra yaklaşır", "Sıcaklık arttıkça artar", "Sıcaklıktan bağımsızdır", "50 °C'de en yüksek değere ulaşır", "100 °C'de 12 ppm'e çıkar"], a: 0,
+    e: "Grafikte çözünmüş oksijen düşük sıcaklıkta ≈ 12 ppm iken sıcaklık arttıkça azalır ve <b>≈ 100 °C'de sıfıra iner</b>. Sağ eksendeki kimyasal ihtiyacı (0–96 ppm) da buna paralel düşer.",
+    n: "Bu nedenle besi suyu degazörde ısıtılarak (≈ 102–105 °C) oksijenden arındırılır; kalan iz oksijen kimyasal (sülfit) ile bağlanır. Sıcak besi suyu hem verimi artırır hem korozyon kimyasalı ihtiyacını azaltır." },
+  { t: 4, s: 56, q: "Besi suyundaki çözünmüş oksijenin kazanda yol açtığı sorun ve buna karşı kullanılan ekipman hangisidir?",
+    o: ["Korozyon; degazör", "Kireç taşı; ekonomizer", "Eksik yanma; brülör", "Yüksek baca gazı sıcaklığı; baca", "Koç darbesi; separatör"], a: 0,
+    e: "Sunumda “çözünmüş oksijen nedeniyle olan <b>korozyon</b>” slaytının ardından <b>degazör</b> gösterilir. Degazör besi suyunu ısıtarak çözünmüş oksijen ve CO<sub>2</sub>'yi uzaklaştırır.",
+    n: "Oksijen korozyonu çukurcuk (pitting) şeklinde ilerler ve boruları delebilir. Degazör ayrıca besi suyunu ısıttığı için verime de katkı sağlar; flaş buhar ve blöf geri kazanımı genellikle degazöre bağlanır." },
+  { t: 4, s: 57, q: "Sunuma göre yanma havasının atık ısılarla ısıtılmasında her kaç °C'lik sıcaklık artışı kazan verimini yaklaşık %1 artırır?",
+    o: ["28 °C", "17 °C", "10 °C", "50 °C", "100 °C"], a: 0,
+    e: "Sunum: yanma havasının atık ısılar kullanılarak ısıtılması sonucu sağlanacak <b>her 28 °C'lik</b> sıcaklık artışı kazan verimini <b>yaklaşık %1</b> artırabilir.",
+    n: "Hava ön ısıtıcısı (reküperatör) baca gazından, kompresör soğutma havasından veya kazan dairesinin tavanındaki sıcak havadan yararlanabilir. Kazan dairesinin üst kısmından emiş, sıfır yatırımlı bir uygulamadır." },
+  { t: 4, s: 57, q: "Yanma havası, kazan dairesi tavanındaki atık ısı kullanılarak 15 °C'den 71 °C'ye ısıtılırsa sunumdaki kurala göre verim yaklaşık kaç puan artar?",
+    o: ["≈ 2 puan", "≈ 3,3 puan", "≈ 5,6 puan", "≈ 1 puan", "≈ 0,5 puan"], a: 0,
+    e: "Sıcaklık artışı = 71 − 15 = 56 °C. Verim artışı ≈ 56 / 28 = <b>2 puan</b>.",
+    n: "3,3 seçeneği 56 / 17 hesabıdır; 17 °C kuralı baca gazı içindir. İki kural birbirini tamamlar: baca gazından alınıp yanma havasına verilen ısı hem baca kaybını düşürür hem havayı ısıtır." },
+  { t: 4, s: 60, q: "Sunumdaki enerji geri kazanım şemasında aşağıdakilerden hangisi gösterilen elemanlardan biri <b>değildir</b>?",
+    o: ["Soğutma kulesi", "Degazör", "Blöf separatörü", "Ekonomizer", "Su yumuşatma"], a: 0,
+    e: "Şemadaki elemanlar: 1 kazan, 2 degazör, 3 blöf separatörü, 4 blöf ısı değiştirici, 5 kimyasal dozlama, 6 su yumuşatma, 7 ekonomizer, 8 baca, 9 yanma havası, 10 su ısıtıcı, 11 demineralize, 12 su filtre. Soğutma kulesi yoktur.",
+    n: "Şema, kazan dairesindeki ısı geri kazanım zincirini özetler: baca gazı → ekonomizer, blöf → separatör (flaş buhar degazöre) + ısı değiştirici (takviye suyu ısıtma)." },
+
+  // Kazan verimi hesap metotları
+  { t: 5, s: 61, q: "Sunuma göre kazan verimi hesaplama metotları hangileridir?",
+    o: ["Direkt metot (faydalı enerji / verilen enerji) ve kayıpların tespiti metodu (100 − toplam kayıplar)", "Yalnızca baca gazı analizi metodu", "Regresyon metodu ve ODEX metodu", "Sankey metodu ve HDD metodu", "Yalnızca üretici kataloğundaki verim"], a: 0,
+    e: "Sunum: <b>1. Direkt metot</b>: η = faydalı enerji / verilen enerji × 100. <b>2. Kayıpların tespiti metodu</b>: η = 100 − toplam kayıplar (%).",
+    n: "Direkt metot için buhar debisi, basıncı, besi suyu sıcaklığı ve yakıt sayacı gerekir; ölçüm hataları doğrudan verime yansır. Kayıplar (dolaylı) metodu ise baca gazı analizinden hangi kaybın ne kadar olduğunu da gösterdiği için iyileştirme önceliklerini belirlemede daha kullanışlıdır." },
+  { t: 5, s: 61, q: "Bir kazan saatte 5.000 kg buhar üretmektedir; buhar ile besi suyu arasındaki entalpi farkı 580 kcal/kg'dır. Kazan saatte 400 Sm³ doğal gaz (alt ısıl değer 8.250 kcal/Sm³) yakmaktadır. Direkt metotla kazan verimi yaklaşık kaçtır?",
+    o: ["≈ %87,9", "≈ %70,3", "≈ %92,4", "≈ %113,8", "≈ %58,0"], a: 0,
+    e: "Faydalı enerji = 5.000 × 580 = 2.900.000 kcal/h. Verilen enerji = 400 × 8.250 = 3.300.000 kcal/h. η = 2.900.000 / 3.300.000 × 100 ≈ <b>%87,9</b>.",
+    n: "Faydalı enerjide buharın toplam entalpisi değil, besi suyuna göre <b>farkı</b> kullanılır; besi suyunun getirdiği ısı kazana ait değildir. %113,8 seçeneği oranın ters çevrilmesidir." },
+  { t: 5, s: 62, q: "Bir kazanda kayıplar şöyle bulunmuştur: kuru baca gazı %7,5, baca gazındaki su buharı %1,5, yüzey kaybı %1, blöf %1,5, eksik yanma %0,5. Kayıpların tespiti metoduyla kazan verimi kaçtır?",
+    o: ["%88", "%92,5", "%12", "%90,5", "%86,5"], a: 0,
+    e: "Toplam kayıplar = 7,5 + 1,5 + 1 + 1,5 + 0,5 = 12. η = 100 − 12 = <b>%88</b>.",
+    n: "Bu tabloda en büyük kalem kuru baca gazı kaybıdır; fazla hava ayarı ve ekonomizer ilk incelenecek önlemlerdir. Kayıplar metodu bu yüzden verimi bulmakla kalmaz, “nereden başlamalı?” sorusunu da cevaplar." },
+  { t: 5, s: 62, q: "Bir kazanın verimi brülör ayarı ve ekonomizerle %80'den %85'e çıkarılmıştır. Aynı faydalı ısı için yakıt tüketimi yaklaşık yüzde kaç azalır?",
+    o: ["≈ %5,9", "%5", "≈ %6,25", "%85", "≈ %4,2"], a: 0,
+    e: "Yakıt ∝ 1 / η. Tasarruf = 1 − η<sub>eski</sub> / η<sub>yeni</sub> = 1 − 80 / 85 ≈ <b>%5,9</b>.",
+    n: "Verimdeki 5 puanlık artış yakıtta %5 değil, ≈ %5,9 azalma demektir. %6,25 seçeneği (85 − 80) / 80 hesabıdır; bu, aynı yakıtla elde edilen faydalı ısının artışıdır, yakıt tasarrufu değildir." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
