@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pompalarda Enerji Verimliliği Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 24 · Pompalarda Enerji Verimliliği</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 24</span> 1_25.pdf · Ege Karabacak, Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020</p>
+    <h1>Pompa Teknolojisi ve Pompalarda Enerji Verimliliği <em>Sınavı</em></h1>
+    <p class="lede">Pompa tanımı, dünya elektriğinin %20'si ve %30 tasarruf potansiyeli; %25 debi / %10 basma payı; ömür boyu maliyet (%89,8 enerji); enerji akışı (%42 faydalı); hacimsel ve santrifüj pompalar, ıslak ve kuru rotor; pompa ve sistem eğrisi, çalışma noktası; basma yüksekliği ve verim hesabı (%50,87 örneği); debi kontrol yolları, vana kısma ve değişken hız sürücüsü, benzeşim kanunları; tasarruf önlemleri.</p>
+    <ul class="facts"><li>47 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Pompa Teknolojisinin Temel Prensipleri ve Pompalarda Enerji Verimliliği” sunumu (Ege Karabacak, ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı, Nisan 2020). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum24-v1",
+topics: ["Giriş, pompa seçimi ve ömür boyu maliyet", "Pompa tipleri ve yapısı", "Karakteristik eğriler, basma yüksekliği ve verim", "Debi kontrolü ve benzeşim kanunları", "Pompalarda enerji tasarrufu"],
+Q: [
+  // Giriş, seçim, maliyet
+  { t: 0, s: 2, q: "Sunumdaki tanıma göre pompa nedir?",
+    o: ["Başka bir kaynaktan aldığı mekanik enerjiyi dönüştürerek sıkıştırılamayan akışkanlara hidrolik enerji olarak veren makine", "Sıkıştırılabilir gazlara basınç kazandıran makine", "Hidrolik enerjiyi elektrik enerjisine çeviren makine", "Isı enerjisini mekanik enerjiye çeviren makine", "Akışkanın sıcaklığını yükselten ısı değiştirici"], a: 0,
+    e: "Sunum: <b>pompa</b>, başka bir kaynaktan aldığı <b>mekanik enerjiyi</b> dönüştürerek <b>sıkıştırılamayan akışkanlara hidrolik enerji</b> olarak veren makinedir.",
+    n: "Sıkıştırılabilir akışkanlara (hava, gaz) enerji veren makineler fan, üfleyici veya kompresördür. Hidrolik enerjiyi mekanik enerjiye çeviren makine ise türbindir." },
+  { t: 0, s: 2, q: "Sunuma göre sıvıların naklinde kullanılan pompaların elektrik tüketimi dünyadaki toplam elektrik tüketiminin yüzde kaçına karşılık gelir ve iyi bir sistem tasarımıyla ne kadar azaltılabilir?",
+    o: ["%20; %30 azalma", "%5; %10 azalma", "%50; %50 azalma", "%2; %1 azalma", "%70; %90 azalma"], a: 0,
+    e: "Sunum: pompaların elektrik tüketimi dünyadaki toplam elektrik tüketiminin <b>%20'sine</b> karşılık gelir. İyi bir sistem tasarımı ve uygun pompalar kullanılarak pompaların tükettiği enerjide <b>%30 azalma</b> sağlanabilir.",
+    n: "Sanayide elektrik motorlarının çevirdiği yüklerin önemli bir bölümü pompa, fan ve kompresördür. Bu yüklerin ortak özelliği değişken hız sürücüsüyle büyük tasarruf potansiyeli taşımalarıdır." },
+  { t: 0, s: 3, q: "Sunuma göre pompa siparişinde en yaygın uygulama nedir ve bunun sonucu ne olur?",
+    o: ["Debi %25, basma yüksekliği %10 artırılarak sipariş verilir; pompa en iyi verim noktasından uzakta çalışır ve debiyi ayarlamak için vana kısılır", "Debi ve basma yüksekliği %50 azaltılarak sipariş verilir; pompa yetersiz kalır", "Pompa tam ihtiyaç kadar seçilir; verim her zaman en yüksektir", "Yalnızca motor gücü artırılır; pompa değişmez", "Debi %10, basma yüksekliği %25 azaltılır; vana tamamen açık çalışır"], a: 0,
+    e: "Sunum: ilerideki ihtiyaçlar için <b>debinin %25, basma yüksekliğinin %10 artırılarak</b> sipariş verilmesi en yaygın uygulamadır. Bu uygulamayla pompalar <b>en iyi verim noktalarından uzakta</b> çalışır, debi fazla geldiği için <b>vana kısılarak</b> debi ayarlanmak zorunda kalınır; pompa sistemi verimsiz çalışır.",
+    n: "Emniyet payları birikerek büyür: tasarımcı, tedarikçi ve işletmeci ayrı ayrı pay eklerse pompa ihtiyacın çok üstünde seçilir. Etütlerde kısılmış vana, büyük seçilmiş pompanın en tipik işaretidir." },
+  { t: 0, s: 3, q: "Bir sistemde gerçek ihtiyaç 80 m³/h debi ve 40 m basma yüksekliğidir. Sunumdaki yaygın uygulamaya göre sipariş edilecek pompanın değerleri ne olur?",
+    o: ["100 m³/h ve 44 m", "88 m³/h ve 50 m", "80 m³/h ve 40 m", "120 m³/h ve 60 m", "100 m³/h ve 50 m"], a: 0,
+    e: "Debi %25 fazla: 80 × 1,25 = <b>100 m³/h</b>. Basma yüksekliği %10 fazla: 40 × 1,10 = <b>44 m</b>.",
+    n: "Bu pompa sistemde, sistem eğrisinin pompa eğrisini kestiği noktada (100 m³/h'den fazla bir debide) çalışmaya çalışır; ihtiyaç 80 m³/h olduğu için vana kısılır ve fazla basma yüksekliği vanada enerji olarak yok edilir." },
+  { t: 0, s: 4, q: "Sunuma göre bir pompanın ömür boyu maliyetinde satın alma, bakım ve enerji maliyetlerinin payları yaklaşık nedir?",
+    o: ["Satın alma %3,6; bakım %6,6; enerji %89,8", "Satın alma %89,8; bakım %6,6; enerji %3,6", "Satın alma %33; bakım %33; enerji %33", "Satın alma %50; bakım %10; enerji %40", "Satın alma %6,6; bakım %3,6; enerji %50"], a: 0,
+    e: "Sunumdaki pasta grafik: <b>satın alma %3,6</b>, <b>bakım %6,6</b>, <b>enerji %89,8</b>. Bir pompanın satın alma maliyeti ömür boyu maliyetinin yalnızca ≈ %3'ünü oluştururken enerji maliyetinin payı %90'a yakındır.",
+    n: "Bu yüzden pompa seçiminde fiyat değil verim belirleyici olmalıdır: birkaç puan daha verimli bir pompanın ek maliyeti çoğu zaman bir yıldan kısa sürede geri döner." },
+  { t: 0, s: 4, q: "Bir pompanın satın alma bedeli 50.000 TL'dir. Sunumdaki ömür boyu maliyet dağılımına (satın alma %3,6; enerji %89,8) göre pompanın ömrü boyunca enerji maliyeti yaklaşık ne olur?",
+    o: ["≈ 1.247.000 TL", "≈ 1.389.000 TL", "≈ 449.000 TL", "≈ 92.000 TL", "≈ 50.000 TL"], a: 0,
+    e: "Toplam ömür boyu maliyet = 50.000 / 0,036 ≈ 1.389.000 TL. Enerji payı = 1.389.000 × 0,898 ≈ <b>1.247.000 TL</b>.",
+    n: "Pompa fiyatının yaklaşık 25 katı elektrik faturası ödenir. Bu oranı bilmek, “pahalı ama verimli” pompa seçimini yönetime anlatmanın en etkili yoludur." },
+  { t: 0, s: 5, q: "Sunumdaki pompa sistemlerinde enerji akışı şemasına göre elektrik enerjisinin yüzde kaçı faydalı enerjiye dönüşür?",
+    o: ["%42", "%88", "%24", "%100", "%58"], a: 0,
+    e: "Enerji akışı: elektrik <b>%100</b> → elektrik motoru kaybı %12, bağlantı elemanı kaybı %2, pompa kaybı %24, vana vb. kaybı %9, borulardaki kayıp %11 → <b>faydalı enerji %42</b>.",
+    n: "Toplam kayıp %58'dir ve en büyük kalem pompanın kendisidir (%24). Vana ve boru kayıpları birlikte %20'dir; bunlar doğru boyutlandırma ve vana yerine hız kontrolüyle büyük ölçüde azaltılabilir." },
+  { t: 0, s: 5, q: "Sunumdaki enerji akışı şemasında en büyük kayıp hangi bileşendedir?",
+    o: ["Pompa (%24)", "Elektrik motoru (%12)", "Borular (%11)", "Vana vb. (%9)", "Bağlantı elemanı (%2)"], a: 0,
+    e: "Kayıplar: <b>pompa %24</b>, elektrik motoru %12, borulardaki kayıp %11, vana vb. %9, bağlantı elemanı (kaplin) %2.",
+    n: "Pompa kaybının büyük olması çoğunlukla pompanın en iyi verim noktasından uzakta çalışmasından ve iç aşınmadan kaynaklanır. Doğru seçim ve iç yüzey kaplaması bu kaybı azaltır." },
+
+  // Pompa tipleri ve yapısı
+  { t: 1, s: 6, q: "Sunuma göre hacimsel (volumetrik) pompalarda enerji sıvıya nasıl aktarılır?",
+    o: ["Bir hacim içinde hareket eden yüzeyin hacmi daraltmasıyla uygulanan basınç vasıtasıyla; bu pompalara pozitif yer değiştirmeli pompalar da denir", "Dönen çarkın merkezkaç kuvvetiyle", "Akışkanın ısıtılmasıyla", "Manyetik alanla", "Yerçekimiyle"], a: 0,
+    e: "Sunum: hacimsel pompalarda enerji sıvıya, bir hacim içinde hareket eden yüzey tarafından <b>hacmin daraltılmasıyla</b> uygulanan basınç vasıtasıyla devredilir. Bu tip pompalara <b>pozitif yer değiştirmeli pompalar</b> da denir.",
+    n: "Hacimsel pompalarda debi, karşı basınçtan neredeyse bağımsızdır; bu yüzden çıkışları asla kapatılmamalı ve emniyet ventiliyle korunmalıdır. Debi kontrolü için en uygun yöntem hız kontrolüdür." },
+  { t: 1, s: 6, q: "Aşağıdakilerden hangisi sunumda gösterilen hacimsel pompa tiplerinden biri <b>değildir</b>?",
+    o: ["Eksenel çarklı pompa", "Dişli pompa", "Diyaframlı pompa", "Peristaltik pompa", "Pistonlu pompa"], a: 0,
+    e: "Sunumdaki hacimsel pompalar: <b>dişli, diyaframlı, peristaltik, paletli, pistonlu ve lobe tipi</b>. Eksenel çark ise santrifüj (rotodinamik) pompaların çark çeşitlerinden biridir.",
+    n: "Peristaltik pompalar hortumun sıkıştırılmasıyla çalışır ve akışkan yalnızca hortuma temas eder; kimyasal dozlamada yaygındır. Diyaframlı pompalar da sızdırmazlık gerektiren dozlama uygulamalarında kullanılır." },
+  { t: 1, s: 7, q: "Sunuma göre santrifüj pompalarda sıvı nasıl hareket eder?",
+    o: ["Merkezden eksenel olarak giren sıvı çarkın kanatlarıyla döndürülür, merkezkaç kuvvetiyle çark ile gövde arasındaki genişleyen spiral boşluğa fırlatılır ve çıkış ağzından çıkar", "Sıvı bir piston tarafından silindirden itilir", "Sıvı iki dişlinin arasında taşınır", "Sıvı bir hortumun sıkıştırılmasıyla ilerler", "Sıvı yerçekimiyle akar"], a: 0,
+    e: "Sunum: santrifüj pompalar bir gövde ve kanatlı bir çarktan oluşur; çark ile gövde arasındaki boşluk <b>gittikçe genişleyen spiral</b> şeklindedir. Merkezden <b>eksenel</b> giren sıvı çarkın kanatlarıyla döndürülür ve <b>merkezkaç kuvvetiyle</b> gövdeye fırlatılır, dairesel yörünge izleyerek çıkıştan çıkar. Daha iyi etki için kanatlar <b>dönme yönüne ters</b> kıvrılır.",
+    n: "Genişleyen spiral gövde (salyangoz), akışkanın hızını düşürerek kinetik enerjiyi basınca çevirir. Sunumdaki ana parçalar: çark (kinetik enerjiyi akışkana aktarır), gövde (kinetik enerjiyi basma yüksekliğine çevirir), mil, salmastra (sızdırmazlık)." },
+  { t: 1, s: 7, q: "Sunuma göre santrifüj pompalarda yüksek basınç elde etmek neden zordur ve çözüm nedir?",
+    o: ["Oluşan basınç düşüktür ve çark çapıyla doğru orantılıdır; büyük çark pahalı olduğundan kademe sayısı artırılarak çok kademeli yüksek basınç pompaları kullanılır", "Santrifüj pompalar hiç basınç oluşturmaz; hacimsel pompa kullanılmalıdır", "Basınç devirle azaldığı için devir düşürülür", "Basınç için yalnızca vana kısılır", "Gövde küçültülerek basınç artırılır"], a: 0,
+    e: "Sunum: santrifüj pompaların oluşturduğu basınç düşüktür. <b>Çark çapı basınçla doğru orantılı</b> olduğundan yüksek basınç elde etmek zor ve maliyetlidir. Bunun yerine <b>kademe artırılarak çok kademeli yüksek basınç pompaları</b> geliştirilmiştir; amaç sabit debiyle yüksek basınç elde etmektir.",
+    n: "Çok kademeli pompada akışkan seri bağlı çarklardan sırayla geçer; her kademe basma yüksekliğini ekler. Kazan besi pompaları ve yüksek binaların hidroforları tipik örneklerdir." },
+  { t: 1, s: 8, q: "Sunuma göre santrifüj pompanın ana parçalarından “salmastra”nın görevi nedir?",
+    o: ["Sızdırmazlığı sağlamak", "Kinetik enerjiyi akışkana aktarmak", "Kinetik enerjiyi basma yüksekliğine dönüştürmek", "Motoru soğutmak", "Debiyi ölçmek"], a: 0,
+    e: "Sunumdaki ana parçalar: 1 <b>çark</b>: kinetik enerjiyi akışkana transfer eder; 2 <b>pompa gövdesi</b>: akışkanı tutar ve kinetik enerjiyi basma yüksekliğine dönüştürür; 3 <b>mil</b>; 4 <b>salmastra</b>: sızdırmazlığı sağlar.",
+    n: "Yumuşak (örgülü) salmastralar soğuma için az miktarda damlatmaya ihtiyaç duyar; mekanik salmastralar ise sızdırmazdır ama kuru çalışmaya dayanmaz. Aşırı sıkılmış salmastra sürtünmeyle enerji tüketir." },
+  { t: 1, s: 9, q: "Aşağıdakilerden hangisi sunumda gösterilen santrifüj pompa çark çeşitlerinden biridir?",
+    o: ["Karışık akışlı (yarı eksenel) çark", "Dişli çark", "Diyafram çark", "Lobe çark", "Piston çark"], a: 0,
+    e: "Sunumdaki çark çeşitleri: <b>yandan kanallı çark, radyal akışlı çark, 3D radyal akışlı çark, karışık akışlı (yarı eksenel) çark, eksenel çark</b>.",
+    n: "Radyal çarklar yüksek basma yüksekliği–düşük debi, eksenel çarklar düşük basma yüksekliği–yüksek debi (ör. sulama, soğutma suyu) için uygundur; karışık akışlı çarklar ikisinin arasındadır." },
+  { t: 1, s: 10, q: "Sunuma göre santrifüj pompalar motor ve sızdırmazlık şekline göre hangi iki gruba ayrılır?",
+    o: ["Islak rotorlu ve kuru rotorlu", "Tek kademeli ve çok kademeli", "Yatay ve dikey", "Dişli ve pistonlu", "Açık ve kapalı çarklı"], a: 0,
+    e: "Sunum: santrifüj pompalar motor ve sızdırmazlık şekline göre <b>ıslak rotorlu</b> ve <b>kuru rotorlu</b> olarak ikiye ayrılır.",
+    n: "Islak rotorlu pompalar küçük güçlerde (bina ısıtma sirkülasyon pompaları) yaygındır. Kuru rotorlu pompalar ise sanayide ve büyük güçlerde kullanılır." },
+  { t: 1, s: 11, q: "Sunuma göre ıslak rotorlu pompaların özelliği hangisidir?",
+    o: ["Tüm dönen elemanlar akışkan içinde çalışır; akışkan yatakları yağlar ve rotoru soğutur; sessizdir; sızdırmazlık elemanı yoktur, bakım gerektirmez", "Motor yatakları dışarıdan yağlanmalıdır", "Motor bir fanla soğutulmalıdır", "Mil sızdırmazlığı için mekanik salmastra gerekir", "Devir hızına bağlı olarak sesli çalışır ve bakım gerektirir"], a: 0,
+    e: "Islak rotorlu pompa: <b>tüm dönen elemanlar akışkan içinde</b> çalışır; <b>akışkan yatakları yağlar</b>, yatakları ve rotoru soğutur; <b>sessiz</b> çalışır; mil sızdırmazlığı <b>rotor kılıfıyla</b> sağlanır; herhangi bir sızdırmazlık elemanı yoktur, <b>bakım gerektirmez</b>.",
+    n: "Diğer şıklar kuru rotorlu pompaların özellikleridir. Modern ıslak rotorlu sirkülasyon pompaları sabit mıknatıslı (EC) motor ve dahili hız kontrolüyle çok yüksek verime ulaşmıştır." },
+  { t: 1, s: 12, q: "Sunuma göre kuru rotorlu pompalar için hangisi <b>yanlıştır</b>?",
+    o: ["Herhangi bir sızdırmazlık elemanı yoktur ve bakım gerektirmez", "Pompalanan akışkanla elektrik motoru arasında temas yoktur", "Pompa mili ile motor mili kaplinle birleştirilir veya yekpare mildir", "Motor yatağının (rulman) dışarıdan yağlanması gerekir", "Mil sızdırmazlığı için yumuşak veya mekanik salmastra gerekir"], a: 0,
+    e: "Kuru rotorlu pompa: akışkanla motor arasında <b>temas yoktur</b>; pompa ve motor mili <b>kaplinle</b> birleştirilir veya yekpare mildir; motor yatağı <b>dışarıdan yağlanmalı</b>, motor <b>fanla soğutulmalı</b>; mil sızdırmazlığı için <b>yumuşak/mekanik salmastra</b> gerekir; devir hızına bağlı olarak <b>sesli</b> çalışır ve <b>bakım gerektirir</b>.",
+    n: "Sızdırmazlık elemanının olmaması ıslak rotorlu pompaların özelliğidir. Kuru rotorlu pompada kaplin hizasızlığı hem titreşim hem de enerji kaybı (sunumdaki %2 bağlantı elemanı kaybı) yaratır." },
+
+  // Karakteristik eğriler, basma yüksekliği, verim
+  { t: 2, s: 13, q: "Sunumdaki santrifüj pompa karakteristik eğrisinde (H–Q) debi arttıkça basma yüksekliği nasıl değişir?",
+    o: ["Sıfır debide (H<sub>0</sub>) en yüksektir; debi arttıkça azalır", "Debi arttıkça artar", "Debiden bağımsız sabittir", "Sıfır debide sıfırdır", "Önce sıfır, sonra sonsuz olur"], a: 0,
+    e: "Karakteristik eğride basma yüksekliği <b>sıfır debi noktasında (H<sub>0</sub>) en yüksektir</b> ve debi arttıkça <b>azalır</b>.",
+    n: "Santrifüj pompa kapalı vanaya karşı (sıfır debi) çalıştırılabilir ama bu sırada tüm güç ısıya dönüşür ve uzun sürerse pompa ısınır. Hacimsel pompalarda ise kapalı vana basıncı tehlikeli seviyelere çıkarır." },
+  { t: 2, s: 14, q: "Sunuma göre sistem karakteristik eğrisi neyi gösterir ve basma yüksekliği hangi bileşenlerden oluşur?",
+    o: ["Pompanın istenen kapasiteyi sistem boyunca vermesi için gereken basma yüksekliğini; basma yüksekliği = H<sub>statik</sub> + H<sub>dinamik</sub>", "Pompanın verimini; basma yüksekliği = verim × debi", "Motorun gücünü; basma yüksekliği = güç / debi", "Akışkanın sıcaklığını; basma yüksekliği = sıcaklık farkı", "Pompanın devrini; basma yüksekliği = devir²"], a: 0,
+    e: "Sunum: sistem eğrisi, pompanın istenen bir kapasiteyi pompa sistemi boyunca vermesi için <b>ne kadar basma yüksekliği (basınç) gerektiğini</b> gösterir. <b>Basma yüksekliği = H<sub>statik</sub> + H<sub>dinamik</sub></b>.",
+    n: "Sistem eğrisi pompadan bağımsızdır; boru ağına, vanalara ve kot farkına bağlıdır. Pompa eğrisi ise pompanın ne verebileceğidir. İkisinin kesişimi çalışma noktasını belirler." },
+  { t: 2, s: 14, q: "Sunuma göre statik ve dinamik basma yüksekliği için hangisi doğrudur?",
+    o: ["Statik basma yüksekliği kapasiteden bağımsızdır (kot farkı veya basınçlı tankta fark basınç); dinamik basma yüksekliği sürtünme kayıplarından oluşur ve kapasitenin karesiyle orantılı değişir", "Statik basma yüksekliği debinin karesiyle artar", "Dinamik basma yüksekliği kapasiteden bağımsızdır", "Her ikisi de debiyle doğrusal artar", "Statik basma yüksekliği sürtünme kayıplarından oluşur"], a: 0,
+    e: "Sunum: <b>statik basma yüksekliği</b> kapasiteden bağımsızdır; kot farkı veya basınçlı bir tanka basılıyorsa fark basınçtır. <b>Dinamik basma yüksekliği</b> tesisat sistemindeki <b>sürtünme kayıplarından</b> oluşur ve <b>kapasite değişiminin karesiyle orantılı</b> artar veya azalır.",
+    n: "Statik payı büyük olan sistemlerde (yüksek depoya basma) hız kontrolünün tasarrufu sınırlıdır, çünkü pompa düşük devirde de statik yüksekliği yenmek zorundadır. Kapalı devre sirkülasyon sistemlerinde statik pay sıfıra yakındır ve hız kontrolü çok etkilidir." },
+  { t: 2, s: 14, q: "Bir sistemde statik basma yüksekliği 10 m'dir; 100 m³/h debide dinamik (sürtünme) basma yüksekliği 20 m'dir. Debi 50 m³/h'e düşürülürse sistemin gerektirdiği toplam basma yüksekliği kaç m olur?",
+    o: ["15 m", "20 m", "30 m", "10 m", "25 m"], a: 0,
+    e: "Dinamik kısım debinin karesiyle orantılıdır: 20 × (50/100)² = 20 × 0,25 = 5 m. Toplam = 10 (statik) + 5 = <b>15 m</b>.",
+    n: "20 m seçeneği tüm basma yüksekliğini yarıya bölmektir; statik kısım debiyle değişmez. 25 m seçeneği ise dinamik kısmı doğrusal azaltmaktır (10 + 10 + 5 karışık hesap)." },
+  { t: 2, s: 16, q: "Sunuma göre pompanın çalışma noktası nasıl belirlenir?",
+    o: ["Pompa eğrisi ile sistem eğrisinin kesiştiği noktadır", "Pompa eğrisinin en yüksek noktasıdır", "Sistem eğrisinin y eksenini kestiği noktadır", "Motor etiketindeki değerdir", "Vananın tam açık olduğu noktadır"], a: 0,
+    e: "Sunumdaki grafik: <b>pompa eğrisi</b> (debi arttıkça azalan basma yüksekliği) ile <b>sistem eğrisi</b> (statik basma yüksekliğinden başlayıp debiyle artan) <b>kesiştiği noktada çalışma noktası</b> oluşur.",
+    n: "Çalışma noktası iki yolla değiştirilebilir: sistem eğrisini değiştirmek (vana kısma) veya pompa eğrisini değiştirmek (devir, çark çapı, paralel pompa). İkinci yol enerji açısından her zaman daha verimlidir." },
+  { t: 2, s: 15, q: "Sunumdaki birim dönüşümlerine göre 10 m su sütunu kaç kPa'ya karşılık gelir?",
+    o: ["98 kPa (≈ 1 kg/cm²)", "10 kPa", "1.000 kPa", "9,8 kPa", "0,98 kPa"], a: 0,
+    e: "Sunum: <b>10 m = 1 kg/cm² = 0,098 MPa = 98 kPa</b>; 0,1 MPa = 100 kPa = 100 / 9,8 = <b>10,2 m</b>; 1 atü = 0,1013 MPa = 101,3 kPa.",
+    n: "Pratik kural: 1 bar ≈ 10 m su sütunu. Basınç (kPa) / 9,8 ≈ basma yüksekliği (m) dönüşümü, sunumdaki basma yüksekliği formülünde de kullanılır." },
+  { t: 2, s: 15, q: "Bir pompanın çıkış manometresi 0,3 MPa göstermektedir. Sunumdaki dönüşüme göre bu yaklaşık kaç metre su sütunudur?",
+    o: ["≈ 30,6 m", "≈ 3 m", "≈ 300 m", "≈ 2,94 m", "≈ 98 m"], a: 0,
+    e: "0,3 MPa = 300 kPa. 300 / 9,8 ≈ <b>30,6 m</b>. (Sunum: 0,1 MPa = 100 kPa = 100 / 9,8 = 10,2 m.)",
+    n: "Basma yüksekliği hesabında çıkış ve emiş basınçlarının farkı alınır; emiş tarafı vakum (negatif) ise fark büyür. Sunumdaki örnekte P<sub>s</sub> = −8 kPa olduğundan 289 − (−8) = 297 kPa alınmıştır." },
+  { t: 2, s: 17, q: "Sunumdaki pompa basma yüksekliği formülünde hangi terimler yer alır?",
+    o: ["Çıkış ve emiş basınçları farkı, çıkış ve emiş hızlarına ait (V²/2) farkı ve ölçüm noktaları arasındaki yükseklik farkı", "Yalnızca motor gücü ve verim", "Yalnızca debi ve devir", "Akışkan sıcaklığı ve viskozite", "Boru boyu ve vana sayısı"], a: 0,
+    e: "Sunum: <b>H = (h<sub>d</sub> − h<sub>s</sub> + V<sub>d</sub>²/2 − V<sub>s</sub>²/2 + h<sub>m</sub>) / g</b>. h<sub>d</sub>: çıkış basıncı (kPa), h<sub>s</sub>: emiş basıncı (kPa), V<sub>d</sub>, V<sub>s</sub>: ölçüm noktalarındaki hızlar (m/s), h<sub>m</sub>: emiş ve çıkış ölçüm noktaları arasındaki yükseklik farkı. Hızlar: V = Q / (π × D² / 4).",
+    n: "Emiş ve çıkış boru çapları farklı olduğunda hız terimi önemlidir; çaplar aynıysa hız terimleri birbirini götürür. Basma yüksekliği her zaman tesisat dirençlerini karşılayacak kadar olmalıdır." },
+  { t: 2, s: 19, q: "Sunumdaki örnekte Q = 30 m³/h, emiş borusu çapı 0,08 m'dir. Emme hızı yaklaşık kaç m/s bulunmuştur?",
+    o: ["≈ 1,66 m/s", "≈ 4,25 m/s", "≈ 0,47 m/s", "≈ 6,0 m/s", "≈ 16,6 m/s"], a: 0,
+    e: "V<sub>s</sub> = Q / (π × D² / 4) = (30 / 3.600) / (π × 0,08² / 4) = 0,00833 / 0,00503 ≈ <b>1,66 m/s</b>. Çıkış borusu (0,05 m) için V<sub>d</sub> ≈ 4,25 m/s bulunur.",
+    n: "Debiyi m³/h'den m³/s'ye çevirmek için 3.600'e bölmek unutulmamalıdır. Emiş tarafında hızın düşük tutulması (genellikle 1–2 m/s) kavitasyonu önlemek için önemlidir." },
+  { t: 2, s: 19, q: "Sunumdaki örnekte P<sub>d</sub> = 289 kPa, P<sub>s</sub> = −8 kPa, V<sub>d</sub> = 4,25 m/s, V<sub>s</sub> = 1,66 m/s, h<sub>m</sub> = 0'dır. Toplam basma yüksekliği kaç m bulunmuştur?",
+    o: ["≈ 31,09 m", "≈ 29,45 m", "≈ 30,31 m", "≈ 297 m", "≈ 3,17 m"], a: 0,
+    e: "H = (289 − (−8) + (4,25² / 2 − 1,66² / 2) + 0) / 9,8 = (297 + 9,03 − 1,38) / 9,8 = 304,65 / 9,8 ≈ <b>31,09 m</b>.",
+    n: "29,45 m seçeneği emiş basıncının işaretinin ihmal edilmesidir ((289 − 8 + 7,65) / 9,8); 30,31 m ise hız teriminin unutulmasıdır (297 / 9,8). Emiş tarafındaki vakum, pompanın yenmesi gereken basma yüksekliğine eklenir." },
+  { t: 2, s: 18, q: "Sunumdaki teorik güç formülü Lt = (Q / 60) × (H / 60) × λ / 102 (kW) ile Q = 60 m³/h, H = 40 m ve λ = 999,6 kg/m³ için teorik güç yaklaşık kaç kW'tır?",
+    o: ["≈ 6,53 kW", "≈ 2,40 kW", "≈ 23,5 kW", "≈ 0,65 kW", "≈ 65,3 kW"], a: 0,
+    e: "Lt = (60 / 60) × (40 / 60) × (999,6 / 102) = 1 × 0,667 × 9,80 ≈ <b>6,53 kW</b>.",
+    n: "Formül, ρ × g × Q × H'nin (Q m³/s) pratik yazımıdır: 1.000 × 9,81 × (60/3.600) × 40 / 1.000 ≈ 6,54 kW. Teorik güç, akışkana aktarılan hidrolik güçtür; pompa milindeki güç verime bölünerek bulunur." },
+  { t: 2, s: 19, q: "Sunumdaki örnekte teorik güç Lt = 2,53 kW, pompanın tükettiği güç L = 4,98 kW'tır. Pompa verimi kaçtır?",
+    o: ["≈ %50,87", "≈ %196,8", "≈ %25,3", "≈ %75,0", "≈ %49,1"], a: 0,
+    e: "η = Lt / L × 100 = 2,53 / 4,98 × 100 ≈ <b>%50,8</b> (sunumda %50,87).",
+    n: "%50 civarındaki verim düşüktür; bu büyüklükteki iyi bir santrifüj pompanın verimi %70'in üzerinde olabilir. Ölçülen verimin düşük çıkması, pompanın en iyi verim noktasından uzakta çalıştığını veya aşındığını gösterir." },
+  { t: 2, s: 18, q: "Bir pompaya akışkana aktarılan teorik güç 6,5 kW, şebekeden çekilen güç 10 kW'tır. Pompa grubunun (motor + pompa) verimi ve kaybı nedir?",
+    o: ["%65 verim; 3,5 kW kayıp", "%154 verim; 0 kW kayıp", "%35 verim; 6,5 kW kayıp", "%65 verim; 6,5 kW kayıp", "%100 verim; 3,5 kW kayıp"], a: 0,
+    e: "η = 6,5 / 10 × 100 = <b>%65</b>. Kayıp = 10 − 6,5 = <b>3,5 kW</b>.",
+    n: "Yılda 6.000 saat çalışan bu grupta kayıp 21.000 kWh/yıl eder. Verimi %75'e çıkarmak aynı hidrolik güç için şebeke gücünü 8,7 kW'a indirir; ≈ 8.000 kWh/yıl tasarruf demektir." },
+
+  // Debi kontrolü ve benzeşim kanunları
+  { t: 3, s: 20, q: "Aşağıdakilerden hangisi sunumda sayılan pompa sistemlerinde değişken debi elde etme yollarından biri <b>değildir</b>?",
+    o: ["Pompa motorunun yıldız–üçgen yol vermeyle sürekli çalıştırılması", "Kesintili çalıştırma", "Paralel pompalar kullanmak", "Çıkış vanasını kısmak", "Frekans invertörü (değişken hız sürücüsü) kullanmak"], a: 0,
+    e: "Sunumdaki yollar: <b>kesintili çalıştırma</b>; <b>seviye kontrollü çalıştırma</b> (depoya göre); <b>paralel pompalar</b> (çalışan pompa sayısını değiştirme); <b>çıkış vanasını kısma</b>; <b>by-pass hattı</b> (akışkanın bir bölümünü depoya geri basma); <b>frekans invertörü (değişken hız sürücüsü)</b>.",
+    n: "Bu yöntemlerden by-pass ve vana kısma enerji açısından en kötüleridir: pompa yine yüksek güç çeker, fazla enerji vanada veya geri dönüşte boşa harcanır. Yıldız–üçgen yol verme ise yalnızca kalkış akımını sınırlar, debi kontrolü sağlamaz." },
+  { t: 3, s: 21, q: "Sunuma göre değişken hız sürücüsü kullanılan santrifüj pompalarda pompanın nominal debisinin hangi oranın altına düşülmesi durumunda titreşim artışı ve verim düşüşü yaşanır?",
+    o: ["%60", "%95", "%10", "%100", "%5"], a: 0,
+    e: "Sunum: pompa devrinin değiştirilmesiyle 1 pompadan çok sayıda pompa yaratılmış olur; pompa verimi genellikle değişmez. Fakat santrifüj pompalarda <b>nominal debinin %60 altına</b> düşülmesi durumunda çark içindeki akış düzeni değişir, <b>titreşim artışı ve verim düşüşü</b> yaşanır.",
+    n: "Çok geniş bir debi aralığı gerekiyorsa tek pompayı çok düşük devirde çalıştırmak yerine, farklı büyüklükte pompaları paralel çalıştırmak (biri değişken hızlı) daha verimlidir." },
+  { t: 3, s: 22, q: "Sunumdaki benzeşim kanunlarına göre pompa devri (veya frekansı) ile debi, basma yüksekliği ve güç arasındaki ilişki nedir?",
+    o: ["Debi devirle doğru orantılı; basma yüksekliği devrin karesiyle; güç devrin küpüyle orantılıdır", "Üçü de devirle doğrusal değişir", "Debi devrin küpüyle, güç devirle doğrusal değişir", "Basma yüksekliği devirden bağımsızdır", "Güç devrin karesiyle, basma yüksekliği küpüyle değişir"], a: 0,
+    e: "Benzeşim kanunları: <b>Q<sub>1</sub>/Q<sub>2</sub> = n<sub>1</sub>/n<sub>2</sub> = f<sub>1</sub>/f<sub>2</sub></b>; <b>H<sub>1</sub>/H<sub>2</sub> = (n<sub>1</sub>/n<sub>2</sub>)²</b>; <b>P<sub>1</sub>/P<sub>2</sub> = (n<sub>1</sub>/n<sub>2</sub>)³</b>. f: frekans, n: pompa devri (d/dak).",
+    n: "Küp kanunu hız kontrolünün tasarruf gücünü açıklar: devirdeki küçük bir azalma güçte büyük azalma yaratır. Kanunlar statik basma yüksekliği olmayan (sistem eğrisi orijinden geçen) sistemlerde tam geçerlidir." },
+  { t: 3, s: 22, q: "Bir santrifüj pompanın devri değişken hız sürücüsüyle %80'e düşürülmüştür. Benzeşim kanunlarına göre debi, basma yüksekliği ve güç nominal değerlerin yüzde kaçı olur?",
+    o: ["Debi %80, basma yüksekliği %64, güç ≈ %51,2", "Debi %80, basma yüksekliği %80, güç %80", "Debi %64, basma yüksekliği %80, güç %51,2", "Debi %51,2, basma yüksekliği %64, güç %80", "Debi %80, basma yüksekliği %51,2, güç %64"], a: 0,
+    e: "Q ∝ n: 0,8 → <b>%80</b>. H ∝ n²: 0,8² = 0,64 → <b>%64</b>. P ∝ n³: 0,8³ = 0,512 → <b>≈ %51,2</b> (≈ %48,8 güç tasarrufu).",
+    n: "Debiyi %20 azaltmak gücü neredeyse yarıya indirir. Gerçek sistemlerde statik basma yüksekliği ve sürücü–motor kayıpları nedeniyle tasarruf bu ideal değerden biraz daha azdır." },
+  { t: 3, s: 22, q: "50 Hz'de 30 kW çeken bir sirkülasyon pompası (statik basma yüksekliği ihmal edilebilir) frekans invertörüyle 45 Hz'e düşürülmüştür. Benzeşim kanunlarına göre yeni güç yaklaşık kaç kW olur?",
+    o: ["≈ 21,9 kW", "27 kW", "≈ 24,3 kW", "≈ 15 kW", "≈ 29,7 kW"], a: 0,
+    e: "P<sub>2</sub> = P<sub>1</sub> × (f<sub>2</sub>/f<sub>1</sub>)³ = 30 × (45/50)³ = 30 × 0,729 ≈ <b>21,9 kW</b>.",
+    n: "Frekansı yalnızca %10 düşürmek gücü ≈ %27 azaltır (8,1 kW). 27 kW seçeneği doğrusal, 24,3 kW seçeneği karesel orantıdır. Kapalı devre ısıtma–soğutma sirkülasyon sistemleri küp kanununa en yakın davranan sistemlerdir." },
+  { t: 3, s: 22, q: "Bir pompanın frekansı 50 Hz'den 40 Hz'e düşürülürse basma yüksekliği nominal değerin yüzde kaçı olur?",
+    o: ["%64", "%80", "%51,2", "%40", "%100"], a: 0,
+    e: "H<sub>2</sub>/H<sub>1</sub> = (f<sub>2</sub>/f<sub>1</sub>)² = (40/50)² = 0,8² = 0,64 → <b>%64</b>.",
+    n: "Basma yüksekliği karesel düştüğü için, sistemin statik basma yüksekliği bu değerin üzerindeyse pompa hiç basamaz. Bu yüzden hız düşürülürken minimum frekans sınırı statik basma yüksekliğine göre ayarlanmalıdır." },
+  { t: 3, s: 23, q: "Sunumdaki çıkış vanası kısma grafiğine göre debi vana kısılarak %50'ye düşürüldüğünde basma yüksekliği ve tüketilen güç nasıl değişir?",
+    o: ["Çalışma noktası pompa eğrisi üzerinde sola kayar, basma yüksekliği artar (H<sub>2</sub> > H<sub>1</sub>); güç yalnızca az miktarda (≈ %100'den ≈ %77'ye) düşer", "Basma yüksekliği ve güç %50'ye düşer", "Basma yüksekliği sıfırlanır, güç sabit kalır", "Güç %12,5'e düşer", "Basma yüksekliği azalır, güç artar"], a: 0,
+    e: "Grafikte vana kısılınca sistem eğrisi dikleşir; çalışma noktası B<sub>1</sub>'den B<sub>2</sub>'ye, pompa eğrisi üzerinde sola kayar ve <b>basma yüksekliği H<sub>1</sub>'den (≈ %100) H<sub>2</sub>'ye (≈ %150) yükselir</b>. Sistemin gerçek ihtiyacı ≈ %25 olduğundan aradaki <b>“basma yüksekliği fazlası” vanada harcanır</b>. Güç P<sub>1</sub> ≈ %100'den P<sub>2</sub> ≈ %77'ye düşer.",
+    n: "Aynı %50 debi değişken hız sürücüsüyle sağlansaydı, ideal benzeşim kanununa göre güç 0,5³ ≈ %12,5'e inerdi. Vana kısma ile hız kontrolü arasındaki fark, hız kontrolünün neden en etkili tasarruf önlemi olduğunu gösterir." },
+  { t: 3, s: 24, q: "Sunumdaki değişken hız sürücüsü grafiğinde debi %80'e düşürüldüğünde vana kontrolü (B<sub>1</sub>) ile hız kontrolü (B<sub>2</sub>) karşılaştırıldığında hangisi doğrudur?",
+    o: ["Vana kısıldığında basma yüksekliği H<sub>1</sub>'e yükselir; hız sürücüsüyle H<sub>2</sub>'ye düşer; aradaki fark (H<sub>v</sub>) “enerji tasarrufu bölgesi”dir", "İki yöntemde basma yüksekliği aynıdır", "Hız sürücüsünde basma yüksekliği vana kontrolündekinden yüksektir", "Vana kontrolünde basma yüksekliği H<sub>S</sub>'ye düşer", "Hız sürücüsünde debi değişmez"], a: 0,
+    e: "Grafik: başlangıç A noktası (Q<sub>A</sub>, H<sub>A</sub>). Vana kısılarak %80 debiye inilince çalışma noktası etiket devrindeki pompa eğrisi üzerinde <b>B<sub>1</sub></b>, basma yüksekliği <b>H<sub>1</sub></b> olur. Hız sürücüsüyle aynı debiye inilince çalışma noktası orijinal sistem eğrisi üzerinde <b>B<sub>2</sub></b>, basma yüksekliği <b>H<sub>2</sub></b> olur. <b>H<sub>1</sub> − H<sub>2</sub> = H<sub>v</sub></b> vanada kaybolan basma yüksekliğidir ve “enerji tasarrufu bölgesi” olarak gösterilir.",
+    n: "Grafikte H<sub>S</sub> statik (gerçek) basma yüksekliğidir. Hız sürücüsü pompayı sistem eğrisi üzerinde kaydırır; vana ise sistem eğrisini değiştirerek pompayı daha yüksek basınca zorlar." },
+  { t: 3, s: 20, q: "Sunuma göre by-pass hattı kullanılarak debi ayarlanması nasıl yapılır ve enerji açısından neden verimsizdir?",
+    o: ["Pompa devamlı çalıştırılır ve akışkanın bir bölümü depoya geri basılır; pompa tam güç çekmeye devam ettiği için geri basılan akışkana verilen enerji boşa gider", "Pompa durdurulur; enerji tüketimi sıfırdır", "Pompanın devri düşürülür; güç küple azalır", "Çalışan pompa sayısı azaltılır; güç azalır", "Pompa seviyeye göre aç–kapa çalıştırılır"], a: 0,
+    e: "Sunum: <b>by-pass hattı kullanmak</b>: pompayı <b>devamlı çalıştırarak akışkanın bir bölümünü depoya geri basmak</b>. Kullanıcıya giden debi azalsa da pompanın toplam debisi ve gücü düşmez; geri basılan kısım için harcanan enerji boşa gider.",
+    n: "Santrifüj pompalarda by-pass ile debi azaltmak güç tüketimini neredeyse hiç düşürmez, hatta pompa eğrisine göre artırabilir. Yalnızca hacimsel pompalarda veya minimum debi koruması için kısa süreli kullanılmalıdır." },
+
+  // Enerji tasarrufu
+  { t: 4, s: 25, q: "Sunuma göre santrifüj pompalarda enerji tasarrufu için debi ve basma yüksekliği hesaplanırken ne yapılmalıdır?",
+    o: ["Pompaların maksimum verimli noktalarda çalışabilmesi için emniyet payları büyük tutulmamalı", "Emniyet payları mümkün olduğunca büyük tutulmalı", "Basma yüksekliği iki katına çıkarılmalı", "Debi her zaman %50 fazla seçilmeli", "Hesap yapılmadan en büyük pompa seçilmeli"], a: 0,
+    e: "Sunum: pompaların <b>maksimum verimli noktalarda</b> çalışabilmesi için, debi ve basma yüksekliği hesaplanırken <b>emniyet payları büyük tutulmamalıdır</b>.",
+    n: "Mevcut büyük seçilmiş pompalarda çark tornalama (çapı küçültme) da bir seçenektir: benzeşim kanunlarına göre çap küçüldükçe debi, basma yüksekliği ve güç de azalır. Değişken ihtiyaçta ise hız sürücüsü tercih edilir." },
+  { t: 4, s: 25, q: "Sunuma göre kapasite ihtiyacının değişken olduğu sistemlerde ne yapılmalıdır?",
+    o: ["Mümkün olduğunca pompa sayısı artırılmalı ve paralel çalışmayla enerji tasarrufu sağlanmalı", "Tek büyük pompa sürekli tam yükte çalıştırılmalı", "Pompa çıkış vanası sürekli kısılmalı", "By-pass hattı açık tutulmalı", "Pompalar seri bağlanmalı"], a: 0,
+    e: "Sunum: kapasite ihtiyacının değişken olduğu sistemlerde <b>mümkün olduğu kadar pompa sayısı artırılmalı ve paralel çalışma ile</b> enerji tasarrufu sağlanmalıdır.",
+    n: "Paralel pompalarda ihtiyaç azalınca bir pompa devreden çıkarılır; kalanlar en iyi verim noktalarına yakın çalışır. Bir pompanın değişken hızlı olması, kademeler arasındaki geçişi de yumuşatır." },
+  { t: 4, s: 25, q: "Sunuma göre değişken devirli pompa kullanımı özellikle hangi sistemlerde enerji tasarrufu sağlar?",
+    o: ["Statik basma yüksekliğinin küçük olduğu sistemlerde", "Statik basma yüksekliğinin çok büyük olduğu sistemlerde", "Debinin hiç değişmediği sistemlerde", "Yalnızca hacimsel pompalarda", "Yalnızca by-pass hattı olan sistemlerde"], a: 0,
+    e: "Sunum: <b>değişken devirli pompa kullanımı özellikle statik basma yüksekliğinin küçük olduğu sistemlerde</b> enerji tasarrufu sağlayabilir. Ayrıca yüksek devirli pompalar genellikle daha yüksek verime sahiptir.",
+    n: "Statik basma yüksekliği büyükse sistem eğrisi yüksekten başlar; devir düşürüldüğünde pompa bu yüksekliği yenemez hâle gelir ve verim hızla düşer. Kapalı devre sistemler (ısıtma, soğutma suyu sirkülasyonu) hız kontrolü için en uygun adaylardır." },
+  { t: 4, s: 26, q: "Sunuma göre eskiyen pompaların iç yüzeylerinin kaplanması ve elden geçirilmesi verimde ne kadar artış sağlar?",
+    o: ["%1–2", "%20–30", "%50", "%0", "%10–15"], a: 0,
+    e: "Sunum: <b>eskiyen pompaların iç yüzeylerinin kaplanması ve elden geçirilmesi verimde %1–2 artış</b> sağlar.",
+    n: "Aşınma, çark ile gövde arasındaki aşınma halkası boşluğunu büyütür ve iç kaçakları artırır. Aşınma halkalarının değiştirilmesi ve iç yüzeylerin pürüzsüz kaplanması bu kayıpları azaltır." },
+  { t: 4, s: 26, q: "Aşağıdakilerden hangisi sunumda sayılan santrifüj pompalarda enerji tasarrufu önerilerinden biri <b>değildir</b>?",
+    o: ["Debi ayarı için çıkış vanası sürekli kısılmalıdır", "Pompa ufak dahi olsa pompa verimi ilk satın almada dikkate alınmalıdır", "Büyük seçilmiş pompaların düşük kapasitelerde çalıştırılmasından kaçınılmalıdır", "Geniş aralıkta çalışacak pompaların maksimum verimli bölgesinin geniş olmasına dikkat edilmelidir", "Pompa şartnamelerinde gereksiz sınırlamalar konarak imalatçıların en verimli pompayı seçmesi engellenmemelidir"], a: 0,
+    e: "Sunumdaki öneriler: emniyet payları büyük tutulmamalı; şartnamelerde <b>gereksiz sınırlamalar</b> konmamalı; değişken kapasitede <b>paralel çalışma</b>; yüksek devirli pompalar daha verimli; statik basma yüksekliği küçük sistemlerde <b>değişken devir</b>; pompa ufak dahi olsa <b>verim ilk satın almada dikkate alınmalı</b>; <b>büyük seçilmiş pompalar düşük kapasitede çalıştırılmamalı</b>; geniş aralıkta çalışacak pompaların <b>maksimum verim bölgesi geniş</b> olmalı; eskiyen pompalarda iç kaplama (%1–2); boru sistemi çalışma süresine göre tasarlanmalı.",
+    n: "Vana kısma, sunumda debi ayarlamanın bir yolu olarak geçer ama enerji açısından en verimsiz yöntemdir; tasarruf önerisi değildir." },
+  { t: 4, s: 26, q: "Sunuma göre boru sistemi tasarımında pompanın çalışma süresi nasıl dikkate alınmalıdır?",
+    o: ["Sistem maksimum kapasiteyi karşılayacak şekilde seçilmeli, ancak zamanın çoğunda hangi kapasitede çalışacağı bilinmeli; maksimum kapasitede kısa süre çalışılacaksa büyük çaplı boruya gerek yoktur, tersi durumda gerekir", "Boru çapı her zaman en küçük seçilmelidir", "Boru çapı pompanın çalışma süresinden bağımsızdır", "Boru çapı her zaman en büyük seçilmelidir", "Boru sistemi pompa seçildikten sonra hiç dikkate alınmaz"], a: 0,
+    e: "Sunum: sistem maksimum kapasiteyi karşılayacak şekilde seçilmeli, fakat sistemin <b>zamanın çoğunda hangi kapasitede çalışacağı bilinmelidir</b>. Bu analizden sonra boru sistemi tasarlanabilir. Eğer maksimum kapasitede <b>sadece kısa süre</b> çalışacaksa <b>büyük çaplı boruya gerek yoktur</b>, tersi durumda geçerlidir.",
+    n: "Boru çapı büyüdükçe sürtünme kaybı (dinamik basma yüksekliği) hızla azalır, ama yatırım artar. Uzun süre yüksek debiyle çalışan hatlarda büyük çaplı boru, pompa enerjisinden yıllar boyunca tasarruf sağlar." },
+  { t: 4, s: 25, q: "Sunuma göre yüksek devirli pompalar için hangisi doğrudur?",
+    o: ["Genellikle daha yüksek verime sahiptir", "Her zaman daha düşük verime sahiptir", "Verimleri devirden bağımsızdır", "Yalnızca hacimsel pompalarda kullanılabilir", "Hiçbir zaman değişken hızla çalıştırılamaz"], a: 0,
+    e: "Sunum: “<b>Yüksek devirli pompalar genellikle daha yüksek verime sahiptir.</b>”",
+    n: "Aynı debi ve basma yüksekliği için yüksek devirli (ör. 2 kutuplu, ≈ 2.900 d/dak) pompa daha küçük çaplı çarkla aynı işi yapar; disk sürtünme kayıpları daha düşüktür. Ancak kavitasyon (NPSH) ve aşınma koşulları da değerlendirilmelidir." },
+  { t: 4, s: 22, q: "Bir pompa, debisi vana kısılarak %50'ye düşürüldüğünde nominal gücünün ≈ %77'sini çekmektedir. Aynı debi değişken hız sürücüsüyle sağlanırsa (statik basma yüksekliği ihmal, ideal benzeşim kanunu) güç nominal değerin yüzde kaçına iner ve vana kontrolüne göre ne kadar azalır?",
+    o: ["%12,5'e iner; ≈ 64,5 puan daha az", "%50'ye iner; 27 puan daha az", "%25'e iner; 52 puan daha az", "%77'de kalır; fark yok", "%6,25'e iner; ≈ 70,8 puan daha az"], a: 0,
+    e: "Hız kontrolüyle P ∝ n³: 0,5³ = 0,125 → <b>%12,5</b>. Vana kontrolüne göre fark: 77 − 12,5 = <b>≈ 64,5 puan</b>.",
+    n: "Gerçekte motor ve sürücü kayıpları ile statik basma yüksekliği nedeniyle güç %12,5'in biraz üzerinde olur; yine de vana kontrolüne göre tasarruf çok büyüktür. Pompa etütlerinde ilk bakılacak yer kısılmış vanalardır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
