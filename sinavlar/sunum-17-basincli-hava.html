@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basınçlı Hava Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 17 · Basınçlı Hava Sistemleri</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 17</span> 1_18.pdf · Atalay Tunçcan, Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı</p>
+    <h1>Basınçlı Hava Sistemleri <em>Sınavı</em></h1>
+    <p class="lede">Basınçlı havanın tanımı ve avantajları; dinamik ve deplasmanlı kompresörler, vidalı kompresör ve blower; dual, frekans ve bölmeli kontrol; maliyet dağılımı ve tasarruf payları; ISO 8573-1 kalite sınıfları; %94 / %80 ısı geri kazanımı; basınç belirleme, 0,3 bar ve 6 m/s kuralları, eğim, drenaj, tank ve kaçak tespiti.</p>
+    <ul class="facts"><li>67 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Basınçlı Hava Sistemleri” sunumu (Atalay Tunçcan, ETKB Tanıtım, Eğitim ve Etüt Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum17-v1",
+topics: ["Basınçlı hava ve kompresör tipleri", "Kompresör kontrol yöntemleri", "Basınçlı havada ekonomi ve şartlandırma", "Isı geri kazanımı", "Sistem dizaynı ve kompresör istasyonu"],
+Q: [
+  // Basınçlı hava nedir, avantajları, kompresör tipleri
+  { t: 0, s: 3, q: "Sunumdaki “Basınçlı hava nedir?” tanımına göre aşağıdakilerden hangisi basınçlı havanın özelliklerinden <b>değildir</b>?",
+    o: ["Yanıcı bir yakıttır", "Sıkıştırılmış dış havadır", "Çeşitli gazların karışımıdır", "Sıkıştırılabilir", "Enerji taşıyıcıdır"], a: 0,
+    e: "Sunuma göre basınçlı hava: <b>sıkıştırılmış dış havadır, çeşitli gazların karışımıdır, sıkıştırılabilir ve enerji taşıyıcıdır</b>. Genleşirken iş (W) yapar. Yakıt değildir.",
+    n: "Basınçlı hava bir enerji kaynağı değil, elektrik enerjisinin dönüştürülüp taşındığı bir ara taşıyıcıdır. Bu dönüşümde elektriğin büyük kısmı ısıya gider; uç noktada işe dönüşen pay yalnızca %10–15 civarındadır. Bu yüzden basınçlı hava “fabrikanın en pahalı enerjisi” olarak anılır." },
+  { t: 0, s: 3, q: "Sunumdaki şemaya göre basınçlı hava işi (W) nasıl üretir?",
+    o: ["Genleşerek", "Yanarak", "Yoğuşarak", "Donarak", "Kimyasal tepkimeyle"], a: 0,
+    e: "Şemada silindirdeki basınçlı havanın <b>genleşerek</b> pistonu itmesi ve <b>iş (W)</b> yapması gösterilir: basınçlı hava = iş.",
+    n: "Kompresörde harcanan elektrik enerjisi havada basınç enerjisi olarak depolanır ve kullanım noktasında genleşmeyle mekanik işe çevrilir. Kaçaklar, gereksiz yüksek basınç ve basınç düşümleri bu zincirde doğrudan elektrik kaybıdır." },
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi sunumda sayılan basınçlı hava avantajlarından biridir?",
+    o: ["Patlayıcı ve yanıcı ortamlarda kullanıma uygundur", "Üretimi elektriğe göre çok daha ucuzdur", "Kaçakları enerji kaybına yol açmaz", "Borularla yalnızca kısa mesafelere taşınabilir", "Depolanamaz, anında kullanılmalıdır"], a: 0,
+    e: "Sunumdaki avantajlar: atmosferde <b>sınırsız</b>; borularla <b>çok uzak mesafelere</b> taşınabilir; <b>tankta depolanıp</b> istenen zamanda kullanılabilir; <b>patlayıcı ve yanıcı ortamlarda kullanıma uygun</b>; şartlandırılmış hava temiz; yüksek hız, ayarlanabilir hız ve kuvvet; pnömatik elemanlar <b>aşırı yüke karşı emniyetli</b>.",
+    n: "Patlayıcı ortamlarda (maden, boya, kimya) kıvılcım riski taşıyan elektrik motoru yerine pnömatik motor ve aletler bu yüzden tercih edilir. Ancak basınçlı hava pahalı bir enerji olduğundan, elektrikle yapılabilecek işlerde (ör. üfleme yerine fan) basınçlı hava kullanmak verimsizdir." },
+  { t: 0, s: 4, q: "Sunuma göre pnömatik elemanlarla ilgili hangi ifade doğrudur?",
+    o: ["Aşırı yüklenmeye karşı emniyetlidir", "Aşırı yükte yanar", "Yalnızca düşük hızlarda çalışır", "Hız ve kuvvetleri ayarlanamaz", "Temiz ortamlarda kullanılamaz"], a: 0,
+    e: "Sunum: “<b>Pnömatik elemanlar aşırı yüklenmeye karşı emniyetlidir</b>” ve “Yüksek hızlara ulaşmak mümkündür, hız ve kuvvet ayarlanabilir.”",
+    n: "Pnömatik silindir veya motor aşırı yüklendiğinde yalnızca durur; elektrik motorundaki gibi sargı yanması olmaz. Yük kalkınca kaldığı yerden çalışmaya devam eder." },
+  { t: 0, s: 5, q: "Sunumdaki kompresör sınıflandırmasına göre <b>dinamik kompresörlerin</b> çalışma prensibi nedir?",
+    o: ["Kinetik enerji basınç enerjisine dönüştürülür", "Hapsedilmiş hava hacmi küçültülerek sıkıştırılır", "Hava soğutularak sıvılaştırılır", "Hava kimyasal olarak sıkıştırılır", "Piston ileri–geri hareket ederek sıkıştırır"], a: 0,
+    e: "Dinamik kompresörlerde <b>kinetik enerji basınç enerjisine dönüştürülür</b> (ejektör, aksiyel-turbo, radyal). Deplasmanlı kompresörlerde ise <b>hapsedilmiş hava sıkıştırılır</b>.",
+    n: "Dinamik (turbo) kompresörler havayı hızlandırıp ardından difüzörde yavaşlatarak basınç kazandırır; çok büyük debilerde verimlidir. Deplasmanlılar (vidalı, pistonlu) belirli bir hacmi kapatıp küçültür; sanayide en yaygın olanlardır." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmada aşağıdakilerden hangisi <b>dinamik</b> kompresörler grubundadır?",
+    o: ["Radyal kompresör", "Vidalı kompresör", "Kanatlı kompresör", "Spiral (scroll) kompresör", "Trunk pistonlu kompresör"], a: 0,
+    e: "Dinamik kompresörler: <b>ejektör, aksiyel-turbo ve radyal</b>. Vidalı, kanatlı, spiral (dönen) ve trunk (pistonlu) deplasmanlı gruptadır.",
+    n: "Radyal (santrifüj) kompresörler genellikle büyük debili, yağsız hava gereken tesislerde (tekstil, gıda, büyük merkezi istasyonlar) kullanılır. Kısmi yükte kontrolleri vidalılara göre daha sınırlıdır." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmaya göre <b>vidalı kompresör</b> hangi gruptadır?",
+    o: ["Deplasmanlı – dönen – çift rotorlu", "Dinamik – radyal", "Deplasmanlı – pistonlu", "Deplasmanlı – dönen – tek rotorlu", "Dinamik – aksiyel"], a: 0,
+    e: "Şemada vidalı kompresör <b>deplasmanlı → dönen → çift rotorlu</b> grubundadır; aynı grupta <b>hava üfleyici (blower)</b> ve <b>döner dişli</b> de bulunur. Tek rotorlu grupta kanatlı, akışkan ringli ve spiral yer alır.",
+    n: "Pistonlu grup: diyafram, çapraz kafalı, serbest pistonlu, labirent tipi ve trunk. Sınavda “hangisi tek rotorlu / çift rotorlu / pistonlu” biçiminde sorulabilir; şemayı üç dal olarak hatırlamak yeterlidir." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmada aşağıdakilerden hangisi <b>tek rotorlu</b> dönen kompresörlerden biridir?",
+    o: ["Kanatlı (paletli)", "Vidalı", "Döner dişli", "Hava üfleyici (blower)", "Diyaframlı"], a: 0,
+    e: "Tek rotorlu dönen kompresörler: <b>kanatlı, akışkan ringli, spiral</b>. Vidalı, blower ve döner dişli çift rotorludur; diyaframlı pistonlu gruptadır.",
+    n: "Kanatlı kompresörde eksantrik rotor üzerindeki kanatlar gövdeye sürtünerek hücreler oluşturur; küçük ve orta debilerde kullanılır. Spiral (scroll) kompresörler sessizdir, küçük yağsız uygulamalarda tercih edilir." },
+  { t: 0, s: 6, q: "Sunuma göre vidalı kompresörlerin temel teknik özellikleri hangisidir?",
+    o: ["Debi 0,3–85 m³/dk, basınç 5–15 bar, hız 1.000–9.000 rpm", "Debi 1.200 m³/dk'ya kadar, basınç −0,5/+1 bar(g)", "Debi 0,01–0,1 m³/dk, basınç 100–300 bar", "Debi 500–2.000 m³/dk, basınç 0,1–0,5 bar", "Hız 300–11.000 rpm, basınç −0,5/+1 bar(g)"], a: 0,
+    e: "Vidalı kompresör: <b>debi 0,3–85 m³/dk, basınç 5–15 bar, hız 1.000–9.000 rpm</b> (tahrik tipine bağlı). Blower: 1.200 m³/dk'ya kadar, −0,5/+1 bar(g), 300–11.000 rpm.",
+    n: "Sanayide en yaygın çalışma basıncı 6–8 bar aralığıdır ve vidalı kompresörlerin rahat çalıştığı bölgedir. Blower ise basınç değil hacim makinesidir; atık su havalandırması ve pnömatik taşımada kullanılır." },
+  { t: 0, s: 6, q: "Sunumdaki vidalı kompresör şemasında numaralandırılmış parçalar hangileridir?",
+    o: ["Vida bloğu, elektrik motoru, yağ separatörü, fan, radyatör", "Piston, krank mili, biyel, silindir kapağı, segman", "Çark, difüzör, salyangoz, dişli kutusu, ara soğutucu", "Jeneratör, absorber, pompa, evaporatör, kondenser", "Brülör, kazan, baca, ekonomizer, pompa"], a: 0,
+    e: "Şemadaki parçalar: <b>1 vida bloğu, 2 elektrik motoru, 3 yağ separatörü, 4 fan, 5 radyatör</b>.",
+    n: "Yağ enjeksiyonlu vidalı kompresörde sıkıştırma ısısının büyük kısmı yağla vida bloğundan çekilir; yağ separatöründe havadan ayrılır, radyatörde fan ile soğutulur. Isı geri kazanımı da bu sıcak yağ devresinden yapılır." },
+  { t: 0, s: 7, q: "Sunuma göre blower'ın çalışma prensibi ve yağlama durumu nedir?",
+    o: ["Senkronik vidalarla temassız dönüş; vida bloğunda yağlama gerekmez (yağsız rotorlar)", "Rotorlar birbirine sürtünerek döner; yoğun yağ enjeksiyonu gerekir", "Pistonlu çalışır; segmanlar yağlanır", "Kanatlar gövdeye sürtünür; yağ banyosunda çalışır", "Kinetik enerjiyi basınca çeviren radyal çarkla çalışır"], a: 0,
+    e: "Blower: <b>senkronik vidalarla temassız dönüş</b>; <b>vida bloğu içinde yağlamaya gerek yoktur → yağsız çalışan rotorlar</b>. Döngü başına 2 veya 3 titreşim (pulsasyon) vardır.",
+    n: "Rotorların temas etmemesi, zamanlama dişlileriyle senkronize dönmeleri sayesindedir. Yağsız olduğu için hava kirletilmez; gıda, ilaç ve atık su arıtmada havalandırma için uygundur." },
+  { t: 0, s: 7, q: "Sunuma göre blower'ın basınç aralığı hangisidir?",
+    o: ["−0,5 / +1 bar (g)", "5–15 bar", "20–40 bar", "100–300 bar", "0,3–85 bar"], a: 0,
+    e: "Blower temel teknik bilgileri: akış <b>1.200 m³/dk'ya kadar</b>, <b>basınç −0,5 / +1 bar (g)</b>, hız <b>300–11.000 rpm</b>, döngü başına 2 veya 3 titreşim.",
+    n: "Negatif değer (−0,5 bar) blower'ın vakum pompası olarak da kullanılabildiğini gösterir. (g) “gösterge” yani atmosfer üstü basınç demektir." },
+  { t: 0, s: 8, q: "Sunuma göre esnek bağlantı ile 1:1 direkt tahrikin üstünlüğü nedir?",
+    o: ["Motor ile hava çıkışı arasında iletim kaybı yoktur", "Kompresör hızı istenildiği gibi artırılabilir", "Kayış gerginliği ayarlanabilir", "Motor gücü iki katına çıkar", "Yağlamaya gerek kalmaz"], a: 0,
+    e: "Sunum: “Esnek bağlantı ile 1:1 direkt tahrik, <b>motor ve hava çıkışı arasında iletim kayıpları yok</b>.” Diğer tahrik sistemleri: <b>kayış-kasnak</b> ve <b>dişli</b> tahrik.",
+    n: "Kayış-kasnak tahrikte kayma ve esneme kayıpları (özellikle gevşek veya V kayışta) birkaç puana ulaşabilir; kayışların düzenli gerginlik kontrolü gerekir. Sunumdaki %10'luk “verimli güç iletimi ve EPACT motor” tasarrufu bu kayıpları da kapsar." },
+  { t: 0, s: 9, q: "Sunumdaki “Yağlı enjeksiyonun avantajları” şemasında sıvının (yağın) üstlendiği dört görev hangisidir?",
+    o: ["Soğutma, rotor sızdırmazlığı, yatak (rulman) yağlama, havanın temizlenmesi", "Isıtma, kurutma, nemlendirme, kokulandırma", "Basınç düşürme, hız artırma, ses artırma, titreşim", "Yakıt besleme, ateşleme, egzoz, susturma", "Yalnızca rulman yağlama"], a: 0,
+    e: "Yağ enjeksiyonunun avantajları: <b>soğutma</b>, <b>rotor sızdırmazlığı</b>, <b>yatak (rulman) yağlama</b> ve <b>havanın temizlenmesi</b>.",
+    n: "Yağ, sıkıştırma ısısını çekerek blok çıkış sıcaklığını düşük tutar ve rotorlar arasındaki boşlukları kapatarak geri kaçağı azaltır; bu, tek kademede 8–13 bar basınca ulaşmayı sağlar. Bunun bedeli, havadaki yağın separatör ve filtrelerle tutulması gereğidir." },
+
+  // Kontrol yöntemleri
+  { t: 1, s: 10, q: "Sunuma göre “dual kontrol” hangi çalışma durumlarını içerir?",
+    o: ["Yükte – boşta çalışma – durma", "Yalnızca sürekli tam yük", "Yalnızca frekans ile devir ayarı", "Yalnızca aç–kapa (start–stop)", "Kademeli piston devre dışı bırakma"], a: 0,
+    e: "Dual kontrol: <b>yükte – boşta çalışma – durma</b>. Basınç p<sub>min</sub>'e düşünce kompresör yüke girer, p<sub>max</sub>'a ulaşınca boşa geçer; boşta uzun süre kalırsa durur.",
+    n: "Boşta bekleme süresi, motorun saatteki kalkış sayısını sınırlamak için konur. Çok sık yük–boş geçişi olan sistemlerde kompresör hava üretmeden elektrik harcar; bu durumda depolama hacmini artırmak veya frekans kontrollü kompresör eklemek çözümdür." },
+  { t: 1, s: 10, q: "Sunumdaki dual kontrol grafiğine göre kompresör <b>boşta</b> çalışırken motor gücü tam yükün yaklaşık yüzde kaçıdır?",
+    o: ["≈ %20", "%0", "≈ %50", "≈ %80", "%100"], a: 0,
+    e: "Grafikte motor gücü tam yükte <b>%100</b>, boşta yaklaşık <b>%20</b>, durmada (stop) sıfırdır.",
+    n: "Boşta çalışan kompresör hiç hava üretmediği hâlde tam yük gücünün beşte biri kadar elektrik çeker. Yük oranı düşük bir kompresörde boşta geçen saatler toplam tüketimin önemli bir bölümü olabilir; enerji etütlerinde yük/boş sürelerinin ölçülmesi bu yüzden önemlidir." },
+  { t: 1, s: 10, q: "Dual kontrolde kompresör hangi basınç değerine ulaştığında yükten boşa geçer?",
+    o: ["p<sub>max</sub>", "p<sub>min</sub>", "Atmosfer basıncı", "Sıfır bar", "Kullanıcının minimum basıncı"], a: 0,
+    e: "Basınç <b>p<sub>max</sub></b>'a ulaşınca kompresör boşa geçer; basınç <b>p<sub>min</sub></b>'e düşünce yeniden yüke girer. Grafikteki testere dişi basınç eğrisi bunu gösterir.",
+    n: "p<sub>max</sub> − p<sub>min</sub> farkı (açma-kapama basınç farkı) genellikle 0,5–1 bar'dır. Bu fark, sunumdaki “kompresörün maksimum dizayn basıncı” hesabına eklenen kalemlerden biridir; fark büyüdükçe ortalama basınç ve tüketim artar." },
+  { t: 1, s: 11, q: "Sunuma göre frekans kontrollü (değişken devirli) kompresörler çoğunlukla nerede kullanılmalıdır?",
+    o: ["Devamlı çalışan pik yük sistemlerinde", "Hiç çalışmayan yedek kompresör olarak", "Yalnızca sabit tam yükte çalışan baz yük kompresörü olarak", "Yalnızca blower uygulamalarında", "Yalnızca gece vardiyasında"], a: 0,
+    e: "Sunum: “<b>Frekans kontrollü kompresörler çoğunlukla devamlı çalışan pik yük sistemlerde kullanılmalıdır.</b>”",
+    n: "Çok kompresörlü istasyonda doğru düzen: baz yükü sabit hızlı kompresörler tam yükte karşılar, değişen kısmı (pik) tek bir frekans kontrollü kompresör izler. Sürekli tam yükte çalışacak bir kompresöre invertör takmak, invertör kayıpları kadar tüketimi artırır." },
+  { t: 1, s: 11, q: "Frekans kontrollü kompresörün dual kontrole göre basınç davranışındaki farkı nedir?",
+    o: ["Motor gücü ihtiyaca göre değiştiği için basınç dar bir aralıkta, neredeyse sabit tutulur", "Basınç p<sub>min</sub> ile p<sub>max</sub> arasında daha geniş salınır", "Basınç sürekli artar", "Basınç kontrol edilemez", "Kompresör her zaman boşta çalışır"], a: 0,
+    e: "Frekans kontrolde motor gücü (devir) talebe göre sürekli ayarlanır; grafikte yük eğrisi basamaklı biçimde azalır, basınç ise <b>dar bir aralıkta</b> tutulur.",
+    n: "Basıncın dar aralıkta tutulması ortalama şebeke basıncını düşürür. Her 1 bar düşüş yaklaşık %6–8 enerji tasarrufu sağladığından, frekans kontrolün kazancı yalnızca boşta çalışmanın ortadan kalkmasından değil, daha düşük ortalama basınçtan da gelir." },
+  { t: 1, s: 12, q: "Sunumdaki frekans kontrol grafiğine göre optimum invertör enerji tüketim aralığı kapasitenin yaklaşık yüzde kaçıdır?",
+    o: ["%40 – %80", "%0 – %20", "%90 – %100", "%100 – %120", "%20 – %30"], a: 0,
+    e: "Grafikte “Optimum invertör enerji tüketim aralığı” kapasitenin <b>%40 ile %80</b>'i arasında gösterilir. Bu aralığın dışında blok kayıpları ve FC kayıpları artar.",
+    n: "Çok düşük devirde vida bloğunun iç kaçakları oransal olarak artar; tam devirde ise invertörün kendi kayıpları (+%5) eklenir. Bu yüzden invertörlü kompresör, çoğu zaman orta yükte çalışacak şekilde boyutlandırılmalıdır." },
+  { t: 1, s: 12, q: "Sunumdaki grafiğe göre frekans kontrollü kompresör tam kapasitede çalışırken ortaya çıkan ek kayıp (FC kaybı) yaklaşık ne kadardır?",
+    o: ["≈ %5", "≈ %0,1", "≈ %25", "≈ %50", "Hiç kayıp yoktur"], a: 0,
+    e: "Grafikte tam kapasitede “<b>+%5 FC kayıpları</b>” gösterilir. Kayıp türleri: kayıplar olmadan kompresörün enerji sarfiyatı, <b>blok kayıpları</b> ve <b>FC kayıpları</b>.",
+    n: "Bu nedenle sürekli %100 yükte çalışan bir kompresörde invertör tasarruf değil kayıp getirir. Doğru uygulama: baz yük için sabit hızlı, değişken yük için invertörlü kompresör." },
+  { t: 1, s: 12, q: "Sunumdaki “blok verimlilik eğrisi” neyi gösterir?",
+    o: ["Vida bloğunun spesifik güç gereksiniminin devire (kapasiteye) göre değişimini; en verimli noktanın optimum kapasitede olduğunu", "Motorun sıcaklığının zamana göre değişimini", "Havanın nemini", "Şebekedeki kaçak miktarını", "Filtre basınç kaybını"], a: 0,
+    e: "Grafikte vida bloğu verimi <b>optimum kapasitede</b> en yüksektir; kapasite bu noktadan aşağı veya yukarı kaydıkça <b>spesifik güç gereksinimi</b> %100'den %105'in üzerine çıkar.",
+    n: "Spesifik güç (kW/(m³/dk)) basınçlı hava sisteminin karnesidir: 1 m³/dk hava için kaç kW harcandığını gösterir. Etütte ölçülen spesifik güç, üretici verisiyle (CAGI föyleri) karşılaştırılarak kompresörün durumu değerlendirilir." },
+  { t: 1, s: 13, q: "Sunumdaki bölmeli çözüm örneğinde hava ihtiyacı vardiyalara göre nasıldır?",
+    o: ["1. vardiya 15 m³/dk, 2. vardiya 9 m³/dk, 3. vardiya 4 m³/dk", "Her vardiyada 16 m³/dk", "1. vardiya 4, 2. vardiya 9, 3. vardiya 15 m³/dk", "1. vardiya 8, 2. vardiya 8, 3. vardiya 8 m³/dk", "Yalnızca 1. vardiyada 15 m³/dk"], a: 0,
+    e: "Hava ihtiyacına göre yük dağılımı: <b>1. vardiya 15 m³/dk, 2. vardiya 9 m³/dk, 3. vardiya 4 m³/dk</b>.",
+    n: "İhtiyacın vardiyadan vardiyaya neredeyse dörtte bire düşmesi, tek büyük kompresörün gece saatlerinde çok düşük yükte (sık boşta) çalışması demektir. Bölmeli çözümün amacı her vardiyada makinelerin tam yüke yakın çalışmasını sağlamaktır." },
+  { t: 1, s: 13, q: "Sunumdaki bölmeli çözüm örneğinde “16 m³/dk + 16 m³/dk yedek” düzeninde tam yük oranı yaklaşık ne kadardır?",
+    o: ["≈ %40", "≈ %60", "≈ %95", "%100", "≈ %10"], a: 0,
+    e: "Tam yük oranları: <b>16 + 16 yedek ≈ %40</b>; 2×8 + 8 yedek ≈ %60; 2×4,5 + 8 + 8 yedek ≈ %95; 1,6–6 (değişken) + 4 + 6 + 6 yedek ≈ %95.",
+    n: "Tek büyük kompresör, ihtiyacın düştüğü vardiyalarda zamanının çoğunu boşta geçirir. Kapasiteyi bölmek ve en küçük kademeye frekans kontrollü kompresör koymak, tam yük oranını %95 düzeyine çıkarır." },
+  { t: 1, s: 13, q: "Sunumdaki bölmeli çözüm örneğinde tam yük oranını ≈ %95'e çıkaran düzenlerden biri hangisidir?",
+    o: ["1,6–6 m³/dk (değişken) + 4 m³/dk + 6 m³/dk + 6 m³/dk yedek", "16 m³/dk + 16 m³/dk yedek", "2 × 8 m³/dk + 8 m³/dk yedek", "Tek 30 m³/dk kompresör", "2 × 16 m³/dk, yedeksiz"], a: 0,
+    e: "≈ %95 tam yük oranı veren düzenler: <b>2 × 4,5 + 8 m³/dk + 8 m³/dk yedek</b> ve <b>1,6–6 m³/dk + 4 m³/dk + 6 m³/dk + 6 m³/dk yedek</b>. 2×8 + 8 yedek ≈ %60, 16 + 16 yedek ≈ %40'ta kalır.",
+    n: "“1,6–6 m³/dk” değişken debili, yani frekans kontrollü kompresördür. Sabit hızlı küçük kompresörler baz yükü taşır, invertörlü olan ise aradaki farkı izler; böylece boşta çalışma neredeyse ortadan kalkar." },
+
+  // Ekonomi ve şartlandırma
+  { t: 2, s: 14, q: "Sunumdaki basınçlı hava maliyeti oluşumu grafiğine göre 5 yıllık toplam maliyette en büyük pay hangisidir?",
+    o: ["Kompresörlerin enerji maliyeti, ≈ %63", "Kompresörlerin ilk yatırım maliyeti, ≈ %63", "Bakım maliyeti, ≈ %50", "Kontrol sistemi maliyeti, ≈ %40", "Eğitim maliyeti, ≈ %30"], a: 0,
+    e: "Maliyet dağılımı: <b>kompresörlerin enerji maliyeti %63</b>, kompresör ilk yatırımı %13, kontrol sistemi %7, şartlandırma enerji maliyeti %6, şartlandırma ilk yatırımı %5, kompresör bakımı %3; eğitim, kondens sistemi ve şartlandırma bakımı %1'er.",
+    n: "Varsayımlar: elektrik 0,08 €/kWh, süre 5 yıl, çalışma basıncı 7,5 bar, hava soğutma, ISO 8573-1 kalite sınıfı 1-1-4. Ömür boyu bakıldığında satın alma fiyatı küçük kalır; bu yüzden kompresör seçiminde belirleyici ölçüt ilk yatırım değil, spesifik güçtür." },
+  { t: 2, s: 14, q: "Sunumdaki maliyet grafiğine göre <b>kompresörlerin ilk yatırım maliyetinin</b> toplam içindeki payı yaklaşık ne kadardır?",
+    o: ["%13", "%63", "%1", "%7", "%30"], a: 0,
+    e: "Grafikte kompresörlerin ilk yatırım maliyeti <b>%13</b>'tür; enerji maliyeti bunun yaklaşık beş katıdır (%63).",
+    n: "Verimli bir kompresöre ödenen fiyat farkı, çoğu zaman bir–iki yılda enerji tasarrufuyla geri döner. Etüt raporlarında kompresör değişimi önlemi bu mantıkla, geri ödeme süresi hesaplanarak önerilir." },
+  { t: 2, s: 14, q: "Bir tesisin basınçlı hava sisteminin 5 yıllık toplam maliyeti 2.000.000 € olarak hesaplanmıştır. Sunumdaki maliyet dağılımı geçerliyse kompresörlerin enerji maliyeti ne kadardır?",
+    o: ["1.260.000 €", "260.000 €", "630.000 €", "1.000.000 €", "1.740.000 €"], a: 0,
+    e: "Enerji payı %63: 2.000.000 × 0,63 = <b>1.260.000 €</b>.",
+    n: "Şartlandırmanın enerji maliyeti (%6) de eklenirse toplam enerji payı %69'a çıkar: 1.380.000 €. Bu rakamlar, enerji tasarrufu önlemlerinin neden ilk yatırımdan çok daha önemli olduğunu gösterir." },
+  { t: 2, s: 15, q: "Sunuma göre modern kontrol sistemleriyle şebeke basıncını <b>1 bar düşürmek</b> güç maliyetinde yaklaşık ne kadar tasarruf sağlar?",
+    o: ["≈ %6", "≈ %0,5", "≈ %25", "≈ %50", "Tasarruf sağlamaz"], a: 0,
+    e: "Sunumdaki tasarruf payları: <b>basıncı 1 bar düşürmek ≈ %6</b>; kaçakları minimize etmek ≈ %4,5; endüstriyel PC kontrolüyle işletme modunu optimize etmek ≈ %10; modern blok, verimli güç iletimi ve EPACT motor ≈ %10.",
+    n: "Basınç ne kadar yüksekse kaçaktan kaçan hava da o kadar fazladır; bu yüzden basınç düşürmek kaçak kaybını da azaltır. Önce kullanıcıların gerçek minimum basıncı belirlenmeli, tek bir yüksek basınç isteyen nokta için tüm şebeke yüksek basınçta tutulmamalıdır." },
+  { t: 2, s: 15, q: "Sunumdaki “Kompresör enerji maliyetini düşürmek” grafiğinde <b>kaçakları minimize etmenin</b> tasarruf payı ne kadardır?",
+    o: ["≈ %4,5", "≈ %6", "≈ %10", "≈ %30", "≈ %63"], a: 0,
+    e: "Grafikte kaçakları minimize ederek kayıpları önlemek <b>≈ %4,5</b> tasarruf sağlar.",
+    n: "Bakımsız tesislerde kaçak oranı üretilen havanın %20–30'una kadar çıkabilir; bu tesislerde kaçak onarımının getirisi grafikteki ortalamadan çok daha yüksektir. Kaçaklar üretim yokken (hafta sonu) yük–boş süreleri ölçülerek kolayca belirlenebilir." },
+  { t: 2, s: 15, q: "Sunumdaki grafiğe göre <b>endüstriyel PC kontrolüyle işletme modunu optimize etmek</b> ve <b>modern blok, verimli güç iletimi ve EPACT motor</b> önlemlerinin her biri yaklaşık ne kadar tasarruf sağlar?",
+    o: ["Her biri ≈ %10", "Her biri ≈ %1", "Her biri ≈ %4,5", "Her biri ≈ %50", "İlki %63, ikincisi %13"], a: 0,
+    e: "Her iki önlem de <b>≈ %10</b> tasarruf sağlar. Grafikteki dört önlemin toplamı (6 + 4,5 + 10 + 10) güç maliyetini ≈ %100'den ≈ %70'e indirir.",
+    n: "EPACT, ABD'nin 1992 tarihli Enerji Politikası Yasası'nın motorlar için koyduğu verim seviyesidir (yaklaşık IE2). Günümüzde AB'de (2019/1781 sayılı tüzük) 0,75–1.000 kW motorlar için asgari IE3, 75–200 kW aralığında ise IE4 zorunludur." },
+  { t: 2, s: 15, q: "Yılda 600.000 kWh elektrik tüketen bir kompresör istasyonunda, kontrol sistemi yenilenerek şebeke basıncı 1 bar düşürülüyor. Sunumdaki oranla yıllık elektrik tasarrufu ne kadardır?",
+    o: ["36.000 kWh", "6.000 kWh", "27.000 kWh", "60.000 kWh", "360.000 kWh"], a: 0,
+    e: "1 bar düşüş ≈ %6: 600.000 × 0,06 = <b>36.000 kWh/yıl</b>.",
+    n: "Elektrik birim fiyatı 3 TL/kWh alınırsa yıllık kazanç 108.000 TL olur. Basınç düşürme çoğu zaman yatırım gerektirmeyen bir ayar olduğundan geri ödeme süresi neredeyse sıfırdır; ancak en kritik kullanıcının basıncının yeterli kaldığı ölçümle doğrulanmalıdır." },
+  { t: 2, s: 16, q: "Sunuma göre kompresör giriş filtresindeki her 25 mbar'lık basınç kaybı kompresör performansını ne kadar azaltır?",
+    o: ["%2", "%0,2", "%6", "%10", "%25"], a: 0,
+    e: "Sunum: “Hava girişine toz ve pislikleri tutmak için hava filtreleri yerleştirilmeli ve temizlikleri sıkça yapılmalıdır. <b>Girişteki her 25 mbar'lık basınç kaybı kompresör performansını %2 azaltır.</b>”",
+    n: "Ne tip kompresör olursa olsun, bütün kompresörler havadaki parçacıkları birkaç kat sıkıştırıp yoğunlaştırır. Giriş filtresi tıkandıkça kompresör daha düşük basınçtan emer, aynı çıkış basıncı için sıkıştırma oranı ve dolayısıyla enerji artar." },
+  { t: 2, s: 16, q: "Bakımı ihmal edilmiş bir kompresörün giriş filtresinde 100 mbar basınç kaybı ölçülmüştür. Sunumdaki orana göre kompresör performansı ne kadar düşmüştür?",
+    o: ["%8", "%2", "%4", "%25", "%100"], a: 0,
+    e: "100 / 25 = 4 kademe; 4 × %2 = <b>%8</b> performans kaybı.",
+    n: "Yılda 500.000 kWh tüketen bir kompresörde %8, 40.000 kWh demektir; bir filtre elemanının fiyatı bunun yanında çok küçük kalır. Filtrelerde fark basınç göstergesi olması ve belirli bir değerde değiştirilmesi önerilir." },
+  { t: 2, s: 17, q: "Sunumdaki basınçlı hava kalite sınıflandırması (ISO 8573-1) hangi üç kirletici için ayrı sınıflar tanımlar?",
+    o: ["Katı parçacık/toz, su (basınç çiğ noktası) ve yağ", "Azot, oksijen ve argon", "CO, CO₂ ve NOx", "Sıcaklık, basınç ve debi", "Gürültü, titreşim ve ısı"], a: 0,
+    e: "Sınıflandırma tabloları: <b>katı parçacık/toz</b> (m³ başına parçacık sayısı veya mg/m³), <b>su</b> (basınç çiğ noktası °C veya sıvı su g/m³) ve <b>yağ</b> (toplam yağ konsantrasyonu mg/m³).",
+    n: "ISO 8573-1'de kalite sınıfı “parçacık : su : yağ” sırasıyla üç rakamla yazılır. Sunumdaki maliyet örneğinde yağ 1, partikül 1, su 4 verilmiştir; bu standart sırayla 1:4:1 demektir (su sınıfı 4 = çiğ noktası ≤ +3 °C). Gerekenden yüksek kalite istemek, kurutucu ve filtrelerde fazladan enerji harcatır." },
+  { t: 2, s: 17, q: "ISO 8573-1 su sınıflarına göre sunumdaki tabloda <b>4. sınıf</b> basınç çiğ noktası hangisidir?",
+    o: ["≤ +3 °C", "≤ −70 °C", "≤ −40 °C", "≤ −20 °C", "≤ +10 °C"], a: 0,
+    e: "Su sınıfları (basınç çiğ noktası): 1 ≤ −70 °C, 2 ≤ −40 °C, 3 ≤ −20 °C, <b>4 ≤ +3 °C</b>, 5 ≤ +7 °C, 6 ≤ +10 °C.",
+    n: "+3 °C çiğ noktası, soğutmalı (frigorifik) kurutucuyla elde edilir ve genel sanayi için yeterlidir. −40 °C veya −70 °C için adsorpsiyonlu kurutucu gerekir; bunlar rejenerasyon için basınçlı havanın %15–20'sini veya ısıtıcı enerjisi harcar." },
+  { t: 2, s: 17, q: "ISO 8573-1 yağ sınıflarına göre sunumdaki tabloda <b>1. sınıf</b> toplam yağ konsantrasyonu sınırı nedir?",
+    o: ["≤ 0,01 mg/m³", "≤ 0,1 mg/m³", "≤ 1,0 mg/m³", "≤ 5,0 mg/m³", "> 5,0 mg/m³"], a: 0,
+    e: "Yağ sınıfları (sıvı, aerosol ve gaz toplamı): <b>1 ≤ 0,01</b>; 2 ≤ 0,1; 3 ≤ 1,0; 4 ≤ 5,0 mg/m³; X > 5,0 mg/m³. Sınıf 0 için üreticiye danışılması istenir (saf hava ve temiz oda teknolojisi).",
+    n: "Gıda, ilaç ve elektronikte yağ sınıfı 1 veya 0 istenir. Yağlı kompresörle bu sınıfa ulaşmak için aktif karbon filtre gerekir; her filtre elemanı ek basınç kaybı, dolayısıyla enerji demektir." },
+  { t: 2, s: 17, q: "Sunuma göre ihtiyaç duyulandan farklı hava kalitesi üretmenin sonuçları nelerdir?",
+    o: ["Gerekli kalite sağlanmazsa ürün kalitesi etkilenir; gereksiz kullanılan her donanım ise enerji giderlerini artırır", "Kalite ne olursa olsun enerji tüketimi değişmez", "Daha yüksek kalite her zaman enerji tasarrufu sağlar", "Kalite yalnızca kompresör ömrünü etkiler", "Kalite yalnızca gürültüyü etkiler"], a: 0,
+    e: "Sunum: “İhtiyaç duyulan hava kalitesinin sağlanamaması <b>ürün kalitesini etkileyebileceği</b> gibi, <b>gereksiz kullanılan her bir donanım da enerji giderlerini artıracaktır</b>.”",
+    n: "Doğru yaklaşım, tüm şebekeyi en yüksek kalitede üretmek yerine merkezde genel kaliteyi sağlayıp yüksek kalite isteyen noktaya yerel (noktasal) filtre veya kurutucu koymaktır." },
+
+  // Isı geri kazanımı
+  { t: 3, s: 18, q: "Sunumdaki “Bir kompresörde yaklaşık olarak ısı dağılımı” tablosuna göre elektrik motorundan şafta verilen gücün teorik olarak yüzde kaçı ısı olarak geri kazanılabilir?",
+    o: ["%94", "%6", "%43", "%80", "%100"], a: 0,
+    e: "Tablo: şafta verilen güç %100; radyasyon kayıpları %4; alçak basınç kademesinden %4; ara soğutucudan %43; yüksek basınç kademesinden %4; son soğutucudan %43; <b>teorik olarak geri kazanılabilir ısı %94</b>; basınçlı havada kalan ısı %6.",
+    n: "%94 = 4 + 43 + 4 + 43, yani kademelerden ve soğutuculardan çekilebilecek ısıların toplamıdır. Uygulamada, sunumun bir sonraki slaytında belirtildiği gibi, elektrik tüketiminin yaklaşık %80'i geri kazanılabilir." },
+  { t: 3, s: 18, q: "Sunumdaki ısı dağılımı tablosuna göre ara soğutucudan ve son soğutucudan geri kazanılabilen ısının her biri ne kadardır?",
+    o: ["Her biri %43", "Her biri %4", "Ara soğutucu %6, son soğutucu %94", "Her biri %80", "Ara soğutucu %100, son soğutucu %0"], a: 0,
+    e: "Tabloda <b>ara soğutucudan %43</b> ve <b>son soğutucudan %43</b> ısı geri kazanılır; alçak ve yüksek basınç kademelerinden %4'er; radyasyon kaybı %4; basınçlı havada kalan %6.",
+    n: "Ara ve son soğutucudaki ısı, sıkıştırma ısısının ana kısmıdır ve sıcaklık seviyesi suyu 70–90 °C'ye ısıtmaya yeter. Bu yüzden ısı geri kazanımının en verimli yeri soğutucu (veya yağlı kompresörde yağ) devresidir." },
+  { t: 3, s: 20, q: "Sunuma göre basınçlı hava kompresörlerinde pratikte elektrik enerjisi tüketiminin yaklaşık yüzde kaçı ısı olarak geri kazanılabilir?",
+    o: ["%80", "%6", "%20", "%43", "%100"], a: 0,
+    e: "Sunum: “<b>Elektrik enerjisi tüketiminin yaklaşık %80'i ısı olarak geri kazanılabilir.</b>” Şemada kışın sıcak hava ile ısıtma, yazın egzoz havasının dışarı atılması gösterilir.",
+    n: "Kompresöre verilen elektriğin neredeyse tamamı sonunda ısıya dönüşür. Isı geri kazanılmazsa bu ısı fanla dışarı atılır; geri kazanılırsa kazanda yakılacak yakıttan tasarruf edilir. Geri ödeme süresi çoğu zaman 1–2 yıldır." },
+  { t: 3, s: 20, q: "Sunumdaki kompresör odası şemasında sıcak soğutma havasının mevsime göre kullanımı nasıldır?",
+    o: ["Kışın ısıtma için içeriye (sirkülasyon), yazın egzoz havası olarak dışarıya verilir", "Her mevsim dışarı atılır", "Her mevsim kompresöre geri emilir", "Kışın dışarı, yazın içeri verilir", "Sıcak hava hiç oluşmaz"], a: 0,
+    e: "Şemada <b>kışın ısıtma</b> için sıcak hava kanalla binaya verilir; <b>yazın egzoz havası</b> dışarı atılır. Emiş havası ve sirkülasyon havası da gösterilir.",
+    n: "Kanal üzerindeki klape mevsime göre konum değiştirir. Yazın sıcak havanın kompresör odasında kalması giriş havasını ısıtır ve verimi düşürür; bu yüzden egzoz kanalı dışarıya mutlaka açılmalıdır." },
+  { t: 3, s: 19, q: "Aşağıdakilerden hangisi sunumda sayılan kompresör atık ısısı kullanım alanlarından biri <b>değildir</b>?",
+    o: ["Kompresörün kendi giriş havasını ısıtmak", "Kurutma işlemleri için sıcak hava", "Yakma havası için ön ısıtma", "Kullanım suyu için sıcak su (duş, lavabo)", "Yüzme havuzu ısıtma"], a: 0,
+    e: "Sunumdaki kullanım alanları: bina içi ısıtma, kurutma için sıcak hava, sıcak hava kilidi (perdesi), yakma havası ön ısıtma, kapalı alan ısıtma, merkezi ısıtmayı besleme, kullanım suyu (duş, lavabo), iş alanlarının temizlenmesi, galvanizleme, yüzme havuzu, kafeterya–kantin–mutfak servis suyu, gıda sektöründe temizleme suyu. <b>Giriş havasını ısıtmak ise verimi düşürür.</b>",
+    n: "Giriş havası ne kadar soğuksa kompresör o kadar az enerji harcar: her 5 °C düşüş ≈ %2 tasarruf. Sıcak egzozun tekrar emilmesi sunumda “kötü montaj” örneği olarak gösterilir." },
+  { t: 3, s: 21, q: "Sunumdaki su ile ısı geri kazanımı şemasında sıcak soğutma sıvısından suya ısı aktaran eleman hangisidir?",
+    o: ["Plaka tipi ısı eşanjörü", "Yağ separatörü", "Giriş filtresi", "Basınçlı hava tankı", "Kondens tahliye"], a: 0,
+    e: "Şemadaki elemanlar: 1 sıcak soğutma sıvısı (hot cooling fluid), <b>2 plaka tipi ısı eşanjörü</b>, 3 ısı eşanjörü için termostatik valf, 4 iç sıvı devresi için termostatik valf, 5 radyatör, 6 fan.",
+    n: "Termostatik valfler, sıcak su ihtiyacı olmadığında yağı radyatöre yönlendirerek kompresörün soğumasını güvenceye alır. Yani ısı geri kazanımı kompresörün kendi soğutmasını riske atmadan yapılır." },
+  { t: 3, s: 20, q: "75 kW'lık bir kompresör yılda 4.000 saat tam yükte çalışmaktadır. Sunumdaki pratik geri kazanım oranıyla yılda ne kadar ısı geri kazanılabilir?",
+    o: ["240.000 kWh", "300.000 kWh", "282.000 kWh", "60.000 kWh", "18.000 kWh"], a: 0,
+    e: "Elektrik tüketimi: 75 × 4.000 = 300.000 kWh. Geri kazanılabilir ısı: 300.000 × 0,80 = <b>240.000 kWh/yıl</b>.",
+    n: "282.000 kWh teorik %94 ile bulunur; sunumda pratik değer olarak %80 verildiği için soruda %80 kullanılır. Bu ısı %90 verimli doğal gaz kazanından karşılansaydı 240.000 / 0,90 ≈ 266.700 kWh yakıt enerjisi gerekecekti." },
+  { t: 3, s: 20, q: "Bir kompresörden yılda 288.000 kWh ısı geri kazanılarak doğal gazlı kazanın yükü azaltılıyor. Kazan verimi %90, doğal gazın alt ısıl değeri 8.250 kcal/m³ ise yıllık doğal gaz tasarrufu yaklaşık ne kadardır? (1 kWh = 860 kcal)",
+    o: ["≈ 33.360 m³", "≈ 30.020 m³", "≈ 34.910 m³", "≈ 3.336 m³", "≈ 288.000 m³"], a: 0,
+    e: "Isı: 288.000 × 860 = 247.680.000 kcal. Gerekli yakıt enerjisi: 247.680.000 / 0,90 = 275.200.000 kcal. Doğal gaz: 275.200.000 / 8.250 ≈ <b>33.360 m³/yıl</b>.",
+    n: "Kazan verimini unutmak sık yapılan hatadır (≈ 30.020 m³ çıkar). Geri kazanılan ısı, kazanın üreteceği faydalı ısının yerini alır; bu yüzden tasarruf edilen yakıt, geri kazanılan ısının kazan verimine bölünmesiyle bulunur." },
+  { t: 3, s: 18, q: "Mil gücü 110 kW olan iki kademeli bir kompresörde, sunumdaki ısı dağılımı tablosuna göre ara soğutucu ve son soğutucudan toplam ne kadar ısı geri kazanılabilir?",
+    o: ["≈ 94,6 kW", "≈ 47,3 kW", "≈ 103,4 kW", "≈ 6,6 kW", "≈ 88,0 kW"], a: 0,
+    e: "Ara soğutucu %43 + son soğutucu %43 = %86. 110 × 0,86 = <b>≈ 94,6 kW</b>.",
+    n: "Teorik toplam (%94) alınsaydı 103,4 kW, pratik %80 alınsaydı 88 kW bulunurdu. Soruda hangi kalemlerin istendiğine dikkat edin: ara + son soğutucu, kademelerden alınan %4'leri içermez." },
+
+  // Sistem dizaynı ve kompresör istasyonu
+  { t: 4, s: 22, q: "Sunumdaki “Basıncın belirlenmesi” şemasına göre kompresörün maksimum dizayn basıncı nasıl bulunur?",
+    o: ["Kullanıcının min. basıncı + şebeke basınç kaybı + maksimum şartlandırma basınç kaybı + kompresör istasyonu tesisat kayıpları + kompresör açma-kapama basınç farkı", "Kullanıcının min. basıncından şebeke kaybı çıkarılarak", "Kompresör katalogundaki en yüksek basınç alınarak", "Atmosfer basıncının iki katı alınarak", "Yalnızca şebeke kaybı ile şartlandırma kaybı toplanarak"], a: 0,
+    e: "Şema: <b>kullanıcının min. basıncı + (1) şebekedeki basınç kaybı + (2) maksimum (nihai) şartlandırmadaki basınç kaybı + (3) kompresör istasyonundaki tesisat kayıpları + (4) kompresörler açma-kapama basınç farkı = kompresörün maksimum dizayn basıncı</b>.",
+    n: "Bu toplamdaki her kalem gereksiz büyütülürse kompresör basıncı ve dolayısıyla tüketim artar (≈ %6 / bar). Bu yüzden dizayn, kullanıcının gerçek minimum basıncından başlar ve kayıplar ölçülerek küçültülür." },
+  { t: 4, s: 22, q: "Kullanıcının minimum basıncı 6,0 bar; şebeke basınç kaybı 0,3 bar; şartlandırmadaki maksimum basınç kaybı 0,5 bar; kompresör istasyonu tesisat kayıpları 0,2 bar; açma-kapama basınç farkı 0,5 bar ise kompresörün maksimum dizayn basıncı nedir?",
+    o: ["7,5 bar", "7,0 bar", "6,8 bar", "8,0 bar", "6,5 bar"], a: 0,
+    e: "6,0 + 0,3 + 0,5 + 0,2 + 0,5 = <b>7,5 bar</b>.",
+    n: "Açma-kapama farkı frekans kontrollü kompresörle 0,5 bar'dan ≈ 0,2 bar'a indirilirse dizayn basıncı 7,2 bar'a düşer; 0,3 bar × %6/bar ≈ %1,8 enerji tasarrufu demektir." },
+  { t: 4, s: 23, q: "Sunuma göre sabit boru şebekelerinde kompresör çıkışından hattın sonuna kadar toplam basınç düşümü en fazla ne kadar olmalıdır?",
+    o: ["0,3 bar", "0,03 bar", "1 bar", "3 bar", "6 bar"], a: 0,
+    e: "Sunum: “Sabit boru şebekelerinde kompresörden çıkan basınçlı havanın hattın sonuna kadar <b>toplam basınç düşümü 0,3 bar'dan fazla olmamalıdır</b>.”",
+    n: "0,3 bar'ı aşan düşüm, kullanıcıya yeterli basıncı ulaştırmak için kompresörün daha yüksek basınca ayarlanmasına yol açar. Dar boru, kirli filtre ve çok sayıda bağlantı elemanı bu düşümün başlıca nedenleridir." },
+  { t: 4, s: 23, q: "Sunuma göre ana hat borularındaki basınçlı hava hızı hangi değerin altında tutulmalıdır?",
+    o: ["6 m/s", "0,6 m/s", "20 m/s", "30 m/s", "60 m/s"], a: 0,
+    e: "Sunum: “Ana hat borularının içinden geçen basınçlı havanın <b>hızı 6 m/s'nin altında</b> tutulmalıdır. Bunun için ana hat boru çapları doğru seçilmelidir.”",
+    n: "Basınç düşümü hızın karesiyle artar; hızı iki katına çıkarmak sürtünme kaybını yaklaşık dört katına çıkarır. Bu yüzden boru çapında tasarruf, işletmede enerji kaybı olarak geri döner." },
+  { t: 4, s: 23, q: "Sunuma göre gereğinden küçük çapta boru seçmenin sonuçları nelerdir?",
+    o: ["Hat boyunca aşırı basınç düşümü; ayrıca yüksek hava hızı nedeniyle havadaki su buharının yeterince yoğuşamaması", "Basınç düşümünün azalması", "Hava hızının düşmesi ve suyun daha iyi ayrışması", "Kaçakların tamamen ortadan kalkması", "Kompresörün daha az enerji harcaması"], a: 0,
+    e: "Sunum: Gereğinden küçük çapta boyutlandırma <b>öncelikle hat boyunca aşırı basınç düşmelerine</b> neden olur. Ayrıca <b>yüksek hava hızlarına</b> neden olduğundan basınçlı hava içerisindeki <b>su buharının yeterince yoğuşmasını engeller</b>.",
+    n: "Sunum ayrıca boru uzunluğu arttıkça sızıntı ve basınç düşmelerinin arttığını, bu yüzden boru boylarının gereksiz uzun tutulmaması gerektiğini vurgular." },
+  { t: 4, s: 23, q: "Bir ana hatta basınç altındaki gerçek hava debisi 0,02 m³/s, borunun iç çapı 80 mm'dir. Hava hızı yaklaşık ne kadardır ve sunumdaki ölçüte uygun mudur?",
+    o: ["≈ 4 m/s; 6 m/s'nin altında olduğu için uygundur", "≈ 16 m/s; uygun değildir", "≈ 1 m/s; uygun değildir", "≈ 8 m/s; uygundur", "≈ 0,4 m/s; uygun değildir"], a: 0,
+    e: "Kesit: A = π × 0,08² / 4 ≈ 0,00503 m². Hız: v = Q / A = 0,02 / 0,00503 ≈ <b>4 m/s</b> &lt; 6 m/s → uygundur.",
+    n: "Dikkat: kompresör katalogundaki debi (FAD) atmosfer koşullarındadır. Hızı bulmak için basınç altındaki hacme çevirmek gerekir; örneğin 7 bar(g) = 8 bar mutlak basınçta hacim yaklaşık sekizde birine iner." },
+  { t: 4, s: 24, q: "Sunuma göre kompresör giriş havasının sıcaklığındaki her 5 °C'lik düşüş enerji tüketimini nasıl etkiler?",
+    o: ["Yaklaşık %2 azaltır", "Yaklaşık %2 artırır", "Yaklaşık %6 azaltır", "Yaklaşık %20 azaltır", "Etkilemez"], a: 0,
+    e: "Sunum: “Kompresörlere soğuk, temiz ve kuru hava girişi sağlanmalıdır. Giriş havasının sıcaklığındaki <b>her 5 °C'lik düşüş enerji tüketiminde %2'lik bir azalmaya</b> neden olur, yani kompresör verimini %2 artırır.”",
+    n: "Soğuk hava daha yoğundur; aynı emiş hacmiyle daha fazla kütle sıkıştırılır. Kompresörün emişini sıcak kompresör odasından değil, dışarıdan ve gölgeli bir cepheden almak bu yüzden ucuz ve etkili bir önlemdir." },
+  { t: 4, s: 24, q: "Yılda 400.000 kWh tüketen bir kompresör, ortalama 35 °C olan kompresör odasından hava emmektedir. Emiş, ortalama 20 °C olan dış havadan alınacak şekilde değiştirilirse sunumdaki orana göre yıllık tasarruf ne kadardır?",
+    o: ["24.000 kWh", "8.000 kWh", "12.000 kWh", "60.000 kWh", "6.000 kWh"], a: 0,
+    e: "Sıcaklık düşüşü: 35 − 20 = 15 °C → 15 / 5 = 3 kademe → 3 × %2 = %6. Tasarruf: 400.000 × 0,06 = <b>24.000 kWh/yıl</b>.",
+    n: "Bu önlem için yalnızca bir emiş kanalı gerekir. Kanalın ağzı yağmur ve kuş girişine karşı korunmalı ve kompresörün kendi sıcak egzozunu emmeyecek bir yerde olmalıdır." },
+  { t: 4, s: 24, q: "Sunuma göre vidalı kompresörlerde kompresör odası için tavsiye edilen havalandırma biçimi hangisidir?",
+    o: ["Davlumbaz ile havalandırma (yaz/kış havalandırma klapeleriyle)", "Kompresör odasının tamamen kapalı tutulması", "Sıcak egzoz havasının odada dolaştırılması", "Havalandırmanın yalnızca kapıdan yapılması", "Kompresörün depodan gelen sıcak havayı emmesi"], a: 0,
+    e: "Sunumda tavsiye edilen: <b>davlumbaz ile havalandırma</b>; sıcak hava kanalla dışarı veya kışın binaya yönlendirilir (<b>yaz/kış havalandırma klapeleri</b>), taze hava açık havadan alınır.",
+    n: "Davlumbaz, kompresörün sıcak soğutma havasını odaya yaymadan doğrudan toplar. Bu sayede oda sıcaklığı yükselmez, emiş havası soğuk kalır ve aynı kanal kışın ısı geri kazanımı için kullanılabilir." },
+  { t: 4, s: 26, q: "Sunuma göre kompresörler için izin verilen ortam sıcaklığı ve soğutma/giriş havası sıcaklığı aralığı nedir?",
+    o: ["3 – 40 °C", "−20 – 0 °C", "40 – 60 °C", "0 – 100 °C", "15 – 25 °C"], a: 0,
+    e: "Sunumda: ortam sıcaklığı <b>3–40 °C</b>; soğutma havası ve giriş hava sıcaklığı <b>3–40 °C</b>.",
+    n: "Alt sınır, kompresörde ve hatlarda yoğuşan suyun donmaması ve yağın kıvamını koruması içindir; üst sınır ise yeterli soğutma ve yağ ömrü içindir. Sınır yakınında çalışmak verimsizliğe ve sık arızaya yol açar." },
+  { t: 4, s: 26, q: "Sunumda “KÖTÜ” olarak gösterilen kompresör montajının sorunları nelerdir?",
+    o: ["Doğrudan güneş ışığı altında olması ve sıcak egzoz havasının çatı altında toplanıp tekrar emilmesi", "Yağmur ve güneşten koruyan çatı ve davlumbaz olması", "Soğuk ve kuru hava emmesi", "Filtrelerin temiz olması", "Kompresörün yedekli kurulması"], a: 0,
+    e: "Kötü örnek (tropikal bir ülkede yapılmış montaj): <b>direkt güneş ışığı altında</b>; <b>sıcak egzoz havası çatı altında toplanacak ve tekrar emilecektir</b>. İyi örnek: <b>yağmur/güneşten koruyan çatı</b> ve <b>davlumbaz</b>.",
+    n: "Kendi egzozunu emen kompresör kısır bir döngüye girer: emiş sıcaklığı yükseldikçe verim düşer, yağ ısınır ve kompresör yüksek sıcaklık arızasıyla durabilir." },
+  { t: 4, s: 25, q: "Sunumda “EcoDrain / filtre montajı” fotoğrafında “KÖTÜ” olarak gösterilen durum nedir?",
+    o: ["Fazla filtre kullanımı; istenmeyen derecede basınç kaybına neden olur", "Filtre hiç kullanılmaması", "Kondens tahliyesinin otomatik olması", "Boru çapının büyük seçilmesi", "Tankın dikey olması"], a: 0,
+    e: "Sunum: “<b>Fazla filtre kullanımı istenmeyen derecede basınç kayıplarına neden olur.</b> Gereksiz kullanılan filtre vb. her türlü ekipman, yanlış seçilmiş boru çapına dayalı yanlış hava hattı tasarımları ve buna benzer her türlü lüzumsuz basınç düşümü enerji kaybına yol açacaktır.”",
+    n: "Seri bağlı her filtre, kirlendikçe artan bir basınç kaybı ekler. Filtreler yalnızca ihtiyaç duyulan kalite sınıfına göre seçilmeli ve fark basınç göstergesiyle izlenmelidir." },
+  { t: 4, s: 28, q: "Aşağıdakilerden hangisi sunumda sayılan basınçlı hava tankı görevlerinden biri <b>değildir</b>?",
+    o: ["Havanın basıncını kompresör çıkış basıncının üzerine çıkarmak", "Kompresör çıkış hattındaki hava darbelerini önlemek, düzgün akış sağlamak", "Kullanım kompresör kapasitesini aştığında geçici rezervuar olmak", "Havanın soğumasını ve su buharı ile yağ zerrelerinin yoğuşmasını sağlamak", "Yoğuşan suyun tank dibinden dışarı atılmasını sağlamak"], a: 0,
+    e: "Tankın görevleri: <b>hava darbelerini önler</b>, havanın servis borularına muntazam akmasını sağlar; kullanım kompresör kapasitesini aştığında <b>geçici rezervuar</b> görevi görür; havanın <b>soğumasını</b>, su buharı ve yağ zerrelerinin <b>yoğuşmasını ve tank dibinden atılmasını</b> sağlar. Tank basıncı artırmaz.",
+    n: "Yeterli tank hacmi, dual kontrollü kompresörde yük–boş geçiş sayısını azaltır ve kısa süreli tepe tüketimlerin ek kompresör devreye sokmadan karşılanmasını sağlar." },
+  { t: 4, s: 29, q: "Sunuma göre şebekede ilk mekanik ayrışma için hangi düzenler kullanılır?",
+    o: ["Basınçlı hava tankı ile kondens tahliye; şebekede deve boynu ve su toplayıcı", "Yalnızca aktif karbon filtre", "Adsorpsiyonlu kurutucu", "Hava hızını 20 m/s'ye çıkarmak", "Boruları eğimsiz döşemek"], a: 0,
+    e: "İlk mekanik ayrışma: <b>basınçlı hava tankıyla</b> (tanka giren hava soğur, yoğuşma olur, kondens tahliye ile drenaj edilir) ve <b>şebekede deve boynu ve su toplayıcı</b> kullanımı (yaklaşık ‰1 eğimli boru hattı).",
+    n: "Deve boynu, kullanım noktasına giden branşmanın ana hattın üstünden alınmasıdır; böylece ana hattın tabanında akan su branşmana girmez, hattın en alt noktasındaki su tahliyesinden atılır." },
+  { t: 4, s: 30, q: "Sunuma göre dağıtım hatlarında borulara akış yönünde ne kadar eğim verilmeli ve drenaj noktaları hangi aralıkla konmalıdır?",
+    o: ["%1 eğim; her 30 metrede bir drenaj noktası", "%10 eğim; her 3 metrede bir drenaj noktası", "Eğim verilmez; yalnızca hat sonunda drenaj", "%1 eğim; her 300 metrede bir drenaj noktası", "%5 eğim; her 100 metrede bir drenaj noktası"], a: 0,
+    e: "Sunum: “Basınçlı havanın içindeki su ve yağ zerreciklerinin dağıtım hatlarından kolayca drene edilebilmesi için borulara <b>akış yönünde %1 eğim</b> verilmeli ve <b>her 30 metrede bir drenaj noktası</b> konmalıdır.” Ayrıca: nemli basınçlı hava şebekesinde tüketim besleme hatları <b>yukarıdan</b> bağlanmalıdır.",
+    n: "Sunumun bir önceki slaytındaki deve boynu şemasında eğim yaklaşık ‰1 olarak verilir; dağıtım hatları için genel kural %1 ve 30 m'dir. Sınavda ikisinin karıştırılmamasına dikkat edin." },
+  { t: 4, s: 30, q: "180 m uzunluğundaki düz bir dağıtım hattına sunumdaki kurala göre eğim veriliyor. Hattın başı ile sonu arasındaki kot farkı ve gereken drenaj noktası sayısı ne olur?",
+    o: ["1,8 m; 6 drenaj noktası", "18 m; 6 drenaj noktası", "0,18 m; 30 drenaj noktası", "1,8 m; 18 drenaj noktası", "0,18 m; 3 drenaj noktası"], a: 0,
+    e: "Eğim %1: 180 × 0,01 = <b>1,8 m</b> kot farkı. Drenaj: 180 / 30 = <b>6 nokta</b>.",
+    n: "Uzun hatlarda bu kot farkı pratik olmadığından hat testere dişi şeklinde döşenir: her bölüm eğimle alçalır, en alt noktada drenaj yapılır ve hat yeniden yükseltilir." },
+  { t: 4, s: 30, q: "Sunumdaki şebeke tiplerinden <b>ring şebeke</b> ile ilgili hangisi doğrudur?",
+    o: ["Ana hat kapalı bir halka oluşturur; hava tüketim noktalarına iki yönden ulaşabilir", "Hat dallanarak tek yönlü uçlarda biter", "Yalnızca tek kullanıcıya hizmet eder", "Drenaj gerektirmez", "Basınçlı hava tankı içermez"], a: 0,
+    e: "Sunumda iki şebeke tipi gösterilir: <b>ring şebeke</b> (kapalı halka) ve <b>dal şebeke</b> (dallanan, uçları kapalı). Ana hat: hava tanklarını birbirine bağlayan ana tüketim merkezi; dağıtım hattı: havanın tüketim alanlarına dağıtılması.",
+    n: "Ring şebekede hava her noktaya iki yoldan ulaştığı için akış yarıya bölünür, hız ve basınç düşümü azalır. Ayrıca bir bölüm vanayla kapatılarak bakım yapılırken diğer kullanıcılar beslenmeye devam eder." },
+  { t: 4, s: 31, q: "Sunuma göre şebekedeki kaçaklar hangi yöntemlerle belirlenir?",
+    o: ["Köpük, ses, kaçak spreyleri ve ultrasonik cihazlar ile", "Yalnızca termal kamerayla", "Kompresörü kapatarak", "Yalnızca kompresör motor akımı ölçülerek", "Boruları boyayarak"], a: 0,
+    e: "Sunum: şebekedeki kaçaklar <b>köpük ile, ses ile, kaçak spreyler ile ve ultrasonik cihazlar ile</b> belirlenir.",
+    n: "Ultrasonik dedektör, kaçağın çıkardığı insan kulağının duyamadığı yüksek frekanslı sesi algılar ve gürültülü fabrika ortamında bile çalışır. Bulunan kaçaklar etiketlenip onarım listesine alınmalıdır." },
+  { t: 4, s: 31, q: "Üretim yokken (tüm kullanıcılar kapalı) 10 m³/dk kapasiteli kompresörün ölçüm süresince 30 saniye yükte, 70 saniye boşta çalıştığı belirleniyor. Şebekedeki kaçak debisi ve oranı nedir?",
+    o: ["3 m³/dk; kapasitenin %30'u", "7 m³/dk; kapasitenin %70'i", "0,3 m³/dk; kapasitenin %3'ü", "4,3 m³/dk; kapasitenin %43'ü", "10 m³/dk; kapasitenin %100'ü"], a: 0,
+    e: "Tüketim yokken kompresörün yükte çalışması yalnızca kaçağı besler. Kaçak = kapasite × yük süresi / toplam süre = 10 × 30 / (30 + 70) = <b>3 m³/dk</b> → kapasitenin <b>%30</b>'u.",
+    n: "Bu yük–boş süresi yöntemi, ek cihaz gerektirmeyen en pratik kaçak ölçümüdür. %30 kaçak oranı, sunumdaki %4,5'lik ortalama tasarruf payının çok üzerinde bir potansiyel olduğunu gösterir; iyi bakımlı sistemlerde hedef %10'un altıdır." },
+  { t: 4, s: 32, q: "Sunumdaki şebeke kodlamasına göre “3.1 – 8 bar” işaretinde “3” ve gri renk neyi ifade eder?",
+    o: ["Grup numarasını; gri, grup 3 “Hava” rengidir (RAL 7001)", "Alt-grup numarasını; gri su rengidir", "Basıncı; gri buhar rengidir", "Boru çapını; gri doğal gaz rengidir", "Kat numarasını; gri yangın hattı rengidir"], a: 0,
+    e: "Kodlamada “<b>3</b>” <b>grup numarası</b>, “<b>.1</b>” <b>alt-grup numarası</b>dır; bu ikisi basınçlı hava için numerik koddur. <b>Gri = grup 3 rengi “Hava”, RAL 7001</b>. İşaretleme rakamla ya da kelimeyle yapılabilir.",
+    n: "Boruların akışkan türü, basıncı ve akış yönüyle işaretlenmesi bakım ve kaçak taramasında karışıklığı önler. Basınçlı hava hattının yanlışlıkla azot veya başka bir gaz hattına bağlanması gibi tehlikeli hataların da önüne geçer." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tank ve Boru Yalıtımı Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 20 · Tank ve Borularda Isı Yalıtımı</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 20</span> 1_21.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Tank ve Borularda Isı Yalıtımı <em>Sınavı</em></h1>
+    <p class="lede">60 °C ve 50 °C kuralları; organik, inorganik ve sentetik malzemeler, seçim kriterleri; konveksiyon (B katsayıları) ve radyasyon kaybı, R = L/λ; tank örneği 8.930 → 1.082 W (%88); vana 2,5 m, flanş 0,5 m eşdeğeri, 65 mm üzeri çok kat; boru örneği 256,49 → 35,78 W/m (%86), u<sub>so</sub> tablosu; maliyet faktörü ve 50 mm ekonomik kalınlık.</p>
+    <ul class="facts"><li>51 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Tank ve Borularda Isı Yalıtımı” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum20-v1",
+topics: ["Genel kurallar ve yalıtım malzemeleri", "Isı iletim şekilleri ve yalıtım öncesi kayıp", "Yalıtım sonrası kayıp ve tank örneği", "Boru sistemlerinin yalıtımı", "Ekonomik yalıtım kalınlığı"],
+Q: [
+  // Genel kurallar ve malzemeler
+  { t: 0, s: 2, q: "Sunumun konu başlıkları hangileridir?",
+    o: ["Giriş, yalıtım malzemeleri, tesis yalıtımı, boru sistemlerinin yalıtımı, ekonomik yalıtım kalınlığının tespiti", "Kazanlar, brülörler, bacalar, yakıtlar", "Bina dış duvarı, çatı, döşeme, pencere", "Kompresörler, kurutucular, tanklar", "Buhar kapanları, separatörler, flaş tankları"], a: 0,
+    e: "Sunum planı: <b>A. Giriş</b>, <b>B. Yalıtım malzemeleri</b>, <b>C. Tesis yalıtımı</b>, <b>D. Boru sistemlerinin yalıtımı</b>, <b>E. Ekonomik yalıtım kalınlığının tespiti</b>.",
+    n: "Bu sunum endüstriyel (tesisat) yalıtımı anlatır: sıcak yüzeyli tank, kazan, boru, vana ve flanşlar. Bina kabuğu yalıtımı (TS 825) ayrı sunumda işlenmiştir; hesap mantığı (R = L/λ) ortaktır." },
+  { t: 0, s: 3, q: "Sunumdaki genel kurallara göre hangi yüzeylerin yalıtılması gerekir?",
+    o: ["60 °C üzerindeki yüzeylerin tamamı, 50 °C üzerindeki yüzeylerin çoğu; vana, flanş, boru tutucu ve destek elemanları dahil", "Yalnızca 200 °C üzerindeki yüzeyler", "Yalnızca boruların düz kısımları; vana ve flanşlar hariç", "Yalnızca dış ortamdaki yüzeyler", "Yalnızca 100 °C üzerindeki tanklar"], a: 0,
+    e: "Sunum: “<b>60 °C'nin üzerinde</b> sıcaklığı olan yüzeylerin <b>tamamı</b>, <b>50 °C'nin üzerinde</b> sıcaklığı olan yüzeylerin <b>çoğu</b>, el ile dokunulabilecek yüzey sıcaklığını sağlayabilecek mertebede yalıtılmalıdır (<b>vana, flanş, boru tutucu ve destek elemanları dahil</b>).”",
+    n: "Kural hem enerji kaybını hem de yanık riskini (iş güvenliği) hedefler. Elle dokunulabilir yüzey sıcaklığı genellikle 50–55 °C'nin altı kabul edilir." },
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi sunumda sayılan yalıtım teknik kurallarından biri <b>değildir</b>?",
+    o: ["Vana ve flanşlar bakım kolaylığı için yalıtımsız bırakılmalı", "Kullanım yerine göre uygun malzeme kullanılmalı", "Çok katlı yalıtımda malzemeler üst üste tam oturmalı", "Yalıtımlı boru tutucu-destek elemanları kullanılmalı", "Yalıtım öncesi ve sonrası ısı kayıpları ile tasarruf ve yatırım miktarları hesaplanmalı"], a: 0,
+    e: "Teknik kurallar: kullanım yerine göre uygun malzeme; <b>yalıtımsız yüzey bırakılmamalı</b>; çok katlı yalıtımda malzemeler tam oturmalı; yalıtımlı boru tutucu-destek elemanları; uygulama etkin olarak denetlenmeli ve izlenmeli; yalıtım öncesi ve sonrası ısı kayıpları ile tasarruf ve yatırım miktarları hesaplanmalı.",
+    n: "Bakım gerektiren vana ve flanşlar için sökülüp takılabilen yalıtım ceketleri (sunumda önce–sonra fotoğraflarıyla gösterilir) kullanılır; böylece hem bakım kolaylığı hem yalıtım sağlanır." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmaya göre cam yünü ve kaya yünü hangi yalıtım malzemesi grubundadır?",
+    o: ["İnorganik malzemeler", "Organik malzemeler", "Sentetik malzemeler", "Metalik malzemeler", "Sıvı malzemeler"], a: 0,
+    e: "Sunum: <b>organik</b> (bitkilerden yapılan, selüloz içeren: mantar, keten, yalıtım keçeleri); <b>inorganik</b> (cam yünü, kaya yünü, vermikülit, perlit, seramik, fiber); <b>sentetik</b> (polistiren, poliüretan, poliizosiyanat, kauçuk).",
+    n: "İnorganik malzemeler yanmaz ve yüksek sıcaklığa dayanır; buhar ve kızgın yağ hatlarında taş yünü bu yüzden yaygındır. Sentetik köpükler (kauçuk, PU) daha çok soğuk hatlarda ve düşük sıcaklıklarda kullanılır." },
+  { t: 0, s: 5, q: "Sunumdaki sınıflandırmaya göre aşağıdakilerden hangisi <b>sentetik</b> yalıtım malzemesidir?",
+    o: ["Poliüretan", "Mantar", "Perlit", "Kaya yünü", "Keten"], a: 0,
+    e: "Sentetik malzemeler: <b>polistiren, poliüretan, poliizosiyanat, kauçuk</b> vb. Mantar ve keten organik; perlit ve kaya yünü inorganiktir.",
+    n: "Poliüretanın ısıl iletkenliği çok düşüktür (≈ 0,025 W/mK), ama sıcaklık dayanımı sınırlıdır. Yüksek sıcaklıklı buhar hattına poliüretan kullanmak malzemeyi bozar; sıcaklık dayanımı seçimin ilk kriteridir." },
+  { t: 0, s: 6, q: "Aşağıdakilerden hangisi sunumda yalıtım malzemesi seçiminde dikkate alınması gereken hususlardan biri <b>değildir</b>?",
+    o: ["Malzemenin renginin boru rengine uyması", "Değişik işletme sıcaklıklarına dayanım", "Basma ve mekanik mukavemet", "Zararlı emisyon yaymama ve yanma direnci", "Isıl direnç başına en düşük maliyet"], a: 0,
+    e: "Seçim hususları: işletme sıcaklıklarına dayanım; fiziksel mukavemet (taşıma, depolama, işleme, uygulama); basma mukavemeti; mekanik mukavemet (genleşme-büzülme, titreşim); zararlı emisyon yaymama; yanma direnci; korozif ve kimyasal etkilere dayanım; kalınlık ve ağırlık; <b>yüksek ısıl direnç R / düşük ısıl iletkenlik λ</b>; <b>ısıl direnç başına en düşük maliyet</b>; kolay ve ucuz işçilik.",
+    n: "“Isıl direnç başına maliyet”, malzemelerin m² fiyatı yerine aynı R değerini sağlamanın maliyetinin karşılaştırılması demektir. λ'sı yüksek ucuz bir malzeme, aynı direnci sağlamak için daha kalın uygulanacağından toplamda pahalıya gelebilir." },
+  { t: 0, s: 7, q: "Sunuma göre ısıl direnç (R) ve ısıl iletkenlik (λ) birimleri hangisidir ve iyi bir yalıtım malzemesinde nasıl olmalıdır?",
+    o: ["R (m²K/W) yüksek, λ (W/mK) düşük olmalıdır", "R (W/mK) düşük, λ (m²K/W) yüksek olmalıdır", "Her ikisi de yüksek olmalıdır", "Her ikisi de düşük olmalıdır", "R (W/m²K) yüksek, λ (m²K/W) yüksek olmalıdır"], a: 0,
+    e: "Sunum: “<b>Yüksek ısıl direnç – R (m²K/W) / düşük ısıl iletkenlik – λ (W/mK)</b>.”",
+    n: "R = L/λ olduğundan aynı kalınlıkta λ'sı yarı olan malzeme iki kat ısıl direnç sağlar. Islanan yalıtım malzemesinin λ'sı suyun iletkenliği nedeniyle katlarca artar; bu yüzden dış kaplama ve nem bariyeri kritik önemdedir." },
+  { t: 0, s: 8, q: "Aşağıdakilerden hangisi sunumda yalıtım uygulaması sırasında dikkate alınması gereken hususlardan biri <b>değildir</b>?",
+    o: ["Tesisin kuruluş yılı", "İşletme sıcaklığı", "İşletme şekli (sürekli – kesintili)", "Hava hareketleri ve gaz hızları", "Yalıtımın zarar görme riski"], a: 0,
+    e: "Uygulamada dikkat edilecekler: <b>işletme sıcaklığı, ortam şartları, yalıtımın zarar görme riski, işletme şekli (sürekli–kesintili), sıcaklık farkı, hava hareketleri ve gaz hızları</b>.",
+    n: "Kesintili çalışan sistemlerde yalıtım malzemesinin kendi ısı kapasitesi de önem kazanır; her devreye almada malzemenin ısınması enerji ister. Rüzgârlı dış ortamda yüzey ısı transfer katsayısı yükseldiği için kayıp artar." },
+  { t: 0, s: 9, q: "Sunuma göre “tesis yalıtımı” başlığı altında hangi yalıtımlar sayılmıştır?",
+    o: ["Kazan, tank, baca ve kanal, fırın yalıtımları", "Çatı, duvar, döşeme, pencere yalıtımları", "Yalnızca boru yalıtımı", "Ses, titreşim ve su yalıtımları", "Elektrik kablosu yalıtımı"], a: 0,
+    e: "Tesis yalıtımı: <b>1. kazan yalıtımları, 2. tank yalıtımları, 3. baca ve kanal yalıtımları, 4. fırın yalıtımları</b>.",
+    n: "Fırın ve kazan gibi çok yüksek sıcaklıklı ekipmanlarda iç tarafta refrakter, dış tarafta yalıtım malzemesi kullanılır. Termal kamerayla yapılan yüzey taraması, bozulmuş yalıtım bölgelerini hızlıca gösterir." },
+
+  // Isı iletim şekilleri ve yalıtım öncesi kayıp
+  { t: 1, s: 11, q: "Sunumdaki şemaya göre sıcak akışkanlı bir tank veya borudan ortama ısı hangi yollarla geçer?",
+    o: ["Tank/boru çeperinde kondüksiyon (iletim); yüzeyden ortama konveksiyon (taşınım) ve radyasyon (ışınım)", "Yalnızca radyasyon", "Yalnızca konveksiyon", "Çeperde radyasyon, yüzeyden kondüksiyon", "Hiç ısı geçmez"], a: 0,
+    e: "Şemada: <b>çeperde kondüksiyonla</b> ısı iletimi; <b>yüzeyden ortama konveksiyonla</b> ve <b>radyasyonla</b> ısı iletimi gösterilir.",
+    n: "Yalıtım, kondüksiyonla geçen ısıya büyük bir direnç ekler ve dış yüzey sıcaklığını düşürür. Yüzey soğuyunca konveksiyon ve radyasyon kayıpları da azalır; radyasyon sıcaklığın dördüncü kuvvetiyle değiştiği için bu azalma özellikle sıcak yüzeylerde büyüktür." },
+  { t: 1, s: 12, q: "Sunuma göre yalıtım öncesi düzlem yüzeyden konveksiyon ve radyasyonla olan ısı kaybı hangi formülle hesaplanır?",
+    o: ["Q = (U<sub>c</sub> + U<sub>r</sub>) × A × (T<sub>y</sub> − T<sub>o</sub>)", "Q = A × (T<sub>y</sub> − T<sub>o</sub>) / R", "Q = λ × A / L", "Q = m × c × ΔT", "Q = U<sub>c</sub> × U<sub>r</sub> × A"], a: 0,
+    e: "Yalıtım öncesi: <b>Q = (U<sub>c</sub> + U<sub>r</sub>) × A × (T<sub>y</sub> − T<sub>o</sub>)</b>; U<sub>c</sub> konveksiyonla, U<sub>r</sub> radyasyonla ısı transfer katsayısı (W/m²K), T<sub>y</sub> yüzey, T<sub>o</sub> ortam sıcaklığıdır.",
+    n: "Q = A(T<sub>y</sub> − T<sub>o</sub>)/R ise yalıtım sonrası kaybın formülüdür. Yalıtımsız yüzeyde iki mekanizmanın katsayıları toplanır, çünkü aynı yüzeyden paralel olarak çalışırlar." },
+  { t: 1, s: 13, q: "Sunuma göre düzlem yüzeyde konveksiyonla ısı transfer katsayısı nasıl hesaplanır?",
+    o: ["U<sub>c</sub> = B × (t<sub>y</sub> − t<sub>o</sub>)<sup>0,25</sup>", "U<sub>c</sub> = B × (t<sub>y</sub> − t<sub>o</sub>)<sup>2</sup>", "U<sub>c</sub> = 5,67 × ε", "U<sub>c</sub> = L / λ", "U<sub>c</sub> = B / (t<sub>y</sub> − t<sub>o</sub>)"], a: 0,
+    e: "Sunum: <b>U<sub>c</sub> = B × (t<sub>y</sub> − t<sub>o</sub>)<sup>0,25</sup></b>; B çarpım faktörüdür. Buradan Q<sub>c</sub> = B × A × (t<sub>y</sub> − t<sub>o</sub>)<sup>1,25</sup> yazılabilir.",
+    n: "Doğal konveksiyonda sıcak yüzeyin ısıttığı hava yükselir; sıcaklık farkı büyüdükçe bu hareket hızlanır ve katsayı da artar. Bu yüzden konveksiyon kaybı sıcaklık farkıyla doğrusal değil, 1,25 kuvvetiyle artar." },
+  { t: 1, s: 13, q: "Sunumdaki konveksiyon çarpım faktörü (B) değerleri hangisidir?",
+    o: ["Dik yüzey 1,45; yatay yüzey üstü 1,70; yatay yüzey altı 0,85; yatay silindir 1,20", "Dik yüzey 1,70; yatay yüzey üstü 1,45; yatay yüzey altı 1,20; yatay silindir 0,85", "Hepsi 1,00", "Dik yüzey 5,67; yatay yüzey 0,8", "Dik yüzey 0,85; yatay yüzey üstü 1,20; yatay yüzey altı 1,70; yatay silindir 1,45"], a: 0,
+    e: "B çarpım faktörü: <b>1,45 dik yüzeyler</b>, <b>1,70 yatay yüzeylerin üst kısmı</b>, <b>0,85 yatay yüzeylerin alt kısmı</b>, <b>1,20 yatay silindirler</b> için.",
+    n: "Yatay sıcak yüzeyin üstünde ısınan hava serbestçe yükselir (en yüksek katsayı); alt yüzeyde ise ısınan hava yüzeyin altında hapsolur ve hareket zayıftır (en düşük katsayı). Sunumdaki tank örneğinde yatay silindir değeri (1,20) kullanılmıştır." },
+  { t: 1, s: 13, q: "Yüzey sıcaklığı 116 °C, ortam sıcaklığı 35 °C olan dik bir düzlem yüzeyin konveksiyonla ısı transfer katsayısı nedir? (B = 1,45)",
+    o: ["4,35 W/m²K", "1,45 W/m²K", "3,00 W/m²K", "117,45 W/m²K", "6,40 W/m²K"], a: 0,
+    e: "Δt = 116 − 35 = 81 °C; 81<sup>0,25</sup> = 3 (çünkü 3⁴ = 81). U<sub>c</sub> = 1,45 × 3 = <b>4,35 W/m²K</b>.",
+    n: "Aynı yüzeyden 10 m² için konveksiyon kaybı Q<sub>c</sub> = 4,35 × 10 × 81 ≈ 3.524 W olur; bu, B × A × Δt<sup>1,25</sup> = 1,45 × 10 × 243 ile de bulunur." },
+  { t: 1, s: 14, q: "Sunuma göre radyasyonla ısı transfer katsayısı (U<sub>r</sub>) hangi formülle hesaplanır?",
+    o: ["U<sub>r</sub> = 5,67 × ε × [(T<sub>y</sub>/100)⁴ − (T<sub>o</sub>/100)⁴] / (T<sub>y</sub> − T<sub>o</sub>)", "U<sub>r</sub> = B × (t<sub>y</sub> − t<sub>o</sub>)<sup>0,25</sup>", "U<sub>r</sub> = 5,67 × (T<sub>y</sub> − T<sub>o</sub>)", "U<sub>r</sub> = L / λ", "U<sub>r</sub> = ε / 5,67"], a: 0,
+    e: "Sunum: <b>U<sub>r</sub> = 5,67 × ε × [(T<sub>y</sub>/100)⁴ − (T<sub>o</sub>/100)⁴] / (T<sub>y</sub> − T<sub>o</sub>)</b>; ε emisivite (yayma) katsayısı, sıcaklıklar Kelvin cinsindendir. Buradan Q<sub>r</sub> = 5,67 × ε × A × [(T<sub>y</sub>/100)⁴ − (T<sub>o</sub>/100)⁴].",
+    n: "5,67, Stefan–Boltzmann sabitinin (5,67 × 10⁻⁸ W/m²K⁴) sıcaklıklar 100'e bölündüğünde aldığı değerdir. Radyasyon hesabında sıcaklık mutlaka Kelvin olmalıdır; °C ile hesap tamamen yanlış sonuç verir." },
+  { t: 1, s: 14, q: "Radyasyon kaybı formülünde ε (emisivite) için hangisi doğrudur?",
+    o: ["Yüzeyin ışınım yayma yeteneğidir; parlak metal yüzeylerde düşük, boyalı/oksitli yüzeylerde yüksektir", "Yalıtım malzemesinin ısıl iletkenliğidir", "Konveksiyon çarpım faktörüdür", "Ortamdaki hava hızıdır", "Her yüzey için 5,67'dir"], a: 0,
+    e: "ε, yüzeyin <b>ışınım yayma (emisivite) katsayısıdır</b>; 0 ile 1 arasındadır. Sunumdaki örneklerde tank için ε = 0,8, yalıtımsız boru için ε = 0,95 kullanılmıştır.",
+    n: "Bu yüzden yalıtım dış kaplamasında parlak alüminyum kullanılır: düşük emisivite, radyasyon kaybını azaltır. Sunumdaki u<sub>so</sub> tablosunda parlak metallerin en düşük yüzey katsayısına sahip olması da bundan kaynaklanır." },
+  { t: 1, s: 19, q: "Sunumdaki tank örneğinde 92 °C ve 35 °C sıcaklıklar Kelvin cinsinden hangi değerlerle kullanılmıştır?",
+    o: ["365 K ve 308 K", "92 K ve 35 K", "565 K ve 508 K", "273 K ve 273 K", "36,5 K ve 30,8 K"], a: 0,
+    e: "Sunumda T = t + 273 alınmıştır: 92 + 273 = <b>365 K</b>; 35 + 273 = <b>308 K</b>. Formülde (T/100)⁴ olarak (3,65)⁴ ve (3,08)⁴ kullanılır.",
+    n: "Sıcaklık farkı (T<sub>y</sub> − T<sub>o</sub>) Kelvin ve °C'de aynıdır (57); ancak radyasyon terimindeki dördüncü kuvvet için mutlak sıcaklık şarttır." },
+
+  // Yalıtım sonrası ve tank örneği
+  { t: 2, s: 16, q: "Sunuma göre yalıtım sonrası düzlem yüzeyden olan ısı kaybı hangi formülle hesaplanır?",
+    o: ["Q = A × (T<sub>y</sub> − T<sub>o</sub>) / R", "Q = (U<sub>c</sub> + U<sub>r</sub>) × A × (T<sub>y</sub> − T<sub>o</sub>)", "Q = R × A × (T<sub>y</sub> − T<sub>o</sub>)", "Q = A / (R × ΔT)", "Q = λ × L × A"], a: 0,
+    e: "Yalıtım sonrası (konveksiyon ve kondüksiyonla): <b>Q = A × (T<sub>y</sub> − T<sub>o</sub>) / R</b>; A ısı transfer alanı (m²), R ısıl direnç (m²K/W).",
+    n: "Burada T<sub>y</sub> yalıtımın altındaki sıcak yüzeyin (tank cidarının) sıcaklığıdır. Toplam direnç R, yalıtım malzemesinin direnci ile dış yüzeyin direncinin toplamıdır." },
+  { t: 2, s: 17, q: "Sunuma göre tek ve çok katlı yalıtımda toplam ısıl direnç nasıl bulunur?",
+    o: ["Tek kat: R = R<sub>i</sub> + R<sub>s</sub>; çok kat: R = R<sub>1</sub> + R<sub>2</sub> + … + R<sub>n</sub> + R<sub>s</sub>; her katman için R = L/λ", "R = λ / L", "Çok katlıda dirençler çarpılır", "R yalnızca en kalın katmanın direncidir", "R = L × λ"], a: 0,
+    e: "Tek kat: <b>R = R<sub>i</sub> + R<sub>s</sub></b> (R<sub>i</sub> yalıtım malzemesinin, R<sub>s</sub> yüzeyin ısıl direnci). Çok katlı: <b>R = R<sub>1</sub> + R<sub>2</sub> + … + R<sub>n</sub> + R<sub>s</sub></b>. <b>R = L/λ</b> (L kalınlık m, λ ısıl iletkenlik W/mK).",
+    n: "Seri bağlı dirençler toplanır; aynı mantık elektrik devresindeki seri dirençlere benzer. Yüzey direnci R<sub>s</sub> = 1/α'dır (sunumdaki örnekte α = 20 W/m²K → R<sub>s</sub> = 0,05 m²K/W)." },
+  { t: 2, s: 17, q: "Bir yüzey önce 50 mm taş yünü (λ = 0,040 W/mK), üzerine 30 mm ikinci bir malzeme (λ = 0,035 W/mK) ile yalıtılmıştır; yüzey direnci R<sub>s</sub> = 0,10 m²K/W'dır. Toplam ısıl direnç yaklaşık ne kadardır?",
+    o: ["≈ 2,21 m²K/W", "≈ 1,25 m²K/W", "≈ 0,86 m²K/W", "≈ 2,11 m²K/W", "≈ 0,0035 m²K/W"], a: 0,
+    e: "R<sub>1</sub> = 0,050 / 0,040 = 1,25; R<sub>2</sub> = 0,030 / 0,035 ≈ 0,857; R = 1,25 + 0,857 + 0,10 ≈ <b>2,21 m²K/W</b>.",
+    n: "Yüzey direncini eklemeyi unutmak ≈ 2,11 sonucunu verir. Kalınlıklar mutlaka metreye çevrilmelidir (50 mm = 0,050 m); mm ile hesap 1000 kat hatalı direnç verir." },
+  { t: 2, s: 18, q: "Sunumdaki tank örneğinin verileri hangisidir?",
+    o: ["Yüzey 92 °C, ortam 35 °C, A = 15,27 m², ε = 0,8; yalıtım λ = 0,053 W/mK, 40 mm, α = 20 W/m²K", "Yüzey 165,8 °C, ortam 20,2 °C, d = 26,9 mm, ε = 0,95", "Yüzey 184 °C, ortam 20 °C, A = 100 m²", "Yüzey 60 °C, ortam 50 °C, A = 1 m²", "Yüzey 92 °C, ortam 35 °C, yalıtım 25 mm, λ = 0,05"], a: 0,
+    e: "Tank örneği: <b>yüzey 92 °C, ortam 35 °C</b>; yalıtım yoğunluğu 60–90 kg/m³, <b>λ = 0,053 W/mK</b>, <b>et kalınlığı 40 mm</b>; konveksiyonla ısı iletim katsayısı <b>α<sub>d</sub> = 20 W/m²K</b>; tank yüzey alanı <b>A = 15,27 m²</b>; emisivite <b>0,8</b>.",
+    n: "165,8 °C / 20,2 °C / 26,9 mm / ε = 0,95 ise boru örneğinin verileridir. Sınavda iki örneğin verilerinin karıştırılmamasına dikkat edin." },
+  { t: 2, s: 19, q: "Sunumdaki tank örneğinde yalıtımsız yüzeyin konveksiyon (U<sub>c</sub>) ve radyasyon (U<sub>r</sub>) katsayıları ne bulunmuştur?",
+    o: ["U<sub>c</sub> = 3,2972 W/m²K; U<sub>r</sub> = 6,9629 W/m²K", "U<sub>c</sub> = 9,864 W/m²K; U<sub>r</sub> = 10,981 W/m²K", "U<sub>c</sub> = 20 W/m²K; U<sub>r</sub> = 0,8 W/m²K", "U<sub>c</sub> = 6,9629 W/m²K; U<sub>r</sub> = 3,2972 W/m²K", "U<sub>c</sub> = 1,20 W/m²K; U<sub>r</sub> = 5,67 W/m²K"], a: 0,
+    e: "U<sub>c</sub> = 1,20 × (92 − 35)<sup>0,25</sup> = <b>3,2972 W/m²K</b>. U<sub>r</sub> = 5,67 × 0,8 × [(3,65)⁴ − (3,08)⁴] / (365 − 308) = <b>6,9629 W/m²K</b>.",
+    n: "Bu örnekte radyasyon katsayısı konveksiyonun iki katından fazladır; yani yalıtımsız sıcak bir tankın kaybının üçte ikiden fazlası ışınımla olur. 9,864 / 10,981 ise boru örneğinin katsayılarıdır." },
+  { t: 2, s: 20, q: "Sunumdaki tank örneğinde yalıtımsız tanktan olan ısı kaybı ne kadardır?",
+    o: ["8.930,35 W", "1.081,61 W", "7.848,74 W", "256,49 W", "15.270 W"], a: 0,
+    e: "Q<sub>kayıp</sub> = (U<sub>c</sub> + U<sub>r</sub>) × A × (T<sub>y</sub> − T<sub>o</sub>) = (3,2972 + 6,963) × 15,27 × (365 − 308) = <b>8.930,35 W</b>.",
+    n: "Yaklaşık 8,9 kW'lık bu kayıp sürekli çalışan bir tankta yılda 8,9 × 8.760 ≈ 78.200 kWh ısı demektir. %90 verimli doğal gaz kazanında bu, yaklaşık 9.000 m³ doğal gaza karşılık gelir." },
+  { t: 2, s: 21, q: "Sunumdaki tank örneğinde 40 mm yalıtım (λ = 0,053 W/mK) ve yüzey katsayısı 20 W/m²K ile yalıtım sonrası ısı kaybı ne kadardır?",
+    o: ["1.081,61 W", "8.930,35 W", "7.848,74 W", "558,14 W", "15,27 W"], a: 0,
+    e: "Q = A × (T<sub>y</sub> − T<sub>o</sub>) / (L/λ + 1/α) = 15,27 × (92 − 35) / (0,04/0,053 + 1/20) = 870,39 / (0,7547 + 0,05) = <b>1.081,61 W</b>.",
+    n: "Yalıtımın direnci (0,755 m²K/W) yüzey direncinin (0,05) yaklaşık 15 katıdır; yani yalıtım sonrası kaybı neredeyse tamamen yalıtım kalınlığı ve λ belirler." },
+  { t: 2, s: 22, q: "Sunumdaki tank örneğinde yalıtımla sağlanan enerji tasarrufu ve tasarruf oranı nedir?",
+    o: ["7.848,74 W; ≈ %88", "1.081,61 W; ≈ %12", "8.930,35 W; %100", "220,72 W; ≈ %86", "7.848,74 W; ≈ %50"], a: 0,
+    e: "Enerji tasarrufu = Q<sub>kayıp</sub> − Q<sub>yalıtımlı</sub> = 8.930,35 − 1.081,61 = <b>7.848,74 W</b>. Tasarruf oranı = 7.848,74 / 8.930,35 × 100 = <b>%88</b>.",
+    n: "Sıcak yüzeylerin yalıtımı çoğunlukla %80–90 tasarruf sağlar ve geri ödeme süresi aylar mertebesindedir. Bu yüzden enerji etütlerinde yalıtımsız yüzeyler genellikle ilk ve en kârlı önlemdir." },
+  { t: 2, s: 21, q: "Sunumdaki tank örneğinde yalıtım kalınlığı 40 mm yerine 80 mm yapılırsa (diğer veriler aynı) yalıtım sonrası ısı kaybı yaklaşık ne olur?",
+    o: ["≈ 558 W", "≈ 1.082 W", "≈ 541 W", "≈ 2.163 W", "≈ 870 W"], a: 0,
+    e: "R = 0,08 / 0,053 + 0,05 = 1,5094 + 0,05 = 1,5594 m²K/W. Q = 15,27 × 57 / 1,5594 = 870,39 / 1,5594 ≈ <b>558 W</b>.",
+    n: "Kalınlık iki katına çıkınca kayıp yarıya inmez (≈ 541 W), çünkü yüzey direnci sabit kalır; ek tasarruf 1.082 − 558 ≈ 524 W'tır. İlk 40 mm 7.849 W kazandırırken ikinci 40 mm yalnızca 524 W kazandırır. Ekonomik yalıtım kalınlığı kavramı bu azalan getiriden doğar." },
+
+  // Boru sistemleri
+  { t: 3, s: 23, q: "Sunuma göre flanşlı bağlantılı yalıtımsız bir vanadan olan ısı kaybı, aynı çap ve yüzey sıcaklığında kaç metre yalıtımsız borunun kaybına eşdeğerdir?",
+    o: ["2,5 m", "0,5 m", "1 m", "10 m", "25 m"], a: 0,
+    e: "Sunum: flanşlı bağlantılı <b>yalıtımsız bir vanadan</b> olan ısı kaybı, aynı çapta ve aynı yüzey sıcaklığında <b>2,5 m</b> uzunluğunda yalıtımsız borudan olan ısı kaybına eşdeğerdir. <b>Yalıtımsız bir flanştan</b> olan kayıp ise <b>0,5 m</b> yalıtımsız boruya eşdeğerdir.",
+    n: "Sunumdaki not: eşdeğer uzunluklar sıcaklık ve çapa göre değişebilir (tablolar web'de bulunabilir), ama bu değerler genel olarak kullanılabilir. Bir tesiste onlarca yalıtımsız vana, yüzlerce metre yalıtımsız boru demektir." },
+  { t: 3, s: 23, q: "Bir buhar hattında 10 adet yalıtımsız vana ve 20 adet yalıtımsız flanş vardır; aynı çaptaki yalıtımsız borunun kaybı 256,49 W/m'dir. Sunumdaki eşdeğer uzunluklarla bu vana ve flanşlardan toplam ısı kaybı yaklaşık ne kadardır?",
+    o: ["≈ 8,98 kW", "≈ 2,56 kW", "≈ 7,69 kW", "≈ 76,9 kW", "≈ 0,9 kW"], a: 0,
+    e: "Eşdeğer boru uzunluğu: 10 × 2,5 + 20 × 0,5 = 25 + 10 = 35 m. Kayıp: 35 × 256,49 ≈ 8.977 W ≈ <b>8,98 kW</b>.",
+    n: "Bu kayıp yılda 8.760 saat sürerse ≈ 78.600 kWh eder. Vana ve flanşlar için sökülebilir yalıtım ceketlerinin maliyeti genellikle tek bir ısıtma sezonunda geri döner." },
+  { t: 3, s: 26, q: "Sunuma göre boru yalıtımında kaç mm'den daha kalın uygulamalarda çok katlı yalıtım yapılmalıdır?",
+    o: ["65 mm", "25 mm", "10 mm", "200 mm", "Hiçbir zaman çok kat yapılmaz"], a: 0,
+    e: "Sunum: “<b>65 mm'den daha kalın</b> uygulamalarda <b>çok katlı yalıtım</b> yapılmalı.” Ayrıca: yalıtımlı boru tutucu-destek elemanları kullanılmalı; <b>ek yerleri üst üste gelmemeli</b>; genleşmeler için boşluk bırakılmalı; dış kaplamalar ortam şartlarına uygun seçilmeli.",
+    n: "Katmanların ek yerleri şaşırtmalı yerleştirilmezse, eklerden ısı doğrudan dışarı kaçar (ısı köprüsü). Kalın tek katman ise ısıl genleşmeyle çatlar ve açılır." },
+  { t: 3, s: 26, q: "Sunuma göre çok katlı boru yalıtımında katmanların ek yerleri nasıl olmalıdır?",
+    o: ["Üst üste gelmemeli (şaşırtmalı olmalı)", "Tam üst üste gelmeli", "Açık bırakılmalı", "Ek yeri hiç olmamalı, boru kaynaklanmalı", "Bantla kapatılmadan bırakılmalı"], a: 0,
+    e: "Sunum: “<b>Ek yerleri üst üste gelmemeli.</b>”",
+    n: "Üst üste gelen ekler, sıcak yüzeyden dış yüzeye kesintisiz bir hava kanalı oluşturur. Şaşırtmalı eklerde ısının izleyebileceği yol uzar ve yalıtım bütünlüğü korunur." },
+  { t: 3, s: 27, q: "Sunuma göre dış ortamdaki boru yalıtımı uygulamalarında hangi etkiler ayrıca dikkate alınmalıdır?",
+    o: ["Bölgedeki rüzgâr etkisi ile mevsime bağlı veya gece meydana gelen sıcaklık düşmeleri", "Yalnızca güneşin rengi", "Yalnızca borunun markası", "Hiçbir ek etki dikkate alınmaz", "Yalnızca deniz seviyesinden yükseklik"], a: 0,
+    e: "Sunum: kullanım yerindeki şartlar önemliyse tüm olumsuz etkiler dikkate alınarak kalınlık belirlenmeli; <b>dış ortamlarda bölgedeki rüzgâr etkisi</b> ve <b>mevsime bağlı ya da geceleri meydana gelen sıcaklık düşmeleri</b> de dikkate alınmalıdır.",
+    n: "Rüzgâr yüzey ısı transfer katsayısını artırır (sunumdaki u<sub>so</sub> tablosunda hava hızı 0'dan 2 m/s'ye çıkınca katsayı yaklaşık %50–67 artar). Dış ortam yalıtımında yağmur suyuna karşı sızdırmaz dış kaplama da şarttır." },
+  { t: 3, s: 24, q: "Sunumdaki boru yalıtımı detaylarında boru askı ve destek noktalarında hangi uygulama gösterilmiştir?",
+    o: ["Yüksek yoğunluklu, ağırlığa dayanıklı yalıtım malzemesi ve geniş yüzeyli askı desteği kullanılarak yalıtımlı boru tutucu yapılması", "Askı noktasında yalıtımın kesilip borunun çıplak bırakılması", "Borunun doğrudan çelik profile kaynaklanması", "Askı noktasında yalıtım kalınlığının sıfırlanması", "Askıların yalıtımın üzerine sıkıca bağlanıp yalıtımı ezmesi"], a: 0,
+    e: "Şemada <b>yüksek yoğunluklu, ağırlığa dayanıklı yalıtım malzemesi</b> ve <b>geniş yüzeyli askı desteği</b> gösterilir; genleşme elemanı ve neopren kauçuk sızdırmaz bant, nem almayı önleyici plaka, neme dayanıklı mastik ve buhar kesiciler de detaylarda yer alır.",
+    n: "Destek noktasında yalıtım kesilirse boru ile metal destek arasında bir ısı köprüsü oluşur; soğuk hatlarda bu noktada yoğuşma ve korozyon başlar. Yük taşıyan yalıtım bloğu hem ağırlığı taşır hem ısı köprüsünü önler." },
+  { t: 3, s: 28, q: "Sunuma göre yalıtım öncesi borudan birim uzunluk başına ısı kaybı hangi formülle hesaplanır?",
+    o: ["Q = (U<sub>c</sub> + U<sub>r</sub>) × π × d<sub>1</sub> × (T<sub>y</sub> − T<sub>o</sub>)  [W/m]", "Q = (U<sub>c</sub> + U<sub>r</sub>) × A × (T<sub>y</sub> − T<sub>o</sub>)  [W]", "Q = π × d<sub>1</sub> / (T<sub>y</sub> − T<sub>o</sub>)", "Q = λ × π × d<sub>1</sub>", "Q = (U<sub>c</sub> × U<sub>r</sub>) × d<sub>1</sub>"], a: 0,
+    e: "Boru (yalıtım öncesi): <b>Q = (U<sub>c</sub> + U<sub>r</sub>) × π × d<sub>1</sub> × (T<sub>y</sub> − T<sub>o</sub>)</b>; Q birimi <b>W/m</b>, d<sub>1</sub> boru dış çapı (m).",
+    n: "π × d<sub>1</sub>, 1 m borunun dış yüzey alanıdır (m²/m). Toplam kayıp için sonuç boru uzunluğuyla çarpılır." },
+  { t: 3, s: 29, q: "Sunuma göre yalıtımsız borular için konveksiyonla ısı transfer katsayısı hangi formülle hesaplanır?",
+    o: ["U<sub>c</sub> = 1,15 × ((T<sub>y</sub> − T<sub>o</sub>) / d<sub>1</sub>)<sup>0,25</sup>", "U<sub>c</sub> = 1,45 × (t<sub>y</sub> − t<sub>o</sub>)<sup>0,25</sup>", "U<sub>c</sub> = 1,15 × d<sub>1</sub>", "U<sub>c</sub> = 5,67 × ε × d<sub>1</sub>", "U<sub>c</sub> = λ / d<sub>1</sub>"], a: 0,
+    e: "Boru için: <b>U<sub>c</sub> = 1,15 × ((T<sub>y</sub> − T<sub>o</sub>) / d<sub>1</sub>)<sup>0,25</sup></b>. Radyasyon: U<sub>r</sub> = 5,67 × 10⁻⁸ × ε × (T<sub>y</sub>² + T<sub>o</sub>²)(T<sub>y</sub> + T<sub>o</sub>) veya klasik hâliyle 5,67 × ε × [(T<sub>y</sub>/100)⁴ − (T<sub>o</sub>/100)⁴] / (T<sub>y</sub> − T<sub>o</sub>).",
+    n: "Çapın paydada olması, ince borularda konveksiyon katsayısının daha yüksek olduğunu gösterir. Bu yüzden küçük çaplı borular, birim yüzey başına daha fazla ısı kaybeder." },
+  { t: 3, s: 30, q: "Sunuma göre yalıtım sonrası borudan birim uzunluk başına ısı kaybı hangi formülle hesaplanır?",
+    o: ["Q = π (T<sub>y</sub> − T<sub>o</sub>) / [ ln(d<sub>2</sub>/d<sub>1</sub>) / (2λ) + 1 / (u<sub>so</sub> × d<sub>2</sub>) ]", "Q = A (T<sub>y</sub> − T<sub>o</sub>) / (L/λ)", "Q = (U<sub>c</sub> + U<sub>r</sub>) π d<sub>2</sub> (T<sub>y</sub> − T<sub>o</sub>)", "Q = 2λ × ln(d<sub>2</sub>/d<sub>1</sub>)", "Q = u<sub>so</sub> × d<sub>2</sub> × (T<sub>y</sub> − T<sub>o</sub>)"], a: 0,
+    e: "Yalıtım sonrası (kondüksiyon + konveksiyon): <b>Q = π (T<sub>y</sub> − T<sub>o</sub>) / [ln(d<sub>2</sub>/d<sub>1</sub>)/(2λ) + 1/(u<sub>so</sub> × d<sub>2</sub>)]</b>; d<sub>1</sub> boru dış çapı, d<sub>2</sub> yalıtım sonrası dış çap, λ yalıtımın ısıl iletkenliği, u<sub>so</sub> yüzeysel ısı transfer katsayısı.",
+    n: "Silindirik yalıtımda direnç kalınlıkla doğrusal değil, logaritmik artar; dış yüzey alanı büyüdüğü için her ek milimetre bir öncekinden daha az kazandırır. Bu yüzden boru yalıtımında “kalınlığı iki katına çıkar, kaybı yarıya indir” kuralı hiç geçerli değildir." },
+  { t: 3, s: 30, q: "Dış çapı 26,9 mm olan bir boru 60 mm et kalınlığında yalıtılırsa, yalıtım sonrası dış çap (d<sub>2</sub>) ne olur?",
+    o: ["0,1469 m", "0,0869 m", "0,0869 mm", "0,0600 m", "0,2069 m"], a: 0,
+    e: "d<sub>2</sub> = d<sub>1</sub> + 2 × et = 26,9 + 2 × 60 = 146,9 mm = <b>0,1469 m</b>.",
+    n: "Et kalınlığı borunun iki tarafına eklendiği için iki ile çarpılır. Sunumdaki ekonomik kalınlık tablosunda 25, 30, 40, 50, 60 mm için d<sub>2</sub>: 0,0769; 0,0869; 0,1069; 0,1269; 0,1469 m'dir." },
+  { t: 3, s: 31, q: "Sunumdaki yüzeysel ısı iletim katsayısı (u<sub>so</sub>) tablosuna göre durgun havada (0 m/s) parlak yüzeyli metaller (parlatılmış alüminyum) için değer nedir?",
+    o: ["5,7 W/m²K", "8,0 W/m²K", "10,0 W/m²K", "15,0 W/m²K", "9,5 W/m²K"], a: 0,
+    e: "u<sub>so</sub> (hava hızı 0 / 0,5 / 1,0 / 2,0 m/s): <b>parlak yüzeyli metaller 5,7 / 6,5 / 8,0 / 9,5</b>; mat yüzeyli metaller (galvanizli veya işlenmiş çelik, alüminyum boyalı) 8,0 / 9,0 / 11,0 / 13,0; diğer tüm yüzeyler 10,0 / 11,0 / 13,0 / 15,0 W/m²K.",
+    n: "Parlak alüminyum kaplama düşük emisivitesi nedeniyle en düşük yüzey katsayısına sahiptir; bu da en düşük dış yüzey kaybı demektir. Hava hızı arttıkça katsayılar artar." },
+  { t: 3, s: 31, q: "Sunumdaki tabloya göre mat yüzeyli metallerin (galvanizli çelik vb.) 1,0 m/s hava hızındaki yüzeysel ısı iletim katsayısı nedir?",
+    o: ["11,0 W/m²K", "8,0 W/m²K", "13,0 W/m²K", "9,0 W/m²K", "5,7 W/m²K"], a: 0,
+    e: "Mat yüzeyli metaller: 0 m/s → 8,0; 0,5 m/s → 9,0; <b>1,0 m/s → 11,0</b>; 2,0 m/s → 13,0 W/m²K.",
+    n: "Aynı hava hızında “diğer tüm yüzeyler” (boyalı, kumaş, mastik kaplama) 13,0 W/m²K'dir. Dış kaplama seçimi bu yüzden hem dayanıklılık hem enerji açısından önemlidir." },
+  { t: 3, s: 32, q: "Sunumdaki boru örneğinin verileri hangisidir?",
+    o: ["Yüzey 165,8 °C, ortam 20,2 °C, d<sub>1</sub> = 26,9 mm, ε = 0,95; yalıtım λ = 0,05 W/mK, 25 mm, d<sub>2</sub> = 76,9 mm, u<sub>so</sub> = 5,7; L = 28,2 m", "Yüzey 92 °C, ortam 35 °C, A = 15,27 m², ε = 0,8", "Yüzey 184 °C, ortam 0 °C, d<sub>1</sub> = 100 mm", "Yüzey 165,8 °C, ortam 20,2 °C, yalıtım 40 mm, λ = 0,053", "Yüzey 60 °C, ortam 20 °C, d<sub>1</sub> = 50 mm"], a: 0,
+    e: "Boru örneği: yüzey <b>165,8 °C</b>, ortam <b>20,2 °C</b>, dış çap <b>26,9 mm</b>, yalıtım <b>λ = 0,05 W/mK</b>, et kalınlığı <b>25 mm</b>, yalıtım sonrası dış çap <b>0,0769 m</b>, boru boyu <b>28,2 m</b>, yüzeysel katsayı <b>5,7</b> (parlak yüzeyli metaller), emisivite <b>0,95</b>.",
+    n: "26,9 mm dış çap, DN20 (¾″) çelik borunun standart dış çapıdır. 165,8 °C ise yaklaşık 6 barg doymuş buhar sıcaklığına karşılık gelir." },
+  { t: 3, s: 34, q: "Sunumdaki boru örneğinde yalıtımsız borudan birim uzunluk başına ısı kaybı ne bulunmuştur?",
+    o: ["256,49 W/m", "35,78 W/m", "220,72 W/m", "8.930,35 W/m", "145,6 W/m"], a: 0,
+    e: "U<sub>c</sub> = 1,15 × (145,6 / 0,0269)<sup>0,25</sup> = 9,864; U<sub>r</sub> = 10,981 W/m²K. Q = (9,864 + 10,981) × 3,14 × 0,0269 × (438,8 − 293,2) = <b>256,49 W/m</b>.",
+    n: "Bu küçük çaplı borunun her metresi, 256 W'lık bir elektrikli ısıtıcı kadar ısı kaybeder. 28,2 m'lik hat toplam ≈ 7,2 kW kaybeder." },
+  { t: 3, s: 35, q: "Sunumdaki boru örneğinde 25 mm yalıtım (λ = 0,05, u<sub>so</sub> = 5,7) sonrası ısı kaybı ne bulunmuştur?",
+    o: ["35,78 W/m", "256,49 W/m", "220,72 W/m", "27,07 W/m", "1.081,61 W/m"], a: 0,
+    e: "Q = 3,14 × (438,8 − 293,2) / [ln(0,0769/0,0269)/(2 × 0,05) + 1/(5,7 × 0,0769)] = <b>35,78 W/m</b>.",
+    n: "ln(0,0769/0,0269) ≈ 1,050; 1,050 / 0,1 = 10,50 (yalıtım direnci); 1 / (5,7 × 0,0769) ≈ 2,28 (yüzey direnci). Toplam ≈ 12,78; 457,2 / 12,78 ≈ 35,8 W/m." },
+  { t: 3, s: 36, q: "Sunumdaki boru örneğinde yalıtımla sağlanan enerji tasarrufu ve tasarruf oranı nedir?",
+    o: ["220,72 W/m; ≈ %86", "35,78 W/m; ≈ %14", "7.848,74 W; ≈ %88", "256,49 W/m; %100", "220,72 W/m; ≈ %50"], a: 0,
+    e: "Tasarruf = 256,49 − 35,78 = <b>220,72 W/m</b>. Oran = 220,72 / 256,49 × 100 = <b>%86</b>.",
+    n: "Tank örneğinde oran %88, boru örneğinde %86'dır. Sınavda iki örneğin sonuçları sık karıştırılır: tank 8.930 → 1.082 W (%88), boru 256,49 → 35,78 W/m (%86)." },
+  { t: 3, s: 36, q: "Sunumdaki boru örneğinde hattın tamamı (28,2 m) yılda 8.760 saat çalışmaktadır. Yalıtımla sağlanan yıllık enerji tasarrufu yaklaşık ne kadardır?",
+    o: ["≈ 54.500 kWh", "≈ 6.224 kWh", "≈ 1.933 kWh", "≈ 545.000 kWh", "≈ 7.850 kWh"], a: 0,
+    e: "Toplam tasarruf gücü: 220,72 × 28,2 ≈ 6.224 W ≈ 6,22 kW. Yıllık: 6,224 × 8.760 ≈ <b>54.500 kWh</b>.",
+    n: "%90 verimli doğal gaz kazanı ve 8.250 kcal/m³ ile bu, 54.500 × 860 / (0,9 × 8.250) ≈ 6.300 m³ doğal gaz tasarrufudur. Yalnızca 28 m'lik küçük bir hat için bile önemli bir değerdir." },
+  { t: 3, s: 31, q: "Sunumdaki boru örneğinde dış kaplama parlak alüminyum (u<sub>so</sub> = 5,7) yerine “diğer tüm yüzeyler” sınıfında (u<sub>so</sub> = 10,0) bir kaplama olsaydı, yalıtım sonrası ısı kaybı nasıl değişirdi?",
+    o: ["Artardı (≈ 35,8'den ≈ 38,8 W/m'ye)", "Azalırdı (≈ 35,8'den ≈ 20 W/m'ye)", "Değişmezdi", "Sıfır olurdu", "İki katına çıkardı"], a: 0,
+    e: "Yüzey direnci 1/(u<sub>so</sub> × d<sub>2</sub>) azalır: 1/(10 × 0,0769) ≈ 1,30 (önceden ≈ 2,28). Toplam direnç ≈ 10,50 + 1,30 = 11,80; Q = 457,2 / 11,80 ≈ <b>38,8 W/m</b>. Kayıp yaklaşık %8 artar.",
+    n: "Yüzey katsayısının yüksek olması dış yüzeyden ısının daha kolay atılması demektir. Etkisi, yalıtım direncinin yanında küçük kalsa da ihmal edilemez; parlak kaplama bu yüzden hem radyasyonu hem toplam kaybı azaltır." },
+
+  // Ekonomik yalıtım kalınlığı
+  { t: 4, s: 37, q: "Sunuma göre ekonomik yalıtım kalınlığı hesabında “ısının maliyeti” nasıl bulunur?",
+    o: ["Yakıtın maliyeti / yakıtın alt ısıl değeri", "Yakıtın maliyeti × sistem verimi", "Isı kaybı × yıllık çalışma süresi", "Yatırım maliyeti / ısı kaybı", "Yakıtın alt ısıl değeri / yakıtın maliyeti"], a: 0,
+    e: "Sunumdaki adımlar: <b>Isının maliyeti = yakıtın maliyeti / yakıtın alt ısıl değeri</b>; <b>yararlı ısının maliyeti = ısının maliyeti / sistem verimi</b>; <b>maliyet faktörü = yararlı ısının maliyeti × yıllık çalışma süresi</b>; <b>kayıp ısının maliyeti = maliyet faktörü × ısı kaybı</b> (borularda W/m, düzlem yüzeylerde W/m²).",
+    n: "Sistem verimine bölünmesinin nedeni, kaybedilen her birim ısının kazanda verim kayıplarıyla birlikte üretilmiş olmasıdır. Verimi %95 olan bir sistemde 1 kcal faydalı ısı için 1/0,95 kcal yakıt yakılır." },
+  { t: 4, s: 40, q: "Sunumdaki örnekte doğal gaz 1,20 TL/Sm³, alt ısıl değeri 8.250 kcal/Sm³, sistem verimi %95 ve yıllık çalışma 8.760 saattir. Maliyet faktörü ne bulunmuştur?",
+    o: ["≈ 1,153", "≈ 0,000145", "≈ 0,000153", "≈ 8.760", "≈ 0,95"], a: 0,
+    e: "Isının maliyeti: 1,20 / 8.250 = 0,000145455 TL/kcal. Yararlı ısının maliyeti: 0,000145455 / 0,95 = 0,00015311 TL/kcal → × 860/1.000 = 0,000131675 TL/W(h). Maliyet faktörü: 0,000131675 × 8.760 = <b>1,153</b>.",
+    n: "Maliyet faktörünün birimi TL/(W·yıl)'dır: sürekli 1 W ısı kaybının bir yıllık maliyeti. 860/1.000 çarpanı, kcal'den Wh'e geçiş içindir (1 Wh = 0,86 kcal). Sunumdaki doğal gaz fiyatı eski tarihlidir; yöntem aynı kalır." },
+  { t: 4, s: 41, q: "Sunumdaki ekonomik kalınlık tablosunda 25 mm taş yünü için kayıp ısının maliyeti nasıl hesaplanmıştır?",
+    o: ["35,78 W/m × 1,153 ≈ 41,25 TL/m", "256,49 W/m × 1,153 ≈ 295,7 TL/m", "35,78 + 1,153 ≈ 36,9 TL/m", "35,78 / 1,153 ≈ 31,0 TL/m", "6,20 × 1,153 ≈ 7,15 TL/m"], a: 0,
+    e: "Kayıp ısının maliyeti = ısı kaybı × maliyet faktörü = 35,78 × 1,153 ≈ <b>41,25 TL/m</b>. Toplam maliyet = 41,25 + 6,20 (yalıtım yatırımı) = 47,45 TL/m.",
+    n: "Yalıtımsız boru için aynı hesap 256,49 × 1,153 ≈ 295,7 TL/m eder; yani 25 mm yalıtım yalnızca 6,20 TL/m yatırımla yıllık ≈ 254 TL/m tasarruf sağlar." },
+  { t: 4, s: 41, q: "Sunumdaki taş yünü örneğinde hangi yalıtım kalınlığı ekonomik (en düşük toplam maliyetli) kalınlıktır?",
+    o: ["50 mm (toplam 43,82 TL/m)", "25 mm (toplam 47,45 TL/m)", "40 mm (toplam 44,76 TL/m)", "60 mm (toplam 45,63 TL/m)", "30 mm (toplam 45,77 TL/m)"], a: 0,
+    e: "Toplam maliyetler (kayıp ısı + yatırım, TL/m): 25 mm 47,45; 30 mm 45,77; 40 mm 44,76; <b>50 mm 43,82 (en düşük)</b>; 60 mm 45,63. Ekonomik kalınlık <b>50 mm</b>'dir.",
+    n: "60 mm'de kayıp ısı maliyeti daha da düşer (29,03), ama yatırım (16,60) bu azalmadan hızlı arttığı için toplam yeniden yükselir. Ekonomik kalınlık, toplam maliyet eğrisinin en alt noktasıdır." },
+  { t: 4, s: 42, q: "Sunumdaki ekonomik yalıtım kalınlığı grafiğinde kalınlık arttıkça maliyet bileşenleri nasıl değişir?",
+    o: ["Kayıp ısı maliyeti azalır, yalıtım yatırım maliyeti artar; toplam maliyetin minimum olduğu kalınlık ekonomik kalınlıktır", "Her iki maliyet de azalır", "Her iki maliyet de artar", "Kayıp ısı maliyeti artar, yatırım azalır", "Toplam maliyet kalınlıktan bağımsızdır"], a: 0,
+    e: "Grafikte <b>kayıp ısının maliyeti</b> kalınlıkla azalır (41,25 → 29,03 TL/m), <b>yalıtım yatırım maliyeti</b> artar (6,20 → 16,60 TL/m); <b>toplam maliyet</b> 50 mm'de en düşük (43,82 TL/m) değere iner.",
+    n: "Yakıt fiyatı arttıkça veya çalışma süresi uzadıkça kayıp ısı eğrisi yukarı kayar ve ekonomik kalınlık büyür. Bugünkü yakıt fiyatlarıyla aynı hesap yapılırsa ekonomik kalınlık sunumdakinden daha büyük çıkar." },
+  { t: 4, s: 38, q: "Sunumdaki ekonomik kalınlık tablosunun sütunlarına göre “toplam maliyet” nasıl bulunur?",
+    o: ["Kayıp ısı maliyeti (sütun 5 = 3 × 4) + yatırım maliyeti (sütun 6)", "Isı kaybı × yatırım maliyeti", "Maliyet faktörü + kalınlık", "Yatırım maliyeti − kayıp ısı maliyeti", "Isı kaybı / maliyet faktörü"], a: 0,
+    e: "Tablo sütunları: 1 yalıtım malzemesi, 2 kalınlık (mm), 3 ısı kaybı (W/m veya W/m²), 4 maliyet faktörü, <b>5 kayıp ısı maliyeti (3 × 4)</b>, <b>6 yatırım maliyeti</b>, <b>7 toplam maliyet (5 + 6)</b>.",
+    n: "Burada yatırım maliyeti yıllık bazda karşılaştırılmaktadır. Daha doğru bir analizde yatırım, ekonomik ömür ve faiz oranıyla yıllık taksite (annüite) çevrilerek yıllık kayıp maliyetiyle toplanır." },
+  { t: 4, s: 40, q: "Doğal gaz 12 TL/Sm³, alt ısıl değeri 8.250 kcal/Sm³, sistem verimi %90 ve yıllık çalışma 8.000 saattir. Sunumdaki yöntemle maliyet faktörü yaklaşık kaçtır ve 35,78 W/m kayıplı bir borunun yıllık kayıp ısı maliyeti ne olur?",
+    o: ["Maliyet faktörü ≈ 11,12; kayıp maliyeti ≈ 398 TL/m", "Maliyet faktörü ≈ 1,153; kayıp maliyeti ≈ 41 TL/m", "Maliyet faktörü ≈ 10,01; kayıp maliyeti ≈ 358 TL/m", "Maliyet faktörü ≈ 0,00145; kayıp maliyeti ≈ 0,05 TL/m", "Maliyet faktörü ≈ 12,93; kayıp maliyeti ≈ 463 TL/m"], a: 0,
+    e: "Isının maliyeti: 12 / 8.250 = 0,0014545 TL/kcal. Yararlı ısının maliyeti: 0,0014545 / 0,90 = 0,0016162 TL/kcal → × 0,86 = 0,0013899 TL/Wh. Maliyet faktörü: 0,0013899 × 8.000 ≈ <b>11,12</b>. Kayıp maliyeti: 35,78 × 11,12 ≈ <b>398 TL/m·yıl</b>.",
+    n: "Sistem verimi ihmal edilirse ≈ 10,01 bulunur. Yakıt fiyatının 10 kat artması maliyet faktörünü ve kayıp maliyetini de yaklaşık 10 kat artırır; bu da ekonomik yalıtım kalınlığını sunumdaki 50 mm'nin üzerine taşır." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
