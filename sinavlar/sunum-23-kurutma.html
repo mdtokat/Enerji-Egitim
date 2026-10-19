@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kurutma Prosesi Sınavı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("enerji-tema");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../ortak/tema.css">
+<link rel="stylesheet" href="../ortak/araclar.css">
+<link rel="stylesheet" href="sinav.css">
+</head>
+<body>
+<nav class="topbar" aria-label="Sayfa çubuğu">
+  <a class="ibtn back" href="../index.html" title="Ana sayfa"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="lbl">Ana sayfa</span></a>
+  <span class="brand"><span>Sunum 23 · Kurutma Prosesi</span></span>
+  <span class="grow"></span>
+  <div class="tools-slot"></div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><span class="no">SUNUM 23</span> 1_24.pdf · Süreyya Akman, Enerji Verimliliği ve Çevre Dairesi Başkanlığı</p>
+    <h1>Kurutma Prosesi <em>Sınavı</em></h1>
+    <p class="lede">Kurutmanın amaçları ve enerji önemi; ısınma, sabit hız ve düşen hız periyotları, kritik nem; hava sıcaklığı, nemi ve hızının etkisi (n = 0,8 / 1,4); kuru ve yaş temel nem, denge nemi ve kumaş örneği; psikrometrik diyagram; kurutucu ısıl verimi; konveksiyon, kontakt, radyant ve mikrodalga kurutucular, işletim prensipleri ve kurutucu tipleri.</p>
+    <ul class="facts"><li>68 soru</li><li>5 şık</li><li>Öğretici notlu</li><li class="calc"><button type="button" data-tool-open="hesap">Hesap soruları var · hesap makinesini aç</button></li></ul>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Çalışma biçimi">
+      <button id="m-pr" type="button" aria-pressed="true" title="Her sorudan sonra doğru cevabı, açıklamayı ve öğretici notu gösterir">Alıştırma</button>
+      <button id="m-ex" type="button" aria-pressed="false" title="Cevaplar sınav bitince gösterilir; işaretinizi değiştirebilirsiniz">Sınav</button>
+    </div>
+    <p class="mhint" id="mhint"></p>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><i id="pg"></i></div>
+  </div>
+
+  <main id="quiz" class="card" aria-live="polite"></main>
+  <section id="results" class="card" hidden></section>
+
+  <details class="map" id="mapbox">
+    <summary>Soru haritası <span>numaraya dokunarak soruya gidin</span></summary>
+    <p class="legend"><span><i></i>boş</span><span><i class="l-ans"></i>işaretli</span><span><i class="l-ok"></i>doğru</span><span><i class="l-bad"></i>yanlış</span></p>
+    <div class="grid" id="map"></div>
+  </details>
+
+  <footer>
+    <span class="keys">Kısayollar: <kbd>A</kbd>–<kbd>E</kbd> veya <kbd>1</kbd>–<kbd>5</kbd> şık seçer, <kbd>←</kbd> <kbd>→</kbd> sorular arasında gezer, <kbd>Enter</kbd> sonraki soruya geçer.</span>
+    <span>Kaynak: “Kurutma Prosesi” sunumu (Süreyya Akman, ETKB Enerji Verimliliği ve Çevre Dairesi Başkanlığı). Net = doğru − yanlış ÷ 4.</span>
+    <span><a href="../index.html">Ana sayfaya dön</a></span>
+  </footer>
+</div>
+
+<script>
+const SINAV = {
+key: "enerji-sinav-sunum23-v1",
+topics: ["Giriş ve kurutmanın önemi", "Kurutma teorisi ve kurutma periyotları", "Hava koşullarının etkisi", "Nem tanımları ve denge nemi", "Psikrometrik diyagram ve kurutucu verimi", "Kurutucuların sınıflandırılması ve tipleri"],
+Q: [
+  // Giriş
+  { t: 0, s: 2, q: "Sunumdaki tanıma göre kurutma nedir?",
+    o: ["Bir katı ürün elde etmek amacıyla üründen çözücü, dağıtıcı sıvıların uzaklaştırılması; akla ilk gelen, suyun buharlaştırma yoluyla uzaklaştırılmasıdır", "Bir sıvının dondurularak katılaştırılması", "Bir gazın soğutularak sıvılaştırılması", "Ürünün yalnızca mekanik olarak preslenmesi", "Ürüne su eklenerek nemlendirilmesi"], a: 0,
+    e: "Sunum: bir katı ürün elde etmek amacıyla, üründen <b>çözücü, dağıtıcı sıvıların uzaklaştırılması</b> işlemi kurutma olarak isimlendirilir; kurutma denince akla ilk anda üründeki <b>suyun buharlaştırma yoluyla</b> uzaklaştırılması gelir.",
+    n: "Buharlaştırmadan önce suyun mekanik yöntemlerle (pres, santrifüj, vakum emişi) olabildiğince alınması büyük tasarruf sağlar: mekanik su alma, buharlaştırmaya göre birim su başına çok daha az enerji harcar." },
+  { t: 0, s: 3, q: "Sunuma göre kurutucular hangi sanayi dallarında yaygın olarak kullanılır?",
+    o: ["Gıda, kimya, tekstil, kâğıt, çimento ve kereste", "Yalnızca elektrik üretimi", "Yalnızca otomotiv", "Yalnızca madencilik", "Yalnızca bilişim"], a: 0,
+    e: "Sunum: kurutucular sanayinin birçok dalında, örneğin <b>gıda, kimya, tekstil, kâğıt, çimento, kereste</b> sanayilerinde yaygın olarak kullanılır. Proses sırasında birden fazla kurutucuda birkaç kez kurutma gerektiren ürünler de vardır.",
+    n: "Tekstilde ram (stenter), kâğıtta silindir kurutucular, çimentoda hava süpürmeli değirmenler, gıdada spray ve film kurutucular sunumda örnek verilen tipik uygulamalardır." },
+  { t: 0, s: 4, q: "Aşağıdakilerden hangisi sunumda sayılan kurutmanın esas amaçlarından biri <b>değildir</b>?",
+    o: ["Ürünün nem içeriğini artırmak", "Taşıma ve sonraki işlemlerin ekonomik olması için hacim veya ağırlığı azaltmak", "İstenen koşulları sağlayan malzemeler üretmek", "Ürünleri sterilize etmek veya korumak", "Çözeltiler veya atık sulu karışımlardan yan ürünleri geri kazanmak"], a: 0,
+    e: "Kurutmanın esas amaçları: taşıma, kullanım ve sonraki işlemlerin ekonomik olması için <b>hacim veya ağırlığın azaltılması</b>; sonraki işlemler, kullanım, pazarlama için <b>istenen koşulları sağlayan malzeme</b> üretmek; ürünleri <b>sterilize etmek veya korumak</b>; çözeltiler veya atık sulu karışımlardan <b>yan ürünleri geri kazanmak</b>.",
+    n: "Gıdada kurutma koruma amaçlıdır (mikroorganizma için su aktivitesini düşürür); arıtma çamurunda ise ağırlık ve taşıma maliyetini azaltma amaçlıdır." },
+  { t: 0, s: 5, q: "Sunuma göre kurutma için tüketilen enerji miktarı nasıl en aza indirilebilir?",
+    o: ["Ürün kalitesini etkilememek kaydıyla kurutma prosesinin olabildiğince hızlı yapılmasıyla", "Kurutmanın olabildiğince yavaş yapılmasıyla", "Kurutma havasının mümkün olduğunca nemli seçilmesiyle", "Ürünün denge neminin altına kurutulmasıyla", "Egzoz havasının sıcaklığının yükseltilmesiyle"], a: 0,
+    e: "Sunum: <b>ürün kalitesini etkilememek kaydıyla</b>, kurutma prosesinin <b>olabildiğince hızlı</b> bir şekilde yapılması sonucu bu işlem için tüketilen enerji miktarı en aza indirilebilir.",
+    n: "Kurutma süresi uzadıkça kurutucunun yüzey kayıpları ve egzozla atılan ısı da süreyle birlikte artar. Hızlı kurutma, aynı ürün için bu sabit kayıpları azaltır." },
+  { t: 0, s: 6, q: "Sunuma göre enerji tasarrufu açısından kurutma prosesi hangi iki nedenle çok önemlidir?",
+    o: ["Enerji yoğun bir prosestir ve pek çok sektörde tüketimin esas yüzdesini oluşturur; genellikle iyi anlaşılmamış proseslerdir ve yeni teknolojilerle önemli tasarruf mümkündür", "Hiç enerji tüketmez ve tamamen otomatiktir", "Yalnızca elektrik kullanır ve ucuzdur", "Tüm sanayilerde yasal olarak zorunludur", "Kurutucular her zaman %100 verimlidir"], a: 0,
+    e: "Sunum: 1) Kurutma <b>enerji yoğun</b> bir prosestir ve pek çok sanayi kolunda <b>enerji tüketiminin esas yüzdesini</b> oluşturur. 2) Kurutma prosesleri genellikle <b>çok iyi anlaşılabilmiş prosesler değildir</b>; yeni ve iyi uygulanmış teknolojilerle <b>önemli miktarda enerji tasarrufu</b> mümkündür.",
+    n: "Suyu buharlaştırmak için ≈ 2.260 kJ/kg (≈ 540 kcal/kg) gizli ısı gerekir. Pratik kurutucularda kayıplarla birlikte bu değer çoğu zaman iki katına çıkar; bu yüzden kurutucular enerji etütlerinde öncelikli incelenir." },
+
+  // Kurutma teorisi
+  { t: 1, s: 7, q: "Sunuma göre bir malzeme kurutulurken hangi iki proses gerçekleşir?",
+    o: ["Sıvının buharlaştırılması için ısı transferi; malzeme içinde sıvı veya buhar hâlinde, yüzeyden buhar hâlinde kütle transferi", "Yalnızca kimyasal reaksiyon", "Yalnızca mekanik sıkıştırma", "Elektrik iletimi ve manyetizma", "Yanma ve yoğuşma"], a: 0,
+    e: "Sunum: malzeme kurutulurken iki proses gerçekleşir: sıvının buharlaştırılması için <b>ısı transferi</b> olur; malzeme içinde sıvı veya buhar hâlinde, malzeme yüzeyinden ise buhar hâlinde <b>kütle transferi</b> olur.",
+    n: "Isı dışarıdan içeri, nem içeriden dışarı hareket eder. Hangisinin daha yavaş olduğu, kurutma hızını hangi faktörün sınırladığını belirler." },
+  { t: 1, s: 9, q: "Sunumdaki tipik kurutma prosesi grafiğinde AB, BC ve CD bölgeleri neyi gösterir?",
+    o: ["AB ilk sıcaklık yükselmesi (ısınma), BC sabit hızda kurutma, CD düşen hızda kurutma", "AB düşen hızda kurutma, BC ısınma, CD sabit hızda kurutma", "AB soğuma, BC yoğuşma, CD donma", "AB sabit hızda kurutma, BC düşen hızda kurutma, CD ısınma", "Üçü de sabit hızda kurutmadır"], a: 0,
+    e: "Sunum: bir ilk <b>sıcaklık yükselmesini (AB)</b> takiben pek çok durumda belli bir süre <b>sabit hızda buharlaşma (BC)</b> gerçekleşir; bu periyodu buharlaşma hızının sürekli değiştiği <b>düşen hızda kurutma (CD)</b> periyodu izler.",
+    n: "Grafiğin üst kısmı nem miktarı – zaman, alt kısmı kurutma hızı (dW/dt) – zamandır. Sabit hız periyodunda nem eğrisi doğrusal düşer, hız eğrisi yataydır." },
+  { t: 1, s: 9, q: "Sunuma göre sabit hızda buharlaşma (BC) periyodunda buharlaşma işlemi nasıl kontrol edilebilir?",
+    o: ["Buharlaşma oluşan yüzeydeki ısı transfer miktarının ayarlanmasıyla", "Malzeme içindeki nem difüzyonunun hızlandırılmasıyla", "Malzemenin kalınlığının artırılmasıyla", "Kurutucunun kapatılmasıyla", "Kurutma havasının nemlendirilmesiyle"], a: 0,
+    e: "Sunum: sabit hızdaki buharlaşma işlemi, <b>buharlaşma oluşan yüzeydeki ısı transfer miktarının ayarlanması</b> yoluyla kontrol edilebilir.",
+    n: "Bu periyotta malzeme yüzeyi açık bir su yüzeyi gibi davranır ve yaklaşık yaş termometre sıcaklığında kalır. Hava sıcaklığı, hızı ve nemi gibi dış koşullar bu periyotta doğrudan etkilidir." },
+  { t: 1, s: 10, q: "Sunuma göre “sabit hızda kurutma” mekanizmasında malzeme içindeki kütle transferi hakkında hangisi doğrudur?",
+    o: ["Malzeme içindeki kütle transferi yüzeyi sıvıca doygun tutmaya yeterlidir ve buharlaşma hızını etkilemez", "Malzeme içindeki kütle transferi buharlaşmayı tamamen durdurur", "Yüzey tamamen kurumuştur", "Kütle transferi hiç gerçekleşmez", "Kütle transferi buharlaşma hızını belirleyen tek faktördür"], a: 0,
+    e: "Sunum: bu kademede malzeme içinde buhar veya sıvı şeklinde oluşan <b>kütle transferi yüzeyi sıvıca doygun tutmak için yeterlidir</b> ve buharlaşma işleminin hızını etkilemez. Bu mekanizma “<b>sabit hızda kurutma</b>” olarak adlandırılır.",
+    n: "Yani sabit hız periyodunda darboğaz dış taraftadır (ısının yüzeye ulaşması ve buharın havaya karışması). Düşen hız periyodunda ise darboğaz içeriye, nemin yüzeye taşınmasına kayar." },
+  { t: 1, s: 11, q: "Sunuma göre düşen hızda kurutma (CD) periyodunda buharlaşma hızını kontrol eden faktör nedir?",
+    o: ["Malzeme yüzeyi sıvıca doygun olmadığından malzeme içindeki nem taşınma hızı", "Yalnızca kurutma havasının sıcaklığı", "Kurutucunun rengi", "Brülörün kapasitesi", "Yalnızca hava hızı"], a: 0,
+    e: "Sunum: düşen hızda kurutma süresince <b>malzeme yüzeyi sıvıca doygun durumda değildir</b> ve <b>malzeme içinde nem taşınması hızı</b>, buharlaşma hızını kontrol eden faktör hâline gelir.",
+    n: "Bu periyotta havayı daha çok ısıtmak ya da hızlandırmak sınırlı fayda sağlar ve enerji israfına dönüşebilir. Daha ince tabaka, daha küçük tane veya vakum gibi iç taşınımı kolaylaştıran önlemler etkilidir." },
+  { t: 1, s: 12, q: "Sunuma göre “malzemenin kritik nem miktarı” nedir?",
+    o: ["Sabit hızda kurutma periyodunun son noktası olan C noktasındaki nem miktarı", "Kurutma başlangıcındaki (A noktası) nem miktarı", "Kurutma sonundaki (D noktası) nem miktarı", "Atmosferle dengedeki nem miktarı", "Havanın doygunluktaki nem miktarı"], a: 0,
+    e: "Sunum: sabit hızda kurutma periyodunun son noktası olan <b>(C)'deki nem miktarı</b>, “<b>malzemenin kritik nem miktarı</b>” olarak tanımlanır.",
+    n: "Kritik nem, kurutma hızının dış kontrolden iç kontrole geçtiği noktadır. Kurutucu tasarımında bu değerin bilinmesi, iki periyot için farklı hava koşulları seçmeye (ör. çok bölgeli kurutucular) imkân verir." },
+  { t: 1, s: 12, q: "Kurutma sonunda istenen nem miktarı malzemenin kritik nem miktarından yüksekse, sunuma göre kurutma nasıl gerçekleşir?",
+    o: ["Sıcaklık yükselmesi periyodundan sonra tüm proses sabit hızda kurutma olarak gerçekleşir", "Tüm proses düşen hızda kurutma olarak gerçekleşir", "Kurutma hiç gerçekleşmez", "Önce düşen hız, sonra sabit hız periyodu gelir", "Kurutma yalnızca vakumda yapılabilir"], a: 0,
+    e: "Sunum: istenen son nem miktarı <b>kritik nem miktarından yüksek</b> ise, tüm kurutma prosesi, sıcaklık yükselmesi periyodundan sonra <b>sabit hızda kurutma</b> olarak gerçekleşir.",
+    n: "Bu durumda kurutma hızı tamamen dış koşullarla (hava sıcaklığı, hızı, nemi) belirlenir; bu koşulları iyileştirmek kurutma süresini doğrudan kısaltır." },
+  { t: 1, s: 13, q: "Kurutmaya girecek malzemenin başlangıç nem miktarı kritik nem miktarından daha düşükse kurutma nasıl gerçekleşir?",
+    o: ["Tüm kurutma prosesi düşen hızda kurutma olarak gerçekleşir", "Tüm proses sabit hızda gerçekleşir", "Malzeme kurutulamaz", "Önce sabit hız, sonra ısınma periyodu gelir", "Malzeme önce nemlendirilmelidir"], a: 0,
+    e: "Sunum: kurutmaya tabi tutulacak malzemenin başlangıçtaki nem miktarı <b>kritik nem miktarından daha düşükse</b>, tüm kurutma prosesi <b>düşen hızda kurutma</b> olarak gerçekleşir.",
+    n: "Örneğin ikinci kademe kurutuculara gelen ürünler çoğu zaman kritik nemin altındadır; bu kurutucularda iç difüzyon belirleyici olduğu için yüksek hava hızı yerine uygun sıcaklık ve yeterli kalma süresi önemlidir." },
+  { t: 1, s: 14, q: "Sunuma göre kurutma hızını etkileyen “dış faktörler” hangileridir?",
+    o: ["Kurutma havasının sıcaklığı, nemi, akış hızı ve türbülansı; malzemenin yüzey alanı, kalınlığı ve tane büyüklüğü", "Kapiler akış ve yoğunluk", "İç buharlaşma veya daralmadan oluşan basınç değişimi", "Nemin difüzyonla yüzeye taşınması", "Malzemenin kimyasal yapısı"], a: 0,
+    e: "Sunum: <b>dış faktörler</b>: kurutma havası sıcaklığı, nemi, akış hızı ve türbülansı, kurutulacak malzemenin yüzey alanı ve kalınlığı, tanecik büyüklüğü. <b>İç etkenler</b>: kapiler akış ve yoğunluk, iç buharlaşma veya daralmalardan oluşan basınç değişimiyle oluşan akışlar gibi nemin difüzyonla yüzeye taşınmasını etkileyen, malzemenin doğasına ait özellikler.",
+    n: "Dış faktörler işletmecinin ayarlayabileceği değişkenlerdir; iç etkenler ise malzemeye özgüdür. Sunum, deneyimle minimum kurutma süresini ve en iyi enerji kullanımını sağlayacak dış faktörlerin oluşturulabileceğini vurgular." },
+  { t: 1, s: 16, q: "Sunuma göre kurutma hızında sınırlayıcı faktörler hangi iki ana gruba ayrılır?",
+    o: ["Yüzeydeki statik hava film tabakasından geçerek suyun kurutma havasına karışma hızı; yüzey sertleşmesi veya büzülmesi gibi zararlar yaratmaksızın nemin malzemeden uzaklaşma hızı", "Yakıt fiyatı ve elektrik fiyatı", "Kurutucunun boyutu ve rengi", "Fan gürültüsü ve titreşim", "Ortam aydınlatması ve sıcaklığı"], a: 0,
+    e: "Sunum: sınırlayıcı faktörler iki ana gruba ayrılır: malzeme yüzeyindeki <b>statik hava film tabakasından</b> geçmek suretiyle yüzeydeki suyun kurutma havasına karışma hızı; <b>yüzey tabakalarının sertleşmesi veya büzülmesi</b> sonucu nem akışına engel olmadan veya malzemeye zarar vermeden <b>malzemeden nemin uzaklaşma hızı</b>.",
+    n: "Çok hızlı kurutmada yüzey kabuk bağlayıp (case hardening) içteki nemin çıkışını engelleyebilir; kereste ve seramikte çatlama da görülür. Bu yüzden hız, ürün kalitesiyle sınırlıdır." },
+
+  // Hava koşullarının etkisi
+  { t: 2, s: 17, q: "Sunuma göre hava sıcaklığının yükselmesiyle havanın su buharı tutma özelliği nasıl değişir?",
+    o: ["Üstel olarak artar", "Doğrusal olarak azalır", "Değişmez", "Önce artar sonra sıfıra iner", "Sıcaklıkla ters orantılı azalır"], a: 0,
+    e: "Sunum: hava sıcaklığının yükselmesiyle havanın içinde su buharı tutma özelliği de <b>üstel olarak artış</b> gösterir. Yüksek hava sıcaklıkları ısı transfer hızını ve buharlaşma hızını artırır; bu da nemin daha kolay ve hızlı yüzeye çıkmasını sağlayan itici bir etki yaratır.",
+    n: "Örneğin doygun hava 20 °C'de ≈ 15 g/kg, 40 °C'de ≈ 49 g/kg, 60 °C'de ≈ 150 g/kg su buharı taşıyabilir. Bu yüzden ısıtılan hava çok daha fazla nem taşıyabilir ve daha az hava debisiyle kurutma yapılabilir." },
+  { t: 2, s: 19, q: "Sunuma göre kurutma havası sıcaklığını sınırlayan faktörler nelerdir?",
+    o: ["Malzemeye zarar vermeden uygulanabilecek maksimum sıcaklık, ısıtıcı akışkanın sıcaklığı ve yüksek sıcaklığın getirdiği enerji maliyeti", "Yalnızca kurutucunun rengi", "Yalnızca dış hava nemi", "Yalnızca fan gücü", "Hava sıcaklığı için hiçbir sınır yoktur"], a: 0,
+    e: "Sunum: malzemeye <b>herhangi bir zarar vermeksizin uygulanabilecek maksimum hava sıcaklığına</b> bağlı olarak yüksek kurutma hızları elde edilebilir. Hava sıcaklığı, havayı ısıtmak için kullanılan <b>akışkanın sıcaklığıyla</b> da sınırlıdır. Ayrıca yüksek sıcaklık, sisteme verilen <b>enerji miktarının ve maliyetinin</b> yükselmesi demektir.",
+    n: "Örneğin 1–2 bar(g) buharla ısıtılan bir eşanjör havayı en fazla ≈ 110–120 °C'ye ısıtabilir. Daha yüksek sıcaklık için kızgın yağ veya doğrudan yanma gazı gerekir." },
+  { t: 2, s: 20, q: "Sunuma göre kurutucuyu terk eden egzoz havasının enerjisi için hangi önlem alınmazsa kurutma maliyeti oldukça yüksek olur?",
+    o: ["Isı geri kazanım sistemleriyle egzoz enerjisinin kurutucuya giren malzeme veya havanın ön ısıtılmasında kullanılması ve egzoz sıcaklığının düşürülmesi", "Egzoz havasının sıcaklığının yükseltilmesi", "Egzoz bacasının boyanması", "Egzoz fanının devrinin artırılması", "Egzoz havasının nemlendirilmesi"], a: 0,
+    e: "Sunum: kurutucuyu terk eden egzoz havası enerjisinin, <b>ısı geri kazanımı</b> sağlayan sistemlerle örneğin <b>kurutucuya giren malzeme veya havanın ön ısıtılmasında</b> kullanılması ve böylece <b>egzoz havası sıcaklığının düşürülmesi</b> gibi önlemler alınmadığı takdirde kurutma maliyeti oldukça yüksek olur.",
+    n: "Egzoz havası hem duyulur ısı hem de buharlaşan suyun gizli ısısını taşır. Hava–hava eşanjörü veya ısı pompası ile bu ısının bir kısmı taze havaya aktarılabilir; tekstil ramlarında egzoz ısı geri kazanımı yaygın bir önlemdir." },
+  { t: 2, s: 21, q: "Sunuma göre kurutma havasındaki nem miktarının artması kurutmayı nasıl etkiler?",
+    o: ["Havanın ilave su buharı tutma kapasitesini azaltır ve malzeme yüzeyinden buharlaşmayı azaltır", "Buharlaşmayı artırır", "Kurutmayı hiç etkilemez", "Malzemenin kritik nemini sıfırlar", "Havanın sıcaklığını artırır"], a: 0,
+    e: "Sunum: yüksek kurutma hızları, kurutma havasındaki <b>nem miktarının minimum</b> olması hâlinde elde edilir. Herhangi bir kuru termometre sıcaklığında hava içindeki nem miktarının artması, bu havanın <b>ilave su buharı tutma kapasitesinde azalma</b> oluşturur ve yüzeyden buharlaşmayı azaltır.",
+    n: "Buharlaşmanın itici gücü, malzeme yüzeyindeki buhar basıncı ile havadaki buhar basıncı arasındaki farktır. Hava nemlendikçe bu fark küçülür." },
+  { t: 2, s: 22, q: "Sunuma göre havadaki nemin kurutmaya olumsuz etkisi hangi koşullarda önem kazanır?",
+    o: ["Düşük hava sıcaklıklarında ve havadaki nem doyma noktasına yaklaştığında; sıcaklık yükseldikçe etki zayıflar", "Yalnızca çok yüksek sıcaklıklarda", "Hava tamamen kuru olduğunda", "Yalnızca vakum kurutucularda", "Nem hiçbir koşulda etkili değildir"], a: 0,
+    e: "Sunum: bu etkiler <b>düşük hava sıcaklıklarında</b> ve havadaki nem <b>doyma noktası yakınlarına</b> ulaştığında önem kazanır, ama <b>sıcaklık yükselmesiyle zayıflamaya</b> başlar. Pratik uygulamalarda makul ölçüde yüksek nem, kurutucu performansını önemli ölçüde sınırlamaz.",
+    n: "Bu yüzden yüksek sıcaklıklı kurutucularda egzoz havasının bir kısmı geri döndürülerek tekrar kullanılabilir; nem artışı performansı fazla düşürmez ama taze havayı ısıtma maliyeti azalır." },
+  { t: 2, s: 23, q: "Sunuma göre ekonomik olması istenen kurutma çalışmalarında hava çıkışında bağıl nem için ne normal kabul edilir?",
+    o: ["%80 bağıl nem", "%5 bağıl nem", "%20 bağıl nem", "%100 bağıl nem (yoğuşma)", "%0 bağıl nem"], a: 0,
+    e: "Sunum: ekonomik olması istenen çalışmalarda <b>hava çıkışında %80 bağıl nem</b> oranlarını görmek gayet normaldir. Isıtılması gereken taze hava miktarını ve kurutucu içindeki hava akış hızını azaltmak için bir kısım sıcak egzoz havasının geri döndürülerek yeniden kullanılması hâlinde bu durumla sık karşılaşılır.",
+    n: "Çıkış havası ne kadar nemliyse, her kg hava o kadar çok su taşımış demektir; yani birim su için ısıtılan hava miktarı azalır. Çok kuru egzoz (ör. %20 bağıl nem) gereğinden fazla taze hava ısıtıldığının göstergesidir." },
+  { t: 2, s: 24, q: "Sunuma göre ıslak yüzey üzerinden geçen hava akış hızının artırılması buharlaşmayı neden artırır?",
+    o: ["Yüksek hızlı hava akımı yüzeydeki düzgün (sınır) tabakanın kalınlığını azaltır; ısı transferi ve buharlaşma hızı artar", "Havanın sıcaklığını düşürdüğü için", "Havanın nemini artırdığı için", "Malzemenin kritik nemini artırdığı için", "Yüzeydeki sınır tabakayı kalınlaştırdığı için"], a: 0,
+    e: "Sunum: ıslak yüzeyden buharlaşma hızı suya ısı akışına ve nemli yüzeydeki düzgün tabaka yoluyla yayılan buhar miktarına bağlıdır. Yüzey üzerinden geçen <b>yüksek akış hızına sahip hava akımı bu düzgün tabakanın kalınlığını azaltır</b> ve ısı transferinin ve buharlaşma hızının artmasını sağlar. Su yüzeyinin ve hava akımının <b>türbülanslı</b> olması da buharlaşmayı artırır.",
+    n: "Hava hızını artırmak fan enerjisini artırır (fan gücü hızın küpüyle artar). Bu yüzden hava hızı, buharlaşma kazancı ile fan maliyeti arasında optimize edilmelidir; özellikle düşen hız periyodunda yüksek hava hızı faydasızdır." },
+  { t: 2, s: 25, q: "Sunuma göre hava akımı ıslak yüzeye teğetsel ve yüzeye dik (normal) olduğunda buharlaşma, hava hızının hangi kuvvetiyle artar?",
+    o: ["Teğetsel akışta n = 0,8; yüzeye normal akışta n = 1,4", "Teğetsel akışta n = 1,4; normal akışta n = 0,8", "Her ikisinde n = 1", "Teğetsel akışta n = 2; normal akışta n = 3", "Her ikisinde n = 0,5"], a: 0,
+    e: "Sunum: ıslak yüzeye göre hava akımının yönü önemlidir. <b>Teğetsel</b> hava akımında buharlaşma hava hızının n'inci kuvvetine kadar yükselir, <b>n = 0,8</b>'dir. Yüzeyde <b>normal</b> hava akımlarında <b>n = 1,4</b> elde edilebilmiştir.",
+    n: "Bu nedenle yüzeye dik çarpan jet nozullu kurutucular (ör. ram makinelerindeki nozullar), aynı hava hızında teğetsel akışa göre çok daha etkilidir." },
+  { t: 2, s: 25, q: "Islak bir yüzey üzerinde teğetsel hava hızı iki katına çıkarılırsa sunumdaki n = 0,8 üssüne göre buharlaşma hızı yaklaşık kaç kat olur?",
+    o: ["≈ 1,74 kat", "2 kat", "≈ 2,64 kat", "≈ 1,4 kat", "4 kat"], a: 0,
+    e: "Buharlaşma ∝ v<sup>n</sup>. Teğetsel akışta n = 0,8: 2<sup>0,8</sup> ≈ <b>1,74</b> kat (≈ %74 artış).",
+    n: "Aynı hız artışı yüzeye dik akışta (n = 1,4) 2<sup>1,4</sup> ≈ 2,64 kat artış sağlar. Ancak fan gücü hızın küpüyle arttığından hız iki katına çıkınca fan gücü ≈ 8 katına çıkar; sabit hız periyodu dışında bu yatırım geri dönmez." },
+
+  // Nem tanımları ve denge nemi
+  { t: 3, s: 26, q: "Sunuma göre kurutma havası ve kurutulacak malzemenin nem miktarı genellikle hangi temele göre ifade edilir?",
+    o: ["Kuru temele göre: kg nem / kg kuru madde veya ağırlıkça kuru maddeye göre yüzde", "Yaş temele göre: kg nem / kg yaş madde", "Hacimce: m³ su / m³ malzeme", "Molce: mol su / mol hava", "Litre su / saat"], a: 0,
+    e: "Sunum: nem miktarı genellikle mutlak birimlerde <b>(kg nem / kg kuru madde)</b> veya <b>(ağırlıkça kuru maddeye göre yüzde)</b> cinsinden ifade edilir. Temel olarak nem yüzdesinde eşit miktarda artış, ağırlıklarda eşit değişiklikler oluşturur. Yaş ağırlığa göre ifadeler nadiren görülür.",
+    n: "Kuru temel pratiktir çünkü kuru madde kurutma boyunca sabit kalır; buharlaşan su miktarı doğrudan (W<sub>k,giriş</sub> − W<sub>k,çıkış</sub>) × kuru madde ile bulunur." },
+  { t: 3, s: 27, q: "Sunumdaki grafik 17.2'ye göre yaş temel nem (W<sub>y</sub>) ile kuru temel nem (W<sub>k</sub>) arasındaki bağıntı hangisidir?",
+    o: ["W<sub>y</sub> = W<sub>k</sub> / (1 + W<sub>k</sub>) ve W<sub>k</sub> = W<sub>y</sub> / (1 − W<sub>y</sub>)", "W<sub>y</sub> = W<sub>k</sub> × (1 + W<sub>k</sub>)", "W<sub>y</sub> = 1 − W<sub>k</sub>", "W<sub>k</sub> = W<sub>y</sub> × (1 − W<sub>y</sub>)", "W<sub>y</sub> = W<sub>k</sub>"], a: 0,
+    e: "Grafik 17.2: <b>W<sub>y</sub> = W<sub>k</sub> / (1 + W<sub>k</sub>)</b>, <b>W<sub>k</sub> = W<sub>y</sub> / (1 − W<sub>y</sub>)</b>. W<sub>y</sub>: kg nem / kg yaş madde; W<sub>k</sub>: kg nem / kg kuru madde.",
+    n: "Grafikte kuru temel nem 0'dan 675'e kadar giderken yaş temel nem 0'dan ≈ %87'ye yaklaşır; yaş temel hiçbir zaman %100'e ulaşamaz, kuru temel ise %100'ü rahatlıkla aşabilir." },
+  { t: 3, s: 27, q: "Kuru temele göre nemi %100 (1 kg nem / kg kuru madde) olan bir malzemenin yaş temele göre nemi yüzde kaçtır?",
+    o: ["%50", "%100", "%200", "%33", "%0"], a: 0,
+    e: "W<sub>y</sub> = W<sub>k</sub> / (1 + W<sub>k</sub>) = 1 / (1 + 1) = 0,5 → <b>%50</b>. Malzemenin yarısı su, yarısı kuru maddedir.",
+    n: "Sunumdaki grafikte de kuru temel %100'e karşılık yaş temel %50 okunur. Pnömatik kurutucuların kuru temele göre %900'e kadar nemli malzemeleri işleyebilmesi, yaş temelde ≈ %90 su demektir." },
+  { t: 3, s: 27, q: "Yaş temele göre %60 nem içeren bir çamurun kuru temele göre nemi kaçtır?",
+    o: ["%150", "%60", "%37,5", "%40", "%240"], a: 0,
+    e: "W<sub>k</sub> = W<sub>y</sub> / (1 − W<sub>y</sub>) = 0,6 / 0,4 = 1,5 → <b>%150</b> (kg nem / kg kuru madde = 1,5).",
+    n: "1 kg çamurda 0,6 kg su ve 0,4 kg kuru madde vardır; 0,6 / 0,4 = 1,5. %37,5 seçeneği formülün ters uygulanmasıdır (0,6 / 1,6)." },
+  { t: 3, s: 27, q: "1.000 kg ıslak ürün yaş temele göre %40 nemden %10 neme kurutulacaktır. Buharlaştırılması gereken su miktarı ne kadardır?",
+    o: ["≈ 333 kg", "300 kg", "400 kg", "≈ 667 kg", "100 kg"], a: 0,
+    e: "Kuru madde = 1.000 × 0,60 = 600 kg (sabit kalır). Son ürün = 600 / 0,90 ≈ 666,7 kg. Buharlaşan su = 1.000 − 666,7 ≈ <b>333 kg</b>.",
+    n: "%40 − %10 = %30 → 300 kg sonucu yanlıştır; çünkü yaş temel yüzdeler farklı toplam kütlelere göredir. Kuru madde dengesinden gitmek veya kuru temele çevirmek (0,667 → 0,111 kg/kg; 600 × 0,556 ≈ 333 kg) güvenli yoldur." },
+  { t: 3, s: 28, q: "Sunuma göre açıkta depolanan nem çekici (higroskopik) bir malzemeyi “nem denge miktarının” altına kadar kurutmak neden enerji kaybıdır?",
+    o: ["Malzeme bir süre sonra atmosferden nem çekerek tekrar denge nemine ulaşacağından, dengenin altına kurutmak için harcanan enerji boşa gider", "Denge neminin altında malzeme yanar", "Denge neminin altına kurutmak mümkün değildir", "Kurutucu bu durumda daha az enerji harcar", "Denge nemi her malzemede sıfırdır"], a: 0,
+    e: "Sunum: açıkta depolanan her nem çekici malzeme bir süre sonra atmosferden nem çekerek veya nem vererek <b>atmosferdeki nem ile dengeye</b> ulaşır. Bu nedenle açıkta depolanan bir malzemeyi bu denge nem miktarının altına kurutmak <b>bir enerji kaybına</b> sebep olur.",
+    n: "Balık, deri, ekin gibi ürünlerin açıkta kurutulması bu dengeye dayanan en geleneksel kurutma yöntemidir. Denge nemi, ortamın sıcaklığı ve bağıl nemine göre değişir." },
+  { t: 3, s: 29, q: "Sunuma göre nemli ortamda hızla bozulmayan malzemelerde kurutmanın, gerekli değerlerden daha yüksek nemde kesilmesi ne sağlar?",
+    o: ["Kurutma süresinin kısalmasını ve önemli miktarda enerji tasarrufunu", "Ürünün hemen bozulmasını", "Kurutucunun kapasitesinin düşmesini", "Ürün ağırlığının sıfırlanmasını", "Enerji tüketiminin artmasını"], a: 0,
+    e: "Sunum: nemli ortamlarda bekletildiğinde hızla bozulmayan malzemelerin, depolama, taşıma veya satış için gerekli nem değerlerine kadar kurutulmayıp daha yüksek nem değerlerinde kurutma işleminin kesilebileceği deneyimlerle görülmüştür. Bu, <b>kurutma süresinin kısalmasını ve önemli miktarda enerji tasarrufunu</b> sağlar.",
+    n: "Son kurutma kısmı (düşen hız periyodu) en yavaş ve birim su başına en pahalı kısımdır. Bu yüzden son nem hedefindeki küçük bir gevşeme orantısız enerji tasarrufu sağlar." },
+  { t: 3, s: 30, q: "Sunumdaki kumaş örneğinde denge nemi %6'dır. Kumaş %4 neme kadar kurutulursa ne olur?",
+    o: ["Kumaş atmosferden nem çekerek %6'ya çıkar; %6'dan %4'e düşürmek için harcanan enerji boşa gider", "Kumaş %4'te sabit kalır", "Kumaş atmosfere nem vererek %2'ye iner", "Kumaş %10'a çıkar ve bozulur", "Enerji tasarrufu sağlanır"], a: 0,
+    e: "Sunum: nem değeri %4 olan kumaş, nem denge değeri <b>%6'ya ulaşıncaya kadar atmosferden nem çekecektir</b>. <b>%6'dan %4'e düşürmek için tüketilen enerji boşa harcanan enerjidir</b>.",
+    n: "Tekstil terbiyesinde ramdan çıkan kumaşın “aşırı kurutulması” yaygın bir enerji kaybıdır. Çıkışa konan nem ölçerle kumaş hızını veya ram sıcaklığını otomatik ayarlamak bu kaybı önler." },
+  { t: 3, s: 31, q: "Sunumdaki kumaş örneğinde denge nemi %6 iken kumaş %10 nemde bırakılırsa ne olur?",
+    o: ["Kumaş atmosfere nem vererek %6'ya iner; %10'dan %6'ya düşürmek için harcanacak enerji tasarruf edilir", "Kumaş %10'da kalır ve bozulur", "Kumaş atmosferden nem çekerek %14'e çıkar", "Kumaşın kurutulması zorunludur, tasarruf olmaz", "Kumaş %0'a iner"], a: 0,
+    e: "Sunum: nem değeri %10 olan kumaş, nem denge değeri <b>%6'ya ulaşıncaya kadar atmosfere nem verecektir</b>. <b>%10'dan %6'ya düşürmek için tüketilmesi gereken enerji tasarruf edilen enerjidir</b>.",
+    n: "Bu yaklaşım, yalnızca ürünün bu arada bozulmadığı ve sonraki işlemlerin nemli ürünü kabul ettiği durumlarda uygulanabilir." },
+  { t: 3, s: 32, q: "Sunuma göre gıda maddeleri gibi koruma amacıyla denge noktasının altına kurutulan maddeler nasıl saklanmalıdır?",
+    o: ["Kontrol edilebilen atmosferik koşullarda veya hava geçirmez kaplarda ya da ortamlarda", "Açık havada, güneş altında", "Nemli depolarda", "Su içinde", "Herhangi bir koşulda saklanabilir"], a: 0,
+    e: "Sunum: gıda maddeleri gibi koruma amacıyla denge noktasının altındaki bir değere kadar kurutulan bazı maddeler, <b>kontrol edilebilen atmosferik koşullarda veya hava geçirmez kaplarda veya ortamlarda</b> saklanmalıdır.",
+    n: "Aksi hâlde ürün atmosferden nem çekerek denge nemine döner; hem kurutma enerjisi boşa gider hem de mikrobiyolojik bozulma riski doğar. Kuru gıda ambalajlarının nem bariyerli olması bu yüzdendir." },
+  { t: 3, s: 33, q: "Sunumdaki tabloya göre (25 °C, ≈ %55 bağıl nem) aşağıdaki malzemelerden hangisinin nem denge miktarı en yüksektir?",
+    o: ["Nem çekici pamuk (%18,5)", "Kauçuk (%0,6)", "Naylon (%3,1)", "Kâğıt, gazete kâğıdı (%5,3)", "Un (%8,0)"], a: 0,
+    e: "Nem denge değerleri (% kuru temel): kauçuk 0,6; orlon 1,4; naylon 3,1; keten giyecek 5,1; kâğıt 5,3; pamuklu giyecek 6,0; beyaz ekmek 6,2; un 8,0; odun (ort.) 9,2; sabun 10,0; yün 12,8; deri 16,0; <b>nem çekici pamuk 18,5</b>.",
+    n: "Sentetik lifler (orlon, naylon) az nem tutar; doğal lifler (pamuk, yün) ve deri çok nem tutar. Sentetik elyafın kurutulması bu yüzden daha az enerji ister." },
+  { t: 3, s: 33, q: "Sunumdaki tabloya göre pamuklu giyeceklerin ve yünün nem denge miktarları kaçtır?",
+    o: ["Pamuklu giyecek %6,0; yün %12,8", "Pamuklu giyecek %12,8; yün %6,0", "Pamuklu giyecek %0,6; yün %1,4", "Pamuklu giyecek %18,5; yün %16,0", "Her ikisi de %10"], a: 0,
+    e: "Tablo: <b>pamuklu giyecekler %6,0</b>, <b>yün %12,8</b> (% kuru temel, 25 °C ve %50 doygunluk ≈ %55 bağıl nem).",
+    n: "Sunumdaki kumaş örneğinde kullanılan %6 denge nemi, tablodaki pamuklu giyecek değeriyle aynıdır." },
+
+  // Psikrometrik diyagram ve kurutucu verimi
+  { t: 4, s: 35, q: "Sunuma göre psikrometrik diyagramlar hangi koşullar için hazırlanmıştır?",
+    o: ["0 °C sıcaklık ve normal atmosfer basıncı (1013,25 mbar)", "100 °C ve 10 bar", "25 °C ve 500 mbar", "−162 °C ve 1 atm", "20 °C ve vakum"], a: 0,
+    e: "Sunum: psikrometrik diyagramlar iyi okunduğunda pratik amaçlar için oldukça yüksek doğruluk sağlar; grafikler <b>0 °C sıcaklık ve normal atmosfer basıncı (1013,25 mbar)</b> için hazırlanmıştır.",
+    n: "Rakımı yüksek yerlerde atmosfer basıncı düşük olduğundan standart diyagram küçük hatalar verir; hassas hesaplarda yerel basınca göre düzeltme yapılır." },
+  { t: 4, s: 37, q: "Aşağıdakilerden hangisi sunuma göre psikrometrik diyagramlarda gösterilen özelliklerden biri <b>değildir</b>?",
+    o: ["Malzemenin kritik nem miktarı", "Yaş termometre sıcaklığı", "Yüzde doygunluk", "Hava–nem karışımının özgül hacmi", "Çiğlenme noktası"], a: 0,
+    e: "Diyagramlarda gösterilenler: <b>kuru termometre sıcaklığı, yaş termometre sıcaklığı, nem miktarı, yüzde doygunluk, hava–nem karışımının toplam enerjisi, özgül hacmi, çiğlenme noktası, buhar basıncı</b>. Kritik nem ise kurutulan malzemenin özelliğidir, havanın değil.",
+    n: "Psikrometrik diyagram yalnızca nemli havanın hâlini tanımlar. Kurutma hesabında havanın girişteki ve çıkıştaki hâli diyagramdan okunur; aradaki nem farkı, her kg kuru havanın taşıdığı suyu verir." },
+  { t: 4, s: 38, q: "Sunuma göre psikrometrik diyagramdaki “doygunluk eğrisi” neyi gösterir?",
+    o: ["Herhangi bir kuru termometre sıcaklığında 1 kg kuru havanın taşıyabileceği maksimum su buharı miktarını", "Havanın özgül hacmini", "Malzemenin denge nemini", "Havanın yoğunluğunu", "Kurutucunun verimini"], a: 0,
+    e: "Sunum: <b>doygunluk eğrisi</b>, herhangi bir kuru termometre sıcaklığında <b>1 kg kuru havanın taşıyabileceği maksimum su buharı miktarını</b> gösterir. <b>Çiğlenme noktası</b>, verilen nem miktarında havanın soğutulduğunda doygun hâle geleceği sıcaklıktır; bu eğri doygunluk eğrisiyle çakışır.",
+    n: "Çiğlenme noktası pratikte önemlidir: kurutucu egzoz kanallarında yüzey sıcaklığı egzoz havasının çiğlenme noktasının altına inerse yoğuşma ve korozyon olur." },
+  { t: 4, s: 39, q: "Sunuma göre yaş termometre sıcaklığı nasıl tanımlanır?",
+    o: ["Açık su yüzeyinde havadan suya verilen ısının, buharlaşan suyun gizli ısısıyla havaya geri verilen ısıya eşit olduğu dinamik denge sıcaklığı", "Havanın soğutulduğunda doygun hâle geldiği sıcaklık", "Suyun kaynama sıcaklığı", "Havanın ölçülen olağan sıcaklığı", "Malzemenin yüzey sıcaklığının en yüksek değeri"], a: 0,
+    e: "Sunum: <b>yaş termometre sıcaklığı</b>, atmosfere açık bir su yüzeyinin, havadan suya verilen ısı miktarının, buharlaşan su tarafından (gizli ısı yoluyla) havaya geri verilen ısı miktarına <b>eşit olduğu anda</b> ulaştığı <b>dinamik denge sıcaklığı</b>dır. Hava doygunluğa ulaştığında buharlaşma olmaz ve kuru ve yaş termometre sıcaklıkları eşit olur.",
+    n: "Sabit hızda kurutma periyodunda ıslak malzeme yüzeyi yaklaşık yaş termometre sıcaklığında kalır. Bu yüzden ısıya duyarlı ürünler sıcak havayla kurutulabilir: yüzey, hava sıcaklığına değil yaş termometre sıcaklığına yakındır." },
+  { t: 4, s: 40, q: "Sunuma göre “yaş termometre alçaklığı” nedir ve hava akımının yüzde doygunluğu düşürülürse ne olur?",
+    o: ["Kuru ve yaş termometre sıcaklıkları arasındaki farktır; doygunluk düşerse havanın su buharı alma kapasitesi artar, yaş termometre sıcaklığı düşer ve fark büyür", "Yaş termometre sıcaklığı ile çiğlenme noktası toplamıdır; doygunluk düşerse fark sıfırlanır", "Kuru termometre sıcaklığının iki katıdır", "Havanın özgül hacmidir", "Doygunluk düşerse yaş termometre sıcaklığı yükselir"], a: 0,
+    e: "Sunum: hava akımının yüzde doygunluğu düşürülürse su buharı alma kapasitesi artar ve <b>yaş termometre sıcaklığı düşer</b>. Kuru ve yaş termometre sıcaklıkları arasındaki fark <b>yaş termometre alçaklığı</b> olarak ifade edilir. Hava tamamen kuru olursa bu fark teorik maksimuma ulaşır ama pratikte bu değer elde edilemez.",
+    n: "Yaş termometre alçaklığı, havanın kurutma potansiyelinin basit bir göstergesidir: fark büyükse hava “aç”tır ve çok nem alabilir; fark sıfıra yaklaşırsa hava doymuştur." },
+  { t: 4, s: 41, q: "Sunuma göre hava–nem karışımının toplam enerjisi (entalpisi) neyi içerir?",
+    o: ["1 kg kuru havanın duyulur ısısını, karışımdaki su buharının enerjisini ve buhar kızgınsa kısmi basıncından gelen enerjiyi", "Yalnızca kuru havanın duyulur ısısını", "Yalnızca suyun buharlaşma ısısını", "Fanın elektrik enerjisini", "Malzemenin kimyasal enerjisini"], a: 0,
+    e: "Sunum: hava–nem karışımının toplam enerjisi veya entalpisi, <b>1 kg kuru havanın duyulur ısısı</b>, bu karışımdaki <b>su buharının enerjisi</b> ve eğer kızgın buhar ise <b>onun kısmi basıncından</b> oluşan toplam enerjidir. Doygunluk eğrisi üzerindeki noktada buharın kızgın olması söz konusu değildir.",
+    n: "Birim “kJ / kg kuru hava” veya “kcal / kg kuru hava”dır; yani entalpi, nemli havanın toplam kütlesine değil içindeki kuru havaya göre verilir." },
+  { t: 4, s: 42, q: "Sunuma göre psikrometrik diyagramlarda toplam enerji doğrularının yaş termometre doğrularına paralel gösterilmesi hangi sıcaklıkların altında büyük hata oluşturmaz?",
+    o: ["45 °C", "100 °C", "200 °C", "0 °C", "10 °C"], a: 0,
+    e: "Sunum: basitlik açısından diyagramlarda doygun havanın toplam enerjisi yaş termometre doğrularına paralel doğrular hâlinde gösterilmiştir. <b>45 °C'nin altındaki</b> değerler için bu büyük hata oluşturmaz; ancak pek çok kurutma probleminde yüksek sıcaklıklar söz konusu olduğundan <b>gerçek toplam enerji doğrularının</b> belirtilmesi gerekir.",
+    n: "Kurutucularda hava sıklıkla 80–200 °C'ye ısıtıldığı için iklimlendirme amaçlı standart diyagramlar yerine yüksek sıcaklık psikrometrik diyagramları kullanılmalıdır." },
+  { t: 4, s: 43, q: "Sunuma göre psikrometrik diyagramlarda “özgül hacim” nedir?",
+    o: ["1 kg kuru hava içeren hava–nem karışımının m³ olarak hacmi", "1 m³ havadaki su miktarı", "1 kg suyun buhar hâlindeki hacmi", "Kurutucunun iç hacmi", "1 kg malzemenin hacmi"], a: 0,
+    e: "Sunum: psikrometrik diyagramlarda kullanılan görünür <b>özgül hacim, 1 kg kuru hava ihtiva eden hava–nem karışımının m³ olarak hacmidir</b>.",
+    n: "Fan debisi m³/h olarak verildiği için kütlesel hava debisine (kg kuru hava/h) geçmek için bu özgül hacme bölünür. Sıcak havanın özgül hacmi büyüktür; aynı fan sıcak tarafta daha az kütle taşır." },
+  { t: 4, s: 44, q: "Sunuma göre kurutma işlemlerinde ısı enerjisi hangi amaçlarla kullanılır?",
+    o: ["Giren havanın ısıtılması, malzemenin ısıtılması, malzemedeki suyun ısıtılıp buharlaştırılması ve yüzey kayıplarının karşılanması", "Yalnızca suyun buharlaştırılması", "Yalnızca havanın ısıtılması", "Yalnızca fanların çalıştırılması", "Yalnızca aydınlatma"], a: 0,
+    e: "Sunum: ısı enerjisi 1) kurutucuya giren <b>havanın</b> sıcaklığının yükseltilmesi, 2) kurutulacak <b>malzemenin</b> sıcaklığının yükseltilmesi, 3) malzemedeki <b>suyun</b> sıcaklığının yükseltilmesi ve buharlaştırılması, 4) kurutucu yüzeyinden radyasyon, konveksiyon, kaçaklar gibi <b>ısı kayıplarının</b> karşılanması için kullanılır.",
+    n: "Pratikte en büyük kayıp genellikle 1. kalemdir: ısıtılıp egzozla atılan hava. Egzoz debisini azaltmak (geri dönüşü artırmak) ve egzozdan ısı geri kazanmak bu yüzden en etkili önlemlerdir." },
+  { t: 4, s: 45, q: "Sunuma göre kurutucunun ısıl verimi nasıl hesaplanır?",
+    o: ["Malzemedeki suyun ısıtılması ve buharlaştırılması için harcanan enerji (3) / toplam enerji (1 + 2 + 3 + 4)", "Havanın ısıtılması için harcanan enerji / toplam enerji", "Toplam enerji / suyun buharlaştırılması için harcanan enerji", "Yüzey kayıpları / toplam enerji", "Malzemenin ısıtılması / suyun buharlaştırılması"], a: 0,
+    e: "Sunum: bu alanlardan sadece 3.'sü, yani <b>kurutulacak malzemedeki suyun sıcaklığının yükseltilmesi ve buharlaştırılması</b> için tüketilen enerji yararlıdır. Isıl verim = <b>3 / (1 + 2 + 3 + 4)</b>.",
+    n: "Malzemenin ısıtılması (2) bu tanımda yararlı sayılmaz; ürün kurutucudan sıcak çıkıp ortamda soğur. Bu yüzden ürünün çıkış sıcaklığını düşük tutmak ve sıcak ürünün ısısını gelen ıslak ürüne aktarmak da verim önlemidir." },
+  { t: 4, s: 45, q: "Bir kurutucuda saatlik enerji dağılımı şöyledir: giren havanın ısıtılması 400 kW, malzemenin ısıtılması 50 kW, suyun ısıtılıp buharlaştırılması 450 kW, yüzey kayıpları 100 kW. Sunumdaki tanıma göre kurutucunun ısıl verimi kaçtır?",
+    o: ["%45", "%50", "%90", "%40", "%55"], a: 0,
+    e: "Isıl verim = 3 / (1 + 2 + 3 + 4) = 450 / (400 + 50 + 450 + 100) = 450 / 1.000 = <b>%45</b>.",
+    n: "%50 seçeneği malzemenin ısıtılmasını da yararlı sayar (500 / 1.000). En büyük kayıp kalemi egzozla atılan sıcak havadır (400 kW); egzozun bir kısmını geri döndürmek veya ısı geri kazanımıyla bu kalemin yarısı bile kazanılsa verim %55'in üzerine çıkar." },
+
+  // Kurutucuların sınıflandırılması ve tipleri
+  { t: 5, s: 47, q: "Sunuma göre kurutucular hangi iki ana grupta toplanır?",
+    o: ["Konveksiyon (direkt) tipi kurutucular ve kondüksiyon (kontakt, indirekt) tipi kurutucular", "Elektrikli ve gazlı kurutucular", "Küçük ve büyük kurutucular", "Yatay ve dikey kurutucular", "Açık ve kapalı kurutucular"], a: 0,
+    e: "Sunum: kurutucuları iki ana grupta toplamak mümkündür: <b>konveksiyon tipi kurutucular</b> ve <b>kondüksiyon veya kontakt tip kurutucular</b>. Bunlara ilave olarak <b>radyant ısılı</b> ve <b>dielektrik veya mikrodalga</b> kurutuculardan da bahsedilir.",
+    n: "Sunum bu sınıflandırmanın tercihe dayalı olduğunu ve bazı kurutucuların (ör. silindir kurutucu + sıcak gaz davlumbazı) birkaç tipin birleşimi olabileceğini de belirtir." },
+  { t: 5, s: 47, q: "Sunuma göre konveksiyon tipi kurutuculara neden “direkt tip” de denir?",
+    o: ["Buharlaşmayı sağlayan hava veya sıcak gazlar malzemeye doğrudan çarptırılır veya temas ettirilir; buharlaşan nem bu akımla uzaklaştırılır", "Malzeme ısıtılmış metal yüzey üzerinde durur", "Isı elektrik alanında üretilir", "Malzeme vakum altında kurur", "Isı yalnızca radyasyonla verilir"], a: 0,
+    e: "Sunum: konveksiyon tipi kurutucularda buharlaşmayı sağlayan akışkan, genellikle <b>hava veya sıcak gazlar</b>, kurutulacak malzeme üzerine <b>doğrudan çarptırılır veya temas ettirilir</b> ve buharlaşan nem bu hava veya gaz akımıyla uzaklaştırılır. Örnek: kurutma odaları, pnömatik, spray, tünel tipi kurutucular.",
+    n: "Konveksiyon kurutucularında havanın iki görevi vardır: ısı getirmek ve nemi götürmek. Bu yüzden egzoz havası kaçınılmaz bir kayıp kaynağıdır; kontakt kurutucularda ise nemi götürmek için çok daha az hava yeter." },
+  { t: 5, s: 48, q: "Sunuma göre kondüksiyon (kontakt) tip kurutuculara örnek hangisidir?",
+    o: ["Kâğıt makinelerindeki ve boya–baskı makinelerindeki kurutucu silindirler", "Spray kurutucular", "Tünel kurutucular", "Pnömatik kurutucular", "Kurutma odaları"], a: 0,
+    e: "Sunum: kondüksiyon veya kontakt tip (indirekt) kurutucularda buharlaştırma, ıslak malzemenin üzerinde durduğu bir <b>plaka veya metal duvar</b> vasıtasıyla gerçekleşir. Örnek: <b>kâğıt makinelerindeki kurutucu silindirler</b>, <b>boya–baskı makinelerindeki kurutucu silindirler</b> gibi sürekli levha veya tabaka türü malzeme kurutan sistemler.",
+    n: "Bu grupta ısıtıcı akışkan neredeyse tamamen indirekt kullanılır: çoğunlukla buhar, sıcak su, kızgın yağ, pek az uygulamada sıcak yanma gazları." },
+  { t: 5, s: 50, q: "Sunuma göre konveksiyon tipi kurutucularda ısıtıcı akışkanın indirekt ısıtılması hangi durumda tercih edilir; direkt ısıtmaya örnek nedir?",
+    o: ["Malzemenin kirlenmesinin istenmediği kumaş kurutmada indirekt; gübre sanayiindeki döner kurutucularda direkt ısıtma", "Gübre kurutmada indirekt; kumaş kurutmada direkt", "Her durumda yalnızca direkt ısıtma", "Her durumda yalnızca indirekt ısıtma", "Gıda kurutmada yanma gazıyla direkt ısıtma zorunludur"], a: 0,
+    e: "Sunum: ısıtıcı akışkan (hava) buhar, sıcak su veya kızgın yağ kullanılan bir ısı aktarım ünitesinde <b>indirekt</b> ya da yanma odasından elde edilen sıcak gazlarla <b>direkt</b> ısıtılabilir. İndirekt ısıtma örneğin <b>kumaş kurutma</b> gibi <b>malzemenin kirlenmesinin istenmediği</b> alanlarda; direkt ısıtma örneğin <b>gübre sanayiinde döner tip kurutucularda</b> uygundur.",
+    n: "Direkt ısıtma eşanjör kaybı olmadığı için daha verimlidir; temiz yanan doğal gazla tekstil ramlarında da doğrudan gazlı brülörler yaygınlaşmıştır. Ürün kalitesi izin veriyorsa direkt ısıtma enerji açısından avantajlıdır." },
+  { t: 5, s: 52, q: "Sunuma göre dielektrik ve mikrodalga kurutucularda kullanılan frekans aralıkları hangileridir?",
+    o: ["Radyo frekansı 10–300 MHz, mikrodalga 300–3.000 MHz", "50–60 Hz", "1–10 kHz", "3–30 GHz ve 30–300 GHz", "100–1.000 Hz"], a: 0,
+    e: "Sunum: dielektrik veya mikrodalga kurutucularda ısı, <b>MHz radyo (10–300 MHz)</b> ve <b>mikrodalga (300–3.000 MHz)</b> frekanslarında alternatif akımlı elektrik alanına konmuş, ayrık parçacıklı yapıdaki malzemelerin kütlelerinde üretilir.",
+    n: "Ev tipi mikrodalga fırınlar 2.450 MHz'de çalışır; bu, sunumdaki mikrodalga aralığının içindedir. Bu yöntemde ısı malzemenin içinde üretildiği için nem içeriden dışarı itilir; kalın ürünlerde düşen hız periyodunu kısaltır." },
+  { t: 5, s: 54, q: "Sunuma göre dielektrik / mikrodalga kurutmada buharlaşma nasıl gerçekleşir ve yöntem hangi malzemelere uygulanabilir?",
+    o: ["Alternatif alanda su molekülleri titreşir ve oluşan ısıyla buharlaşma olur; yalnızca iletken olmayan malzemelere uygulanır, sentetik elyaf için özellikle uygundur", "Malzeme sıcak plaka üzerinde ısınır; yalnızca metallere uygulanır", "Sıcak gaz malzemeye çarptırılır; her malzemeye uygulanır", "Malzeme vakumda dondurulur; yalnızca gıdalara uygulanır", "Kızılötesi lambalarla yüzey ısıtılır; yalnızca boyalı yüzeylere uygulanır"], a: 0,
+    e: "Sunum: alternatif alanda <b>su molekülleri titreşmeye başlar</b> ve bu hareket sonucunda oluşan ısıyla buharlaşma gerçekleşir. Bu metot <b>sadece iletken olmayan malzemelere</b> uygulanabilir; örneğin <b>sentetik elyaf</b> gibi bazı malzemeler için özellikle uygundur.",
+    n: "Isı doğrudan suda üretildiği için seçicidir: kuru kısımlar az ısınır, nemli kısımlar çok ısınır. Ancak elektrik enerjisi kullandığından birim enerji maliyeti yüksektir; genellikle son kurutma veya özel ürünlerde tercih edilir." },
+  { t: 5, s: 57, q: "Sunuma göre yeni bir kurutma tesisi kurma kararında ve mevcut kurutucularda neye dikkat edilmelidir?",
+    o: ["Yatırım, işletme, bakım–onarım ve enerji maliyetleri yüksek olduğundan ekonomik değerlendirme yapılmalı; mevcut kurutucuların ısıl verimi ve üretim miktarının çoğunlukla artırılabildiği unutulmamalı", "Yalnızca en ucuz kurutucu seçilmeli", "Mevcut kurutucular hiçbir şekilde iyileştirilemez", "Enerji maliyeti dikkate alınmamalı", "Kurutucu seçimi yalnızca renge göre yapılmalı"], a: 0,
+    e: "Sunum: kurutma tesisi önemli <b>yatırım</b> gerektirdiği gibi <b>işletim, bakım–onarım ve enerji tüketim maliyetleri</b> de yüksektir; yeni tesis kararında tüm faktörler göz önüne alınarak <b>ekonomik değerlendirme</b> yapılmalıdır. <b>Mevcut kurutucuların ısıl veriminin ve üretim miktarının pek çok kurutucuda artırılabildiği</b> hiçbir zaman unutulmamalıdır.",
+    n: "Yeni kurutucu almadan önce mevcut kurutucuda egzoz debisi, geri dönüş oranı, yalıtım, sızdırmazlık ve son nem hedefi gözden geçirilmelidir; bu düşük maliyetli önlemler çoğu zaman kapasite sorununu da çözer." },
+  { t: 5, s: 58, q: "Sunumdaki tabloya göre aşağıdaki konveksiyon tipi kurutuculardan hangisi <b>kesikli</b> işletilir?",
+    o: ["Kabin (dolap) tipi / tepsili kurutucular", "Konveyör (bantlı) kurutucular", "Döner kurutucular", "Spray kurutucular", "Pnömatik kurutucular"], a: 0,
+    e: "Tablo (konveksiyon tipi): kurutma odaları kesikli, sürekli, yarı sürekli; <b>kabin (dolap) tipi / tepsili: kesikli</b>; konveyör (bantlı) sürekli; tünel sürekli, yarı sürekli; döner, düşey silindirik, spray, hava süpürmeli döner ve pnömatik kurutucular sürekli.",
+    n: "Kesikli kurutucularda her partide kurutucu gövdesi ısıtılıp soğutulur; bu, sürekli kurutuculara göre ek enerji kaybıdır. Buna karşılık küçük partili ve çok çeşitli ürünlerde esneklik sağlar." },
+  { t: 5, s: 59, q: "Sunumdaki tabloya göre kondüksiyon (kontakt) tip kurutucuların işletim prensipleri nasıldır?",
+    o: ["Silindirli kurutucular sürekli; vakum kurutucular ve soğutmalı–dondurmalı kurutucular kesikli", "Hepsi sürekli", "Hepsi kesikli", "Silindirli kesikli; vakum sürekli", "Soğutmalı–dondurmalı sürekli; silindirli yarı sürekli"], a: 0,
+    e: "Tablo (kondüksiyon veya kontakt tip): <b>silindirli kurutucular sürekli</b>; <b>vakum kurutucular kesikli</b>; <b>soğutmalı–dondurmalı kurutucular kesikli</b>.",
+    n: "Vakum kurutucuların çoğunlukla kesikli olmasının nedeni, sürekli besleme ve boşaltmada vakumu korumak için çok iyi sızdırmazlık elemanları gerekmesidir." },
+  { t: 5, s: 62, q: "Sunuma göre kurutma odalarında maksimum ısıl verim için hava nasıl kullanılır?",
+    o: ["Odayı dolaşan nemli sıcak hava alınır, nemi bir miktar giderilir, ısıtılıp odaya geri gönderilir; bir miktar nemli hava atılıp yerine taze hava alınarak nem kontrolü sağlanır", "Hava bir kez kullanılıp tamamen atılır", "Odaya hiç hava verilmez", "Yalnızca soğuk taze hava kullanılır", "Hava nemlendirilerek odaya verilir"], a: 0,
+    e: "Sunum: maksimum ısıl verim için odayı dolaştıktan sonra <b>nemli sıcak hava alınır, nemi bir miktar giderilir, ısıtılır ve odaya geri gönderilerek yeniden kullanılır</b>. <b>Bir miktar nemli havanın dışarı kaçmasına ve yerine taze hava girmesine</b> izin verilerek nem kontrolü sağlanır.",
+    n: "Kurutma odaları tuğla, inşaat malzemesi, ahşap levha, sentetik elyaf levha ve dökümhane toprağı gibi hacimli malzemeler için uygundur. Malzemenin simetrik ve düzgün yerleştirilmesi her parçanın havayla en geniş yüzeyde temasını sağlar." },
+  { t: 5, s: 71, q: "Sunuma göre tünel kurutucularda malzeme nasıl hareket ettirilir?",
+    o: ["Tekerlekli arabalar üzerinde istiflenir; kuruyan araba dışarı itilir, diğerleri bir kademe ilerler ve girişe yeni nemli araba alınır", "Yürüyen bant üzerinde serilir", "Atomize edilerek sıcak gaz odasına püskürtülür", "Dönen yatay silindir içinde savrulur", "Dönen buharlı silindire sıvanır"], a: 0,
+    e: "Sunum: tünel kurutucular bantlı kurutuculara benzer, fakat malzeme <b>tekerlekli bir taşıyıcı (araba) üzerine istiflenir</b> ve tünel boyunca hareket ettirilir. Bir arabadaki malzeme kuruyunca dışarı itilir, <b>diğer arabalar bir kademe ilerletilir</b> ve girişte boşalan yere nemli malzeme taşıyan yeni bir araba alınır.",
+    n: "Bantlı kurutucuda ise malzeme yürüyen bant üzerine serilir; sıcak gaz uçtan uca ya da elek gibi delikli bandın içinden aşağıdan yukarı veya yukarıdan aşağı geçirilebilir." },
+  { t: 5, s: 74, q: "Sunuma göre tek cidarlı (basit) döner kurutucuda içteki savurucu kanatçıkların görevi nedir?",
+    o: ["Kurutmanın her yerde aynı olması için malzemeyi döndürmek, kaldırıp sıcak gaz akımı içine savurmak", "Sıcak gazı soğutmak", "Malzemeyi öğütüp toz hâline getirmek", "Silindiri yerinde sabitlemek", "Vakum oluşturmak"], a: 0,
+    e: "Sunum: içinde boylamasına raf benzeri savurucu kanatçıklar bulunan, çıkışa doğru hafif eğimli yatay bir silindirdir. Malzeme üstten beslenir; silindir döndükçe <b>kanatçıklar malzemeyi alır, üst kısma çıkarır ve sıcak kurutucu gazların içine bırakır (savurur)</b>; böylece kurutma her yerde aynı olur.",
+    n: "Çift cidarlı döner kurutucuda ise gaz iç silindirde ileri gidip iki silindir arasında geri döner ve emiş fanıyla atılır; malzeme iki silindir arasına yanma bölmesi tarafından beslenir. Gaz yolu uzadığı için ısıdan daha iyi yararlanılır." },
+  { t: 5, s: 92, q: "Sunuma göre spray kurutucular hangi malzemeler için kullanılır ve hızlı kurutmayı ne sağlar?",
+    o: ["Sıvılar ve çok su içeren koyu karışımlar; atomize edilmiş taneciklerin çok büyük toplam yüzey alanı ve sıcak gaz içindeki hareketi", "Kereste ve tuğla; uzun kalma süresi", "Kâğıt ve kumaş; ısıtılmış silindirler", "Kömür ve kireç taşı; öğütme", "Patlayıcılar; vakum"], a: 0,
+    e: "Sunum: spray kurutucular <b>sıvılar ve çok su içeren koyu karışımların</b> kurutulması için kullanılır. Sıvı, sıcak gazların dolaştığı bir odaya <b>atomize hâlde püskürtülür</b>; taneciklerin <b>toplam yüzey alanı çok büyüktür</b> ve hareketleriyle birleşince hızlı kurutma için ideal ortam oluşur.",
+    n: "Süt tozu, hazır kahve ve deterjan tozu spray kurutmanın klasik ürünleridir. Kuruma saniyeler içinde olduğu için ısıya duyarlı ürünler de bu yöntemle kurutulabilir." },
+  { t: 5, s: 93, q: "Sunuma göre spray kurutucularda atomizasyon ile ilgili hangi önlemler önemlidir?",
+    o: ["Atomize olan tanecikler eşit büyüklükte olmalı; memeler ve sıvı iletim boruları, taneciklerin dağılmadan kurumasını önlemek için soğuk hava kanallarıyla sarılmalı", "Tanecikler mümkün olduğunca farklı büyüklükte olmalı", "Memeler sıcak gaz kanallarıyla sarılmalı", "Sıvı atomize edilmeden dökülmeli", "Sıvı önceden dondurulmalı"], a: 0,
+    e: "Sunum: tatminkâr sonuç için püskürtülen sıvının atomize olduğunda <b>eşit büyüklükte tanecikler</b> oluşturması çok önemlidir; aksi hâlde kurutma her tarafta eşit olmaz. Atomize taneciklerin yeterince dağılmadan kurumasını önlemek için <b>memeler veya sıvı iletim boruları soğuk hava kanallarıyla sarılmalıdır</b>.",
+    n: "Farklı büyüklükteki taneciklerde küçükler fazla kurur (hatta yanar), büyükler nemli kalıp duvarlara yapışır. Meme tıkanması ve aşınması bu yüzden düzenli kontrol edilmelidir." },
+  { t: 5, s: 97, q: "Sunuma göre hava süpürmeli döner değirmenlerin özelliği nedir ve nerelerde kullanılır?",
+    o: ["Öğütme / pülverize etme ve kurutmayı aynı anda yapar; tarımsal kireç, tebeşir tozu, çimento fırını hammaddesi ve pülverize kömür hazırlamada kullanılır", "Yalnızca sıvıları kurutur; süt tozu üretiminde kullanılır", "Vakum altında çalışır; patlayıcıların kurutulmasında kullanılır", "Tekerlekli arabalarla çalışır; tuğla kurutmada kullanılır", "Isıtılmış plakalarla çalışır; mobilya kaplamada kullanılır"], a: 0,
+    e: "Sunum: bazı malzemelerin hem pülverize hâle getirilmesi hem de kurutulması gerekir; hava süpürmeli döner değirmenler <b>bu iki prosesi aynı anda</b> gerçekleştirir. Örnekler: <b>tarımsal kireç veya tebeşir taşından tebeşir tozu</b>; <b>çimento fırınlarına hammadde hazırlama</b>; <b>pülverize kömür hazırlama</b>.",
+    n: "Çimento fabrikalarında bu değirmenlerin sıcak gazı çoğunlukla fırın veya klinker soğutucu atık gazıdır; böylece kurutma ek yakıt gerektirmeden atık ısıyla yapılır." },
+  { t: 5, s: 100, q: "Sunuma göre pnömatik (flaş) tip kurutucular kuru temele göre hangi nem aralığındaki malzemeler için kullanılır?",
+    o: ["%3'ten %900'e kadar", "%0–1", "%50–60", "%1.000'in üzeri", "Yalnızca %100"], a: 0,
+    e: "Sunum: pnömatik veya flaş tip kurutucular kimyasal malzemeler, kil veya kentsel atıklardan elde edilen çamurlar gibi <b>kuru temele göre %3'ten %900'e kadar</b> geniş bir aralıkta nem içeren malzemelerin kurutulmasında kullanılır. Ayrıca özellikle <b>aşındırıcı olmayan, ısıya duyarlı</b> malzemeler için uygundur.",
+    n: "Pnömatik kurutucuda tanecikler sıcak gaz akımında taşınırken saniyeler içinde kurur; ardından siklon veya torba filtreyle gazdan ayrılır. Kısa temas süresi ısıya duyarlı ürünleri korur." },
+  { t: 5, s: 103, q: "Sunumda tekstil ram (stenter) makinesinin baca egzoz ölçümünde 1. bacada O<sub>2</sub> = %19,8, kuru termometre 168,9 °C, yaş termometre 56,1 °C ölçülmüştür. Bu değerler neyi gösterir?",
+    o: ["Egzozun büyük ölçüde ısıtılmış havadan oluştuğunu; egzoz debisinin azaltılması ve egzoz ısısının geri kazanılması için önemli potansiyel olduğunu", "Ram makinesinin hiç hava kullanmadığını", "Egzozun doymuş olduğunu ve daha fazla nem alamayacağını", "Egzozun tamamen yanma gazından oluştuğunu", "Egzoz sıcaklığının ortam sıcaklığına eşit olduğunu"], a: 0,
+    e: "Sunumdaki ölçüm: 1. baca 7.626,4 m³/h, kuru 168,9 °C, yaş 56,1 °C, O<sub>2</sub> %19,8; 2. baca 7.977,8 m³/h, 177,3 °C, yaş 48,0 °C, O<sub>2</sub> %19,8; ortam kuru 32,5 °C, yaş 23,6 °C. O<sub>2</sub>'nin havadakine (%21) çok yakın olması ve kuru–yaş farkının büyüklüğü, egzozun <b>nemce doymaktan uzak, ısıtılmış havadan</b> oluştuğunu gösterir.",
+    n: "Ram egzozları ≈ 170 °C ve doymaktan uzak olduğundan, egzoz debisini nem kontrolüyle azaltmak ve hava–hava eşanjörüyle taze havayı ön ısıtmak tekstilde en yaygın ve geri ödemesi kısa önlemlerdir." },
+  { t: 5, s: 111, q: "Sunuma göre film kurutucular hangi malzemeler için kullanılır ve kurutma nasıl gerçekleşir?",
+    o: ["Süt, patates püresi, maya, nişasta, kan, jelatin gibi macunumsu, lapa benzeri malzemeler ve sıvılar; buharla ısıtılan dönen silindirde turun 1/2 veya 3/4'ünde kurur ve sıyrılarak alınır", "Tuğla ve kereste; tekerlekli arabalarda kurur", "Kömür ve kireç; öğütülerek kurur", "Kumaş; nozullardan üflenen sıcak havayla kurur", "Patlayıcılar; vakumda kurur"], a: 0,
+    e: "Sunum: film kurutucular <b>macunumsu, lapa benzeri yumuşak malzemelerin ve sıvıların</b> (süt, patates püresi, maya, nişasta, kan, jelatin, kimyasallar, tanin) kurutulmasında kullanılır. Malzeme <b>buharla ısıtılan dönen bir silindir</b> üzerine beslenir veya sıvanır; silindirin bir turunun <b>yarısı veya 3/4'ü</b> kadar sürede kurur ve ince tabaka, parçacık veya toz hâlinde <b>sıyrılarak alınır</b>.",
+    n: "Film kurutucu kontakt tiptir: ısı silindir yüzeyinden iletimle geçer, havaya ihtiyaç azdır. Bu yüzden ısıl verimi konveksiyon kurutuculara göre genellikle yüksektir." },
+  { t: 5, s: 115, q: "Sunuma göre mukavva ve kâğıt üretiminde kâğıt hamuru hangi basınçta buharla içeriden ısıtılan silindirler üzerinde kurutulur?",
+    o: ["1–2 bar(g) düşük basınçlı buhar", "20–30 bar kızgın buhar", "Vakum (−0,9 bar)", "100 bar kızgın su", "Atmosferik sıcak hava"], a: 0,
+    e: "Sunum: suyu uzaklaştırılmış kâğıt hamuru genellikle <b>1–2 (g) bar basınçta düşük basınçlı buharla</b> içeriden ısıtılan bir seri dönen silindir üzerine beslenir; film hâlindeki hamur silindirlerin üstünden ve altından geçerken önce bir yüzü, sonra diğer yüzü ısınır ve kurur. Tekstil sanayiinde de benzer işlemler vardır.",
+    n: "Silindirlerin içinde biriken kondensin iyi tahliye edilmesi (sifon ve buhar kapanı) ısı transferi için kritiktir; su dolu silindir ısıyı iletmez. Kurutma bölümünün davlumbaz egzozundan ısı geri kazanımı kâğıt fabrikalarında yaygındır." },
+  { t: 5, s: 121, q: "Sunuma göre vakum kurutucuların en büyük avantajı nedir?",
+    o: ["Vakum nedeniyle suyun kaynama noktası çok düşük değerlere iner; yüksek buharlaşma düşük sıcaklıkta gerçekleşir", "Çok ucuz olmaları", "Hiç enerji kullanmamaları", "Sürekli işletmenin çok kolay olması", "Yüksek sıcaklıkta çalışmaları"], a: 0,
+    e: "Sunum: vakum kurutucuların en büyük avantajı, <b>vakum nedeniyle suyun kaynama noktasının çok düşük değerlere indirilebilmesidir</b>; böylece yüksek miktarda buharlaşma <b>düşük bir sıcaklıkta</b> gerçekleştirilir. Yüksek sıcaklığa duyarlı ve iç difüzyonu zor olan <b>gıda maddeleri, patlayıcılar</b> gibi malzemeler bu kurutucularda kurutulabilir.",
+    n: "Örneğin 0,1 bar mutlak basınçta su ≈ 46 °C'de kaynar. Bu, düşük sıcaklıklı atık ısının (ör. sıcak su) kurutmada kullanılmasına da imkân verir." },
+  { t: 5, s: 121, q: "Sunuma göre vakum kurutucuların pahalı olmasının ve çoğunlukla kesikli işletilmesinin nedenleri nelerdir?",
+    o: ["Dış basınca dayanıklı gövde ve borular, güçlü vakum pompası ve yoğuşturucu gerekir; sürekli besleme–boşaltmada vakumu korumak için çok iyi sızdırmazlık gerektiğinden çoğunlukla kesikli işletilir", "Altın kaplama gerektirdikleri için; sürekli işletme yasak olduğu için", "Çok büyük brülörleri olduğu için; yakıt depolamak gerektiği için", "Yalnızca elektrikle çalıştıkları için; gece çalışamadıkları için", "Yüksek sıcaklıkta çalıştıkları için; soğumaları gerektiği için"], a: 0,
+    e: "Sunum: kurutma hacminin çeperleri ve vakum boruları <b>dış basınçlara dayanabilecek</b> şekilde imal edilmeli, <b>güçlü bir vakum pompası</b> ve uzaklaştırılan nemi yoğunlaştırmak için bir <b>yoğuşturucu sistem</b> bulunmalıdır; bu nedenle pahalıdırlar. Sürekli işletimde besleme ve boşaltma sırasında vakumun kaçmasını önlemek için çok iyi conta ve sızdırmazlık gerektiğinden <b>çoğunluğu kesikli</b> işletilir.",
+    n: "Vakum kurutmada buharlaşan su, vakum pompasına gitmeden önce yoğuşturucuda sıvılaştırılır; aksi hâlde pompanın yükü çok büyür. Yoğuşturucunun soğutma suyu da sistemin enerji bilançosuna girer." },
+]};
+</script>
+<script src="sinav.js"></script>
+<script src="../ortak/araclar.js"></script>
+</body>
+</html>
